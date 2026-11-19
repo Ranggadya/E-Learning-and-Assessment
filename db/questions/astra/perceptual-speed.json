@@ -1,0 +1,336 @@
+{
+  "package": "astra",
+  "subtest": "perceptual-speed",
+  "questions": [
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">RR8S6X3D</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">RR8S6X3D</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">PDYYNNUF3</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">PDYYNNUF3</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">5ZNA5RRUT</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">5ZNA5RRUT</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">SZYWETX</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">SZYWETX</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">WSXMTZWXX</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">WSX8TZWXX</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-4: WSXMTZWXX dan WSX8TZWXX."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">9B5X4E5</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">9B5X4E5</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">TWFWKE35U</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">TWFWKE3U5</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-8 dan ke-9: TWFWKE35U dan TWFWKE3U5."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">YMYS4NY83</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">YMYS4NY38</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-8 dan ke-9: YMYS4NY83 dan YMYS4NY38."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">THN9MABF</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">THN9AMBF</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-5 dan ke-6: THN9MABF dan THN9AMBF."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">8XWRHM5W</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">8XWRHM5W</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">X79W8TY4</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">X79W8TY4</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">9NPU8EU</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">9NPU8EU</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">58XMUGT96</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">58XMUGT96</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">D3MWREH6</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">D3MWREH6</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">FUADAUZY</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">FUAMAUZY</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-4: FUADAUZY dan FUAMAUZY."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">2B7YM47</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">2B7YM47</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">RFAP4ZZ7W</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">RFAP4Z7ZW</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-7 dan ke-8: RFAP4ZZ7W dan RFAP4Z7ZW."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">YKWZF25</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">YKZWF25</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-3 dan ke-4: YKWZF25 dan YKZWF25."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">T4GF88Z</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">T4GFT8Z</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-5: T4GF88Z dan T4GFT8Z."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">8FX8HSAE</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">8FX8HSAE</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">DB9R3R7A</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">DB9R3R7R</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-8: DB9R3R7A dan DB9R3R7R."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">NUPEWUZ28</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">NU2EWUZ28</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-3: NUPEWUZ28 dan NU2EWUZ28."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">HT2PU2K45</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">HT2PU2K4S</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-9: HT2PU2K45 dan HT2PU2K4S."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">H3GB3Y9</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">H3GB3Y9</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">U73HW54</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">U33HW54</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-2: U73HW54 dan U33HW54."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">H8XFG4GSM</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">H8XFG4GSU</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-9: H8XFG4GSM dan H8XFG4GSU."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">SNGRGMU</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">SNGRGMT</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-7: SNGRGMU dan SNGRGMT."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">UGPXWUEX</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">UGPXWUXE</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Berbeda pada karakter ke-7 dan ke-8: UGPXWUEX dan UGPXWUXE."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">9EHKADU3</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">9EHKADU3</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    },
+    {
+      "type": "SPEED",
+      "prompt": "Apakah kedua deret berikut sama persis?",
+      "imageSvg": "<svg viewBox=\"0 0 400 110\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Dua deret karakter\"><text x=\"20\" y=\"42\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">1</text><text x=\"60\" y=\"42\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">TY894GAR</text><text x=\"20\" y=\"88\" font-size=\"14\" font-family=\"sans-serif\" fill=\"currentColor\" opacity=\".6\">2</text><text x=\"60\" y=\"88\" font-size=\"30\" font-family=\"ui-monospace,Menlo,Consolas,monospace\" letter-spacing=\"5\" fill=\"currentColor\">TY894GAR</text></svg>",
+      "options": [
+        "Sama",
+        "Berbeda"
+      ],
+      "correctIndex": 0,
+      "explanation": "Kedua deret identik, karakter demi karakter."
+    }
+  ]
+}

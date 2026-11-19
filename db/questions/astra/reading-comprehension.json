@@ -1,0 +1,136 @@
+{
+  "package": "astra",
+  "subtest": "reading-comprehension",
+  "questions": [
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nBanyak perusahaan kini menerapkan jam kerja fleksibel. Karyawan boleh memilih jam mulai dan selesai selama total jam kerja terpenuhi. Hasil survei internal menunjukkan tingkat absensi menurun dan kepuasan kerja meningkat. Namun, divisi layanan pelanggan tetap harus menjaga jadwal piket agar telepon pelanggan selalu terjawab.\n\nPernyataan yang sesuai dengan bacaan adalah...",
+      "options": [
+        "Semua divisi bebas menentukan jadwalnya tanpa batasan",
+        "Survei internal menunjukkan absensi menurun setelah jam kerja fleksibel diterapkan",
+        "Jam kerja fleksibel mengurangi total jam kerja karyawan",
+        "Kepuasan kerja menurun walaupun absensi berkurang",
+        "Divisi layanan pelanggan dilarang memakai jam kerja fleksibel"
+      ],
+      "correctIndex": 1,
+      "explanation": "Bacaan menyebut survei internal menemukan absensi menurun. Pilihan lain bertentangan dengan bacaan (total jam kerja tetap harus terpenuhi, kepuasan justru naik, layanan pelanggan hanya diminta menjaga jadwal piket) atau tidak disebut di bacaan."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nToko buku kecil di kota itu mulai sepi sejak toko daring menawarkan potongan harga besar. Pemiliknya lalu mengadakan klub baca mingguan dan menyediakan kopi gratis bagi peserta. Dalam tiga bulan, jumlah pengunjung kembali naik, dan sebagian besar peserta klub akhirnya membeli buku di tempat.\n\nKesimpulan yang paling tepat dari bacaan tersebut adalah...",
+      "options": [
+        "Toko daring pasti akan bangkrut dalam waktu dekat",
+        "Potongan harga tidak berpengaruh pada penjualan buku",
+        "Kopi gratis adalah satu-satunya penyebab semua penjualan buku",
+        "Pengalaman yang ditawarkan di toko dapat menarik pembeli yang tidak hanya mencari harga murah",
+        "Klub baca tidak memberi dampak pada jumlah pengunjung"
+      ],
+      "correctIndex": 3,
+      "explanation": "Pengunjung naik setelah ada klub baca dan kopi, dan peserta membeli buku di tempat. Ini menunjukkan pengalaman di toko menarik pembeli. Pilihan lain berlebihan, tidak didukung bacaan, atau bertentangan dengannya."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nSebuah kantor mencatat penggunaan kertas selama tiga bulan. Pada bulan pertama terpakai 40 rim. Setelah kebijakan dokumen digital diterapkan, bulan kedua turun menjadi 30 rim, dan bulan ketiga turun lagi menjadi 24 rim.\n\nBerapa persen penurunan penggunaan kertas dari bulan pertama ke bulan ketiga?",
+      "options": [
+        "16%",
+        "24%",
+        "30%",
+        "40%",
+        "60%"
+      ],
+      "correctIndex": 3,
+      "explanation": "Penurunan = 40 − 24 = 16 rim. Persentasenya 16 ÷ 40 × 100% = 40%. (24% dan 60% adalah jebakan dari angka yang muncul di bacaan.)"
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nKebijakan baru itu menuai pro dan kontra. Sebagian pegawai menyambutnya dengan antusias karena dinilai mempermudah pekerjaan, sedangkan yang lain meragukan efektivitasnya. Pimpinan menegaskan bahwa kebijakan akan dievaluasi setelah tiga bulan dan dapat direvisi bila terbukti menghambat.\n\nKata \"direvisi\" dalam bacaan paling dekat artinya dengan...",
+      "options": [
+        "diperbaiki atau diubah",
+        "dihapus sepenuhnya",
+        "dipertahankan tanpa perubahan",
+        "diumumkan kepada publik",
+        "disahkan secara resmi"
+      ],
+      "correctIndex": 0,
+      "explanation": "Revisi berarti perbaikan atau perubahan. Konteksnya: bila kebijakan terbukti menghambat, isinya diubah, bukan dihapus atau dipertahankan."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nKopi arabika dan robusta berbeda dalam rasa dan kandungan kafein. Arabika cenderung lebih asam dan harum, sedangkan robusta lebih pahit dengan kandungan kafein yang lebih tinggi. Karena itu, banyak kedai mencampur keduanya untuk mendapatkan keseimbangan rasa.\n\nPernyataan yang TIDAK sesuai dengan bacaan adalah...",
+      "options": [
+        "Arabika cenderung lebih harum daripada robusta",
+        "Robusta cenderung lebih pahit daripada arabika",
+        "Banyak kedai mencampur arabika dan robusta",
+        "Pencampuran dilakukan untuk menyeimbangkan rasa",
+        "Robusta mengandung kafein lebih rendah daripada arabika"
+      ],
+      "correctIndex": 4,
+      "explanation": "Bacaan menyatakan robusta berkafein lebih tinggi, jadi pernyataan bahwa kafeinnya lebih rendah bertentangan dengan bacaan. Keempat pilihan lain sesuai bacaan."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nTidur yang cukup bukan sekadar istirahat. Saat tidur, otak merapikan informasi yang diterima sepanjang hari sehingga lebih mudah diingat. Pelajar yang begadang untuk belajar justru sering mengalami penurunan daya ingat keesokan harinya, meskipun jam belajarnya bertambah.\n\nGagasan utama bacaan tersebut adalah...",
+      "options": [
+        "Pelajar sebaiknya belajar selama mungkin setiap hari",
+        "Otak berhenti bekerja saat seseorang tidur",
+        "Tidur cukup membantu otak menyimpan informasi, sehingga begadang untuk belajar dapat menurunkan daya ingat",
+        "Menambah jam belajar selalu meningkatkan hasil belajar",
+        "Tidur hanya bermanfaat bagi orang dewasa"
+      ],
+      "correctIndex": 2,
+      "explanation": "Seluruh paragraf menjelaskan peran tidur dalam mengingat informasi dan dampak buruk begadang. Pilihan lain bertentangan dengan bacaan atau tidak dibahas."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nPabrik itu menghentikan satu lini produksi selama dua hari karena mesin pendingin rusak. Akibatnya, pengiriman pesanan terlambat dan perusahaan harus memberi potongan harga kepada pelanggan. Sejak itu, perawatan mesin dilakukan setiap minggu, bukan setiap bulan.\n\nApa penyebab langsung keterlambatan pengiriman pesanan?",
+      "options": [
+        "Berhentinya satu lini produksi akibat kerusakan mesin pendingin",
+        "Potongan harga yang diberikan kepada pelanggan",
+        "Perawatan mesin yang dilakukan setiap minggu",
+        "Permintaan pelanggan yang menurun",
+        "Kekurangan pekerja di pabrik"
+      ],
+      "correctIndex": 0,
+      "explanation": "Rantai sebab-akibat di bacaan: mesin pendingin rusak, lini produksi berhenti, pengiriman terlambat. Potongan harga dan perawatan mingguan adalah akibat atau tindak lanjut, bukan penyebab."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nDari 200 peserta pelatihan, 120 orang mengikuti sesi daring dan sisanya mengikuti sesi tatap muka. Pada ujian akhir, 90 peserta sesi daring dan 60 peserta sesi tatap muka dinyatakan lulus.\n\nKelompok manakah yang tingkat kelulusannya lebih tinggi?",
+      "options": [
+        "Sesi daring, karena jumlah yang lulus lebih banyak",
+        "Sama, keduanya 75 persen",
+        "Sesi tatap muka, karena jumlah pesertanya lebih sedikit",
+        "Sesi daring, sebesar 80 persen",
+        "Tidak dapat dibandingkan karena jumlah pesertanya berbeda"
+      ],
+      "correctIndex": 1,
+      "explanation": "Peserta tatap muka = 200 − 120 = 80. Tingkat lulus daring = 90 ÷ 120 = 75%, tatap muka = 60 ÷ 80 = 75%. Jumlah yang lulus lebih banyak di daring hanya karena pesertanya lebih banyak."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nRapat evaluasi proyek dijadwalkan setelah seluruh laporan divisi terkumpul. Hingga Kamis sore, laporan divisi pemasaran dan keuangan sudah masuk, tetapi laporan divisi operasional belum diterima. Rapat tidak akan dimulai sebelum seluruh laporan lengkap.\n\nKesimpulan yang pasti benar berdasarkan bacaan adalah...",
+      "options": [
+        "Rapat evaluasi dibatalkan",
+        "Divisi operasional tidak membuat laporan",
+        "Rapat evaluasi akan dimulai pada Jumat pagi",
+        "Laporan divisi pemasaran bermasalah",
+        "Rapat evaluasi belum dapat dimulai pada Kamis sore"
+      ],
+      "correctIndex": 4,
+      "explanation": "Rapat baru dimulai bila semua laporan lengkap, sedangkan laporan operasional belum masuk sampai Kamis sore. Pilihan lain tidak didukung bacaan (pembatalan, hari mulai rapat, dan masalah laporan tidak disebutkan)."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nTransportasi umum yang andal mengurangi kemacetan. Di kota yang menyediakan jalur bus khusus, waktu tempuh rata-rata pekerja menurun dan lebih banyak orang memilih meninggalkan kendaraan pribadi. Meski biaya awal pembangunannya besar, manfaat jangka panjangnya dinilai lebih besar daripada biayanya.\n\nSikap penulis terhadap pembangunan jalur bus khusus adalah...",
+      "options": [
+        "Menolak, karena biaya awal pembangunannya besar",
+        "Netral, karena tidak memberi penilaian apa pun",
+        "Mendukung, karena manfaat jangka panjangnya dinilai melebihi biayanya",
+        "Ragu, karena belum ada bukti manfaatnya",
+        "Menolak, karena penggunaan kendaraan pribadi tetap tinggi"
+      ],
+      "correctIndex": 2,
+      "explanation": "Penulis menyebut manfaat jangka panjang lebih besar daripada biaya dan memaparkan dampak positifnya, sehingga sikapnya mendukung. Biaya besar disebut sebagai catatan, bukan alasan menolak."
+    }
+  ]
+}

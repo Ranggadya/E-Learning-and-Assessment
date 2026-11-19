@@ -1,0 +1,201 @@
+{
+  "package": "paragon",
+  "subtest": "verbal",
+  "questions": [
+    {
+      "type": "TEXT",
+      "prompt": "Lawan kata (antonim) dari TRANSPARAN adalah...",
+      "options": [
+        "jernih",
+        "bening",
+        "buram",
+        "tembus",
+        "terang"
+      ],
+      "correctIndex": 2,
+      "explanation": "Transparan berarti tembus pandang. Lawannya buram, yaitu tidak tembus pandang. Jernih, bening, dan tembus justru searti."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Lawan kata (antonim) dari EKSPOR adalah...",
+      "options": [
+        "transaksi",
+        "distribusi",
+        "produksi",
+        "impor",
+        "konsumsi"
+      ],
+      "correctIndex": 3,
+      "explanation": "Ekspor adalah menjual barang ke luar negeri, sedangkan impor adalah memasukkan barang dari luar negeri."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Lawan kata (antonim) dari OPTIMIS adalah...",
+      "options": [
+        "realistis",
+        "apatis",
+        "ambisius",
+        "antusias",
+        "pesimis"
+      ],
+      "correctIndex": 4,
+      "explanation": "Optimis berarti selalu berpengharapan baik; lawannya pesimis, yaitu mudah putus harapan."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Lawan kata (antonim) dari HEMAT adalah...",
+      "options": [
+        "boros",
+        "kikir",
+        "pelit",
+        "cermat",
+        "sederhana"
+      ],
+      "correctIndex": 0,
+      "explanation": "Hemat berarti tidak berlebihan memakai sesuatu; lawannya boros. Kikir dan pelit dekat artinya dengan hemat yang berlebihan, bukan lawannya."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Manakah yang tidak termasuk kelompok yang sama? Mawar, melati, anggrek, jati, tulip",
+      "options": [
+        "mawar",
+        "melati",
+        "anggrek",
+        "tulip",
+        "jati"
+      ],
+      "correctIndex": 4,
+      "explanation": "Mawar, melati, anggrek, dan tulip adalah bunga, sedangkan jati adalah pohon penghasil kayu."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Manakah yang tidak termasuk kelompok yang sama? Kuda, sapi, kambing, ayam, kerbau",
+      "options": [
+        "kuda",
+        "ayam",
+        "sapi",
+        "kambing",
+        "kerbau"
+      ],
+      "correctIndex": 1,
+      "explanation": "Kuda, sapi, kambing, dan kerbau adalah mamalia, sedangkan ayam adalah unggas."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Manakah yang tidak termasuk kelompok yang sama? Senin, Selasa, April, Kamis, Jumat",
+      "options": [
+        "April",
+        "Senin",
+        "Selasa",
+        "Kamis",
+        "Jumat"
+      ],
+      "correctIndex": 0,
+      "explanation": "Senin, Selasa, Kamis, dan Jumat adalah nama hari, sedangkan April adalah nama bulan."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Manakah yang tidak termasuk kelompok yang sama? Segitiga, persegi, lingkaran, kubus, jajar genjang",
+      "options": [
+        "segitiga",
+        "persegi",
+        "lingkaran",
+        "jajar genjang",
+        "kubus"
+      ],
+      "correctIndex": 4,
+      "explanation": "Segitiga, persegi, lingkaran, dan jajar genjang adalah bangun datar, sedangkan kubus adalah bangun ruang."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Dokter : rumah sakit = guru : ...",
+      "options": [
+        "buku",
+        "murid",
+        "kelas",
+        "sekolah",
+        "ujian"
+      ],
+      "correctIndex": 3,
+      "explanation": "Dokter bekerja di rumah sakit, seperti guru bekerja di sekolah (hubungan profesi dan tempat kerja)."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Panas : api = dingin : ...",
+      "options": [
+        "matahari",
+        "es",
+        "air",
+        "uap",
+        "angin"
+      ],
+      "correctIndex": 1,
+      "explanation": "Api bersifat panas, seperti es bersifat dingin (hubungan benda dan sifat khasnya)."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Pensil : menulis = pisau : ...",
+      "options": [
+        "tajam",
+        "dapur",
+        "logam",
+        "memotong",
+        "makan"
+      ],
+      "correctIndex": 3,
+      "explanation": "Pensil digunakan untuk menulis, seperti pisau digunakan untuk memotong (hubungan alat dan fungsinya)."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Kaki : sepatu = tangan : ...",
+      "options": [
+        "jari",
+        "lengan",
+        "sarung tangan",
+        "cincin",
+        "kuku"
+      ],
+      "correctIndex": 2,
+      "explanation": "Sepatu dipakai untuk melindungi kaki, seperti sarung tangan dipakai untuk melindungi tangan (hubungan anggota tubuh dan pelindungnya)."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nRina bekerja sebagai analis di sebuah bank. Setiap bulan ia menyusun laporan risiko kredit untuk pimpinan. Bulan lalu ia menemukan bahwa sebagian besar kredit macet berasal dari satu sektor usaha, lalu mengusulkan pembatasan pinjaman ke sektor itu. Usulan tersebut disetujui dan diuji coba selama satu kuartal.\n\nRingkasan yang paling tepat dari bacaan tersebut adalah...",
+      "options": [
+        "Seorang analis bank dipecat karena laporannya salah",
+        "Bank menghentikan seluruh pinjaman usaha",
+        "Seorang analis bank menemukan sumber utama kredit macet dan usulannya membatasi pinjaman ke sektor itu diuji coba",
+        "Rina pindah divisi setelah menyusun laporan",
+        "Kredit macet menurun drastis setelah usulan Rina diterapkan"
+      ],
+      "correctIndex": 2,
+      "explanation": "Ringkasan memuat temuan Rina, usulannya, dan tindak lanjutnya (diuji coba). Hasil uji coba tidak disebutkan, sehingga penurunan kredit macet tidak dapat disimpulkan."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nSebuah desa wisata awalnya hanya dikunjungi pada akhir pekan. Warga lalu membuat paket menginap dan kelas memasak bersama pemandu lokal. Kini kunjungan berlangsung hampir setiap hari, dan banyak warga memiliki penghasilan tambahan dari kegiatan wisata.\n\nRingkasan yang paling tepat dari bacaan tersebut adalah...",
+      "options": [
+        "Inovasi paket wisata membuat desa lebih ramai dan menambah penghasilan warga",
+        "Warga menolak kedatangan wisatawan",
+        "Desa wisata hanya ramai pada akhir pekan",
+        "Pemandu lokal didatangkan dari luar desa",
+        "Kelas memasak menggantikan seluruh mata pencaharian warga"
+      ],
+      "correctIndex": 0,
+      "explanation": "Bacaan menceritakan perubahan dari ramai akhir pekan menjadi hampir setiap hari berkat paket baru, serta penghasilan tambahan warga. Pilihan lain bertentangan atau tidak disebutkan."
+    },
+    {
+      "type": "TEXT",
+      "prompt": "Bacaan:\nPenggunaan aplikasi catatan digital meningkat di kalangan mahasiswa. Aplikasi ini memudahkan pencarian materi dan berbagi catatan. Namun, beberapa peneliti menemukan bahwa menulis tangan membantu pemahaman konsep lebih dalam, sehingga sebagian dosen menyarankan memadukan keduanya.\n\nRingkasan yang paling tepat dari bacaan tersebut adalah...",
+      "options": [
+        "Dosen melarang penggunaan aplikasi catatan digital",
+        "Catatan digital praktis, tetapi menulis tangan membantu pemahaman, sehingga keduanya disarankan dipadukan",
+        "Mahasiswa sudah tidak lagi menulis tangan",
+        "Aplikasi catatan digital terbukti menurunkan pemahaman semua mahasiswa",
+        "Peneliti menyimpulkan catatan digital sepenuhnya lebih unggul"
+      ],
+      "correctIndex": 1,
+      "explanation": "Ringkasan mencakup kelebihan catatan digital, temuan tentang menulis tangan, dan saran memadukan keduanya. Pilihan lain berlebihan atau bertentangan dengan bacaan."
+    }
+  ]
+}

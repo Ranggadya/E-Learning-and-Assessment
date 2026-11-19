@@ -1,0 +1,126 @@
+{
+  "package": "astra",
+  "subtest": "quantitative-reasoning",
+  "questions": [
+    {
+      "prompt": "Lanjutkan deret: 3, 7, 15, 31, 63, ...",
+      "options": [
+        "111",
+        "115",
+        "125",
+        "127",
+        "129"
+      ],
+      "correctIndex": 3,
+      "explanation": "Setiap suku = suku sebelumnya × 2 + 1. Jadi 63 × 2 + 1 = 127."
+    },
+    {
+      "prompt": "Jika 2x + 5 = 3x − 4, berapakah nilai x?",
+      "options": [
+        "9",
+        "10",
+        "11",
+        "12",
+        "13"
+      ],
+      "correctIndex": 0,
+      "explanation": "Pindahkan suku: 5 + 4 = 3x − 2x, sehingga x = 9. Cek: 2(9) + 5 = 23 dan 3(9) − 4 = 23."
+    },
+    {
+      "prompt": "Harga sebuah tas Rp80.000 mendapat diskon 25%. Setelah itu diberi diskon tambahan 10% dari harga setelah diskon pertama. Berapa harga yang dibayar?",
+      "options": [
+        "Rp52.000",
+        "Rp52.500",
+        "Rp54.000",
+        "Rp56.000",
+        "Rp60.000"
+      ],
+      "correctIndex": 2,
+      "explanation": "Setelah diskon 25%: 80.000 × 0,75 = 60.000. Diskon 10% berikutnya: 60.000 × 0,9 = 54.000."
+    },
+    {
+      "prompt": "Sebuah mobil menempuh 180 km dalam 3 jam. Dengan kecepatan yang sama, berapa waktu yang dibutuhkan untuk menempuh 300 km?",
+      "options": [
+        "3 jam",
+        "4 jam",
+        "4,5 jam",
+        "5 jam",
+        "6 jam"
+      ],
+      "correctIndex": 3,
+      "explanation": "Kecepatan = 180 ÷ 3 = 60 km/jam. Waktu = 300 ÷ 60 = 5 jam."
+    },
+    {
+      "prompt": "Lanjutkan deret: 2, 5, 10, 17, 26, ...",
+      "options": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40"
+      ],
+      "correctIndex": 1,
+      "explanation": "Pola n² + 1: 1²+1=2, 2²+1=5, 3²+1=10, 4²+1=17, 5²+1=26, sehingga suku ke-6 adalah 6²+1 = 37."
+    },
+    {
+      "prompt": "Perbandingan umur Ani dan Budi adalah 3 : 5. Jika jumlah umur mereka 48 tahun, berapa umur Budi?",
+      "options": [
+        "18",
+        "20",
+        "24",
+        "30",
+        "32"
+      ],
+      "correctIndex": 3,
+      "explanation": "Jumlah perbandingan = 3 + 5 = 8. Umur Budi = 5/8 × 48 = 30 tahun (Ani 18 tahun)."
+    },
+    {
+      "prompt": "Rata-rata lima bilangan adalah 12. Setelah satu bilangan baru ditambahkan, rata-ratanya menjadi 14. Berapakah bilangan yang ditambahkan?",
+      "options": [
+        "24",
+        "26",
+        "28",
+        "30",
+        "32"
+      ],
+      "correctIndex": 0,
+      "explanation": "Jumlah awal = 5 × 12 = 60. Jumlah baru = 6 × 14 = 84. Bilangan baru = 84 − 60 = 24."
+    },
+    {
+      "prompt": "Andi dapat menyelesaikan suatu pekerjaan dalam 12 hari, sedangkan Budi dalam 6 hari. Jika mereka bekerja bersama, berapa hari pekerjaan itu selesai?",
+      "options": [
+        "3 hari",
+        "4 hari",
+        "5 hari",
+        "6 hari",
+        "8 hari"
+      ],
+      "correctIndex": 1,
+      "explanation": "Dalam sehari mereka mengerjakan 1/12 + 1/6 = 3/12 = 1/4 pekerjaan, sehingga selesai dalam 4 hari."
+    },
+    {
+      "prompt": "Lanjutkan deret: 5, 8, 13, 20, 29, ...",
+      "options": [
+        "36",
+        "37",
+        "38",
+        "39",
+        "40"
+      ],
+      "correctIndex": 4,
+      "explanation": "Selisih antar suku: 3, 5, 7, 9, lalu 11. Jadi suku berikutnya 29 + 11 = 40."
+    },
+    {
+      "prompt": "Setelah mengalami kenaikan 20%, sebuah nilai menjadi 1.800. Berapa nilai sebelum kenaikan?",
+      "options": [
+        "1.200",
+        "1.440",
+        "1.500",
+        "1.560",
+        "1.600"
+      ],
+      "correctIndex": 2,
+      "explanation": "Nilai awal × 1,2 = 1.800, sehingga nilai awal = 1.800 ÷ 1,2 = 1.500. (1.440 adalah jebakan dari 1.800 − 20%.)"
+    }
+  ]
+}

@@ -1,0 +1,126 @@
+{
+  "package": "astra",
+  "subtest": "deductive-reasoning",
+  "questions": [
+    {
+      "prompt": "Premis 1: Semua manajer adalah lulusan S1.\nPremis 2: Tidak ada lulusan S1 yang berstatus magang.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "Tidak ada manajer yang berstatus magang",
+        "Semua manajer berstatus magang",
+        "Sebagian manajer berstatus magang",
+        "Semua lulusan S1 adalah manajer",
+        "Tidak ada kesimpulan yang dapat ditarik"
+      ],
+      "correctIndex": 0,
+      "explanation": "Manajer termasuk dalam kelompok lulusan S1, dan kelompok itu sama sekali tidak berstatus magang. Maka tidak ada manajer yang magang."
+    },
+    {
+      "prompt": "Premis 1: Jika hujan turun, maka jalan menjadi basah.\nPremis 2: Jalan tidak basah.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "Hujan turun",
+        "Jalan basah karena hujan",
+        "Mungkin hujan turun",
+        "Hujan tidak turun",
+        "Tidak ada kesimpulan yang dapat ditarik"
+      ],
+      "correctIndex": 3,
+      "explanation": "Ini modus tollens: jika syarat (hujan) terpenuhi, akibatnya (jalan basah) pasti terjadi. Karena akibatnya tidak terjadi, syaratnya pasti tidak terpenuhi."
+    },
+    {
+      "prompt": "Premis 1: Jika Sinta lulus ujian, maka ia mendapat hadiah.\nPremis 2: Sinta mendapat hadiah.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "Sinta lulus ujian",
+        "Tidak ada kesimpulan yang pasti",
+        "Sinta tidak lulus ujian",
+        "Sinta tidak mendapat hadiah",
+        "Semua yang mendapat hadiah lulus ujian"
+      ],
+      "correctIndex": 1,
+      "explanation": "Hadiah bisa saja didapat dengan alasan lain. Membenarkan akibat tidak membuktikan syaratnya terpenuhi (kekeliruan affirming the consequent)."
+    },
+    {
+      "prompt": "Premis 1: Sebagian dokter adalah penulis.\nPremis 2: Semua penulis suka membaca.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "Semua dokter suka membaca",
+        "Tidak ada dokter yang suka membaca",
+        "Semua yang suka membaca adalah dokter",
+        "Sebagian penulis bukan dokter",
+        "Sebagian dokter suka membaca"
+      ],
+      "correctIndex": 4,
+      "explanation": "Dokter yang menjadi penulis termasuk penulis, dan semua penulis suka membaca. Maka sebagian dokter suka membaca."
+    },
+    {
+      "prompt": "Premis 1: Semua kucing adalah hewan.\nPremis 2: Sebagian hewan bersifat liar.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "Semua kucing bersifat liar",
+        "Sebagian kucing bersifat liar",
+        "Tidak ada kesimpulan yang pasti tentang kucing yang liar",
+        "Tidak ada kucing yang bersifat liar",
+        "Semua hewan adalah kucing"
+      ],
+      "correctIndex": 2,
+      "explanation": "Hewan liar bisa saja seluruhnya bukan kucing, sehingga hubungan antara kucing dan sifat liar tidak dapat dipastikan."
+    },
+    {
+      "prompt": "Diketahui: Budi lebih tinggi dari Ani. Ani lebih tinggi dari Citra. Doni lebih pendek dari Citra.\n\nPernyataan yang pasti benar adalah...",
+      "options": [
+        "Ani lebih tinggi dari Budi",
+        "Citra lebih tinggi dari Ani",
+        "Citra adalah yang paling pendek",
+        "Doni lebih pendek dari Budi",
+        "Budi dan Doni sama tinggi"
+      ],
+      "correctIndex": 3,
+      "explanation": "Urutan dari tertinggi: Budi > Ani > Citra > Doni. Doni paling pendek, sehingga pasti lebih pendek dari Budi."
+    },
+    {
+      "prompt": "Premis 1: Semua peserta pelatihan menerima sertifikat.\nPremis 2: Rudi tidak menerima sertifikat.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "Rudi bukan peserta pelatihan",
+        "Rudi adalah peserta pelatihan",
+        "Sebagian peserta tidak menerima sertifikat",
+        "Rudi gagal dalam pelatihan",
+        "Tidak ada kesimpulan yang dapat ditarik"
+      ],
+      "correctIndex": 0,
+      "explanation": "Jika Rudi peserta, ia pasti menerima sertifikat. Karena ia tidak menerimanya, ia pasti bukan peserta."
+    },
+    {
+      "prompt": "Premis 1: Jika server down, maka website tidak dapat diakses.\nPremis 2: Server down.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "Website dapat diakses",
+        "Server akan segera pulih",
+        "Website tidak dapat diakses",
+        "Website sedang dalam pemeliharaan",
+        "Tidak ada kesimpulan yang dapat ditarik"
+      ],
+      "correctIndex": 2,
+      "explanation": "Syarat (server down) terpenuhi, maka akibatnya (website tidak dapat diakses) pasti terjadi (modus ponens)."
+    },
+    {
+      "prompt": "Premis 1: Tidak ada karyawan shift malam yang absen hari ini.\nPremis 2: Eka adalah karyawan shift malam.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "Eka absen hari ini",
+        "Semua karyawan hadir hari ini",
+        "Sebagian karyawan shift malam absen",
+        "Tidak ada kesimpulan yang dapat ditarik",
+        "Eka tidak absen hari ini"
+      ],
+      "correctIndex": 4,
+      "explanation": "Eka termasuk karyawan shift malam, dan tidak satu pun dari mereka yang absen hari ini."
+    },
+    {
+      "prompt": "Premis 1: Jika A benar, maka B benar.\nPremis 2: Jika B benar, maka C benar.\nPremis 3: A benar.\n\nKesimpulan yang pasti benar adalah...",
+      "options": [
+        "B salah",
+        "B dan C benar",
+        "C salah",
+        "Hanya C yang benar",
+        "Tidak ada kesimpulan yang dapat ditarik"
+      ],
+      "correctIndex": 1,
+      "explanation": "A benar, maka B benar. B benar, maka C benar. Jadi B dan C sama-sama benar."
+    }
+  ]
+}

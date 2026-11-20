@@ -32,11 +32,40 @@ export interface Subtest {
   durationSeconds: number;
   orderIndex: number;
   questionCount: number;
+  questionTypes: QuestionType[];
 }
 
 export interface SubtestLocation extends Subtest {
   companySlug: string;
+  companyName: string;
   packageSlug: string;
+  packageName: string;
+}
+
+// Katalog lengkap untuk dashboard peserta.
+export interface DashboardSubtest {
+  id: number;
+  slug: string;
+  name: string;
+  durationSeconds: number;
+  questionCount: number;
+  questionTypes: QuestionType[];
+}
+
+export interface DashboardPackage {
+  id: number;
+  slug: string;
+  name: string;
+  description: string | null;
+  subtests: DashboardSubtest[];
+}
+
+export interface DashboardCompany {
+  id: number;
+  slug: string;
+  name: string;
+  description: string | null;
+  packages: DashboardPackage[];
 }
 
 // Soal yang dikirim ke peserta: tanpa kunci jawaban dan pembahasan.
@@ -63,11 +92,15 @@ export interface ReviewItem {
 
 export interface AttemptResult {
   attemptId: number;
+  subtestId: number;
   subtestName: string;
   companySlug: string;
+  companyName: string;
   packageSlug: string;
+  packageName: string;
   score: number;
   totalQuestions: number;
+  finishedAt: string | null;
   reviewItems: ReviewItem[];
 }
 

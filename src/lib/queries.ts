@@ -3,6 +3,7 @@ import type {
   AdminCompany,
   AttemptResult,
   Company,
+  DashboardCompany,
   PublicQuestion,
   QuestionOption,
   QuestionType,
@@ -14,6 +15,20 @@ import type {
 } from "./types";
 
 const OPTION_KEYS = ["A", "B", "C", "D", "E"];
+const VALID_TYPES = new Set<QuestionType>(["TEXT", "IMAGE", "MEMORY", "SPEED"]);
+
+function normalizeQuestionTypes(raw: string[] | null | undefined): QuestionType[] {
+  if (!Array.isArray(raw)) {
+    return [];
+  }
+  const seen = new Set<QuestionType>();
+  for (const item of raw) {
+    if (VALID_TYPES.has(item as QuestionType)) {
+      seen.add(item as QuestionType);
+    }
+  }
+  return Array.from(seen);
+}
 
 // ---------------------------------------------------------------- halaman publik
 
@@ -44,9 +59,80 @@ export async function getCompanies(): Promise<Company[]> {
 
 export async function getCompanyBySlug(slug: string): Promise<Company | null> {
   const companies = await getCompanies();
-  return companies.find(function findCompany(company) {
-    return company.slug === slug;
-  }) ?? null;
+  return (
+    companies.find(function findCompany(company) {
+      return company.slug === slug;
+    }) ?? null
+  );
+}
+
+export async function getDashboardCatalog(): Promise<DashboardCompany[]> {
+  const result = await databasePool.query<{
+    company_id: number;
+    company_slug: string;
+    company_name: string;
+    company_description: string | null;
+    package_id: number | null;
+    package_slug: string | null;
+    package_name: string | null;
+    package_description: string | null;
+    subtest_id: number | null;
+    subtest_slug: string | null;
+    subtest_name: string | null;
+    duration_seconds: number | null;
+    question_count: string | null;
+    question_types: string[] | null;
+  }>(
+    `SELECT c.id AS company_id, c.slug AS company_slug, c.name AS company_name, c.description AS company_description,
+            p.id AS package_id, p.slug AS package_slug, p.name AS package_name, p.description AS package_description,
+            s.id AS subtest_id, s.slug AS subtest_slug, s.name AS subtest_name, s.duration_seconds,
+            (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count,
+            (SELECT ARRAY_AGG(DISTINCT q.type) FROM questions q WHERE q.subtest_id = s.id) AS question_types
+     FROM companies c
+     LEFT JOIN test_packages p ON p.company_id = c.id
+     LEFT JOIN subtests s ON s.test_package_id = p.id
+     ORDER BY c.name, p.name, s.order_index`,
+  );
+
+  const companies: DashboardCompany[] = [];
+  for (const row of result.rows) {
+    let company = companies.find((item) => item.id === row.company_id);
+    if (!company) {
+      company = {
+        id: row.company_id,
+        slug: row.company_slug,
+        name: row.company_name,
+        description: row.company_description,
+        packages: [],
+      };
+      companies.push(company);
+    }
+    if (row.package_id === null || row.package_slug === null || row.package_name === null) {
+      continue;
+    }
+    let testPackage = company.packages.find((item) => item.id === row.package_id);
+    if (!testPackage) {
+      testPackage = {
+        id: row.package_id,
+        slug: row.package_slug,
+        name: row.package_name,
+        description: row.package_description,
+        subtests: [],
+      };
+      company.packages.push(testPackage);
+    }
+    if (row.subtest_id !== null && row.subtest_slug !== null && row.subtest_name !== null) {
+      testPackage.subtests.push({
+        id: row.subtest_id,
+        slug: row.subtest_slug,
+        name: row.subtest_name,
+        durationSeconds: row.duration_seconds ?? 0,
+        questionCount: Number(row.question_count ?? 0),
+        questionTypes: normalizeQuestionTypes(row.question_types),
+      });
+    }
+  }
+  return companies;
 }
 
 interface PackageRow {
@@ -103,6 +189,7 @@ interface SubtestRow {
   duration_seconds: number;
   order_index: number;
   question_count: string;
+  question_types: string[] | null;
 }
 
 function mapSubtest(row: SubtestRow): Subtest {
@@ -115,6 +202,7 @@ function mapSubtest(row: SubtestRow): Subtest {
     durationSeconds: row.duration_seconds,
     orderIndex: row.order_index,
     questionCount: Number(row.question_count),
+    questionTypes: normalizeQuestionTypes(row.question_types),
   };
 }
 
@@ -122,7 +210,8 @@ export async function getSubtestsByPackageId(testPackageId: number): Promise<Sub
   const result = await databasePool.query<SubtestRow>(
     `SELECT s.id, s.test_package_id, s.slug, s.name, s.description,
             s.duration_seconds, s.order_index,
-            (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count
+            (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count,
+            (SELECT ARRAY_AGG(DISTINCT q.type) FROM questions q WHERE q.subtest_id = s.id) AS question_types
      FROM subtests s WHERE s.test_package_id = $1 ORDER BY s.order_index`,
     [testPackageId],
   );
@@ -130,11 +219,20 @@ export async function getSubtestsByPackageId(testPackageId: number): Promise<Sub
 }
 
 export async function getSubtestById(subtestId: number): Promise<SubtestLocation | null> {
-  const result = await databasePool.query<SubtestRow & { company_slug: string; package_slug: string }>(
+  const result = await databasePool.query<
+    SubtestRow & {
+      company_slug: string;
+      company_name: string;
+      package_slug: string;
+      package_name: string;
+    }
+  >(
     `SELECT s.id, s.test_package_id, s.slug, s.name, s.description,
             s.duration_seconds, s.order_index,
             (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count,
-            p.slug AS package_slug, c.slug AS company_slug
+            (SELECT ARRAY_AGG(DISTINCT q.type) FROM questions q WHERE q.subtest_id = s.id) AS question_types,
+            p.slug AS package_slug, p.name AS package_name,
+            c.slug AS company_slug, c.name AS company_name
      FROM subtests s
      JOIN test_packages p ON p.id = s.test_package_id
      JOIN companies c ON c.id = p.company_id
@@ -145,7 +243,13 @@ export async function getSubtestById(subtestId: number): Promise<SubtestLocation
   if (!row) {
     return null;
   }
-  return { ...mapSubtest(row), companySlug: row.company_slug, packageSlug: row.package_slug };
+  return {
+    ...mapSubtest(row),
+    companySlug: row.company_slug,
+    companyName: row.company_name,
+    packageSlug: row.package_slug,
+    packageName: row.package_name,
+  };
 }
 
 interface QuestionRow {
@@ -251,14 +355,20 @@ interface ReviewRow {
 export async function getAttemptResult(attemptId: number): Promise<AttemptResult | null> {
   const attemptResult = await databasePool.query<{
     id: number;
+    subtest_id: number;
     score: number | null;
     total_questions: number | null;
+    finished_at: Date | string | null;
     subtest_name: string;
     package_slug: string;
+    package_name: string;
     company_slug: string;
+    company_name: string;
   }>(
-    `SELECT a.id, a.score, a.total_questions, s.name AS subtest_name,
-            p.slug AS package_slug, c.slug AS company_slug
+    `SELECT a.id, a.subtest_id, a.score, a.total_questions, a.finished_at,
+            s.name AS subtest_name,
+            p.slug AS package_slug, p.name AS package_name,
+            c.slug AS company_slug, c.name AS company_name
      FROM attempts a
      JOIN subtests s ON s.id = a.subtest_id
      JOIN test_packages p ON p.id = s.test_package_id
@@ -295,13 +405,22 @@ export async function getAttemptResult(attemptId: number): Promise<AttemptResult
     };
   });
 
+  const finishedAt =
+    attemptRow.finished_at instanceof Date
+      ? attemptRow.finished_at.toISOString()
+      : attemptRow.finished_at ?? null;
+
   return {
     attemptId: attemptRow.id,
+    subtestId: attemptRow.subtest_id,
     subtestName: attemptRow.subtest_name,
     companySlug: attemptRow.company_slug,
+    companyName: attemptRow.company_name,
     packageSlug: attemptRow.package_slug,
+    packageName: attemptRow.package_name,
     score: attemptRow.score ?? 0,
     totalQuestions: attemptRow.total_questions ?? 0,
+    finishedAt,
     reviewItems,
   };
 }

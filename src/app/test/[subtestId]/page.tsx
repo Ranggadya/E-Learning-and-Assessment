@@ -25,6 +25,9 @@ export default async function TestPage({ params }: TestPageProps) {
     <TestRunner
       subtestId={subtest.id}
       subtestName={subtest.name}
+      companyName={subtest.companyName}
+      packageName={subtest.packageName}
+      backHref={`/c/${subtest.companySlug}/${subtest.packageSlug}`}
       durationSeconds={subtest.durationSeconds}
       questions={questions}
     />

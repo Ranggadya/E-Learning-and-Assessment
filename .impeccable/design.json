@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-19T14:05:00.000Z",
+  "title": "Design System: e-assessment",
+  "extensions": {
+    "colorMeta": {
+      "primary-cobalt": {
+        "role": "primary",
+        "displayName": "Primary Cobalt",
+        "canonical": "#2563eb",
+        "tonalRamp": ["#172554", "#1e3a8a", "#1d4ed8", "#2563eb", "#3b82f6", "#60a5fa", "#bfdbfe", "#eff6ff"]
+      },
+      "primary-sky-dark": {
+        "role": "primary",
+        "displayName": "Primary Sky Dark",
+        "canonical": "#60a5fa",
+        "tonalRamp": ["#0c1929", "#172554", "#1d4ed8", "#2563eb", "#3b82f6", "#60a5fa", "#93c5fd", "#dbeafe"]
+      },
+      "canvas-light": {
+        "role": "neutral",
+        "displayName": "Canvas Light",
+        "canonical": "#f8fafc",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#e2e8f0", "#f8fafc"]
+      },
+      "canvas-dark": {
+        "role": "neutral",
+        "displayName": "Canvas Dark",
+        "canonical": "#0b1120",
+        "tonalRamp": ["#0b1120", "#111827", "#1e293b", "#334155", "#475569", "#94a3b8", "#cbd5e1", "#f8fafc"]
+      },
+      "success-emerald": {
+        "role": "semantic",
+        "displayName": "Success Emerald",
+        "canonical": "#059669",
+        "tonalRamp": ["#022c22", "#064e3b", "#047857", "#059669", "#10b981", "#34d399", "#a7f3d0", "#ecfdf5"]
+      },
+      "warning-amber": {
+        "role": "semantic",
+        "displayName": "Warning Amber",
+        "canonical": "#d97706",
+        "tonalRamp": ["#451a03", "#78350f", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fde68a", "#fffbeb"]
+      },
+      "danger-crimson": {
+        "role": "semantic",
+        "displayName": "Danger Crimson",
+        "canonical": "#dc2626",
+        "tonalRamp": ["#450a0a", "#7f1d1d", "#b91c1c", "#dc2626", "#ef4444", "#f87171", "#fecaca", "#fef2f2"]
+      }
+    },
+    "typographyMeta": {
+      "headline": { "displayName": "Headline", "purpose": "Primary page titles across dashboard, company, package, and result screens." },
+      "title": { "displayName": "Title", "purpose": "Section headers, company panel headings, subtest titles, and dialog titles." },
+      "body": { "displayName": "Body", "purpose": "Question prompts, answer choices, explanations, and descriptive copy (65-70ch measure)." },
+      "label": { "displayName": "Label", "purpose": "KPI captions, metadata lines, breadcrumbs, and status badges." },
+      "numeric-code": { "displayName": "Numeric / Code", "purpose": "Exam countdown timers, score ratios/percentages, slugs, keyboard keycaps, and raw JSON." }
+    },
+    "shadows": [
+      { "name": "panel-ambient", "value": "0 1px 2px rgba(15, 23, 42, 0.04)", "purpose": "Whisper-quiet grounding on resting light-mode panels." },
+      { "name": "overlay-elevation", "value": "0 20px 25px -5px rgba(15, 23, 42, 0.12), 0 8px 10px -6px rgba(15, 23, 42, 0.08)", "purpose": "Elevation for confirmation dialogs and mobile navigation drawers." }
+    ],
+    "motion": [
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Question-step reveal (180ms), confirmation dialogs (180ms), and mobile drawer entry (220ms)." },
+      { "name": "transition-state", "value": "150ms ease", "purpose": "Button hover, option selection, and focus transitions." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Single high-emphasis action per viewport region (start next subtest, continue practice, import pack).",
+      "html": "<button class=\"ds-btn-primary\">Mulai Latihan <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.75\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M5 12h14\"/><path d=\"m12 5 7 7-7 7\"/></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; background: var(--accent, #2563eb); color: #ffffff; border: none; border-radius: 8px; padding: 10px 16px; font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 150ms ease; } .ds-btn-primary:hover { background: var(--accent-hover, #1d4ed8); } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent-text, #1d4ed8); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Outlined Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Standard action for non-primary subtest rows, retake triggers, and secondary navigation.",
+      "html": "<button class=\"ds-btn-secondary\">Ulangi</button>",
+      "css": ".ds-btn-secondary { display: inline-flex; align-items: center; gap: 6px; background: var(--bg-surface, #ffffff); color: var(--text-primary, #0f172a); border: 1px solid var(--border-strong, #cbd5e1); border-radius: 8px; padding: 8px 16px; font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: background 150ms ease; } .ds-btn-secondary:hover { background: var(--bg-subtle, #f1f5f9); } .ds-btn-secondary:focus-visible { outline: 2px solid var(--accent-text, #1d4ed8); outline-offset: 2px; }"
+    },
+    {
+      "name": "Sidebar Navigation Item",
+      "kind": "nav",
+      "refersTo": "nav-item-active",
+      "description": "Active state for persistent learner sidebar and admin topbar navigation.",
+      "html": "<a class=\"ds-nav-active\" href=\"#\"><span>Dashboard</span></a>",
+      "css": ".ds-nav-active { display: inline-flex; align-items: center; gap: 10px; background: var(--accent-soft, #eff6ff); color: var(--accent-text, #1d4ed8); border-radius: 8px; padding: 8px 10px; font-family: Inter, system-ui, sans-serif; font-size: 14px; font-weight: 600; text-decoration: none; } .ds-nav-active:focus-visible { outline: 2px solid var(--accent-text, #1d4ed8); outline-offset: 2px; }"
+    },
+    {
+      "name": "Question Type Badge",
+      "kind": "chip",
+      "description": "Micro status chip identifying subtest question mechanics (Gambar, Memori 5 dtk, Kecepatan).",
+      "html": "<span class=\"ds-chip-memory\">Memori 5 dtk</span>",
+      "css": ".ds-chip-memory { display: inline-flex; align-items: center; gap: 4px; background: #fffbeb; color: #92400e; border: 1px solid #fde68a; border-radius: 6px; padding: 2px 8px; font-family: Inter, system-ui, sans-serif; font-size: 12px; font-weight: 500; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input-field",
+      "description": "Catalog and admin filter input with hairline border and crisp cobalt focus state.",
+      "html": "<input class=\"ds-input\" type=\"search\" placeholder=\"Cari perusahaan atau paket...\" />",
+      "css": ".ds-input { width: 260px; background: var(--bg-surface, #ffffff); color: var(--text-primary, #0f172a); border: 1px solid var(--border-default, #e2e8f0); border-radius: 8px; padding: 7px 12px; font-family: Inter, system-ui, sans-serif; font-size: 14px; transition: border-color 150ms ease; } .ds-input::placeholder { color: var(--text-muted, #526075); } .ds-input:focus { outline: none; border-color: var(--accent, #2563eb); }"
+    },
+    {
+      "name": "Exam Option Row",
+      "kind": "custom",
+      "refersTo": "panel-surface",
+      "description": "Selectable answer option with monospace keycap badge and clear active outline.",
+      "html": "<button class=\"ds-option-selected\"><span class=\"ds-keycap\">D</span><span>127</span></button>",
+      "css": ".ds-option-selected { display: flex; width: 320px; align-items: center; gap: 14px; background: var(--accent-soft, #eff6ff); color: var(--text-primary, #0f172a); border: 1px solid var(--accent, #2563eb); box-shadow: 0 0 0 1px var(--accent, #2563eb); border-radius: 12px; padding: 14px 16px; font-family: Inter, system-ui, sans-serif; font-size: 15px; cursor: pointer; text-align: left; } .ds-keycap { display: inline-flex; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 6px; background: var(--accent, #2563eb); color: #ffffff; font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Calm Assessment Desk",
+    "overview": "e-assessment adopts the Modern EdTech category standard calibrated to the clarity and craft level of Dicoding, Coursera, and Linear. Every surface is built for sustained cognitive focus: candidates preparing for multi-company recruitment exams need immediate orientation across companies, packages, and local progress, followed by a distraction-free workspace during timed subtests and an effortless mistake-review flow afterward. The system deliberately rejects gamified noise, saturated decoration, nested card stacks, and uppercase eyebrow kickers.",
+    "keyCharacteristics": [
+      "Persistent 260px left sidebar on learner views paired with a distraction-free, sidebar-free Focus Exam Mode during active timed subtests.",
+      "Lightweight topbar CMS layout for admin pack management without heavy navigation chrome.",
+      "High-contrast light and dark modes with dedicated accessible text accents (#1D4ED8 light / #60A5FA dark) separated from solid button fills (#2563EB).",
+      "Strict numeric discipline: tabular-nums across all counts and JetBrains Mono reserved strictly for timers, score ratios, slugs, and JSON payloads.",
+      "Uniform 1.75px stroke inline SVG icon library replacing Unicode symbols and emojis."
+    ],
+    "rules": [
+      { "name": "The Single Primary Action Rule", "body": "Reserve solid Primary Cobalt (#2563eb) for at most one primary call-to-action in any viewport region. Secondary actions, non-next subtest rows, and pre-completion submit triggers remain crisp outlined surfaces.", "section": "colors" },
+      { "name": "The Split Accent Contrast Rule", "body": "Never reuse a mid-blue fill color directly as small text on dark translucent surfaces. Always pair solid fills (--accent: #2563eb) with dedicated text accents (--accent-text: #1d4ed8 light / #60a5fa dark).", "section": "colors" },
+      { "name": "The Earned Monospace Rule", "body": "Use JetBrains Mono strictly for timers, score ratios/percentages, slugs, <kbd> shortcut chips, and JSON code. General prose counts stay in Inter with tabular-nums.", "section": "typography" },
+      { "name": "The Flat-By-Default Rule", "body": "Never stack bordered cards inside bordered cards. Group related items inside a single 12px-radius panel separated by 1px horizontal dividers.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do preserve a single clear primary #2563eb CTA per view (such as highlighting only the next unfinished subtest in a package).",
+      "Do use --accent-text (#1d4ed8 light / #60a5fa dark) for blue text, active nav states, and links to guarantee WCAG AA contrast in both themes.",
+      "Do keep currentColor SVG question plates inside a softly contrasted neutral frame so diagrams stay sharp in both light and dark modes.",
+      "Do provide skeleton loading states (loading.tsx), empty states that explain the next step, and inline confirmation before destructive CMS deletes."
+    ],
+    "donts": [
+      "Don't place uppercase eyebrow/kicker labels above headings — let breadcrumbs and headings carry their own hierarchy.",
+      "Don't nest bordered cards inside other bordered cards or apply colored border-left/border-right stripes wider than 1px.",
+      "Don't use font-mono for non-measurement UI prose or Unicode emojis in place of the 1.75px stroke SVG icon set.",
+      "Don't expose answer keys or explanations in client payloads before /api/attempts scores a submission on the server."
+    ]
+  }
+}

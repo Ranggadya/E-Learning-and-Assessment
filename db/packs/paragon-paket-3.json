@@ -1,0 +1,568 @@
+{
+  "company": {
+    "slug": "paragon",
+    "name": "Paragon",
+    "description": "Simulasi tes dasar Paragon: verbal, numerik, dan spasial."
+  },
+  "package": {
+    "slug": "paket-3",
+    "name": "Paket 3",
+    "description": "Tes verbal, numerik, dan spasial dengan soal baru. Durasi adalah perkiraan untuk latihan."
+  },
+  "subtests": [
+    {
+      "slug": "verbal",
+      "name": "Tes Verbal",
+      "description": "Sinonim, antonim, analogi, pengelompokan kata, dan pemahaman bacaan.",
+      "durationSeconds": 600,
+      "questions": [
+        {
+          "type": "TEXT",
+          "prompt": "Persamaan kata (sinonim) dari INTEGRITAS adalah...",
+          "options": [
+            "kecerdasan",
+            "kekuasaan",
+            "kejujuran",
+            "kekayaan",
+            "kecepatan"
+          ],
+          "correctIndex": 2,
+          "explanation": "Integritas berarti keteguhan memegang prinsip dan konsisten antara kata dan perbuatan, yang dekat dengan kejujuran."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Persamaan kata (sinonim) dari KOLABORASI adalah...",
+          "options": [
+            "kerja sama",
+            "persaingan",
+            "perselisihan",
+            "pemisahan",
+            "pengawasan"
+          ],
+          "correctIndex": 0,
+          "explanation": "Kolaborasi adalah bekerja bersama untuk mencapai tujuan yang sama, yaitu kerja sama."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Persamaan kata (sinonim) dari VALID adalah...",
+          "options": [
+            "keliru",
+            "palsu",
+            "ragu",
+            "sah",
+            "usang"
+          ],
+          "correctIndex": 3,
+          "explanation": "Valid berarti berlaku atau dapat dipertanggungjawabkan, searti dengan sah."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Persamaan kata (sinonim) dari ADAPTASI adalah...",
+          "options": [
+            "perlawanan",
+            "penyesuaian",
+            "pengabaian",
+            "penolakan",
+            "penghindaran"
+          ],
+          "correctIndex": 1,
+          "explanation": "Adaptasi adalah proses menyesuaikan diri dengan lingkungan atau keadaan baru, yaitu penyesuaian."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Lawan kata (antonim) dari KUANTITAS adalah...",
+          "options": [
+            "jumlah",
+            "banyak",
+            "ukuran",
+            "volume",
+            "kualitas"
+          ],
+          "correctIndex": 4,
+          "explanation": "Kuantitas berkaitan dengan jumlah atau banyaknya sesuatu, sedangkan kualitas berkaitan dengan mutu."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Lawan kata (antonim) dari PASIF adalah...",
+          "options": [
+            "diam",
+            "lamban",
+            "aktif",
+            "tenang",
+            "lemah"
+          ],
+          "correctIndex": 2,
+          "explanation": "Pasif berarti tidak bertindak atau hanya menerima, lawannya aktif. Diam, lamban, tenang, dan lemah dekat artinya dengan pasif."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Lawan kata (antonim) dari LOKAL adalah...",
+          "options": [
+            "daerah",
+            "setempat",
+            "kecil",
+            "global",
+            "terbatas"
+          ],
+          "correctIndex": 3,
+          "explanation": "Lokal berarti berlaku di suatu tempat atau daerah, sedangkan global berarti mencakup seluruh dunia."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Kunci : gembok = kata sandi : ...",
+          "options": [
+            "komputer",
+            "huruf",
+            "angka",
+            "internet",
+            "akun"
+          ],
+          "correctIndex": 4,
+          "explanation": "Kunci digunakan untuk membuka gembok, seperti kata sandi digunakan untuk membuka akun (hubungan alat pembuka dan yang dibuka)."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Lampu : cahaya = kipas : ...",
+          "options": [
+            "angin",
+            "baling-baling",
+            "listrik",
+            "ruangan",
+            "kamar"
+          ],
+          "correctIndex": 0,
+          "explanation": "Lampu menghasilkan cahaya, seperti kipas menghasilkan angin (hubungan alat dan hasil yang dikeluarkannya)."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Padi : beras = tebu : ...",
+          "options": [
+            "manis",
+            "gula",
+            "kebun",
+            "batang",
+            "air"
+          ],
+          "correctIndex": 1,
+          "explanation": "Padi diolah menjadi beras, seperti tebu diolah menjadi gula (hubungan bahan baku dan hasil olahannya)."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Manakah yang tidak termasuk kelompok yang sama? Biola, gitar, cello, drum, harpa",
+          "options": [
+            "biola",
+            "gitar",
+            "drum",
+            "cello",
+            "harpa"
+          ],
+          "correctIndex": 2,
+          "explanation": "Biola, gitar, cello, dan harpa adalah alat musik berdawai, sedangkan drum adalah alat musik pukul."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Manakah yang tidak termasuk kelompok yang sama? Merkurius, Venus, Bumi, Bulan, Mars",
+          "options": [
+            "Merkurius",
+            "Venus",
+            "Bumi",
+            "Mars",
+            "Bulan"
+          ],
+          "correctIndex": 4,
+          "explanation": "Merkurius, Venus, Bumi, dan Mars adalah planet yang mengelilingi Matahari, sedangkan Bulan adalah satelit yang mengelilingi Bumi."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Bacaan:\nKoperasi sekolah menjual alat tulis dengan harga lebih murah daripada toko di luar sekolah. Keuntungannya dipakai untuk membiayai kegiatan siswa. Sejak koperasi dibuka, siswa tidak perlu keluar sekolah untuk membeli alat tulis.\n\nSimpulan yang paling tepat dari bacaan tersebut adalah...",
+          "options": [
+            "Koperasi sekolah memudahkan siswa membeli alat tulis dan keuntungannya dipakai untuk kegiatan siswa",
+            "Koperasi sekolah mengalami kerugian",
+            "Toko di luar sekolah ditutup",
+            "Harga alat tulis di koperasi lebih mahal",
+            "Siswa dilarang membeli alat tulis di luar sekolah"
+          ],
+          "correctIndex": 0,
+          "explanation": "Bacaan menyebut harga lebih murah, kemudahan membeli di sekolah, dan keuntungan untuk kegiatan siswa. Pilihan lain bertentangan atau tidak disebutkan."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Bacaan:\nLayanan antar sebuah toko gratis untuk pembelian minimal Rp100.000, dan dikenakan biaya Rp10.000 untuk pembelian di bawah itu. Pengantaran hanya melayani radius 5 km dari toko.\n\nPernyataan yang sesuai dengan bacaan tersebut adalah...",
+          "options": [
+            "Pembelian Rp100.000 dikenakan biaya antar Rp10.000",
+            "Pengantaran tersedia sampai radius 10 km",
+            "Pembelian Rp150.000 dikenakan biaya antar",
+            "Pembelian Rp80.000 dalam radius 5 km dikenakan biaya antar Rp10.000",
+            "Pembelian Rp80.000 mendapat antar gratis"
+          ],
+          "correctIndex": 3,
+          "explanation": "Pembelian di bawah Rp100.000 dikenakan biaya Rp10.000, dan Rp80.000 berada di bawah batas itu. Pilihan lain bertentangan dengan aturan yang disebutkan."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Bacaan:\nMembaca buku setiap hari meskipun hanya 15 menit menambah kosakata dan melatih fokus. Kebiasaan kecil yang dilakukan konsisten lebih bermanfaat daripada membaca lama tetapi jarang.\n\nGagasan utama bacaan tersebut adalah...",
+          "options": [
+            "Membaca hanya efektif bila dilakukan lama",
+            "Membaca singkat secara konsisten bermanfaat bagi kosakata dan fokus",
+            "Kosakata tidak dipengaruhi oleh kebiasaan membaca",
+            "Membaca sebaiknya dilakukan jarang tetapi lama",
+            "Fokus hanya dapat dilatih lewat olahraga"
+          ],
+          "correctIndex": 1,
+          "explanation": "Paragraf menekankan manfaat membaca singkat tetapi rutin. Pilihan lain bertentangan dengan bacaan."
+        }
+      ]
+    },
+    {
+      "slug": "numerik-aritmatika",
+      "name": "Tes Numerik & Aritmatika",
+      "description": "Deret angka, soal cerita, dan hitungan dasar.",
+      "durationSeconds": 720,
+      "questions": [
+        {
+          "type": "TEXT",
+          "prompt": "Lanjutkan deret: 1, 4, 10, 22, 46, ...",
+          "options": [
+            "90",
+            "92",
+            "96",
+            "98",
+            "94"
+          ],
+          "correctIndex": 4,
+          "explanation": "Setiap suku = suku sebelumnya × 2 + 2. Jadi 46 × 2 + 2 = 94."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Lanjutkan deret: 2, 4, 8, 14, 22, ...",
+          "options": [
+            "28",
+            "32",
+            "30",
+            "34",
+            "36"
+          ],
+          "correctIndex": 1,
+          "explanation": "Selisih antar suku: 2, 4, 6, 8, lalu 10. Jadi 22 + 10 = 32."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Lanjutkan deret: 100, 98, 94, 86, 70, ...",
+          "options": [
+            "34",
+            "36",
+            "38",
+            "40",
+            "42"
+          ],
+          "correctIndex": 2,
+          "explanation": "Selisih antar suku: −2, −4, −8, −16, lalu −32. Jadi 70 − 32 = 38."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Lanjutkan deret: 1, 8, 27, 64, ...",
+          "options": [
+            "125",
+            "100",
+            "120",
+            "128",
+            "216"
+          ],
+          "correctIndex": 0,
+          "explanation": "Deret bilangan kubik: 1³, 2³, 3³, 4³, lalu 5³ = 125."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Lanjutkan deret: 7, 9, 8, 10, 9, 11, ...",
+          "options": [
+            "9",
+            "10",
+            "11",
+            "12",
+            "13"
+          ],
+          "correctIndex": 1,
+          "explanation": "Dua pola bergantian: +2 lalu −1. 7 + 2 = 9, 9 − 1 = 8, 8 + 2 = 10, 10 − 1 = 9, 9 + 2 = 11, lalu 11 − 1 = 10."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Harga 6 buku adalah Rp72.000. Berapa harga 11 buku yang sama?",
+          "options": [
+            "Rp121.000",
+            "Rp126.000",
+            "Rp130.000",
+            "Rp132.000",
+            "Rp144.000"
+          ],
+          "correctIndex": 3,
+          "explanation": "Harga per buku = 72.000 ÷ 6 = 12.000. Untuk 11 buku: 11 × 12.000 = Rp132.000."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Sebuah sepeda motor melaju dengan kecepatan 45 km/jam selama 2 jam 40 menit. Berapa jarak yang ditempuh?",
+          "options": [
+            "100 km",
+            "108 km",
+            "120 km",
+            "112 km",
+            "125 km"
+          ],
+          "correctIndex": 2,
+          "explanation": "2 jam 40 menit = 2 2/3 jam = 8/3 jam. Jarak = 45 × 8/3 = 120 km."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Sebuah perusahaan memiliki 250 pegawai. Sebanyak 40% pegawai adalah perempuan, dan 30% dari pegawai perempuan berusia di atas 40 tahun. Berapa pegawai perempuan yang berusia di atas 40 tahun?",
+          "options": [
+            "30 orang",
+            "25 orang",
+            "40 orang",
+            "50 orang",
+            "75 orang"
+          ],
+          "correctIndex": 0,
+          "explanation": "Pegawai perempuan = 40% × 250 = 100 orang. Yang berusia di atas 40 tahun = 30% × 100 = 30 orang."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Empat pekerja menyelesaikan sebuah proyek dalam 15 hari. Dengan kecepatan kerja yang sama, berapa hari yang dibutuhkan 10 pekerja?",
+          "options": [
+            "5 hari",
+            "7 hari",
+            "8 hari",
+            "6 hari",
+            "9 hari"
+          ],
+          "correctIndex": 3,
+          "explanation": "Total pekerjaan = 4 × 15 = 60 hari-orang. Dengan 10 pekerja: 60 ÷ 10 = 6 hari."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Sebuah barang seharga Rp800.000 mendapat diskon 15%, lalu pembeli menggunakan voucher potongan Rp50.000. Berapa yang harus dibayar?",
+          "options": [
+            "Rp600.000",
+            "Rp640.000",
+            "Rp650.000",
+            "Rp680.000",
+            "Rp630.000"
+          ],
+          "correctIndex": 4,
+          "explanation": "Harga setelah diskon = 800.000 × 85% = 680.000. Setelah voucher: 680.000 − 50.000 = Rp630.000."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Hitung: 5/6 − 1/4 + 1/3",
+          "options": [
+            "7/12",
+            "11/12",
+            "3/4",
+            "13/12",
+            "1"
+          ],
+          "correctIndex": 1,
+          "explanation": "Samakan penyebut menjadi 12: 10/12 − 3/12 + 4/12 = 11/12."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Hitung: 3,6 ÷ 0,9 + 2,5 × 4",
+          "options": [
+            "14",
+            "12",
+            "13",
+            "16",
+            "18"
+          ],
+          "correctIndex": 0,
+          "explanation": "3,6 ÷ 0,9 = 4 dan 2,5 × 4 = 10, sehingga totalnya 14."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Rata-rata enam bilangan adalah 12. Setelah satu bilangan ditambahkan, rata-rata tujuh bilangan menjadi 13. Berapa bilangan yang ditambahkan?",
+          "options": [
+            "13",
+            "17",
+            "20",
+            "25",
+            "19"
+          ],
+          "correctIndex": 4,
+          "explanation": "Jumlah enam bilangan = 6 × 12 = 72. Jumlah tujuh bilangan = 7 × 13 = 91. Bilangan yang ditambahkan = 91 − 72 = 19."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Resep kue untuk 4 orang membutuhkan 300 gram tepung. Berapa gram tepung yang dibutuhkan untuk 10 orang?",
+          "options": [
+            "600 gram",
+            "700 gram",
+            "750 gram",
+            "800 gram",
+            "900 gram"
+          ],
+          "correctIndex": 2,
+          "explanation": "Tepung per orang = 300 ÷ 4 = 75 gram. Untuk 10 orang: 10 × 75 = 750 gram."
+        },
+        {
+          "type": "TEXT",
+          "prompt": "Jika 3a − 2 = 2a + 5, berapakah nilai 4a?",
+          "options": [
+            "21",
+            "24",
+            "32",
+            "28",
+            "35"
+          ],
+          "correctIndex": 3,
+          "explanation": "Pindahkan suku: 3a − 2a = 5 + 2, sehingga a = 7. Maka 4a = 28."
+        }
+      ]
+    },
+    {
+      "slug": "spasial-logika-gambar",
+      "name": "Tes Spasial & Logika Gambar",
+      "description": "Pola gambar, rotasi, pencerminan, dan menghitung bentuk.",
+      "durationSeconds": 480,
+      "questions": [
+        {
+          "type": "IMAGE",
+          "prompt": "Perhatikan pola pada kotak-kotak berikut. Gambar manakah yang menggantikan tanda tanya (?)",
+          "imageSvg": "<svg viewBox=\"0 0 600 300\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Soal pola gambar\"><rect x=\"10\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"60,25 25,88 95,88\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"128\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"178,29 147,84.8 209,84.8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"246\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"296,33 269,81.6 323,81.6\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"364\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"414,37 391,78.4 437,78.4\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"482\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 5\"/><text x=\"532\" y=\"74\" text-anchor=\"middle\" font-size=\"40\" font-weight=\"400\" font-family=\"sans-serif\" fill=\"currentColor\">?</text><rect x=\"10\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"60,191 41,225.2 79,225.2\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"60\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">A</text><rect x=\"128\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"178,191 159,225.2 197,225.2\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"178\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">B</text><rect x=\"246\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"296,187 273,228.4 319,228.4\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"296\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">C</text><rect x=\"364\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"414,195 399,222 429,222\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"414\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">D</text><rect x=\"482\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"532,183 505,231.6 559,231.6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"532\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">E</text></svg>",
+          "options": [
+            "Gambar A",
+            "Gambar B",
+            "Gambar C",
+            "Gambar D",
+            "Gambar E"
+          ],
+          "correctIndex": 0,
+          "explanation": "Dua aturan berjalan bersamaan: ukuran mengecil 8 satuan tiap kotak dan isi bergantian terisi lalu kosong. Kotak ke-5 berukuran 38 dan terisi."
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Perhatikan pola pada kotak-kotak berikut. Gambar manakah yang menggantikan tanda tanya (?)",
+          "imageSvg": "<svg viewBox=\"0 0 600 300\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Soal pola gambar\"><rect x=\"10\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g><rect x=\"42\" y=\"42\" width=\"36\" height=\"18\" fill=\"currentColor\"/><rect x=\"42\" y=\"42\" width=\"36\" height=\"36\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><rect x=\"128\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(90 178 60)\"><rect x=\"157\" y=\"39\" width=\"42\" height=\"21\" fill=\"currentColor\"/><rect x=\"157\" y=\"39\" width=\"42\" height=\"42\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><rect x=\"246\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(180 296 60)\"><rect x=\"272\" y=\"36\" width=\"48\" height=\"24\" fill=\"currentColor\"/><rect x=\"272\" y=\"36\" width=\"48\" height=\"48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><rect x=\"364\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(270 414 60)\"><rect x=\"387\" y=\"33\" width=\"54\" height=\"27\" fill=\"currentColor\"/><rect x=\"387\" y=\"33\" width=\"54\" height=\"54\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><rect x=\"482\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 5\"/><text x=\"532\" y=\"74\" text-anchor=\"middle\" font-size=\"40\" font-weight=\"400\" font-family=\"sans-serif\" fill=\"currentColor\">?</text><rect x=\"10\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g><rect x=\"33\" y=\"183\" width=\"54\" height=\"27\" fill=\"currentColor\"/><rect x=\"33\" y=\"183\" width=\"54\" height=\"54\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><text x=\"60\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">A</text><rect x=\"128\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g><rect x=\"148\" y=\"180\" width=\"60\" height=\"30\" fill=\"currentColor\"/><rect x=\"148\" y=\"180\" width=\"60\" height=\"60\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><text x=\"178\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">B</text><rect x=\"246\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(90 296 210)\"><rect x=\"266\" y=\"180\" width=\"60\" height=\"30\" fill=\"currentColor\"/><rect x=\"266\" y=\"180\" width=\"60\" height=\"60\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><text x=\"296\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">C</text><rect x=\"364\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(270 414 210)\"><rect x=\"384\" y=\"180\" width=\"60\" height=\"30\" fill=\"currentColor\"/><rect x=\"384\" y=\"180\" width=\"60\" height=\"60\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><text x=\"414\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">D</text><rect x=\"482\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(180 532 210)\"><rect x=\"502\" y=\"180\" width=\"60\" height=\"30\" fill=\"currentColor\"/><rect x=\"502\" y=\"180\" width=\"60\" height=\"60\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\"/></g><text x=\"532\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">E</text></svg>",
+          "options": [
+            "Gambar A",
+            "Gambar B",
+            "Gambar C",
+            "Gambar D",
+            "Gambar E"
+          ],
+          "correctIndex": 1,
+          "explanation": "Dua aturan berjalan bersamaan: arsiran berputar 90° searah jarum jam tiap kotak (kembali ke 0° pada kotak ke-5) dan ukuran bertambah 6 satuan, sehingga kotak ke-5 berukuran 60."
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Perhatikan pola pada kotak-kotak berikut. Gambar manakah yang menggantikan tanda tanya (?)",
+          "imageSvg": "<svg viewBox=\"0 0 600 300\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Soal pola gambar\"><rect x=\"10\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(90 60 60)\"><line x1=\"60\" y1=\"90\" x2=\"60\" y2=\"46.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"60,30 43.2,56.9 76.8,56.9\" fill=\"currentColor\"/></g><rect x=\"128\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(45 178 60)\"><line x1=\"178\" y1=\"90\" x2=\"178\" y2=\"46.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"178,30 161.2,56.9 194.8,56.9\" fill=\"currentColor\"/></g><rect x=\"246\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g><line x1=\"296\" y1=\"90\" x2=\"296\" y2=\"46.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"296,30 279.2,56.9 312.8,56.9\" fill=\"currentColor\"/></g><rect x=\"364\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(315 414 60)\"><line x1=\"414\" y1=\"90\" x2=\"414\" y2=\"46.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"414,30 397.2,56.9 430.8,56.9\" fill=\"currentColor\"/></g><rect x=\"482\" y=\"10\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 5\"/><text x=\"532\" y=\"74\" text-anchor=\"middle\" font-size=\"40\" font-weight=\"400\" font-family=\"sans-serif\" fill=\"currentColor\">?</text><rect x=\"10\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(180 60 210)\"><line x1=\"60\" y1=\"240\" x2=\"60\" y2=\"196.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"60,180 43.2,206.9 76.8,206.9\" fill=\"currentColor\"/></g><text x=\"60\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">A</text><rect x=\"128\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(225 178 210)\"><line x1=\"178\" y1=\"240\" x2=\"178\" y2=\"196.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"178,180 161.2,206.9 194.8,206.9\" fill=\"currentColor\"/></g><text x=\"178\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">B</text><rect x=\"246\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(135 296 210)\"><line x1=\"296\" y1=\"240\" x2=\"296\" y2=\"196.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"296,180 279.2,206.9 312.8,206.9\" fill=\"currentColor\"/></g><text x=\"296\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">C</text><rect x=\"364\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(270 414 210)\"><line x1=\"414\" y1=\"240\" x2=\"414\" y2=\"196.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"414,180 397.2,206.9 430.8,206.9\" fill=\"currentColor\"/></g><text x=\"414\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">D</text><rect x=\"482\" y=\"160\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g><line x1=\"532\" y1=\"240\" x2=\"532\" y2=\"196.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"532,180 515.2,206.9 548.8,206.9\" fill=\"currentColor\"/></g><text x=\"532\" y=\"288\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">E</text></svg>",
+          "options": [
+            "Gambar A",
+            "Gambar B",
+            "Gambar C",
+            "Gambar D",
+            "Gambar E"
+          ],
+          "correctIndex": 3,
+          "explanation": "Panah berputar 45° berlawanan arah jarum jam pada setiap kotak: 90°, 45°, 0°, 315°, lalu 270° (menunjuk ke kiri)."
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Setiap baris dan kolom pada matriks mengikuti aturan tertentu. Gambar manakah yang melengkapi kotak bertanda tanya (?)",
+          "imageSvg": "<svg viewBox=\"0 0 600 440\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Soal matriks gambar\"><rect x=\"165\" y=\"10\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"207\" cy=\"52\" r=\"21\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"255\" y=\"10\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"276\" y=\"31\" width=\"42\" height=\"42\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"345\" y=\"10\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"387,31 366,68.8 408,68.8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"165\" y=\"100\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"186\" y=\"121\" width=\"42\" height=\"42\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"255\" y=\"100\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"297,121 276,158.8 318,158.8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"345\" y=\"100\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"387\" cy=\"142\" r=\"21\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"165\" y=\"190\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"207,211 186,248.8 228,248.8\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"255\" y=\"190\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"297\" cy=\"232\" r=\"21\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><rect x=\"345\" y=\"190\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 5\"/><text x=\"387\" y=\"244\" text-anchor=\"middle\" font-size=\"36\" font-weight=\"400\" font-family=\"sans-serif\" fill=\"currentColor\">?</text><rect x=\"10\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><circle cx=\"60\" cy=\"350\" r=\"25\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"60\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">A</text><rect x=\"128\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><polygon points=\"178,325 153,370 203,370\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"178\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">B</text><rect x=\"246\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"271\" y=\"325\" width=\"50\" height=\"50\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\" transform=\"rotate(45 296 350)\"/><text x=\"296\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">C</text><rect x=\"364\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"389\" y=\"325\" width=\"50\" height=\"50\" fill=\"currentColor\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"414\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">D</text><rect x=\"482\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"507\" y=\"325\" width=\"50\" height=\"50\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linejoin=\"round\" stroke-linecap=\"round\"/><text x=\"532\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">E</text></svg>",
+          "options": [
+            "Gambar A",
+            "Gambar B",
+            "Gambar C",
+            "Gambar D",
+            "Gambar E"
+          ],
+          "correctIndex": 4,
+          "explanation": "Setiap baris dan kolom memuat tiga bentuk berbeda tanpa pengulangan. Kotak kanan bawah harus persegi karena lingkaran dan segitiga sudah ada pada baris dan kolomnya."
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Setiap baris dan kolom pada matriks mengikuti aturan tertentu. Gambar manakah yang melengkapi kotak bertanda tanya (?)",
+          "imageSvg": "<svg viewBox=\"0 0 600 440\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Soal matriks gambar\"><rect x=\"165\" y=\"10\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g><line x1=\"207\" y1=\"73\" x2=\"207\" y2=\"42.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"207,31 195.2,49.8 218.8,49.8\" fill=\"currentColor\"/></g><rect x=\"255\" y=\"10\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(90 297 52)\"><line x1=\"297\" y1=\"73\" x2=\"297\" y2=\"42.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"297,31 285.2,49.8 308.8,49.8\" fill=\"currentColor\"/></g><rect x=\"345\" y=\"10\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(180 387 52)\"><line x1=\"387\" y1=\"73\" x2=\"387\" y2=\"42.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"387,31 375.2,49.8 398.8,49.8\" fill=\"currentColor\"/></g><rect x=\"165\" y=\"100\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(90 207 142)\"><line x1=\"207\" y1=\"163\" x2=\"207\" y2=\"132.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"207,121 195.2,139.8 218.8,139.8\" fill=\"currentColor\"/></g><rect x=\"255\" y=\"100\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(180 297 142)\"><line x1=\"297\" y1=\"163\" x2=\"297\" y2=\"132.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"297,121 285.2,139.8 308.8,139.8\" fill=\"currentColor\"/></g><rect x=\"345\" y=\"100\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(270 387 142)\"><line x1=\"387\" y1=\"163\" x2=\"387\" y2=\"132.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"387,121 375.2,139.8 398.8,139.8\" fill=\"currentColor\"/></g><rect x=\"165\" y=\"190\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(180 207 232)\"><line x1=\"207\" y1=\"253\" x2=\"207\" y2=\"222.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"207,211 195.2,229.8 218.8,229.8\" fill=\"currentColor\"/></g><rect x=\"255\" y=\"190\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(270 297 232)\"><line x1=\"297\" y1=\"253\" x2=\"297\" y2=\"222.8\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"297,211 285.2,229.8 308.8,229.8\" fill=\"currentColor\"/></g><rect x=\"345\" y=\"190\" width=\"84\" height=\"84\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-dasharray=\"6 5\"/><text x=\"387\" y=\"244\" text-anchor=\"middle\" font-size=\"36\" font-weight=\"400\" font-family=\"sans-serif\" fill=\"currentColor\">?</text><rect x=\"10\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g><line x1=\"60\" y1=\"375\" x2=\"60\" y2=\"339\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"60,325 46,347.4 74,347.4\" fill=\"currentColor\"/></g><text x=\"60\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">A</text><rect x=\"128\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(90 178 350)\"><line x1=\"178\" y1=\"375\" x2=\"178\" y2=\"339\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"178,325 164,347.4 192,347.4\" fill=\"currentColor\"/></g><text x=\"178\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">B</text><rect x=\"246\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(180 296 350)\"><line x1=\"296\" y1=\"375\" x2=\"296\" y2=\"339\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"296,325 282,347.4 310,347.4\" fill=\"currentColor\"/></g><text x=\"296\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">C</text><rect x=\"364\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(270 414 350)\"><line x1=\"414\" y1=\"375\" x2=\"414\" y2=\"339\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"414,325 400,347.4 428,347.4\" fill=\"currentColor\"/></g><text x=\"414\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">D</text><rect x=\"482\" y=\"300\" width=\"100\" height=\"100\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><g transform=\"rotate(45 532 350)\"><line x1=\"532\" y1=\"375\" x2=\"532\" y2=\"339\" stroke=\"currentColor\" stroke-width=\"5\" stroke-linecap=\"round\"/><polygon points=\"532,325 518,347.4 546,347.4\" fill=\"currentColor\"/></g><text x=\"532\" y=\"428\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">E</text></svg>",
+          "options": [
+            "Gambar A",
+            "Gambar B",
+            "Gambar C",
+            "Gambar D",
+            "Gambar E"
+          ],
+          "correctIndex": 0,
+          "explanation": "Panah berputar 90° setiap turun baris maupun pindah kolom. Kotak kanan bawah: 90 × 2 + 90 × 2 = 360°, sama dengan 0° (menunjuk ke atas)."
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Gambar awal diputar 90° searah jarum jam. Gambar manakah hasilnya?",
+          "imageSvg": "<svg viewBox=\"0 0 600 302\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Soal transformasi gambar\"><text x=\"300\" y=\"22\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"500\" font-family=\"sans-serif\" fill=\"currentColor\">Gambar awal</text><rect x=\"255\" y=\"36\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"285\" y=\"36\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"315\" y=\"66\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"285\" y=\"96\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"315\" y=\"96\" width=\"30\" height=\"30\" fill=\"currentColor\"/><line x1=\"255\" y1=\"36\" x2=\"345\" y2=\"36\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"255\" y1=\"66\" x2=\"345\" y2=\"66\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"255\" y1=\"96\" x2=\"345\" y2=\"96\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"255\" y1=\"126\" x2=\"345\" y2=\"126\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"255\" y1=\"36\" x2=\"255\" y2=\"126\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"285\" y1=\"36\" x2=\"285\" y2=\"126\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"315\" y1=\"36\" x2=\"315\" y2=\"126\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"345\" y1=\"36\" x2=\"345\" y2=\"126\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"255\" y=\"36\" width=\"90\" height=\"90\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><rect x=\"10\" y=\"152\" width=\"100\" height=\"110\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"15\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"45\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"75\" y=\"192\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"45\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"75\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><line x1=\"15\" y1=\"162\" x2=\"105\" y2=\"162\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"15\" y1=\"192\" x2=\"105\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"15\" y1=\"222\" x2=\"105\" y2=\"222\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"15\" y1=\"252\" x2=\"105\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"15\" y1=\"162\" x2=\"15\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"45\" y1=\"162\" x2=\"45\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"75\" y1=\"162\" x2=\"75\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"105\" y1=\"162\" x2=\"105\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"15\" y=\"162\" width=\"90\" height=\"90\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"60\" y=\"290\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">A</text><rect x=\"128\" y=\"152\" width=\"100\" height=\"110\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"163\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"193\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"133\" y=\"192\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"133\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"163\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><line x1=\"133\" y1=\"162\" x2=\"223\" y2=\"162\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"133\" y1=\"192\" x2=\"223\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"133\" y1=\"222\" x2=\"223\" y2=\"222\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"133\" y1=\"252\" x2=\"223\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"133\" y1=\"162\" x2=\"133\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"163\" y1=\"162\" x2=\"163\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"193\" y1=\"162\" x2=\"193\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"223\" y1=\"162\" x2=\"223\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"133\" y=\"162\" width=\"90\" height=\"90\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"178\" y=\"290\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">B</text><rect x=\"246\" y=\"152\" width=\"100\" height=\"110\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"251\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"281\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"251\" y=\"192\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"281\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"311\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><line x1=\"251\" y1=\"162\" x2=\"341\" y2=\"162\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"251\" y1=\"192\" x2=\"341\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"251\" y1=\"222\" x2=\"341\" y2=\"222\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"251\" y1=\"252\" x2=\"341\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"251\" y1=\"162\" x2=\"251\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"281\" y1=\"162\" x2=\"281\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"311\" y1=\"162\" x2=\"311\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"341\" y1=\"162\" x2=\"341\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"251\" y=\"162\" width=\"90\" height=\"90\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"296\" y=\"290\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">C</text><rect x=\"364\" y=\"152\" width=\"100\" height=\"110\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"429\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"369\" y=\"192\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"429\" y=\"192\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"369\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"399\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><line x1=\"369\" y1=\"162\" x2=\"459\" y2=\"162\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"369\" y1=\"192\" x2=\"459\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"369\" y1=\"222\" x2=\"459\" y2=\"222\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"369\" y1=\"252\" x2=\"459\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"369\" y1=\"162\" x2=\"369\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"399\" y1=\"162\" x2=\"399\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"429\" y1=\"162\" x2=\"429\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"459\" y1=\"162\" x2=\"459\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"369\" y=\"162\" width=\"90\" height=\"90\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"414\" y=\"290\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">D</text><rect x=\"482\" y=\"152\" width=\"100\" height=\"110\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"517\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"547\" y=\"162\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"487\" y=\"192\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"547\" y=\"192\" width=\"30\" height=\"30\" fill=\"currentColor\"/><rect x=\"487\" y=\"222\" width=\"30\" height=\"30\" fill=\"currentColor\"/><line x1=\"487\" y1=\"162\" x2=\"577\" y2=\"162\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"487\" y1=\"192\" x2=\"577\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"487\" y1=\"222\" x2=\"577\" y2=\"222\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"487\" y1=\"252\" x2=\"577\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"487\" y1=\"162\" x2=\"487\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"517\" y1=\"162\" x2=\"517\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"547\" y1=\"162\" x2=\"547\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"577\" y1=\"162\" x2=\"577\" y2=\"252\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"487\" y=\"162\" width=\"90\" height=\"90\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"532\" y=\"290\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">E</text></svg>",
+          "options": [
+            "Gambar A",
+            "Gambar B",
+            "Gambar C",
+            "Gambar D",
+            "Gambar E"
+          ],
+          "correctIndex": 3,
+          "explanation": "Pada putaran 90° searah jarum jam, setiap baris menjadi kolom: baris paling atas menjadi kolom paling kanan."
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Gambar awal (kisi 4 × 4) dicerminkan terhadap garis mendatar di tengahnya (atas menjadi bawah). Gambar manakah hasilnya?",
+          "imageSvg": "<svg viewBox=\"0 0 600 314\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Soal transformasi gambar\"><text x=\"300\" y=\"22\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"500\" font-family=\"sans-serif\" fill=\"currentColor\">Gambar awal</text><rect x=\"300\" y=\"36\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"300\" y=\"60\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"324\" y=\"60\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"252\" y=\"84\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"276\" y=\"84\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"324\" y=\"84\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"252\" y=\"108\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"252\" y1=\"36\" x2=\"348\" y2=\"36\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"60\" x2=\"348\" y2=\"60\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"84\" x2=\"348\" y2=\"84\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"108\" x2=\"348\" y2=\"108\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"132\" x2=\"348\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"36\" x2=\"252\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"276\" y1=\"36\" x2=\"276\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"300\" y1=\"36\" x2=\"300\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"324\" y1=\"36\" x2=\"324\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"348\" y1=\"36\" x2=\"348\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"252\" y=\"36\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><rect x=\"10\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"60\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"60\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"84\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"12\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"36\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"84\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"12\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"12\" y1=\"168\" x2=\"108\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"192\" x2=\"108\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"216\" x2=\"108\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"240\" x2=\"108\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"264\" x2=\"108\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"168\" x2=\"12\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"36\" y1=\"168\" x2=\"36\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"60\" y1=\"168\" x2=\"60\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"84\" y1=\"168\" x2=\"84\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"108\" y1=\"168\" x2=\"108\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"12\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"60\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">A</text><rect x=\"128\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"154\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"130\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"154\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"130\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"178\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"202\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"202\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"130\" y1=\"168\" x2=\"226\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"192\" x2=\"226\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"216\" x2=\"226\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"240\" x2=\"226\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"264\" x2=\"226\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"168\" x2=\"130\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"154\" y1=\"168\" x2=\"154\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"178\" y1=\"168\" x2=\"178\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"202\" y1=\"168\" x2=\"202\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"226\" y1=\"168\" x2=\"226\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"130\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"178\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">B</text><rect x=\"246\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"248\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"272\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"272\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"296\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"320\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"272\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"296\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"248\" y1=\"168\" x2=\"344\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"192\" x2=\"344\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"216\" x2=\"344\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"240\" x2=\"344\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"264\" x2=\"344\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"168\" x2=\"248\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"272\" y1=\"168\" x2=\"272\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"296\" y1=\"168\" x2=\"296\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"320\" y1=\"168\" x2=\"320\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"344\" y1=\"168\" x2=\"344\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"248\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"296\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">C</text><rect x=\"364\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"414\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"438\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"414\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"366\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"390\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"390\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"414\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"366\" y1=\"168\" x2=\"462\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"192\" x2=\"462\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"216\" x2=\"462\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"240\" x2=\"462\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"264\" x2=\"462\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"168\" x2=\"366\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"390\" y1=\"168\" x2=\"390\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"414\" y1=\"168\" x2=\"414\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"438\" y1=\"168\" x2=\"438\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"462\" y1=\"168\" x2=\"462\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"366\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"414\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">D</text><rect x=\"482\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"484\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"484\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"508\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"556\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"532\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"556\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"532\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"484\" y1=\"168\" x2=\"580\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"192\" x2=\"580\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"216\" x2=\"580\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"240\" x2=\"580\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"264\" x2=\"580\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"168\" x2=\"484\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"508\" y1=\"168\" x2=\"508\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"532\" y1=\"168\" x2=\"532\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"556\" y1=\"168\" x2=\"556\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"580\" y1=\"168\" x2=\"580\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"484\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"532\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">E</text></svg>",
+          "options": [
+            "Gambar A",
+            "Gambar B",
+            "Gambar C",
+            "Gambar D",
+            "Gambar E"
+          ],
+          "correctIndex": 4,
+          "explanation": "Pada pencerminan atas-bawah, urutan baris dibalik: baris paling atas bertukar dengan baris paling bawah."
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Gambar awal (kisi 4 × 4) diputar 180°. Gambar manakah hasilnya?",
+          "imageSvg": "<svg viewBox=\"0 0 600 314\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Soal transformasi gambar\"><text x=\"300\" y=\"22\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"500\" font-family=\"sans-serif\" fill=\"currentColor\">Gambar awal</text><rect x=\"252\" y=\"36\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"300\" y=\"36\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"324\" y=\"36\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"300\" y=\"60\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"324\" y=\"60\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"252\" y=\"84\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"300\" y=\"108\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"324\" y=\"108\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"252\" y1=\"36\" x2=\"348\" y2=\"36\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"60\" x2=\"348\" y2=\"60\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"84\" x2=\"348\" y2=\"84\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"108\" x2=\"348\" y2=\"108\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"132\" x2=\"348\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"252\" y1=\"36\" x2=\"252\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"276\" y1=\"36\" x2=\"276\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"300\" y1=\"36\" x2=\"300\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"324\" y1=\"36\" x2=\"324\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"348\" y1=\"36\" x2=\"348\" y2=\"132\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"252\" y=\"36\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><rect x=\"10\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"12\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"60\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"84\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"60\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"84\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"12\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"60\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"84\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"12\" y1=\"168\" x2=\"108\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"192\" x2=\"108\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"216\" x2=\"108\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"240\" x2=\"108\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"264\" x2=\"108\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"12\" y1=\"168\" x2=\"12\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"36\" y1=\"168\" x2=\"36\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"60\" y1=\"168\" x2=\"60\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"84\" y1=\"168\" x2=\"84\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"108\" y1=\"168\" x2=\"108\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"12\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"60\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">A</text><rect x=\"128\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"130\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"154\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"202\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"130\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"154\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"202\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"130\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"154\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"130\" y1=\"168\" x2=\"226\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"192\" x2=\"226\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"216\" x2=\"226\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"240\" x2=\"226\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"264\" x2=\"226\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"130\" y1=\"168\" x2=\"130\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"154\" y1=\"168\" x2=\"154\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"178\" y1=\"168\" x2=\"178\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"202\" y1=\"168\" x2=\"202\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"226\" y1=\"168\" x2=\"226\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"130\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"178\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">B</text><rect x=\"246\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"248\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"272\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"320\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"248\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"272\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"248\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"272\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"320\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"248\" y1=\"168\" x2=\"344\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"192\" x2=\"344\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"216\" x2=\"344\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"240\" x2=\"344\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"264\" x2=\"344\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"248\" y1=\"168\" x2=\"248\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"272\" y1=\"168\" x2=\"272\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"296\" y1=\"168\" x2=\"296\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"320\" y1=\"168\" x2=\"320\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"344\" y1=\"168\" x2=\"344\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"248\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"296\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">C</text><rect x=\"364\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"390\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"438\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"366\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"414\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"438\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"366\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"414\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"438\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"366\" y1=\"168\" x2=\"462\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"192\" x2=\"462\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"216\" x2=\"462\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"240\" x2=\"462\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"264\" x2=\"462\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"366\" y1=\"168\" x2=\"366\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"390\" y1=\"168\" x2=\"390\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"414\" y1=\"168\" x2=\"414\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"438\" y1=\"168\" x2=\"438\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"462\" y1=\"168\" x2=\"462\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"366\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"414\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">D</text><rect x=\"482\" y=\"158\" width=\"100\" height=\"116\" rx=\"6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><rect x=\"532\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"556\" y=\"168\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"484\" y=\"192\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"532\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"556\" y=\"216\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"484\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"532\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><rect x=\"556\" y=\"240\" width=\"24\" height=\"24\" fill=\"currentColor\"/><line x1=\"484\" y1=\"168\" x2=\"580\" y2=\"168\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"192\" x2=\"580\" y2=\"192\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"216\" x2=\"580\" y2=\"216\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"240\" x2=\"580\" y2=\"240\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"264\" x2=\"580\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"484\" y1=\"168\" x2=\"484\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"508\" y1=\"168\" x2=\"508\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"532\" y1=\"168\" x2=\"532\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"556\" y1=\"168\" x2=\"556\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><line x1=\"580\" y1=\"168\" x2=\"580\" y2=\"264\" stroke=\"currentColor\" stroke-width=\"1\" opacity=\".35\"/><rect x=\"484\" y=\"168\" width=\"96\" height=\"96\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\"/><text x=\"532\" y=\"302\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" font-family=\"sans-serif\" fill=\"currentColor\">E</text></svg>",
+          "options": [
+            "Gambar A",
+            "Gambar B",
+            "Gambar C",
+            "Gambar D",
+            "Gambar E"
+          ],
+          "correctIndex": 2,
+          "explanation": "Putaran 180° membalik gambar sepenuhnya: sel kiri atas pindah ke kanan bawah, dan kanan atas pindah ke kiri bawah."
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Berapa banyak persegi (dari semua ukuran) pada kisi 2 baris × 4 kolom berikut?",
+          "imageSvg": "<svg viewBox=\"0 0 240 130\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kisi 2 baris kali 4 kolom\" style=\"max-width:260px;margin:auto\"><line x1=\"10\" y1=\"10\" x2=\"230\" y2=\"10\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"10\" y1=\"65\" x2=\"230\" y2=\"65\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"10\" y1=\"120\" x2=\"230\" y2=\"120\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"10\" y1=\"10\" x2=\"10\" y2=\"120\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"65\" y1=\"10\" x2=\"65\" y2=\"120\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"120\" y1=\"10\" x2=\"120\" y2=\"120\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"175\" y1=\"10\" x2=\"175\" y2=\"120\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"230\" y1=\"10\" x2=\"230\" y2=\"120\" stroke=\"currentColor\" stroke-width=\"2.5\"/></svg>",
+          "options": [
+            "8",
+            "9",
+            "11",
+            "10",
+            "12"
+          ],
+          "correctIndex": 2,
+          "explanation": "Persegi 1×1 ada 2 × 4 = 8 dan persegi 2×2 ada 1 × 3 = 3. Total 8 + 3 = 11. (Persegi panjang yang bukan persegi tidak dihitung.)"
+        },
+        {
+          "type": "IMAGE",
+          "prompt": "Berapa banyak persegi panjang (termasuk persegi) dari semua ukuran pada kisi 3 × 3 berikut?",
+          "imageSvg": "<svg viewBox=\"0 0 200 200\" xmlns=\"http://www.w3.org/2000/svg\" role=\"img\" aria-label=\"Kisi 3 baris kali 3 kolom\" style=\"max-width:260px;margin:auto\"><line x1=\"10\" y1=\"10\" x2=\"190\" y2=\"10\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"10\" y1=\"70\" x2=\"190\" y2=\"70\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"10\" y1=\"130\" x2=\"190\" y2=\"130\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"10\" y1=\"190\" x2=\"190\" y2=\"190\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"10\" y1=\"10\" x2=\"10\" y2=\"190\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"70\" y1=\"10\" x2=\"70\" y2=\"190\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"130\" y1=\"10\" x2=\"130\" y2=\"190\" stroke=\"currentColor\" stroke-width=\"2.5\"/><line x1=\"190\" y1=\"10\" x2=\"190\" y2=\"190\" stroke=\"currentColor\" stroke-width=\"2.5\"/></svg>",
+          "options": [
+            "24",
+            "36",
+            "27",
+            "30",
+            "42"
+          ],
+          "correctIndex": 1,
+          "explanation": "Persegi panjang ditentukan oleh 2 dari 4 garis datar (6 cara) dan 2 dari 4 garis tegak (6 cara), sehingga 6 × 6 = 36."
+        }
+      ]
+    }
+  ]
+}

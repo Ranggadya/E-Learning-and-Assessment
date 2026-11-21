@@ -9,13 +9,7 @@ import {
   IconUpload,
 } from "@/components/ui/Icons";
 import type { ImportSummary } from "@/lib/pack-import";
-
-const ITEM_UNIT: Record<string, string> = {
-  QUIZ: "soal",
-  PERSONALITY: "pernyataan",
-  PAULI: "kolom",
-  DRAWING: "tugas gambar",
-};
+import { SUBTEST_UNIT } from "@/lib/types";
 
 type Stage = "idle" | "checking" | "previewed" | "importing" | "done";
 
@@ -132,13 +126,12 @@ export function PackImporter() {
           return (
             <li
               key={item.step}
-              className={`flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-center transition ${
-                isCurrent
-                  ? "bg-brand-soft font-semibold text-brand-text"
-                  : isDone
-                    ? "text-emerald-700 dark:text-emerald-300"
-                    : "text-ink-muted"
-              }`}
+              className={`flex items-center justify-center gap-1.5 rounded-lg px-3 py-2 text-center transition ${isCurrent
+                ? "bg-brand-soft font-semibold text-brand-text"
+                : isDone
+                  ? "text-emerald-700 dark:text-emerald-300"
+                  : "text-ink-muted"
+                }`}
             >
               {isDone ? <IconCheckCircle className="h-3.5 w-3.5 shrink-0" /> : null}
               <span>{item.label}</span>
@@ -156,11 +149,10 @@ export function PackImporter() {
           }}
           onDragLeave={() => setIsDragging(false)}
           onDrop={handleDrop}
-          className={`flex flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-8 text-center transition ${
-            isDragging
-              ? "border-brand bg-brand-soft/60"
-              : "border-line-strong bg-canvas/60 hover:border-brand/60"
-          }`}
+          className={`flex flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-8 text-center transition ${isDragging
+            ? "border-brand bg-brand-soft/60"
+            : "border-line-strong bg-canvas/60 hover:border-brand/60"
+            }`}
         >
           <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-surface text-brand-text shadow-xs border border-line">
             <IconUpload className="h-5 w-5" />
@@ -308,15 +300,14 @@ export function PackImporter() {
                     <div>
                       <span className="font-medium text-ink">{subtest.name}</span>
                       <span className="ml-2 text-xs text-ink-muted tabular-nums">
-                        {subtest.questionCount} {ITEM_UNIT[subtest.kind] ?? "soal"} · {Math.max(1, Math.round(subtest.durationSeconds / 60))} menit
+                        {subtest.questionCount} {SUBTEST_UNIT[subtest.kind] ?? "soal"} · {Math.max(1, Math.round(subtest.durationSeconds / 60))} menit
                       </span>
                     </div>
                     <span
-                      className={`rounded-md px-2 py-0.5 text-xs font-semibold ${
-                        summary.mode === "pembahasan" || subtest.status === "baru"
-                          ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
-                          : "bg-amber-50 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300"
-                      }`}
+                      className={`rounded-md px-2 py-0.5 text-xs font-semibold ${summary.mode === "pembahasan" || subtest.status === "baru"
+                        ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
+                        : "bg-amber-50 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300"
+                        }`}
                     >
                       {summary.mode === "pembahasan"
                         ? "Pembahasan diperbarui"

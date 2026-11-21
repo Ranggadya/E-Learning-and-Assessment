@@ -1,18 +1,27 @@
 import { databasePool } from "./db";
-import type {
-  AdminCompany,
-  AttemptResult,
-  Company,
-  DashboardCompany,
-  PublicQuestion,
-  QuestionOption,
-  QuestionType,
-  ReviewItem,
-  Subtest,
-  SubtestKind,
-  SubtestLocation,
-  SubmitAttemptInput,
-  TestPackage,
+import {
+  countSubtestItems,
+  scorePersonality,
+  type AdminCompany,
+  type AttemptResult,
+  type Company,
+  type DashboardCompany,
+  type DrawingConfig,
+  type DrawingResult,
+  type NonQuizResult,
+  type PauliConfig,
+  type PauliResult,
+  type PersonalityConfig,
+  type PublicQuestion,
+  type QuestionOption,
+  type QuestionType,
+  type ReviewItem,
+  type Subtest,
+  type SubtestKind,
+  type SubtestLocation,
+  type SubmitAttemptInput,
+  type SubmitNonQuizInput,
+  type TestPackage,
 } from "./types";
 
 const OPTION_KEYS = ["A", "B", "C", "D", "E"];
@@ -126,14 +135,15 @@ export async function getDashboardCatalog(): Promise<DashboardCompany[]> {
       company.packages.push(testPackage);
     }
     if (row.subtest_id !== null && row.subtest_slug !== null && row.subtest_name !== null) {
+      const kind = (row.subtest_kind as SubtestKind) ?? "QUIZ";
       testPackage.subtests.push({
         id: row.subtest_id,
         slug: row.subtest_slug,
         name: row.subtest_name,
         durationSeconds: row.duration_seconds ?? 0,
-        questionCount: Number(row.question_count ?? 0),
+        questionCount: countSubtestItems(kind, Number(row.question_count ?? 0), row.subtest_config),
         questionTypes: normalizeQuestionTypes(row.question_types),
-        kind: (row.subtest_kind as SubtestKind) ?? "QUIZ",
+        kind,
         config: row.subtest_config ?? null,
       });
     }
@@ -201,6 +211,7 @@ interface SubtestRow {
 }
 
 function mapSubtest(row: SubtestRow): Subtest {
+  const kind = (row.kind as SubtestKind) ?? "QUIZ";
   return {
     id: row.id,
     testPackageId: row.test_package_id,
@@ -209,9 +220,9 @@ function mapSubtest(row: SubtestRow): Subtest {
     description: row.description,
     durationSeconds: row.duration_seconds,
     orderIndex: row.order_index,
-    questionCount: Number(row.question_count),
+    questionCount: countSubtestItems(kind, Number(row.question_count), row.config),
     questionTypes: normalizeQuestionTypes(row.question_types),
-    kind: (row.kind as SubtestKind) ?? "QUIZ",
+    kind,
     config: row.config ?? null,
   };
 }
@@ -326,16 +337,26 @@ export async function submitAttempt(input: SubmitAttemptInput): Promise<number> 
     const attemptId = attemptResult.rows[0].id;
 
     let score = 0;
+    const questionIds: number[] = [];
+    const selectedOptions: (string | null)[] = [];
+    const isCorrectFlags: boolean[] = [];
+
     for (const [questionId, correctOption] of correctOptionByQuestionId) {
       const selectedOption = selectedByQuestionId.get(questionId) ?? null;
       const isCorrect = selectedOption !== null && selectedOption === correctOption;
       if (isCorrect) {
         score += 1;
       }
+      questionIds.push(questionId);
+      selectedOptions.push(selectedOption);
+      isCorrectFlags.push(isCorrect);
+    }
+
+    if (questionIds.length > 0) {
       await client.query(
         `INSERT INTO answers (attempt_id, question_id, selected_option, is_correct)
-         VALUES ($1, $2, $3, $4)`,
-        [attemptId, questionId, selectedOption, isCorrect],
+         SELECT $1, * FROM UNNEST($2::int[], $3::text[], $4::bool[])`,
+        [attemptId, questionIds, selectedOptions, isCorrectFlags],
       );
     }
 
@@ -348,6 +369,68 @@ export async function submitAttempt(input: SubmitAttemptInput): Promise<number> 
   } finally {
     client.release();
   }
+}
+
+export async function submitNonQuizAttempt(input: SubmitNonQuizInput): Promise<number | null> {
+  const subtestResult = await databasePool.query<{ kind: SubtestKind; config: unknown }>(
+    "SELECT kind, config FROM subtests WHERE id = $1",
+    [input.subtestId],
+  );
+  const subtestRow = subtestResult.rows[0];
+  if (!subtestRow || subtestRow.kind !== input.kind) {
+    return null;
+  }
+
+  let score = 0;
+  let totalQuestions = 0;
+  let resultPayload: NonQuizResult;
+
+  if (input.kind === "PERSONALITY") {
+    const scored = scorePersonality(subtestRow.config as PersonalityConfig, input.ratings);
+    score = scored.answered;
+    totalQuestions = scored.total;
+    resultPayload = scored;
+  } else if (input.kind === "PAULI") {
+    const config = subtestRow.config as PauliConfig;
+    const maxCols = typeof config?.columns === "number" ? config.columns : 10;
+    const maxPairs = typeof config?.digitsPerColumn === "number" ? Math.max(1, config.digitsPerColumn - 1) : 100;
+    const perColumn = input.perColumn.slice(0, maxCols).map((col, idx) => {
+      const answered = Math.min(col.answered, maxPairs);
+      const correct = Math.min(col.correct, answered);
+      return { column: idx + 1, answered, correct };
+    });
+    const totalAnswered = perColumn.reduce((acc, col) => acc + col.answered, 0);
+    const totalCorrect = perColumn.reduce((acc, col) => acc + col.correct, 0);
+    const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
+    score = totalCorrect;
+    totalQuestions = totalAnswered;
+    resultPayload = {
+      kind: "PAULI",
+      totalAnswered,
+      totalCorrect,
+      accuracy,
+      perColumn,
+    } satisfies PauliResult;
+  } else {
+    const config = subtestRow.config as DrawingConfig;
+    const tasks = Array.isArray(config?.tasks) ? config.tasks : [];
+    const drawings = input.drawings.slice(0, tasks.length);
+    const completed = drawings.filter((d) => d.dataUrl.startsWith("data:image/png;base64,")).length;
+    score = completed;
+    totalQuestions = tasks.length;
+    resultPayload = {
+      kind: "DRAWING",
+      drawings,
+      reflection: Array.isArray(config?.reflection) ? config.reflection : [],
+    } satisfies DrawingResult;
+  }
+
+  const inserted = await databasePool.query<{ id: number }>(
+    `INSERT INTO attempts (subtest_id, score, total_questions, finished_at, result)
+     VALUES ($1, $2, $3, now(), $4::jsonb) RETURNING id`,
+    [input.subtestId, score, totalQuestions, JSON.stringify(resultPayload)],
+  );
+  return inserted.rows[0].id;
 }
 
 interface ReviewRow {
@@ -372,14 +455,16 @@ export async function getAttemptResult(attemptId: number): Promise<AttemptResult
     score: number | null;
     total_questions: number | null;
     finished_at: Date | string | null;
+    result: NonQuizResult | null;
     subtest_name: string;
+    subtest_kind: SubtestKind | null;
     package_slug: string;
     package_name: string;
     company_slug: string;
     company_name: string;
   }>(
-    `SELECT a.id, a.subtest_id, a.score, a.total_questions, a.finished_at,
-            s.name AS subtest_name,
+    `SELECT a.id, a.subtest_id, a.score, a.total_questions, a.finished_at, a.result,
+            s.name AS subtest_name, s.kind AS subtest_kind,
             p.slug AS package_slug, p.name AS package_name,
             c.slug AS company_slug, c.name AS company_name
      FROM attempts a
@@ -431,6 +516,7 @@ export async function getAttemptResult(attemptId: number): Promise<AttemptResult
     attemptId: attemptRow.id,
     subtestId: attemptRow.subtest_id,
     subtestName: attemptRow.subtest_name,
+    subtestKind: attemptRow.subtest_kind ?? "QUIZ",
     companySlug: attemptRow.company_slug,
     companyName: attemptRow.company_name,
     packageSlug: attemptRow.package_slug,
@@ -439,6 +525,7 @@ export async function getAttemptResult(attemptId: number): Promise<AttemptResult
     totalQuestions: attemptRow.total_questions ?? 0,
     finishedAt,
     reviewItems,
+    result: attemptRow.result ?? null,
   };
 }
 
@@ -492,13 +579,14 @@ export async function getAdminOverview(): Promise<AdminCompany[]> {
       company.packages.push(testPackage);
     }
     if (row.subtest_id !== null && row.subtest_slug !== null && row.subtest_name !== null) {
+      const kind = (row.subtest_kind as SubtestKind) ?? "QUIZ";
       testPackage.subtests.push({
         id: row.subtest_id,
         slug: row.subtest_slug,
         name: row.subtest_name,
         durationSeconds: row.duration_seconds ?? 0,
-        questionCount: Number(row.question_count ?? 0),
-        kind: (row.subtest_kind as SubtestKind) ?? "QUIZ",
+        questionCount: countSubtestItems(kind, Number(row.question_count ?? 0), row.subtest_config),
+        kind,
         config: row.subtest_config ?? null,
       });
     }
@@ -622,22 +710,22 @@ export async function exportPack(packageId: number): Promise<ExportedPack | null
       ...(subtestRow.config ? { config: subtestRow.config } : {}),
       ...(questionResult.rows.length > 0
         ? {
-            questions: questionResult.rows.map(function mapExportedQuestion(row) {
-              return {
-                type: row.type,
-                prompt: row.prompt,
-                ...(row.image_svg ? { imageSvg: row.image_svg } : {}),
-                options: row.options.map(function toLabel(option) {
-                  return option.label;
-                }),
-                correctIndex: OPTION_KEYS.indexOf(row.correct_option),
-                explanation: row.explanation ?? "",
-                ...(row.steps ? { steps: row.steps } : {}),
-                ...(row.wrong_notes ? { wrongNotes: row.wrong_notes } : {}),
-                ...(row.quick_tip ? { quickTip: row.quick_tip } : {}),
-              };
-            }),
-          }
+          questions: questionResult.rows.map(function mapExportedQuestion(row) {
+            return {
+              type: row.type,
+              prompt: row.prompt,
+              ...(row.image_svg ? { imageSvg: row.image_svg } : {}),
+              options: row.options.map(function toLabel(option) {
+                return option.label;
+              }),
+              correctIndex: OPTION_KEYS.indexOf(row.correct_option),
+              explanation: row.explanation ?? "",
+              ...(row.steps ? { steps: row.steps } : {}),
+              ...(row.wrong_notes ? { wrongNotes: row.wrong_notes } : {}),
+              ...(row.quick_tip ? { quickTip: row.quick_tip } : {}),
+            };
+          }),
+        }
         : {}),
     });
   }

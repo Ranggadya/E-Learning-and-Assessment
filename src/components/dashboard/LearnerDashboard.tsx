@@ -92,11 +92,13 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
       for (const pkg of company.packages) {
         totalSubtests += pkg.subtests.length;
         for (const subtest of pkg.subtests) {
-          totalQuestions += subtest.questionCount;
+          if (subtest.kind === "QUIZ") {
+            totalQuestions += subtest.questionCount;
+          }
           const record = progress.bySubtestId[String(subtest.id)];
           if (record) {
             completedSubtests += 1;
-            if (record.totalQuestions > 0) {
+            if (subtest.kind === "QUIZ" && record.totalQuestions > 0) {
               scoreRatioSum += record.lastScore / record.totalQuestions;
               scoreRatioCount += 1;
             }
@@ -293,7 +295,10 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
                       <ul className="divide-y divide-line">
                         {company.packages.map((pkg) => {
                           const totalSub = pkg.subtests.length;
-                          const totalQ = pkg.subtests.reduce((acc, s) => acc + s.questionCount, 0);
+                          const totalQ = pkg.subtests.reduce(
+                            (acc, s) => acc + (s.kind === "QUIZ" ? s.questionCount : 0),
+                            0,
+                          );
                           const totalMinutes = Math.max(
                             1,
                             Math.round(pkg.subtests.reduce((acc, s) => acc + s.durationSeconds, 0) / 60),

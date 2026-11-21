@@ -18,7 +18,8 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
     0,
   );
   const totalQuestions = company.packages.reduce(
-    (acc, pkg) => acc + pkg.subtests.reduce((subAcc, s) => subAcc + s.questionCount, 0),
+    (acc, pkg) =>
+      acc + pkg.subtests.reduce((subAcc, s) => subAcc + (s.kind === "QUIZ" ? s.questionCount : 0), 0),
     0,
   );
 
@@ -67,7 +68,10 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
           <ul className="divide-y divide-line">
             {company.packages.map((pkg) => {
               const subtestCount = pkg.subtests.length;
-              const questionCount = pkg.subtests.reduce((acc, s) => acc + s.questionCount, 0);
+              const questionCount = pkg.subtests.reduce(
+                (acc, s) => acc + (s.kind === "QUIZ" ? s.questionCount : 0),
+                0,
+              );
               const totalMinutes = Math.max(
                 1,
                 Math.round(pkg.subtests.reduce((acc, s) => acc + s.durationSeconds, 0) / 60),

@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/Icons";
 import { QuestionTypeBadge } from "@/components/ui/QuestionTypeBadge";
 import { useLocalProgress } from "@/lib/local-progress";
-import type { Company, Subtest, TestPackage } from "@/lib/types";
+import { SUBTEST_KIND_LABEL, SUBTEST_UNIT, type Company, type Subtest, type TestPackage } from "@/lib/types";
 
 interface PackageSubtestsViewProps {
   company: Company;
@@ -123,15 +123,21 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
                       <div className="min-w-0">
                         <div className="flex flex-wrap items-center gap-2">
                           <h3 className="text-base font-semibold text-ink">{subtest.name}</h3>
-                          {displayTypes.map((type) => (
-                            <QuestionTypeBadge key={type} type={type} />
-                          ))}
+                          {subtest.kind !== "QUIZ" ? (
+                            <span className="inline-flex items-center rounded-md border border-brand/30 bg-brand-soft px-2 py-0.5 text-[11px] font-semibold text-brand-text">
+                              {SUBTEST_KIND_LABEL[subtest.kind]}
+                            </span>
+                          ) : (
+                            displayTypes.map((type) => <QuestionTypeBadge key={type} type={type} />)
+                          )}
                         </div>
                         {subtest.description ? (
                           <p className="mt-1 max-w-[60ch] text-sm text-ink-secondary">{subtest.description}</p>
                         ) : null}
                         <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-muted">
-                          <span className="tabular-nums">{subtest.questionCount} soal</span>
+                          <span className="tabular-nums">
+                            {subtest.questionCount} {SUBTEST_UNIT[subtest.kind]}
+                          </span>
                           <span className="inline-flex items-center gap-1 tabular-nums">
                             <IconClock className="h-3.5 w-3.5" />
                             {durationMinutes} menit

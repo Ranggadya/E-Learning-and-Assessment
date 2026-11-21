@@ -1,6 +1,6 @@
 import { databasePool } from "./db";
 import type { PackFile } from "./pack-schema";
-import type { SubtestKind } from "./types";
+import { countSubtestItems, resolveSubtestDuration, type SubtestKind } from "./types";
 
 const OPTION_KEYS = ["A", "B", "C", "D", "E"];
 
@@ -68,16 +68,7 @@ export async function importPack(pack: PackFile, options: { dryRun: boolean }): 
 
     for (const subtest of pack.subtests) {
       const kind: SubtestKind = subtest.kind ?? "QUIZ";
-      let durationSeconds = subtest.durationSeconds ?? 0;
-      if (!durationSeconds || durationSeconds <= 0) {
-        if (kind === "PAULI" && typeof subtest.config === "object" && subtest.config !== null) {
-          const c = subtest.config as { columns?: number; secondsPerColumn?: number };
-          durationSeconds = (c.columns ?? 10) * (c.secondsPerColumn ?? 30);
-        } else if (kind === "DRAWING" && typeof subtest.config === "object" && subtest.config !== null) {
-          const c = subtest.config as { tasks?: Array<{ seconds?: number }> };
-          durationSeconds = Array.isArray(c.tasks) ? c.tasks.reduce((sum, t) => sum + (t.seconds || 0), 0) : 300;
-        }
-      }
+      const durationSeconds = resolveSubtestDuration(kind, subtest.durationSeconds, subtest.config);
       const configJson = subtest.config ? JSON.stringify(subtest.config) : null;
 
       const existingSubtest = await client.query<{ id: number; order_index: number }>(
@@ -131,17 +122,7 @@ export async function importPack(pack: PackFile, options: { dryRun: boolean }): 
         );
       }
 
-      let itemCount = questions.length;
-      if (kind === "PERSONALITY" && typeof subtest.config === "object" && subtest.config !== null) {
-        const c = subtest.config as { statements?: unknown[] };
-        itemCount = Array.isArray(c.statements) ? c.statements.length : 0;
-      } else if (kind === "PAULI" && typeof subtest.config === "object" && subtest.config !== null) {
-        const c = subtest.config as { columns?: number };
-        itemCount = typeof c.columns === "number" ? c.columns : 0;
-      } else if (kind === "DRAWING" && typeof subtest.config === "object" && subtest.config !== null) {
-        const c = subtest.config as { tasks?: unknown[] };
-        itemCount = Array.isArray(c.tasks) ? c.tasks.length : 0;
-      }
+      const itemCount = countSubtestItems(kind, questions.length, subtest.config);
 
       totalQuestions += itemCount;
       subtestSummaries.push({

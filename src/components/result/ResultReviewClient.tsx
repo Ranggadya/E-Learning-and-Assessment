@@ -78,6 +78,169 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
   const accuracy =
     result.totalQuestions > 0 ? Math.round((result.score / result.totalQuestions) * 100) : 0;
 
+  if (result.subtestKind !== "QUIZ" && result.result) {
+    const nonQuiz = result.result;
+    return (
+      <div className="space-y-6">
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-sm text-ink-muted">
+          <Link href="/" className="transition hover:text-ink">
+            Dashboard
+          </Link>
+          <IconChevronRight className="h-3.5 w-3.5" />
+          <Link href={`/c/${result.companySlug}`} className="transition hover:text-ink">
+            {result.companyName}
+          </Link>
+          <IconChevronRight className="h-3.5 w-3.5" />
+          <Link href={`/c/${result.companySlug}/${result.packageSlug}`} className="transition hover:text-ink">
+            {result.packageName}
+          </Link>
+          <IconChevronRight className="h-3.5 w-3.5" />
+          <span className="font-medium text-ink">Hasil</span>
+        </nav>
+
+        <section className="overflow-hidden rounded-xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h1 className="text-2xl font-bold tracking-tight text-ink">Hasil: {result.subtestName}</h1>
+              <p className="mt-1 text-sm text-ink-secondary">
+                {result.companyName} · {result.packageName}
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2.5">
+              <Link
+                href={`/c/${result.companySlug}/${result.packageSlug}`}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
+              >
+                <IconArrowLeft className="h-4 w-4" />
+                <span>Kembali ke Subtes</span>
+              </Link>
+              <Link
+                href={`/test/${result.subtestId}`}
+                className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
+              >
+                <IconRotateCcw className="h-4 w-4" />
+                <span>Ulangi Subtes</span>
+              </Link>
+            </div>
+          </div>
+        </section>
+
+        {nonQuiz.kind === "PERSONALITY" ? (
+          <section className="space-y-4">
+            <p className="text-sm text-ink-secondary">
+              Terjawab <strong className="text-ink tabular-nums">{nonQuiz.answered}/{nonQuiz.total}</strong> pernyataan.
+              Hasil ini adalah gambaran kecenderungan sikap kerja, bukan nilai benar atau salah.
+            </p>
+            <div className="grid gap-4 md:grid-cols-2">
+              {nonQuiz.traits.map((trait) => (
+                <div
+                  key={trait.key}
+                  className="rounded-xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <h2 className="text-base font-semibold text-ink">{trait.name}</h2>
+                    <span className="shrink-0 rounded-md bg-brand-soft px-2 py-0.5 font-mono text-xs font-semibold tabular-nums text-brand-text">
+                      {trait.level} ({trait.percent}%)
+                    </span>
+                  </div>
+                  <p className="mt-1 text-xs text-ink-muted">{trait.description}</p>
+                  <div className="mt-3 h-2 w-full overflow-hidden rounded-full bg-subtle">
+                    <div className="h-full rounded-full bg-brand" style={{ width: `${trait.percent}%` }} />
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-ink-secondary">{trait.meaning}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : nonQuiz.kind === "PAULI" ? (
+          <section className="space-y-4">
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="rounded-xl border border-line bg-surface p-4">
+                <span className="text-xs text-ink-muted">Total Dijawab</span>
+                <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-ink">{nonQuiz.totalAnswered}</p>
+              </div>
+              <div className="rounded-xl border border-line bg-surface p-4">
+                <span className="text-xs text-ink-muted">Jawaban Benar</span>
+                <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
+                  {nonQuiz.totalCorrect}
+                </p>
+              </div>
+              <div className="rounded-xl border border-line bg-surface p-4">
+                <span className="text-xs text-ink-muted">Ketelitian</span>
+                <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-brand-text">{nonQuiz.accuracy}%</p>
+              </div>
+            </div>
+
+            <div className="overflow-hidden rounded-xl border border-line bg-surface">
+              <table className="w-full text-left text-sm">
+                <thead className="border-b border-line bg-subtle/60 text-xs text-ink-muted">
+                  <tr>
+                    <th className="px-4 py-2.5">Kolom</th>
+                    <th className="px-4 py-2.5">Dijawab</th>
+                    <th className="px-4 py-2.5">Benar</th>
+                    <th className="px-4 py-2.5">Akurasi</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line font-mono tabular-nums">
+                  {nonQuiz.perColumn.map((col) => {
+                    const colAcc = col.answered > 0 ? Math.round((col.correct / col.answered) * 100) : 0;
+                    return (
+                      <tr key={col.column}>
+                        <td className="px-4 py-2.5 font-semibold text-ink">Kolom {col.column}</td>
+                        <td className="px-4 py-2.5 text-ink-secondary">{col.answered}</td>
+                        <td className="px-4 py-2.5 text-emerald-700 dark:text-emerald-300">{col.correct}</td>
+                        <td className="px-4 py-2.5 text-ink-secondary">{colAcc}%</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </section>
+        ) : (
+          <section className="space-y-6">
+            <div className="grid gap-4 md:grid-cols-3">
+              {nonQuiz.drawings.map((item) => (
+                <div key={item.key} className="overflow-hidden rounded-xl border border-line bg-surface p-4">
+                  <h2 className="text-sm font-semibold text-ink">{item.title}</h2>
+                  <p className="mt-0.5 text-xs text-ink-muted">{item.instruction}</p>
+                  {item.dataUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={item.dataUrl}
+                      alt={item.title}
+                      className="mt-3 w-full rounded-lg border border-line bg-white"
+                    />
+                  ) : (
+                    <div className="mt-3 rounded-lg border border-dashed border-line p-6 text-center text-xs text-ink-muted">
+                      Tidak ada gambar
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+
+            {nonQuiz.reflection.length > 0 ? (
+              <div className="rounded-xl border border-line bg-surface p-5">
+                <h2 className="text-base font-semibold text-ink">Daftar Refleksi Mandiri</h2>
+                <ul className="mt-3 space-y-2 text-sm text-ink-secondary">
+                  {nonQuiz.reflection.map((item, idx) => (
+                    <li key={idx}>
+                      <label className="flex cursor-pointer items-start gap-2.5">
+                        <input type="checkbox" className="mt-1 h-4 w-4 rounded border-line-strong accent-brand" />
+                        <span>{item}</span>
+                      </label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </section>
+        )}
+      </div>
+    );
+  }
+
   const filterTabs: { id: ReviewFilter; label: string; count: number }[] = [
     { id: "all", label: "Semua", count: counts.all },
     { id: "wrong", label: "Salah", count: counts.wrong },
@@ -181,11 +344,10 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                     type="button"
                     onClick={() => setFilter(tab.id)}
                     aria-pressed={isActive}
-                    className={`rounded-md px-3 py-1 text-xs font-semibold transition ${
-                      isActive
-                        ? "bg-brand text-white"
-                        : "text-ink-secondary hover:bg-subtle hover:text-ink"
-                    }`}
+                    className={`rounded-md px-3 py-1 text-xs font-semibold transition ${isActive
+                      ? "bg-brand text-white"
+                      : "text-ink-secondary hover:bg-subtle hover:text-ink"
+                      }`}
                   >
                     {tab.label} <span className="font-mono tabular-nums opacity-80">({tab.count})</span>
                   </button>
@@ -249,13 +411,12 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                     <div className="rounded-lg border border-line bg-canvas px-3.5 py-2.5 text-sm">
                       <span className="block text-xs font-medium text-ink-muted">Jawabanmu</span>
                       <span
-                        className={`mt-0.5 block font-semibold ${
-                          item.isCorrect
-                            ? "text-emerald-700 dark:text-emerald-300"
-                            : isBlank
-                              ? "text-ink-muted"
-                              : "text-red-700 dark:text-red-300"
-                        }`}
+                        className={`mt-0.5 block font-semibold ${item.isCorrect
+                          ? "text-emerald-700 dark:text-emerald-300"
+                          : isBlank
+                            ? "text-ink-muted"
+                            : "text-red-700 dark:text-red-300"
+                          }`}
                       >
                         {selectedOption ? `${selectedOption.key}. ${selectedOption.label}` : "Tidak dijawab"}
                       </span>
@@ -290,9 +451,9 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                   ) : null}
 
                   {item.wrongNotes &&
-                  item.wrongNotes.some(
-                    (note, noteIndex) => note.trim() !== "" && item.options[noteIndex]?.key !== item.correctOption,
-                  ) ? (
+                    item.wrongNotes.some(
+                      (note, noteIndex) => note.trim() !== "" && item.options[noteIndex]?.key !== item.correctOption,
+                    ) ? (
                     <div className="mt-3 text-sm">
                       <p className="font-semibold text-ink">Kenapa opsi lain kurang tepat</p>
                       <ul className="mt-1 space-y-1 text-ink-secondary">

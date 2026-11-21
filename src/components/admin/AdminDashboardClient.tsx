@@ -10,7 +10,7 @@ import {
   IconSearch,
   IconUpload,
 } from "@/components/ui/Icons";
-import type { AdminCompany } from "@/lib/types";
+import { SUBTEST_UNIT, type AdminCompany } from "@/lib/types";
 
 interface AdminDashboardClientProps {
   companies: AdminCompany[];
@@ -244,7 +244,7 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
                               <span className="font-medium text-ink">{subtest.name}</span>
                               <code className="font-mono text-xs text-ink-muted">{subtest.slug}</code>
                               <span className="text-xs text-ink-muted tabular-nums">
-                                · {subtest.questionCount} soal · {Math.max(1, Math.round(subtest.durationSeconds / 60))} menit
+                                · {subtest.questionCount} {SUBTEST_UNIT[subtest.kind ?? "QUIZ"]} · {Math.max(1, Math.round(subtest.durationSeconds / 60))} menit
                               </span>
                             </div>
                             <DeleteButton

@@ -1,6 +1,10 @@
 import { notFound } from "next/navigation";
+import { DrawingRunner } from "@/components/DrawingRunner";
+import { PauliRunner } from "@/components/PauliRunner";
+import { PersonalityRunner } from "@/components/PersonalityRunner";
 import { TestRunner } from "@/components/TestRunner";
 import { getPublicQuestions, getSubtestById } from "@/lib/queries";
+import type { DrawingConfig, PauliConfig, PersonalityConfig } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
@@ -19,6 +23,48 @@ export default async function TestPage({ params }: TestPageProps) {
   if (!subtest) {
     notFound();
   }
+  const backHref = `/c/${subtest.companySlug}/${subtest.packageSlug}`;
+
+  if (subtest.kind === "PERSONALITY" && subtest.config) {
+    return (
+      <PersonalityRunner
+        subtestId={subtest.id}
+        subtestName={subtest.name}
+        companyName={subtest.companyName}
+        packageName={subtest.packageName}
+        backHref={backHref}
+        durationSeconds={subtest.durationSeconds}
+        config={subtest.config as PersonalityConfig}
+      />
+    );
+  }
+
+  if (subtest.kind === "PAULI" && subtest.config) {
+    return (
+      <PauliRunner
+        subtestId={subtest.id}
+        subtestName={subtest.name}
+        companyName={subtest.companyName}
+        packageName={subtest.packageName}
+        backHref={backHref}
+        config={subtest.config as PauliConfig}
+      />
+    );
+  }
+
+  if (subtest.kind === "DRAWING" && subtest.config) {
+    return (
+      <DrawingRunner
+        subtestId={subtest.id}
+        subtestName={subtest.name}
+        companyName={subtest.companyName}
+        packageName={subtest.packageName}
+        backHref={backHref}
+        config={subtest.config as DrawingConfig}
+      />
+    );
+  }
+
   const questions = await getPublicQuestions(subtestId);
 
   return (
@@ -27,7 +73,7 @@ export default async function TestPage({ params }: TestPageProps) {
       subtestName={subtest.name}
       companyName={subtest.companyName}
       packageName={subtest.packageName}
-      backHref={`/c/${subtest.companySlug}/${subtest.packageSlug}`}
+      backHref={backHref}
       durationSeconds={subtest.durationSeconds}
       questions={questions}
     />

@@ -37,8 +37,9 @@ const VALID_TYPES: QuestionType[] = ["TEXT", "IMAGE", "MEMORY", "SPEED"];
 const VALID_KINDS: SubtestKind[] = ["QUIZ", "PERSONALITY", "PAULI", "DRAWING"];
 const MAX_OPTIONS = 5;
 const MAX_ERRORS = 30;
-// SVG ditampilkan langsung di halaman, jadi tolak elemen dan atribut yang bisa menjalankan kode.
-const UNSAFE_SVG_PATTERN = /<script|<foreignObject|<iframe|<embed|<object|\son[a-z]+\s*=|javascript:|data:text\/html/i;
+// SVG ditampilkan langsung di halaman, jadi tolak elemen, link, entity, dan atribut yang bisa menjalankan kode.
+const UNSAFE_SVG_PATTERN =
+  /<script|<foreignObject|<iframe|<embed|<object|<a[\s>]|&#|&colon;|\son[a-z]+\s*=|javascript:|data:text\/html/i;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -223,8 +224,8 @@ export function validatePack(input: unknown): PackValidation {
           if (!Number.isInteger(config.columns) || (config.columns as number) <= 0) {
             errors.push(`${label}.config.columns: harus bilangan bulat positif`);
           }
-          if (!Number.isInteger(config.digitsPerColumn) || (config.digitsPerColumn as number) <= 0) {
-            errors.push(`${label}.config.digitsPerColumn: harus bilangan bulat positif`);
+          if (!Number.isInteger(config.digitsPerColumn) || (config.digitsPerColumn as number) < 2) {
+            errors.push(`${label}.config.digitsPerColumn: harus bilangan bulat minimal 2`);
           }
           if (!Number.isInteger(config.secondsPerColumn) || (config.secondsPerColumn as number) <= 0) {
             errors.push(`${label}.config.secondsPerColumn: harus bilangan bulat positif`);

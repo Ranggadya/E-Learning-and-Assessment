@@ -18,6 +18,10 @@ const TEMPLATE = {
           options: ["4", "5", "6", "7", "8"],
           correctIndex: 1,
           explanation: "2 + 3 = 5.",
+          // Opsional: pembahasan lengkap. wrongNotes sejajar dengan options (kosongkan untuk jawaban benar).
+          steps: ["Jumlahkan 2 dan 3.", "Hasilnya 5, yaitu opsi B."],
+          wrongNotes: ["Kurang 1 dari hasil.", "", "Lebih 1 dari hasil.", "Itu 2 + 5.", "Itu 3 + 5."],
+          quickTip: "Untuk penjumlahan kecil, cek dulu opsi yang paling dekat hasilnya.",
         },
         {
           type: "IMAGE",

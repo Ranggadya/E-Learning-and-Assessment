@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin-auth";
+import { ExplanationImportError, importExplanations, isExplanationPack, validateExplanationPack } from "@/lib/explanation-pack";
 import { importPack } from "@/lib/pack-import";
 import { validatePack } from "@/lib/pack-schema";
 
@@ -25,12 +26,31 @@ export async function POST(request: Request) {
     return NextResponse.json({ errors: [`Bukan JSON yang valid: ${reason}`] }, { status: 400 });
   }
 
+  const dryRun = new URL(request.url).searchParams.get("dryRun") === "1";
+
+  // File pembahasan saja (pembahasanSaja: true) hanya memperbarui pembahasan soal yang sudah ada.
+  if (isExplanationPack(parsed)) {
+    const explanationValidation = validateExplanationPack(parsed);
+    if (!explanationValidation.ok) {
+      return NextResponse.json({ errors: explanationValidation.errors }, { status: 400 });
+    }
+    try {
+      const summary = await importExplanations(explanationValidation.pack, { dryRun });
+      return NextResponse.json({ summary });
+    } catch (error) {
+      if (error instanceof ExplanationImportError) {
+        return NextResponse.json({ errors: error.problems }, { status: 400 });
+      }
+      console.error("Impor pembahasan gagal", error);
+      return NextResponse.json({ errors: ["Impor gagal di database. Tidak ada data yang berubah."] }, { status: 500 });
+    }
+  }
+
   const validation = validatePack(parsed);
   if (!validation.ok) {
     return NextResponse.json({ errors: validation.errors }, { status: 400 });
   }
 
-  const dryRun = new URL(request.url).searchParams.get("dryRun") === "1";
   try {
     const summary = await importPack(validation.pack, { dryRun });
     return NextResponse.json({ summary });

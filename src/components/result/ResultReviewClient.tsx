@@ -277,6 +277,45 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                       <span className="whitespace-pre-line">{item.explanation}</span>
                     </div>
                   ) : null}
+
+                  {item.steps && item.steps.length > 0 ? (
+                    <div className="mt-3 text-sm">
+                      <p className="font-semibold text-ink">Langkah pengerjaan</p>
+                      <ol className="mt-1 list-decimal space-y-1 pl-5 text-ink-secondary">
+                        {item.steps.map((step, stepIndex) => (
+                          <li key={stepIndex}>{step}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  ) : null}
+
+                  {item.wrongNotes &&
+                  item.wrongNotes.some(
+                    (note, noteIndex) => note.trim() !== "" && item.options[noteIndex]?.key !== item.correctOption,
+                  ) ? (
+                    <div className="mt-3 text-sm">
+                      <p className="font-semibold text-ink">Kenapa opsi lain kurang tepat</p>
+                      <ul className="mt-1 space-y-1 text-ink-secondary">
+                        {item.options.map((option, noteIndex) => {
+                          const note = item.wrongNotes?.[noteIndex] ?? "";
+                          if (note.trim() === "" || option.key === item.correctOption) {
+                            return null;
+                          }
+                          return (
+                            <li key={option.key}>
+                              <strong className="text-ink">{option.key}.</strong> {note}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  ) : null}
+
+                  {item.quickTip ? (
+                    <p className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950/60 dark:text-amber-100">
+                      <strong>Quick tip:</strong> {item.quickTip}
+                    </p>
+                  ) : null}
                 </li>
               );
             })}

@@ -9,6 +9,7 @@ import type {
   QuestionType,
   ReviewItem,
   Subtest,
+  SubtestKind,
   SubtestLocation,
   SubmitAttemptInput,
   TestPackage,
@@ -80,12 +81,15 @@ export async function getDashboardCatalog(): Promise<DashboardCompany[]> {
     subtest_slug: string | null;
     subtest_name: string | null;
     duration_seconds: number | null;
+    subtest_kind: string | null;
+    subtest_config: unknown | null;
     question_count: string | null;
     question_types: string[] | null;
   }>(
     `SELECT c.id AS company_id, c.slug AS company_slug, c.name AS company_name, c.description AS company_description,
             p.id AS package_id, p.slug AS package_slug, p.name AS package_name, p.description AS package_description,
             s.id AS subtest_id, s.slug AS subtest_slug, s.name AS subtest_name, s.duration_seconds,
+            s.kind AS subtest_kind, s.config AS subtest_config,
             (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count,
             (SELECT ARRAY_AGG(DISTINCT q.type) FROM questions q WHERE q.subtest_id = s.id) AS question_types
      FROM companies c
@@ -129,6 +133,8 @@ export async function getDashboardCatalog(): Promise<DashboardCompany[]> {
         durationSeconds: row.duration_seconds ?? 0,
         questionCount: Number(row.question_count ?? 0),
         questionTypes: normalizeQuestionTypes(row.question_types),
+        kind: (row.subtest_kind as SubtestKind) ?? "QUIZ",
+        config: row.subtest_config ?? null,
       });
     }
   }
@@ -190,6 +196,8 @@ interface SubtestRow {
   order_index: number;
   question_count: string;
   question_types: string[] | null;
+  kind?: string | null;
+  config?: unknown | null;
 }
 
 function mapSubtest(row: SubtestRow): Subtest {
@@ -203,13 +211,15 @@ function mapSubtest(row: SubtestRow): Subtest {
     orderIndex: row.order_index,
     questionCount: Number(row.question_count),
     questionTypes: normalizeQuestionTypes(row.question_types),
+    kind: (row.kind as SubtestKind) ?? "QUIZ",
+    config: row.config ?? null,
   };
 }
 
 export async function getSubtestsByPackageId(testPackageId: number): Promise<Subtest[]> {
   const result = await databasePool.query<SubtestRow>(
     `SELECT s.id, s.test_package_id, s.slug, s.name, s.description,
-            s.duration_seconds, s.order_index,
+            s.duration_seconds, s.order_index, s.kind, s.config,
             (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count,
             (SELECT ARRAY_AGG(DISTINCT q.type) FROM questions q WHERE q.subtest_id = s.id) AS question_types
      FROM subtests s WHERE s.test_package_id = $1 ORDER BY s.order_index`,
@@ -228,7 +238,7 @@ export async function getSubtestById(subtestId: number): Promise<SubtestLocation
     }
   >(
     `SELECT s.id, s.test_package_id, s.slug, s.name, s.description,
-            s.duration_seconds, s.order_index,
+            s.duration_seconds, s.order_index, s.kind, s.config,
             (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count,
             (SELECT ARRAY_AGG(DISTINCT q.type) FROM questions q WHERE q.subtest_id = s.id) AS question_types,
             p.slug AS package_slug, p.name AS package_name,
@@ -350,6 +360,9 @@ interface ReviewRow {
   correct_option: string;
   is_correct: boolean;
   explanation: string | null;
+  steps: string[] | null;
+  wrong_notes: string[] | null;
+  quick_tip: string | null;
 }
 
 export async function getAttemptResult(attemptId: number): Promise<AttemptResult | null> {
@@ -383,7 +396,8 @@ export async function getAttemptResult(attemptId: number): Promise<AttemptResult
 
   const reviewResult = await databasePool.query<ReviewRow>(
     `SELECT q.id AS question_id, q.order_index, q.prompt, q.image_svg, q.options,
-            an.selected_option, q.correct_option, an.is_correct, q.explanation
+            an.selected_option, q.correct_option, an.is_correct, q.explanation,
+            q.steps, q.wrong_notes, q.quick_tip
      FROM answers an
      JOIN questions q ON q.id = an.question_id
      WHERE an.attempt_id = $1
@@ -402,6 +416,9 @@ export async function getAttemptResult(attemptId: number): Promise<AttemptResult
       correctOption: row.correct_option,
       isCorrect: row.is_correct,
       explanation: row.explanation,
+      steps: row.steps,
+      wrongNotes: row.wrong_notes,
+      quickTip: row.quick_tip,
     };
   });
 
@@ -439,11 +456,14 @@ export async function getAdminOverview(): Promise<AdminCompany[]> {
     subtest_slug: string | null;
     subtest_name: string | null;
     duration_seconds: number | null;
+    subtest_kind: string | null;
+    subtest_config: unknown | null;
     question_count: string | null;
   }>(
     `SELECT c.id AS company_id, c.slug AS company_slug, c.name AS company_name,
             p.id AS package_id, p.slug AS package_slug, p.name AS package_name,
             s.id AS subtest_id, s.slug AS subtest_slug, s.name AS subtest_name, s.duration_seconds,
+            s.kind AS subtest_kind, s.config AS subtest_config,
             (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count
      FROM companies c
      LEFT JOIN test_packages p ON p.company_id = c.id
@@ -478,6 +498,8 @@ export async function getAdminOverview(): Promise<AdminCompany[]> {
         name: row.subtest_name,
         durationSeconds: row.duration_seconds ?? 0,
         questionCount: Number(row.question_count ?? 0),
+        kind: (row.subtest_kind as SubtestKind) ?? "QUIZ",
+        config: row.subtest_config ?? null,
       });
     }
   }
@@ -524,14 +546,19 @@ export interface ExportedPack {
     slug: string;
     name: string;
     description?: string;
+    kind?: SubtestKind;
+    config?: unknown;
     durationSeconds: number;
-    questions: {
+    questions?: {
       type: QuestionType;
       prompt: string;
       imageSvg?: string;
       options: string[];
       correctIndex: number;
       explanation: string;
+      steps?: string[];
+      wrongNotes?: string[];
+      quickTip?: string;
     }[];
   }[];
 }
@@ -562,8 +589,10 @@ export async function exportPack(packageId: number): Promise<ExportedPack | null
     name: string;
     description: string | null;
     duration_seconds: number;
+    kind: string | null;
+    config: unknown | null;
   }>(
-    "SELECT id, slug, name, description, duration_seconds FROM subtests WHERE test_package_id = $1 ORDER BY order_index",
+    "SELECT id, slug, name, description, duration_seconds, kind, config FROM subtests WHERE test_package_id = $1 ORDER BY order_index",
     [packageId],
   );
 
@@ -576,8 +605,11 @@ export async function exportPack(packageId: number): Promise<ExportedPack | null
       options: QuestionOption[];
       correct_option: string;
       explanation: string | null;
+      steps: string[] | null;
+      wrong_notes: string[] | null;
+      quick_tip: string | null;
     }>(
-      `SELECT type, prompt, image_svg, options, correct_option, explanation
+      `SELECT type, prompt, image_svg, options, correct_option, explanation, steps, wrong_notes, quick_tip
        FROM questions WHERE subtest_id = $1 ORDER BY order_index`,
       [subtestRow.id],
     );
@@ -586,18 +618,27 @@ export async function exportPack(packageId: number): Promise<ExportedPack | null
       name: subtestRow.name,
       ...(subtestRow.description ? { description: subtestRow.description } : {}),
       durationSeconds: subtestRow.duration_seconds,
-      questions: questionResult.rows.map(function mapExportedQuestion(row) {
-        return {
-          type: row.type,
-          prompt: row.prompt,
-          ...(row.image_svg ? { imageSvg: row.image_svg } : {}),
-          options: row.options.map(function toLabel(option) {
-            return option.label;
-          }),
-          correctIndex: OPTION_KEYS.indexOf(row.correct_option),
-          explanation: row.explanation ?? "",
-        };
-      }),
+      ...(subtestRow.kind && subtestRow.kind !== "QUIZ" ? { kind: subtestRow.kind as SubtestKind } : {}),
+      ...(subtestRow.config ? { config: subtestRow.config } : {}),
+      ...(questionResult.rows.length > 0
+        ? {
+            questions: questionResult.rows.map(function mapExportedQuestion(row) {
+              return {
+                type: row.type,
+                prompt: row.prompt,
+                ...(row.image_svg ? { imageSvg: row.image_svg } : {}),
+                options: row.options.map(function toLabel(option) {
+                  return option.label;
+                }),
+                correctIndex: OPTION_KEYS.indexOf(row.correct_option),
+                explanation: row.explanation ?? "",
+                ...(row.steps ? { steps: row.steps } : {}),
+                ...(row.wrong_notes ? { wrongNotes: row.wrong_notes } : {}),
+                ...(row.quick_tip ? { quickTip: row.quick_tip } : {}),
+              };
+            }),
+          }
+        : {}),
     });
   }
 

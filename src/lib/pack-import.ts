@@ -1,11 +1,13 @@
 import { databasePool } from "./db";
 import type { PackFile } from "./pack-schema";
+import type { SubtestKind } from "./types";
 
 const OPTION_KEYS = ["A", "B", "C", "D", "E"];
 
 export interface ImportedSubtestSummary {
   slug: string;
   name: string;
+  kind: SubtestKind;
   questionCount: number;
   durationSeconds: number;
   status: "baru" | "diganti";
@@ -21,6 +23,8 @@ export interface ImportSummary {
   subtests: ImportedSubtestSummary[];
   totalQuestions: number;
   dryRun: boolean;
+  // "pembahasan" = file pembahasan saja: soal dan riwayat tidak disentuh.
+  mode?: "pembahasan";
 }
 
 // Menambah atau memperbarui perusahaan, paket, dan subtes berdasarkan slug. Soal pada subtes yang
@@ -63,6 +67,19 @@ export async function importPack(pack: PackFile, options: { dryRun: boolean }): 
     let totalQuestions = 0;
 
     for (const subtest of pack.subtests) {
+      const kind: SubtestKind = subtest.kind ?? "QUIZ";
+      let durationSeconds = subtest.durationSeconds ?? 0;
+      if (!durationSeconds || durationSeconds <= 0) {
+        if (kind === "PAULI" && typeof subtest.config === "object" && subtest.config !== null) {
+          const c = subtest.config as { columns?: number; secondsPerColumn?: number };
+          durationSeconds = (c.columns ?? 10) * (c.secondsPerColumn ?? 30);
+        } else if (kind === "DRAWING" && typeof subtest.config === "object" && subtest.config !== null) {
+          const c = subtest.config as { tasks?: Array<{ seconds?: number }> };
+          durationSeconds = Array.isArray(c.tasks) ? c.tasks.reduce((sum, t) => sum + (t.seconds || 0), 0) : 300;
+        }
+      }
+      const configJson = subtest.config ? JSON.stringify(subtest.config) : null;
+
       const existingSubtest = await client.query<{ id: number; order_index: number }>(
         "SELECT id, order_index FROM subtests WHERE test_package_id = $1 AND slug = $2",
         [packageId, subtest.slug],
@@ -75,28 +92,29 @@ export async function importPack(pack: PackFile, options: { dryRun: boolean }): 
         const attemptCount = await client.query<{ total: string }>("SELECT COUNT(*) AS total FROM attempts WHERE subtest_id = $1", [subtestId]);
         replacedAttemptCount = Number(attemptCount.rows[0].total);
         await client.query(
-          "UPDATE subtests SET name = $1, description = $2, duration_seconds = $3 WHERE id = $4",
-          [subtest.name, subtest.description ?? null, subtest.durationSeconds, subtestId],
+          "UPDATE subtests SET name = $1, description = $2, duration_seconds = $3, kind = $4, config = $5 WHERE id = $6",
+          [subtest.name, subtest.description ?? null, durationSeconds, kind, configJson, subtestId],
         );
         await client.query("DELETE FROM questions WHERE subtest_id = $1", [subtestId]);
       } else {
         const inserted = await client.query<{ id: number }>(
-          `INSERT INTO subtests (test_package_id, slug, name, description, duration_seconds, order_index)
-           VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`,
-          [packageId, subtest.slug, subtest.name, subtest.description ?? null, subtest.durationSeconds, nextOrderIndex],
+          `INSERT INTO subtests (test_package_id, slug, name, description, duration_seconds, order_index, kind, config)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id`,
+          [packageId, subtest.slug, subtest.name, subtest.description ?? null, durationSeconds, nextOrderIndex, kind, configJson],
         );
         subtestId = inserted.rows[0].id;
         nextOrderIndex += 1;
       }
 
-      for (let index = 0; index < subtest.questions.length; index += 1) {
-        const question = subtest.questions[index];
+      const questions = Array.isArray(subtest.questions) ? subtest.questions : [];
+      for (let index = 0; index < questions.length; index += 1) {
+        const question = questions[index];
         const optionObjects = question.options.map(function toOption(label, optionIndex) {
           return { key: OPTION_KEYS[optionIndex], label };
         });
         await client.query(
-          `INSERT INTO questions (subtest_id, type, order_index, prompt, image_svg, options, correct_option, explanation)
-           VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+          `INSERT INTO questions (subtest_id, type, order_index, prompt, image_svg, options, correct_option, explanation, steps, wrong_notes, quick_tip)
+           VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)`,
           [
             subtestId,
             question.type ?? "TEXT",
@@ -106,16 +124,32 @@ export async function importPack(pack: PackFile, options: { dryRun: boolean }): 
             JSON.stringify(optionObjects),
             OPTION_KEYS[question.correctIndex],
             question.explanation,
+            question.steps ? JSON.stringify(question.steps) : null,
+            question.wrongNotes ? JSON.stringify(question.wrongNotes) : null,
+            question.quickTip ?? null,
           ],
         );
       }
 
-      totalQuestions += subtest.questions.length;
+      let itemCount = questions.length;
+      if (kind === "PERSONALITY" && typeof subtest.config === "object" && subtest.config !== null) {
+        const c = subtest.config as { statements?: unknown[] };
+        itemCount = Array.isArray(c.statements) ? c.statements.length : 0;
+      } else if (kind === "PAULI" && typeof subtest.config === "object" && subtest.config !== null) {
+        const c = subtest.config as { columns?: number };
+        itemCount = typeof c.columns === "number" ? c.columns : 0;
+      } else if (kind === "DRAWING" && typeof subtest.config === "object" && subtest.config !== null) {
+        const c = subtest.config as { tasks?: unknown[] };
+        itemCount = Array.isArray(c.tasks) ? c.tasks.length : 0;
+      }
+
+      totalQuestions += itemCount;
       subtestSummaries.push({
         slug: subtest.slug,
         name: subtest.name,
-        questionCount: subtest.questions.length,
-        durationSeconds: subtest.durationSeconds,
+        kind,
+        questionCount: itemCount,
+        durationSeconds,
         status: existingSubtest.rows.length > 0 ? "diganti" : "baru",
         replacedAttemptCount,
       });

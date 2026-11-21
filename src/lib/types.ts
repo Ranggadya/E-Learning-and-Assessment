@@ -1,4 +1,5 @@
 export type QuestionType = "TEXT" | "IMAGE" | "MEMORY" | "SPEED";
+export type SubtestKind = "QUIZ" | "PERSONALITY" | "PAULI" | "DRAWING";
 
 export interface QuestionOption {
   key: string;
@@ -33,6 +34,8 @@ export interface Subtest {
   orderIndex: number;
   questionCount: number;
   questionTypes: QuestionType[];
+  kind: SubtestKind;
+  config: unknown | null;
 }
 
 export interface SubtestLocation extends Subtest {
@@ -50,6 +53,8 @@ export interface DashboardSubtest {
   durationSeconds: number;
   questionCount: number;
   questionTypes: QuestionType[];
+  kind: SubtestKind;
+  config: unknown | null;
 }
 
 export interface DashboardPackage {
@@ -88,6 +93,10 @@ export interface ReviewItem {
   correctOption: string;
   isCorrect: boolean;
   explanation: string | null;
+  steps: string[] | null;
+  // Alasan tiap opsi salah, sejajar dengan options (string kosong = tidak ada catatan).
+  wrongNotes: string[] | null;
+  quickTip: string | null;
 }
 
 export interface AttemptResult {
@@ -102,6 +111,7 @@ export interface AttemptResult {
   totalQuestions: number;
   finishedAt: string | null;
   reviewItems: ReviewItem[];
+  result?: unknown | null;
 }
 
 export interface SubmitAnswerInput {
@@ -121,6 +131,8 @@ export interface AdminSubtest {
   name: string;
   durationSeconds: number;
   questionCount: number;
+  kind?: SubtestKind;
+  config?: unknown | null;
 }
 
 export interface AdminPackage {

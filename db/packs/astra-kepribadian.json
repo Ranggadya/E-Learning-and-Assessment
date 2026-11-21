@@ -1,0 +1,226 @@
+{
+  "company": {
+    "slug": "astra",
+    "name": "Astra Group",
+    "description": "Simulasi psikotes Astra: tes kemampuan kognitif."
+  },
+  "package": {
+    "slug": "paket-1",
+    "name": "Paket 1",
+    "description": "7 subtes kognitif. Skor +1 benar, 0 salah atau kosong, tanpa penalti."
+  },
+  "subtests": [
+    {
+      "slug": "kepribadian",
+      "name": "Tes Kepribadian",
+      "description": "Pernyataan tentang kebiasaan dan sikap kerja. Tidak ada jawaban benar atau salah.",
+      "kind": "PERSONALITY",
+      "durationSeconds": 900,
+      "config": {
+        "traits": [
+          {
+            "key": "ketelitian",
+            "name": "Ketelitian dan Disiplin",
+            "description": "Kecenderungan bekerja rapi, terencana, dan menuntaskan tugas sesuai komitmen.",
+            "highMeaning": "kamu cenderung teliti, terorganisir, dan menepati komitmen. Waspadai sikap terlalu kaku atau lambat karena mengejar kesempurnaan.",
+            "lowMeaning": "kamu cenderung spontan dan fleksibel. Waspadai detail yang terlewat dan tenggat yang mepet; rutinitas dan daftar tugas bisa membantu."
+          },
+          {
+            "key": "stabilitas",
+            "name": "Stabilitas Emosi",
+            "description": "Kemampuan tetap tenang dan pulih dengan cepat saat menghadapi tekanan atau kritik.",
+            "highMeaning": "kamu cenderung tenang di bawah tekanan dan cepat pulih dari kegagalan. Pastikan tetap peka terhadap peringatan yang penting.",
+            "lowMeaning": "kamu cenderung peka terhadap tekanan dan kritik. Kebiasaan seperti jeda singkat, prioritas tugas, dan meminta umpan balik spesifik dapat membantu."
+          },
+          {
+            "key": "kerjasama",
+            "name": "Kerja Sama dan Empati",
+            "description": "Kecenderungan bekerja sama, memahami orang lain, dan menjaga hubungan kerja.",
+            "highMeaning": "kamu cenderung kolaboratif dan menghargai orang lain. Pastikan tetap berani menyampaikan ketidaksetujuan secara terbuka.",
+            "lowMeaning": "kamu cenderung mandiri dan lugas. Latih mendengarkan sudut pandang rekan dan menyebut kontribusi mereka agar kerja tim lebih lancar."
+          },
+          {
+            "key": "inisiatif",
+            "name": "Inisiatif dan Kepemimpinan",
+            "description": "Kecenderungan mengambil langkah lebih dulu, memimpin, dan memengaruhi orang lain.",
+            "highMeaning": "kamu cenderung proaktif dan berani memimpin. Pastikan tetap memberi ruang bagi masukan anggota tim.",
+            "lowMeaning": "kamu cenderung menunggu arahan dan bekerja di belakang layar. Coba ambil peran kecil yang memimpin untuk melatih keberanian mengambil keputusan."
+          },
+          {
+            "key": "belajar",
+            "name": "Keterbukaan dan Semangat Belajar",
+            "description": "Ketertarikan pada hal baru, kesediaan mengubah cara kerja, dan keinginan terus berkembang.",
+            "highMeaning": "kamu cenderung terbuka pada gagasan dan cara kerja baru. Pastikan perubahan tetap dipertimbangkan agar tidak berpindah-pindah tanpa arah.",
+            "lowMeaning": "kamu cenderung nyaman dengan cara yang sudah teruji. Cobalah satu perubahan kecil pada cara kerja dan lihat hasilnya."
+          },
+          {
+            "key": "menjawab-ideal",
+            "name": "Kecenderungan Menjawab Ideal",
+            "description": "Seberapa sering jawabanmu terkesan serba sempurna, misalnya mengaku tidak pernah salah atau tidak pernah kesal.",
+            "highMeaning": "kamu menjawab hampir serba sempurna. Pada tes sebenarnya, pola ini dapat terbaca sebagai upaya tampil ideal, jadi jawablah apa adanya.",
+            "lowMeaning": "kamu cukup terbuka mengakui kekurangan kecil, yang biasanya tanda jawaban yang jujur."
+          }
+        ],
+        "statements": [
+          {
+            "text": "Saya memeriksa kembali pekerjaan saya sebelum menyerahkannya.",
+            "trait": "ketelitian"
+          },
+          {
+            "text": "Saya membuat daftar rencana sebelum memulai tugas yang besar.",
+            "trait": "ketelitian"
+          },
+          {
+            "text": "Saya menyelesaikan tugas tepat waktu meskipun tidak ada yang mengawasi.",
+            "trait": "ketelitian"
+          },
+          {
+            "text": "Saya sering menunda pekerjaan sampai mendekati tenggat.",
+            "trait": "ketelitian",
+            "reverse": true
+          },
+          {
+            "text": "Saya mudah lupa meletakkan barang atau berkas penting.",
+            "trait": "ketelitian",
+            "reverse": true
+          },
+          {
+            "text": "Saya merasa tidak nyaman bila meninggalkan pekerjaan setengah jadi.",
+            "trait": "ketelitian"
+          },
+          {
+            "text": "Saya tetap tenang saat banyak pekerjaan datang bersamaan.",
+            "trait": "stabilitas"
+          },
+          {
+            "text": "Saya bisa bangkit dengan cepat setelah mengalami kegagalan.",
+            "trait": "stabilitas"
+          },
+          {
+            "text": "Saya mudah cemas membayangkan hal buruk yang mungkin terjadi.",
+            "trait": "stabilitas",
+            "reverse": true
+          },
+          {
+            "text": "Kritik dari atasan membuat saya terpikir berhari-hari.",
+            "trait": "stabilitas",
+            "reverse": true
+          },
+          {
+            "text": "Suasana hati saya cenderung stabil dari hari ke hari.",
+            "trait": "stabilitas"
+          },
+          {
+            "text": "Saya mudah marah ketika rencana tidak berjalan sesuai harapan.",
+            "trait": "stabilitas",
+            "reverse": true
+          },
+          {
+            "text": "Saya senang membantu rekan yang kesulitan menyelesaikan tugasnya.",
+            "trait": "kerjasama"
+          },
+          {
+            "text": "Saya berusaha memahami sudut pandang orang lain sebelum berpendapat.",
+            "trait": "kerjasama"
+          },
+          {
+            "text": "Saya lebih suka bekerja sendiri daripada berdiskusi dengan tim.",
+            "trait": "kerjasama",
+            "reverse": true
+          },
+          {
+            "text": "Saya sulit menerima pendapat yang berbeda dengan pendapat saya.",
+            "trait": "kerjasama",
+            "reverse": true
+          },
+          {
+            "text": "Saya mengakui kontribusi rekan tim ketika tugas berhasil.",
+            "trait": "kerjasama"
+          },
+          {
+            "text": "Saya menjaga hubungan baik dengan rekan kerja meskipun sedang berbeda pendapat.",
+            "trait": "kerjasama"
+          },
+          {
+            "text": "Saya berani menawarkan diri memimpin ketika kelompok membutuhkan pemimpin.",
+            "trait": "inisiatif"
+          },
+          {
+            "text": "Saya mengambil langkah lebih dulu tanpa menunggu diminta.",
+            "trait": "inisiatif"
+          },
+          {
+            "text": "Saya merasa sulit menyampaikan pendapat di depan banyak orang.",
+            "trait": "inisiatif",
+            "reverse": true
+          },
+          {
+            "text": "Saya lebih nyaman mengikuti arahan daripada mengambil keputusan.",
+            "trait": "inisiatif",
+            "reverse": true
+          },
+          {
+            "text": "Saya terbiasa menetapkan target pribadi yang menantang.",
+            "trait": "inisiatif"
+          },
+          {
+            "text": "Saya mudah meyakinkan orang lain untuk mendukung gagasan saya.",
+            "trait": "inisiatif"
+          },
+          {
+            "text": "Saya tertarik mempelajari hal baru meskipun tidak berkaitan langsung dengan pekerjaan.",
+            "trait": "belajar"
+          },
+          {
+            "text": "Saya mencoba cara kerja baru bila itu bisa membuat hasil lebih baik.",
+            "trait": "belajar"
+          },
+          {
+            "text": "Saya lebih suka cara kerja yang sudah biasa saya lakukan.",
+            "trait": "belajar",
+            "reverse": true
+          },
+          {
+            "text": "Saya merasa tidak perlu belajar lagi setelah menguasai satu bidang.",
+            "trait": "belajar",
+            "reverse": true
+          },
+          {
+            "text": "Saya meminta masukan agar bisa memperbaiki diri.",
+            "trait": "belajar"
+          },
+          {
+            "text": "Saya menikmati menyelesaikan masalah yang belum pernah saya temui.",
+            "trait": "belajar"
+          },
+          {
+            "text": "Saya tidak pernah menunda pekerjaan sekali pun.",
+            "trait": "menjawab-ideal"
+          },
+          {
+            "text": "Saya tidak pernah merasa kesal terhadap siapa pun.",
+            "trait": "menjawab-ideal"
+          },
+          {
+            "text": "Saya selalu mengatakan hal yang sebenarnya dalam setiap keadaan.",
+            "trait": "menjawab-ideal"
+          },
+          {
+            "text": "Saya pernah membuat kesalahan kecil yang tidak saya ceritakan kepada siapa pun.",
+            "trait": "menjawab-ideal",
+            "reverse": true
+          },
+          {
+            "text": "Saya pernah merasa malas untuk bekerja.",
+            "trait": "menjawab-ideal",
+            "reverse": true
+          },
+          {
+            "text": "Saya tidak pernah salah dalam mengambil keputusan.",
+            "trait": "menjawab-ideal"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "company": {
+    "slug": "paragon",
+    "name": "Paragon",
+    "description": "Simulasi tes dasar Paragon: verbal, numerik, dan spasial."
+  },
+  "package": {
+    "slug": "paket-1",
+    "name": "Paket 1",
+    "description": "Tes verbal, numerik, dan spasial. Durasi adalah perkiraan untuk latihan."
+  },
+  "subtests": [
+    {
+      "slug": "koran-pauli",
+      "name": "Koran / Pauli",
+      "description": "Menjumlahkan angka berurutan dengan cepat dan teliti. Mengukur kecepatan, ketelitian, dan keajegan kerja.",
+      "kind": "PAULI",
+      "config": {
+        "columns": 10,
+        "digitsPerColumn": 30,
+        "secondsPerColumn": 30
+      }
+    },
+    {
+      "slug": "menggambar",
+      "name": "Tes Menggambar",
+      "description": "Menggambar pada kanvas dengan batas waktu. Tidak dinilai otomatis; periksa dengan daftar refleksi.",
+      "kind": "DRAWING",
+      "config": {
+        "tasks": [
+          {
+            "key": "orang",
+            "title": "Gambar orang",
+            "instruction": "Gambarlah seorang manusia secara utuh, dari kepala sampai kaki.",
+            "seconds": 180
+          },
+          {
+            "key": "pohon",
+            "title": "Gambar pohon",
+            "instruction": "Gambarlah sebuah pohon lengkap dengan akar, batang, dan daunnya.",
+            "seconds": 180
+          },
+          {
+            "key": "rumah",
+            "title": "Gambar rumah",
+            "instruction": "Gambarlah sebuah rumah beserta bagian-bagiannya, seperti pintu, jendela, dan atap.",
+            "seconds": 180
+          }
+        ],
+        "reflection": [
+          "Apakah gambar sudah lengkap sesuai perintah, tidak ada bagian penting yang hilang?",
+          "Apakah ukuran dan proporsi tiap bagian wajar dan seimbang di dalam kanvas?",
+          "Apakah garis tegas dan rapi, tidak terlalu sering dihapus atau ditebalkan berulang?",
+          "Apakah ada detail yang membuat gambar terasa hidup, misalnya ekspresi, latar, atau lingkungan sekitar?",
+          "Apakah bagian terpenting selesai lebih dulu, dan waktu terpakai dengan baik?"
+        ]
+      }
+    }
+  ]
+}

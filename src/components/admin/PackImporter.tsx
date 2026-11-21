@@ -10,6 +10,13 @@ import {
 } from "@/components/ui/Icons";
 import type { ImportSummary } from "@/lib/pack-import";
 
+const ITEM_UNIT: Record<string, string> = {
+  QUIZ: "soal",
+  PERSONALITY: "pernyataan",
+  PAULI: "kolom",
+  DRAWING: "tugas gambar",
+};
+
 type Stage = "idle" | "checking" | "previewed" | "importing" | "done";
 
 interface ApiResponse {
@@ -301,17 +308,21 @@ export function PackImporter() {
                     <div>
                       <span className="font-medium text-ink">{subtest.name}</span>
                       <span className="ml-2 text-xs text-ink-muted tabular-nums">
-                        {subtest.questionCount} soal · {Math.max(1, Math.round(subtest.durationSeconds / 60))} menit
+                        {subtest.questionCount} {ITEM_UNIT[subtest.kind] ?? "soal"} · {Math.max(1, Math.round(subtest.durationSeconds / 60))} menit
                       </span>
                     </div>
                     <span
                       className={`rounded-md px-2 py-0.5 text-xs font-semibold ${
-                        subtest.status === "baru"
+                        summary.mode === "pembahasan" || subtest.status === "baru"
                           ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
                           : "bg-amber-50 text-amber-800 dark:bg-amber-950/60 dark:text-amber-300"
                       }`}
                     >
-                      {subtest.status === "baru" ? "Subtes baru" : "Soal lama diganti"}
+                      {summary.mode === "pembahasan"
+                        ? "Pembahasan diperbarui"
+                        : subtest.status === "baru"
+                          ? "Subtes baru"
+                          : "Soal lama diganti"}
                     </span>
                   </li>
                 ))}

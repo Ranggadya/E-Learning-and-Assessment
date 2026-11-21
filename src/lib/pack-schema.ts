@@ -1,4 +1,4 @@
-import type { QuestionType } from "./types";
+import type { QuestionType, SubtestKind } from "./types";
 
 // Format satu file paket soal. Satu file = satu paket milik satu perusahaan.
 export interface PackQuestion {
@@ -8,14 +8,20 @@ export interface PackQuestion {
   options: string[];
   correctIndex: number;
   explanation: string;
+  // Pembahasan lengkap (opsional): langkah pengerjaan, alasan tiap opsi salah (sejajar dengan options), dan quick tip.
+  steps?: string[];
+  wrongNotes?: string[];
+  quickTip?: string;
 }
 
 export interface PackSubtest {
   slug: string;
   name: string;
   description?: string;
-  durationSeconds: number;
-  questions: PackQuestion[];
+  kind?: SubtestKind;
+  durationSeconds?: number;
+  config?: unknown;
+  questions?: PackQuestion[];
 }
 
 export interface PackFile {
@@ -28,6 +34,7 @@ export type PackValidation = { ok: true; pack: PackFile } | { ok: false; errors:
 
 const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const VALID_TYPES: QuestionType[] = ["TEXT", "IMAGE", "MEMORY", "SPEED"];
+const VALID_KINDS: SubtestKind[] = ["QUIZ", "PERSONALITY", "PAULI", "DRAWING"];
 const MAX_OPTIONS = 5;
 const MAX_ERRORS = 30;
 // SVG ditampilkan langsung di halaman, jadi tolak elemen dan atribut yang bisa menjalankan kode.
@@ -54,6 +61,28 @@ function validateIdentity(value: unknown, label: string, errors: string[]): void
   }
   if (value.description !== undefined && typeof value.description !== "string") {
     errors.push(`${label}.description: harus berupa teks`);
+  }
+}
+
+// Aturan bidang pembahasan lengkap; dipakai juga oleh file pembahasan terpisah.
+export function validateExplanationExtras(value: Record<string, unknown>, optionCount: number, label: string, errors: string[]): void {
+  const steps = value.steps;
+  if (steps !== undefined) {
+    if (!Array.isArray(steps) || steps.length < 1 || steps.length > 12 || !steps.every(isNonEmptyString)) {
+      errors.push(`${label}: steps harus berisi 1 sampai 12 langkah berupa teks`);
+    }
+  }
+  const wrongNotes = value.wrongNotes;
+  if (wrongNotes !== undefined) {
+    if (!Array.isArray(wrongNotes) || wrongNotes.length !== optionCount || !wrongNotes.every(function isText(note) {
+      return typeof note === "string";
+    })) {
+      errors.push(`${label}: wrongNotes harus berupa daftar teks sebanyak opsi (${optionCount}); kosongkan ("") untuk jawaban benar`);
+    }
+  }
+  const quickTip = value.quickTip;
+  if (quickTip !== undefined && !isNonEmptyString(quickTip)) {
+    errors.push(`${label}: quickTip harus berupa teks yang tidak kosong`);
   }
 }
 
@@ -88,6 +117,8 @@ function validateQuestion(value: unknown, label: string, errors: string[]): void
       errors.push(`${label}: correctIndex harus bilangan bulat 0 sampai ${options.length - 1}`);
     }
   }
+
+  validateExplanationExtras(value, Array.isArray(options) ? options.length : 0, label, errors);
 
   const imageSvg = value.imageSvg;
   if (imageSvg !== undefined) {
@@ -128,17 +159,105 @@ export function validatePack(input: unknown): PackValidation {
         }
         seenSlugs.add(subtest.slug);
       }
+
+      const rawKind = subtest.kind;
+      let kind: SubtestKind = "QUIZ";
+      if (rawKind !== undefined) {
+        if (typeof rawKind !== "string" || !VALID_KINDS.includes(rawKind as SubtestKind)) {
+          errors.push(`${label}.kind: harus salah satu dari ${VALID_KINDS.join(", ")}`);
+        } else {
+          kind = rawKind as SubtestKind;
+        }
+      }
+
       const duration = subtest.durationSeconds;
-      if (!Number.isInteger(duration) || (duration as number) < 10 || (duration as number) > 10800) {
-        errors.push(`${label}.durationSeconds: harus bilangan bulat 10 sampai 10800 (detik)`);
+      if (kind === "QUIZ" || kind === "PERSONALITY") {
+        if (!Number.isInteger(duration) || (duration as number) < 10 || (duration as number) > 10800) {
+          errors.push(`${label}.durationSeconds: harus bilangan bulat 10 sampai 10800 (detik)`);
+        }
+      } else if (duration !== undefined) {
+        if (!Number.isInteger(duration) || (duration as number) < 10 || (duration as number) > 10800) {
+          errors.push(`${label}.durationSeconds: harus bilangan bulat 10 sampai 10800 (detik)`);
+        }
       }
-      if (!Array.isArray(subtest.questions) || subtest.questions.length === 0) {
-        errors.push(`${label}.questions: wajib berisi minimal satu soal`);
-        return;
+
+      if (kind === "QUIZ") {
+        if (!Array.isArray(subtest.questions) || subtest.questions.length === 0) {
+          errors.push(`${label}.questions: wajib berisi minimal satu soal`);
+          return;
+        }
+      } else if (kind === "PERSONALITY") {
+        if (!isRecord(subtest.config)) {
+          errors.push(`${label}.config: wajib berupa objek konfigurasi tes kepribadian`);
+        } else {
+          const config = subtest.config;
+          const traitKeys = new Set<string>();
+          if (!Array.isArray(config.traits) || config.traits.length === 0) {
+            errors.push(`${label}.config.traits: wajib berupa daftar trait minimal 1`);
+          } else {
+            config.traits.forEach((trait, tIdx) => {
+              if (!isRecord(trait) || !isNonEmptyString(trait.key) || !isNonEmptyString(trait.name)) {
+                errors.push(`${label}.config.traits[${tIdx}]: wajib memuat key dan name`);
+              } else {
+                traitKeys.add(trait.key);
+              }
+            });
+          }
+          if (!Array.isArray(config.statements) || config.statements.length === 0) {
+            errors.push(`${label}.config.statements: wajib berupa daftar pernyataan minimal 1`);
+          } else {
+            config.statements.forEach((stmt, sIdx) => {
+              if (!isRecord(stmt) || !isNonEmptyString(stmt.text) || !isNonEmptyString(stmt.trait)) {
+                errors.push(`${label}.config.statements[${sIdx}]: wajib memuat text dan trait`);
+              } else if (traitKeys.size > 0 && !traitKeys.has(stmt.trait)) {
+                errors.push(`${label}.config.statements[${sIdx}]: trait "${stmt.trait}" tidak terdaftar di traits`);
+              }
+            });
+          }
+        }
+      } else if (kind === "PAULI") {
+        if (!isRecord(subtest.config)) {
+          errors.push(`${label}.config: wajib berupa objek konfigurasi Pauli / Koran`);
+        } else {
+          const config = subtest.config;
+          if (!Number.isInteger(config.columns) || (config.columns as number) <= 0) {
+            errors.push(`${label}.config.columns: harus bilangan bulat positif`);
+          }
+          if (!Number.isInteger(config.digitsPerColumn) || (config.digitsPerColumn as number) <= 0) {
+            errors.push(`${label}.config.digitsPerColumn: harus bilangan bulat positif`);
+          }
+          if (!Number.isInteger(config.secondsPerColumn) || (config.secondsPerColumn as number) <= 0) {
+            errors.push(`${label}.config.secondsPerColumn: harus bilangan bulat positif`);
+          }
+        }
+      } else if (kind === "DRAWING") {
+        if (!isRecord(subtest.config)) {
+          errors.push(`${label}.config: wajib berupa objek konfigurasi tes menggambar`);
+        } else {
+          const config = subtest.config;
+          if (!Array.isArray(config.tasks) || config.tasks.length === 0) {
+            errors.push(`${label}.config.tasks: wajib berupa daftar tugas menggambar`);
+          } else {
+            config.tasks.forEach((task, tIdx) => {
+              if (!isRecord(task) || !isNonEmptyString(task.key) || !isNonEmptyString(task.title) || !isNonEmptyString(task.instruction)) {
+                errors.push(`${label}.config.tasks[${tIdx}]: wajib memuat key, title, dan instruction`);
+              }
+              if (!Number.isInteger(task.seconds) || (task.seconds as number) <= 0) {
+                errors.push(`${label}.config.tasks[${tIdx}].seconds: harus bilangan bulat positif`);
+              }
+            });
+          }
+          if (config.reflection !== undefined && (!Array.isArray(config.reflection) || !config.reflection.every(isNonEmptyString))) {
+            errors.push(`${label}.config.reflection: harus berupa daftar teks refleksi`);
+          }
+        }
       }
-      subtest.questions.forEach(function validateEachQuestion(question, questionIndex) {
-        validateQuestion(question, `${label} soal ${questionIndex + 1}`, errors);
-      });
+
+      if (Array.isArray(subtest.questions)) {
+        subtest.questions.forEach(function validateEachQuestion(question, questionIndex) {
+          validateQuestion(question, `${label} soal ${questionIndex + 1}`, errors);
+        });
+      }
     });
   }
 

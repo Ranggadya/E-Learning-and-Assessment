@@ -40,6 +40,8 @@ CREATE TABLE IF NOT EXISTS subtests (
   description      TEXT,
   duration_seconds INTEGER NOT NULL,
   order_index      INTEGER NOT NULL,
+  kind             TEXT NOT NULL DEFAULT 'QUIZ' CHECK (kind IN ('QUIZ', 'PERSONALITY', 'PAULI', 'DRAWING')),
+  config           JSONB,
   UNIQUE (test_package_id, slug)
 );
 
@@ -64,7 +66,8 @@ CREATE TABLE IF NOT EXISTS attempts (
   started_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
   finished_at     TIMESTAMPTZ,
   score           INTEGER,
-  total_questions INTEGER
+  total_questions INTEGER,
+  result          JSONB
 );
 
 CREATE TABLE IF NOT EXISTS answers (
@@ -75,3 +78,35 @@ CREATE TABLE IF NOT EXISTS answers (
   is_correct      BOOLEAN NOT NULL,
   UNIQUE (attempt_id, question_id)
 );
+
+-- Migrasi kolom subtests.kind, subtests.config, dan attempts.result jika belum ada.
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'subtests' AND column_name = 'kind'
+  ) THEN
+    ALTER TABLE subtests ADD COLUMN kind TEXT NOT NULL DEFAULT 'QUIZ'
+      CHECK (kind IN ('QUIZ', 'PERSONALITY', 'PAULI', 'DRAWING'));
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'subtests' AND column_name = 'config'
+  ) THEN
+    ALTER TABLE subtests ADD COLUMN config JSONB;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'attempts' AND column_name = 'result'
+  ) THEN
+    ALTER TABLE attempts ADD COLUMN result JSONB;
+  END IF;
+END $$;
+
+-- Pembahasan lengkap: langkah pengerjaan, alasan opsi lain salah, dan quick tip (semuanya opsional).
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS steps JSONB;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS wrong_notes JSONB;
+ALTER TABLE questions ADD COLUMN IF NOT EXISTS quick_tip TEXT;
+

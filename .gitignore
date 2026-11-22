@@ -42,8 +42,12 @@ yarn-error.log*
 next-env.d.ts
 
 # local agent config
+.impeccable/
 .gemini/
+.agents/
 .impeccable/mocks/
 .impeccable/review/
+.superpowers/
+
 
 

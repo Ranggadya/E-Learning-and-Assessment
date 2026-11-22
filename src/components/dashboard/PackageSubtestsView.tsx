@@ -45,10 +45,10 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
       </nav>
 
       {/* Package Header & Progress Bar */}
-      <section className="rounded-xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
+      <section className="rounded-[10px] border border-line-strong bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-ink">
+            <h1 className="text-2xl font-extrabold tracking-tight text-ink">
               {company.name} · {testPackage.name}
             </h1>
             {testPackage.description ? (
@@ -71,9 +71,9 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
                 {completedCount}/{subtests.length} ({percent}%)
               </span>
             </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-subtle">
+            <div className="mt-2 h-2 w-full overflow-hidden rounded-[3px] bg-subtle">
               <div
-                className="h-full rounded-full bg-brand transition-all duration-200"
+                className="h-full rounded-[3px] bg-brand transition-all duration-200"
                 style={{ width: `${percent}%` }}
               />
             </div>
@@ -88,11 +88,11 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
         </h2>
 
         {subtests.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary">
+          <div className="rounded-[10px] border border-dashed border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary">
             Paket ini belum memiliki subtes.
           </div>
         ) : (
-          <div className="overflow-hidden rounded-xl border border-line bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="overflow-hidden rounded-[10px] border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
             <ol className="divide-y divide-line">
               {subtests.map((subtest, index) => {
                 const durationMinutes = Math.max(1, Math.round(subtest.durationSeconds / 60));

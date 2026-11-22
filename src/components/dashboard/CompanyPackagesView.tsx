@@ -35,7 +35,7 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold tracking-tight text-ink sm:text-[28px]">
+          <h1 className="text-2xl font-extrabold tracking-tight text-ink sm:text-[28px]">
             {company.name}
           </h1>
           {company.description ? (
@@ -59,12 +59,12 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
       </div>
 
       {company.packages.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center">
+        <div className="rounded-[10px] border border-dashed border-line-strong bg-surface p-8 text-center">
           <IconLayers className="mx-auto h-7 w-7 text-ink-muted" />
           <p className="mt-2 text-sm text-ink-secondary">Belum ada paket latihan untuk perusahaan ini.</p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-line bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <div className="overflow-hidden rounded-[10px] border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
           <ul className="divide-y divide-line">
             {company.packages.map((pkg) => {
               const subtestCount = pkg.subtests.length;
@@ -117,9 +117,9 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
                             {doneCount}/{subtestCount} ({percent}%)
                           </span>
                         </div>
-                        <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-subtle">
+                        <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-[3px] bg-subtle">
                           <div
-                            className="h-full rounded-full bg-brand transition-all duration-200"
+                            className="h-full rounded-[3px] bg-brand transition-all duration-200"
                             style={{ width: `${percent}%` }}
                           />
                         </div>

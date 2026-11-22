@@ -8,6 +8,7 @@ import {
   IconBuilding,
   IconClose,
   IconDashboard,
+  IconHistory,
   IconMenu,
   IconShield,
 } from "@/components/ui/Icons";
@@ -19,11 +20,29 @@ interface LearnerShellProps {
   children: React.ReactNode;
 }
 
+function navItemClassName(isActive: boolean): string {
+  return `flex items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-sm transition ${
+    isActive
+      ? "bg-brand font-bold text-white shadow-xs"
+      : "font-semibold text-ink-secondary hover:bg-subtle hover:text-ink"
+  }`;
+}
+
+function navBadgeClassName(isActive: boolean): string {
+  return `shrink-0 rounded-md px-1.5 py-0.5 text-xs font-semibold tabular-nums ${
+    isActive ? "bg-white/20 text-white" : "bg-subtle text-ink-muted"
+  }`;
+}
+
 export function LearnerShell({ companies, children }: LearnerShellProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const progress = useLocalProgress();
   const completedSubtestCount = Object.keys(progress.bySubtestId).length;
+  const recentAttemptCount = progress.recentAttempts.length;
+  const totalSubtests = companies.reduce((sum, company) => sum + company.subtestCount, 0);
+  const progressPercent =
+    totalSubtests > 0 ? Math.min(100, Math.round((completedSubtestCount / totalSubtests) * 100)) : 0;
 
   useEffect(() => {
     if (!mobileOpen) {
@@ -39,17 +58,18 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
   }, [mobileOpen]);
 
   const isDashboardActive = pathname === "/";
+  const isHistoryActive = pathname === "/riwayat";
 
   const sidebarContent = (
     <div className="flex h-full flex-col justify-between bg-surface">
       <div className="overflow-y-auto px-4 py-5">
-        <div className="flex items-center justify-between px-2">
+        <div className="flex items-center justify-between border-b border-line px-2 pb-4">
           <Link
             href="/"
             onClick={() => setMobileOpen(false)}
-            className="inline-flex items-center gap-2.5 text-base font-bold tracking-tight text-ink"
+            className="inline-flex items-center gap-2.5 text-base font-extrabold tracking-tight text-ink"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-brand text-xs font-bold text-white">
+            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand text-xs font-extrabold text-white">
               eA
             </span>
             <span>e-assessment</span>
@@ -64,23 +84,39 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
           </button>
         </div>
 
-        <nav aria-label="Navigasi utama" className="mt-6 space-y-6">
+        <nav aria-label="Navigasi utama" className="mt-5 space-y-6">
           <div>
-            <p className="px-2.5 text-xs font-medium text-ink-muted">Menu</p>
+            <p className="px-2.5 text-[11px] font-bold uppercase tracking-wider text-ink-muted">
+              Menu Utama
+            </p>
             <ul className="mt-2 space-y-1">
               <li>
                 <Link
                   href="/"
                   onClick={() => setMobileOpen(false)}
                   aria-current={isDashboardActive ? "page" : undefined}
-                  className={`flex items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium transition ${
-                    isDashboardActive
-                      ? "bg-brand-soft font-semibold text-brand-text"
-                      : "text-ink-secondary hover:bg-subtle hover:text-ink"
-                  }`}
+                  className={navItemClassName(isDashboardActive)}
                 >
-                  <IconDashboard className="h-4 w-4 shrink-0" />
-                  <span>Dashboard</span>
+                  <span className="inline-flex min-w-0 items-center gap-2.5">
+                    <IconDashboard className="h-4 w-4 shrink-0" />
+                    <span className="truncate">Dashboard</span>
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/riwayat"
+                  onClick={() => setMobileOpen(false)}
+                  aria-current={isHistoryActive ? "page" : undefined}
+                  className={navItemClassName(isHistoryActive)}
+                >
+                  <span className="inline-flex min-w-0 items-center gap-2.5">
+                    <IconHistory className="h-4 w-4 shrink-0" />
+                    <span className="truncate">Riwayat &amp; Progres</span>
+                  </span>
+                  {recentAttemptCount > 0 ? (
+                    <span className={navBadgeClassName(isHistoryActive)}>{recentAttemptCount}</span>
+                  ) : null}
                 </Link>
               </li>
             </ul>
@@ -88,40 +124,33 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
 
           <div>
             <div className="flex items-center justify-between px-2.5">
-              <p className="text-xs font-medium text-ink-muted">Perusahaan</p>
-              <span className="tabular-nums text-xs text-ink-muted">{companies.length}</span>
+              <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
+                Perusahaan
+              </p>
+              <span className="tabular-nums text-xs font-semibold text-ink-muted">
+                {companies.length}
+              </span>
             </div>
             {companies.length === 0 ? (
               <p className="mt-2 px-2.5 text-xs text-ink-muted">Belum ada perusahaan</p>
             ) : (
               <ul className="mt-2 space-y-1">
                 {companies.map((company) => {
-                  const isActive = pathname === `/c/${company.slug}` || pathname.startsWith(`/c/${company.slug}/`);
+                  const isActive =
+                    pathname === `/c/${company.slug}` || pathname.startsWith(`/c/${company.slug}/`);
                   return (
                     <li key={company.id}>
                       <Link
                         href={`/c/${company.slug}`}
                         onClick={() => setMobileOpen(false)}
                         aria-current={isActive ? "page" : undefined}
-                        className={`flex items-center justify-between gap-2 rounded-lg px-2.5 py-2 text-sm font-medium transition ${
-                          isActive
-                            ? "bg-brand-soft font-semibold text-brand-text"
-                            : "text-ink-secondary hover:bg-subtle hover:text-ink"
-                        }`}
+                        className={navItemClassName(isActive)}
                       >
                         <span className="inline-flex min-w-0 items-center gap-2.5">
                           <IconBuilding className="h-4 w-4 shrink-0" />
                           <span className="truncate">{company.name}</span>
                         </span>
-                        <span
-                          className={`shrink-0 rounded-md px-1.5 py-0.5 text-xs font-medium tabular-nums ${
-                            isActive
-                              ? "bg-brand/15 text-brand-text"
-                              : "bg-subtle text-ink-muted"
-                          }`}
-                        >
-                          {company.packageCount}
-                        </span>
+                        <span className={navBadgeClassName(isActive)}>{company.packageCount}</span>
                       </Link>
                     </li>
                   );
@@ -132,17 +161,29 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
         </nav>
       </div>
 
-      <div className="border-t border-line p-4 space-y-3">
-        <div className="rounded-lg bg-subtle px-3 py-2.5">
-          <div className="flex items-center justify-between text-xs">
-            <span className="font-medium text-ink-secondary">Progres perangkat ini</span>
-            <span className="font-semibold tabular-nums text-ink">
-              {completedSubtestCount} subtes
+      <div className="space-y-3 border-t border-line p-4">
+        <div className="rounded-lg border border-line-strong bg-subtle px-3 py-2.5">
+          <div className="flex items-center justify-between gap-2 text-xs">
+            <span className="font-bold text-ink">Progres lokal</span>
+            <span className="font-mono font-bold tabular-nums text-brand-text">
+              {totalSubtests > 0
+                ? `${completedSubtestCount}/${totalSubtests}`
+                : `${completedSubtestCount} subtes`}
             </span>
           </div>
-          <p className="mt-1 text-xs text-ink-muted">
-            Tersimpan otomatis di browser tanpa akun.
-          </p>
+          <div
+            className="mt-2 h-1.5 w-full overflow-hidden rounded-[3px] bg-line/70"
+            role="progressbar"
+            aria-valuenow={progressPercent}
+            aria-valuemin={0}
+            aria-valuemax={100}
+            aria-label="Progres subtes lokal"
+          >
+            <div
+              className="h-full rounded-[3px] bg-brand transition-all duration-200"
+              style={{ width: `${progressPercent}%` }}
+            />
+          </div>
         </div>
 
         <ThemeToggle />
@@ -151,7 +192,7 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
           <Link
             href="/admin"
             onClick={() => setMobileOpen(false)}
-            className="inline-flex items-center gap-1.5 font-medium text-ink-secondary transition hover:text-ink"
+            className="inline-flex items-center gap-1.5 font-semibold text-ink-secondary transition hover:text-ink"
           >
             <IconShield className="h-3.5 w-3.5" />
             <span>CMS Admin</span>
@@ -165,24 +206,24 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
   return (
     <div className="min-h-screen bg-canvas text-ink">
       {/* Sidebar Desktop */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[260px] border-r border-line lg:block">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-[248px] border-r border-line-strong bg-surface lg:block">
         {sidebarContent}
       </aside>
 
       {/* Topbar Mobile */}
-      <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-line bg-surface/95 px-4 backdrop-blur lg:hidden">
+      <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-line-strong bg-surface/95 px-4 backdrop-blur lg:hidden">
         <div className="flex items-center gap-2.5">
           <button
             type="button"
             onClick={() => setMobileOpen(true)}
             aria-label="Buka menu navigasi"
             aria-expanded={mobileOpen}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line bg-surface text-ink-secondary transition hover:bg-subtle hover:text-ink"
+            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line-strong bg-surface text-ink-secondary transition hover:bg-subtle hover:text-ink"
           >
             <IconMenu className="h-4 w-4" />
           </button>
-          <Link href="/" className="inline-flex items-center gap-2 text-sm font-bold text-ink">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand text-[11px] font-bold text-white">
+          <Link href="/" className="inline-flex items-center gap-2 text-sm font-extrabold tracking-tight text-ink">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand text-[11px] font-extrabold text-white">
               eA
             </span>
             <span>e-assessment</span>
@@ -198,18 +239,18 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
             className="fixed inset-0 bg-slate-950/50 backdrop-blur-[1px]"
             onClick={() => setMobileOpen(false)}
           />
-          <div className="animate-drawer fixed inset-y-0 left-0 w-[276px] max-w-[85vw] border-r border-line bg-surface shadow-xl">
+          <div className="animate-drawer fixed inset-y-0 left-0 w-[276px] max-w-[85vw] border-r border-line-strong bg-surface shadow-xl">
             {sidebarContent}
           </div>
         </div>
       ) : null}
 
       {/* Main Content */}
-      <div className="lg:pl-[260px]">
-        <main className="mx-auto w-full max-w-5xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+      <div className="lg:pl-[248px]">
+        <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
           {children}
         </main>
-        <footer className="mx-auto w-full max-w-5xl border-t border-line px-4 py-5 text-xs text-ink-muted sm:px-6 lg:px-8">
+        <footer className="mx-auto w-full max-w-6xl border-t border-line px-4 py-5 text-xs text-ink-muted sm:px-6 lg:px-8">
           <p>e-assessment adalah alat latihan psikotes mandiri dan tidak berafiliasi resmi dengan perusahaan penyelenggara tes.</p>
         </footer>
       </div>

@@ -98,7 +98,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
         >
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="min-w-0">
-              <span className="inline-flex rounded px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider bg-white/18 text-white">
+              <span className="inline-flex rounded px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider bg-blue-950/35 text-white">
                 {nextAction.tag}
               </span>
               <h2 className="mt-2 text-lg font-extrabold tracking-tight text-white sm:text-xl">
@@ -109,7 +109,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
 
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:shrink-0 lg:justify-end">
               <div className="border-t border-white/25 pt-3.5 sm:border-t-0 sm:pt-0 lg:border-r lg:border-white/25 lg:pr-5 lg:text-right">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-200">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100">
                   Progres Lokal
                 </p>
                 <p className="mt-0.5 font-mono text-base font-extrabold tabular-nums text-white">

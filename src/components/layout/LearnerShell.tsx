@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -12,6 +12,7 @@ import {
   IconMenu,
   IconShield,
 } from "@/components/ui/Icons";
+import { countCompletedActiveSubtests } from "@/lib/dashboard-helpers";
 import { useLocalProgress } from "@/lib/local-progress";
 import type { Company } from "@/lib/types";
 
@@ -30,19 +31,40 @@ function navItemClassName(isActive: boolean): string {
 
 function navBadgeClassName(isActive: boolean): string {
   return `shrink-0 rounded-md px-1.5 py-0.5 text-xs font-semibold tabular-nums ${
-    isActive ? "bg-white/20 text-white" : "bg-subtle text-ink-muted"
+    isActive ? "bg-blue-950/35 text-white" : "bg-subtle text-ink-muted"
   }`;
 }
 
 export function LearnerShell({ companies, children }: LearnerShellProps) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const closeDrawerButtonRef = useRef<HTMLButtonElement>(null);
+  const wasMobileOpenRef = useRef(false);
   const progress = useLocalProgress();
-  const completedSubtestCount = Object.keys(progress.bySubtestId).length;
+  const activeSubtestIds = useMemo(
+    () => companies.flatMap((company) => company.subtestIds),
+    [companies],
+  );
+  const completedSubtestCount = useMemo(
+    () => countCompletedActiveSubtests(activeSubtestIds, progress),
+    [activeSubtestIds, progress],
+  );
   const recentAttemptCount = progress.recentAttempts.length;
-  const totalSubtests = companies.reduce((sum, company) => sum + company.subtestCount, 0);
+  const totalSubtests = activeSubtestIds.length;
   const progressPercent =
     totalSubtests > 0 ? Math.min(100, Math.round((completedSubtestCount / totalSubtests) * 100)) : 0;
+
+  useEffect(() => {
+    const wasOpen = wasMobileOpenRef.current;
+    wasMobileOpenRef.current = mobileOpen;
+
+    if (!wasOpen && mobileOpen) {
+      closeDrawerButtonRef.current?.focus();
+    } else if (wasOpen && !mobileOpen) {
+      menuButtonRef.current?.focus();
+    }
+  }, [mobileOpen]);
 
   useEffect(() => {
     if (!mobileOpen) {
@@ -60,29 +82,33 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
   const isDashboardActive = pathname === "/";
   const isHistoryActive = pathname === "/riwayat";
 
-  const sidebarContent = (
-    <div className="flex h-full flex-col justify-between bg-surface">
-      <div className="overflow-y-auto px-4 py-5">
-        <div className="flex items-center justify-between border-b border-line px-2 pb-4">
-          <Link
-            href="/"
-            onClick={() => setMobileOpen(false)}
-            className="inline-flex items-center gap-2.5 text-base font-extrabold tracking-tight text-ink"
-          >
-            <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand text-xs font-extrabold text-white">
-              eA
-            </span>
-            <span>e-assessment</span>
-          </Link>
-          <button
-            type="button"
-            onClick={() => setMobileOpen(false)}
-            aria-label="Tutup menu navigasi"
-            className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-ink-secondary hover:bg-subtle hover:text-ink lg:hidden"
-          >
-            <IconClose className="h-4 w-4" />
-          </button>
-        </div>
+  function renderSidebar(isMobileDrawer: boolean) {
+    return (
+      <div className="flex h-full flex-col justify-between bg-surface">
+        <div className="overflow-y-auto px-4 py-5">
+          <div className="flex items-center justify-between border-b border-line px-2 pb-4">
+            <Link
+              href="/"
+              onClick={() => setMobileOpen(false)}
+              className="inline-flex items-center gap-2.5 text-base font-extrabold tracking-tight text-ink"
+            >
+              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand text-xs font-extrabold text-white">
+                eA
+              </span>
+              <span>e-assessment</span>
+            </Link>
+            {isMobileDrawer ? (
+              <button
+                ref={closeDrawerButtonRef}
+                type="button"
+                onClick={() => setMobileOpen(false)}
+                aria-label="Tutup menu navigasi"
+                className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-ink-secondary hover:bg-subtle hover:text-ink lg:hidden"
+              >
+                <IconClose className="h-4 w-4" />
+              </button>
+            ) : null}
+          </div>
 
         <nav aria-label="Navigasi utama" className="mt-5 space-y-6">
           <div>
@@ -172,7 +198,7 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
             </span>
           </div>
           <div
-            className="mt-2 h-1.5 w-full overflow-hidden rounded-[3px] bg-line/70"
+            className="mt-2 h-1.5 w-full overflow-hidden rounded-[3px] bg-line-strong/60"
             role="progressbar"
             aria-valuenow={progressPercent}
             aria-valuemin={0}
@@ -199,21 +225,23 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
           </Link>
           <span>Latihan mandiri</span>
         </div>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 
   return (
     <div className="min-h-screen bg-canvas text-ink">
       {/* Sidebar Desktop */}
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-[248px] border-r border-line-strong bg-surface lg:block">
-        {sidebarContent}
+        {renderSidebar(false)}
       </aside>
 
       {/* Topbar Mobile */}
       <header className="sticky top-0 z-20 flex h-14 items-center justify-between border-b border-line-strong bg-surface/95 px-4 backdrop-blur lg:hidden">
         <div className="flex items-center gap-2.5">
           <button
+            ref={menuButtonRef}
             type="button"
             onClick={() => setMobileOpen(true)}
             aria-label="Buka menu navigasi"
@@ -240,7 +268,7 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
             onClick={() => setMobileOpen(false)}
           />
           <div className="animate-drawer fixed inset-y-0 left-0 w-[276px] max-w-[85vw] border-r border-line-strong bg-surface shadow-xl">
-            {sidebarContent}
+            {renderSidebar(true)}
           </div>
         </div>
       ) : null}

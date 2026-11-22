@@ -46,6 +46,13 @@ const PACKAGE_KIND_CHIP_LABELS: Record<SubtestKind, string> = {
   DRAWING: "Menggambar",
 };
 
+const SHORT_DATE_FORMATTER = new Intl.DateTimeFormat("id-ID", {
+  day: "numeric",
+  month: "short",
+  hour: "2-digit",
+  minute: "2-digit",
+});
+
 function estimatePackageMinutes(pkg: DashboardPackage): number {
   const totalSeconds = pkg.subtests.reduce((acc, s) => acc + Math.max(0, s.durationSeconds), 0);
   return Math.max(1, Math.round(totalSeconds / 60));
@@ -120,6 +127,30 @@ export function computeDashboardStats(
     completedSubtests,
     avgAccuracy,
   };
+}
+
+/**
+ * Menghitung jumlah subtes aktif unik yang sudah selesai di progres lokal.
+ * ID basi di localStorage yang tidak termasuk daftar aktif tidak ikut dihitung.
+ */
+export function countCompletedActiveSubtests(
+  activeSubtestIds: number[],
+  progress: LocalProgressStore,
+): number {
+  const seen = new Set<number>();
+  let completed = 0;
+
+  for (const id of activeSubtestIds) {
+    if (seen.has(id)) {
+      continue;
+    }
+    seen.add(id);
+    if (Boolean(progress.bySubtestId[String(id)])) {
+      completed += 1;
+    }
+  }
+
+  return completed;
 }
 
 /**
@@ -332,12 +363,7 @@ export function formatShortDate(iso: string): string {
     return "";
   }
   try {
-    return new Intl.DateTimeFormat("id-ID", {
-      day: "numeric",
-      month: "short",
-      hour: "2-digit",
-      minute: "2-digit",
-    }).format(date);
+    return SHORT_DATE_FORMATTER.format(date);
   } catch {
     return "";
   }

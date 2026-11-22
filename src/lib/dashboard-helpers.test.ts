@@ -3,6 +3,7 @@ import test from "node:test";
 import {
   computeDashboardStats,
   computeNextAction,
+  countCompletedActiveSubtests,
   formatAttemptBadge,
   formatShortDate,
   getCompanyMonogram,
@@ -251,4 +252,30 @@ test("formatShortDate memformat ISO valid dan mengembalikan string kosong untuk 
   assert.ok(/\d{2}/.test(formatted));
   assert.equal(formatShortDate("invalid-date"), "");
   assert.equal(formatShortDate(""), "");
+});
+
+test("countCompletedActiveSubtests mengabaikan ID basi di localStorage dan tidak melebihi jumlah subtes aktif", () => {
+  const entry = {
+    bestScore: 10,
+    lastScore: 10,
+    totalQuestions: 10,
+    lastAttemptId: 1,
+    attemptsCount: 1,
+    lastCompletedAt: "2026-11-22T10:00:00Z",
+  };
+  const progressWithStaleIds: LocalProgressStore = {
+    bySubtestId: {
+      "101": entry,
+      "102": entry,
+      "998": entry,
+      "999": entry,
+    },
+    recentAttempts: [],
+  };
+
+  assert.equal(countCompletedActiveSubtests([101, 102], progressWithStaleIds), 2);
+  assert.equal(countCompletedActiveSubtests([101, 101, 103], progressWithStaleIds), 1);
+  assert.equal(countCompletedActiveSubtests([500, 501], progressWithStaleIds), 0);
+  assert.equal(countCompletedActiveSubtests([], progressWithStaleIds), 0);
+  assert.equal(countCompletedActiveSubtests([101, 102], EMPTY_PROGRESS), 0);
 });

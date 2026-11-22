@@ -84,7 +84,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Cari perusahaan, paket, atau subtes..."
               aria-label="Cari perusahaan, paket, atau subtes"
-              className="w-full sm:w-72 rounded-lg border border-line-strong bg-surface py-2 pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
+              className="w-full rounded-lg border border-line-strong bg-surface py-2 pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
             />
           </div>
         ) : null}
@@ -104,18 +104,18 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
               <h2 className="mt-2 text-lg font-extrabold tracking-tight text-white sm:text-xl">
                 {nextAction.title}
               </h2>
-              <p className="mt-1 text-sm text-blue-100">{nextAction.meta}</p>
+              <p className="mt-1 text-sm text-blue-50">{nextAction.meta}</p>
             </div>
 
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:shrink-0 lg:justify-end">
               <div className="border-t border-white/25 pt-3.5 sm:border-t-0 sm:pt-0 lg:border-r lg:border-white/25 lg:pr-5 lg:text-right">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-100">
+                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-50">
                   Progres Lokal
                 </p>
                 <p className="mt-0.5 font-mono text-base font-extrabold tabular-nums text-white">
                   {stats.completedSubtests}/{stats.totalSubtests}
                   {stats.avgAccuracy !== null ? (
-                    <span className="text-sm font-semibold text-blue-100"> · {stats.avgAccuracy}%</span>
+                    <span className="text-sm font-semibold text-blue-50"> · {stats.avgAccuracy}%</span>
                   ) : null}
                 </p>
                 <Link
@@ -284,10 +284,12 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
                                       </span>
                                     ))}
                                     {totalQ > 0 ? <span className="tabular-nums">{totalQ} soal</span> : null}
-                                    <span className="inline-flex items-center gap-1 tabular-nums">
-                                      <IconClock className="h-3.5 w-3.5" />
-                                      ~{totalMinutes} mnt
-                                    </span>
+                                    {totalSub > 0 ? (
+                                      <span className="inline-flex items-center gap-1 tabular-nums">
+                                        <IconClock className="h-3.5 w-3.5" />
+                                        ~{totalMinutes} mnt
+                                      </span>
+                                    ) : null}
                                   </div>
                                 </div>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   IconArrowRight,
@@ -37,6 +37,20 @@ const BADGE_TONE_CLASSES: Record<AttemptBadge["tone"], string> = {
 export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
   const progress = useLocalProgress();
   const [confirmingReset, setConfirmingReset] = useState(false);
+  const resetTriggerRef = useRef<HTMLButtonElement>(null);
+  const cancelResetRef = useRef<HTMLButtonElement>(null);
+  const wasConfirmingResetRef = useRef(false);
+
+  useEffect(() => {
+    const wasConfirming = wasConfirmingResetRef.current;
+    wasConfirmingResetRef.current = confirmingReset;
+
+    if (!wasConfirming && confirmingReset) {
+      cancelResetRef.current?.focus();
+    } else if (wasConfirming && !confirmingReset) {
+      resetTriggerRef.current?.focus();
+    }
+  }, [confirmingReset]);
 
   const stats = useMemo(
     () => computeDashboardStats(catalog, progress),
@@ -89,6 +103,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
                   Hapus
                 </button>
                 <button
+                  ref={cancelResetRef}
                   type="button"
                   onClick={() => setConfirmingReset(false)}
                   className="inline-flex items-center justify-center rounded-lg border border-line-strong bg-surface px-3 py-2 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
@@ -98,6 +113,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
               </>
             ) : (
               <button
+                ref={resetTriggerRef}
                 type="button"
                 onClick={() => setConfirmingReset(true)}
                 className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3 py-2 text-xs font-bold text-red-700 transition hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-950/60"

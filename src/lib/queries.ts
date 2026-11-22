@@ -48,24 +48,26 @@ interface CompanyRow {
   name: string;
   description: string | null;
   package_count: string;
-  subtest_count: string;
+  subtest_ids: number[] | null;
 }
 
 export async function getCompanies(): Promise<Company[]> {
   const result = await databasePool.query<CompanyRow>(
     `SELECT c.id, c.slug, c.name, c.description,
             (SELECT COUNT(*) FROM test_packages p WHERE p.company_id = c.id) AS package_count,
-            (SELECT COUNT(*) FROM subtests s JOIN test_packages p ON p.id = s.test_package_id WHERE p.company_id = c.id) AS subtest_count
+            COALESCE((SELECT ARRAY_AGG(s.id) FROM subtests s JOIN test_packages p ON p.id = s.test_package_id WHERE p.company_id = c.id), ARRAY[]::int[]) AS subtest_ids
      FROM companies c ORDER BY c.name`,
   );
   return result.rows.map(function mapCompany(row) {
+    const subtestIds = Array.isArray(row.subtest_ids) ? row.subtest_ids.map(Number) : [];
     return {
       id: row.id,
       slug: row.slug,
       name: row.name,
       description: row.description,
       packageCount: Number(row.package_count),
-      subtestCount: Number(row.subtest_count),
+      subtestCount: subtestIds.length,
+      subtestIds,
     };
   });
 }

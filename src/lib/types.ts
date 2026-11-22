@@ -207,6 +207,7 @@ export interface Company {
   description: string | null;
   packageCount: number;
   subtestCount: number;
+  subtestIds: number[];
 }
 
 export interface TestPackage {

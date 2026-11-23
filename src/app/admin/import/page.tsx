@@ -3,12 +3,12 @@ import { redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { PackImporter } from "@/components/admin/PackImporter";
 import { IconArrowLeft, IconDownload } from "@/components/ui/Icons";
-import { isAdminAuthenticated } from "@/lib/admin-auth";
+import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin-auth";
 
 export const dynamic = "force-dynamic";
 
 export default async function ImportPage() {
-  if (!(await isAdminAuthenticated())) {
+  if (!isAdminConfigured() || !(await isAdminAuthenticated())) {
     redirect("/admin");
   }
 
@@ -24,9 +24,16 @@ export default async function ImportPage() {
               <IconArrowLeft className="h-4 w-4" />
               <span>Kembali ke Paket Soal</span>
             </Link>
-            <h1 className="mt-2 text-2xl font-bold tracking-tight text-ink">Impor Paket Soal</h1>
-            <p className="mt-1 max-w-[68ch] text-sm text-ink-secondary">
-              Slug perusahaan, paket, atau subtes yang sudah ada akan diperbarui dan soal pada subtes tersebut diganti seluruhnya. Subtes lain di paket yang sama tidak disentuh.
+            <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-ink sm:text-[26px]">
+              Impor Paket &amp; Pembahasan
+            </h1>
+            <p className="mt-1 max-w-[70ch] text-sm text-ink-secondary">
+              Sistem otomatis mendeteksi file paket soal maupun file{" "}
+              <code className="rounded border border-line bg-subtle px-1 py-0.5 font-mono text-xs text-ink">
+                pembahasanSaja
+              </code>
+              . Setiap file diperiksa lewat dry-run untuk mendeteksi duplikasi isi, perubahan soal,
+              dan risiko menimpa pembahasan rinci sebelum disimpan.
             </p>
           </div>
           <a

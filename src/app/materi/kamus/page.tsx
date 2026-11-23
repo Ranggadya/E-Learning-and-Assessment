@@ -11,7 +11,7 @@ import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
 import { CEFR_LEVELS } from "@/lib/english/constants";
 import { isCefrLevel } from "@/lib/english/logic";
 import { queryEnglishDictionary } from "@/lib/english/queries";
-import { getCompanies } from "@/lib/queries";
+import { getCompanies } from "@/lib/assessment/catalog.queries";
 
 export const dynamic = "force-dynamic";
 

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LearnerShell } from "@/components/layout/LearnerShell";
 import { EnglishQuizClient } from "@/components/materi/EnglishQuizClient";
 import { isCefrLevel } from "@/lib/english/logic";
-import { getCompanies } from "@/lib/queries";
+import { getCompanies } from "@/lib/assessment/catalog.queries";
 
 export const dynamic = "force-dynamic";
 

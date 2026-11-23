@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/Icons";
 import { QuestionTypeBadge } from "@/components/ui/QuestionTypeBadge";
 import { useCountdown } from "@/hooks/useCountdown";
-import type { PublicQuestion, SubmitAttemptInput } from "@/lib/types";
+import type { PublicQuestion, SubmitAttemptInput } from "@/types/assessment";
 
 interface TestRunnerProps {
   subtestId: number;

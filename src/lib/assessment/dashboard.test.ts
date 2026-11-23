@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import type { DashboardCompany, DashboardPackage, LocalProgressStore } from "@/types/assessment";
 import {
   computeDashboardStats,
   computeNextAction,
@@ -9,9 +10,7 @@ import {
   getCompanyMonogram,
   getPackageKindChips,
   selectCompanyPackages,
-} from "./dashboard-helpers";
-import type { LocalProgressStore } from "./local-progress";
-import type { DashboardCompany, DashboardPackage } from "./types";
+} from "./dashboard";
 
 const EMPTY_PROGRESS: LocalProgressStore = { bySubtestId: {}, recentAttempts: [] };
 

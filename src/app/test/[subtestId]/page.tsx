@@ -3,8 +3,8 @@ import { DrawingRunner } from "@/components/DrawingRunner";
 import { PauliRunner } from "@/components/PauliRunner";
 import { PersonalityRunner } from "@/components/PersonalityRunner";
 import { TestRunner } from "@/components/TestRunner";
-import { getPublicQuestions, getSubtestById } from "@/lib/queries";
-import type { DrawingConfig, PauliConfig, PersonalityConfig } from "@/lib/types";
+import { getPublicQuestions, getSubtestById } from "@/lib/assessment/catalog.queries";
+import type { DrawingConfig, PauliConfig, PersonalityConfig } from "@/types/assessment";
 
 export const dynamic = "force-dynamic";
 

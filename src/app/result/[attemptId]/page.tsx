@@ -1,7 +1,8 @@
 import { notFound } from "next/navigation";
 import { LearnerShell } from "@/components/layout/LearnerShell";
 import { ResultReviewClient } from "@/components/result/ResultReviewClient";
-import { getAttemptResult, getCompanies } from "@/lib/queries";
+import { getAttemptResult } from "@/lib/assessment/attempt.queries";
+import { getCompanies } from "@/lib/assessment/catalog.queries";
 
 export const dynamic = "force-dynamic";
 

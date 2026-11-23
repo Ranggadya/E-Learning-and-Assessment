@@ -15,7 +15,7 @@ import {
   IconSearch,
   IconUpload,
 } from "@/components/ui/Icons";
-import { getCompanyMonogram } from "@/lib/dashboard-helpers";
+import { getCompanyMonogram } from "@/lib/assessment/dashboard";
 import {
   resolveSubtestDuration,
   SUBTEST_KIND_LABEL,

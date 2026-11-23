@@ -1,41 +1,16 @@
-import type { LocalAttemptRecord, LocalProgressStore } from "./local-progress";
-import {
-  SUBTEST_UNIT,
-  type DashboardCompany,
-  type DashboardPackage,
-  type DashboardSubtest,
-  type SubtestKind,
-} from "./types";
-
-export interface DashboardStats {
-  totalCompanies: number;
-  totalPackages: number;
-  totalSubtests: number;
-  totalQuestions: number;
-  completedSubtests: number;
-  avgAccuracy: number | null;
-}
-
-export type NextActionMode = "resume" | "completed" | "start";
-
-export interface NextAction {
-  mode: NextActionMode;
-  href: string;
-  tag: string;
-  title: string;
-  meta: string;
-  ctaLabel: string;
-}
-
-export interface VisiblePackagesResult {
-  visible: DashboardPackage[];
-  hiddenCount: number;
-}
-
-export interface AttemptBadge {
-  label: string;
-  tone: "emerald" | "amber" | "red" | "blue";
-}
+import type {
+  AttemptBadge,
+  DashboardCompany,
+  DashboardPackage,
+  DashboardStats,
+  DashboardSubtest,
+  LocalAttemptRecord,
+  LocalProgressStore,
+  NextAction,
+  SubtestKind,
+  VisiblePackagesResult,
+} from "@/types/assessment";
+import { SUBTEST_UNIT } from "./constants";
 
 const LEGAL_ENTITY_WORDS = new Set(["PT", "CV", "UD", "TBK", "PERSERO"]);
 

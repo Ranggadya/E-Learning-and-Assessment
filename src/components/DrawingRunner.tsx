@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { RunnerHeader, formatClock } from "@/components/RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
 import { useCountdown } from "@/hooks/useCountdown";
-import type { DrawingConfig, DrawingSubmission, DrawingTaskConfig } from "@/lib/types";
+import type { DrawingConfig, DrawingSubmission, DrawingTaskConfig } from "@/types/assessment";
 
 interface DrawingCanvasStageProps {
   task: DrawingTaskConfig;

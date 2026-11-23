@@ -9,8 +9,9 @@ import {
   IconRotateCcw,
 } from "@/components/ui/Icons";
 import { QuestionTypeBadge } from "@/components/ui/QuestionTypeBadge";
-import { useLocalProgress } from "@/lib/local-progress";
-import { SUBTEST_KIND_LABEL, SUBTEST_UNIT, type Company, type Subtest, type TestPackage } from "@/lib/types";
+import { SUBTEST_KIND_LABEL, SUBTEST_UNIT } from "@/lib/assessment/constants";
+import { useLocalProgress } from "@/lib/client/local-progress";
+import type { Company, Subtest, TestPackage } from "@/types/assessment";
 
 interface PackageSubtestsViewProps {
   company: Company;

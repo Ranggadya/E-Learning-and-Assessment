@@ -13,9 +13,9 @@ import {
   IconMenu,
   IconShield,
 } from "@/components/ui/Icons";
-import { countCompletedActiveSubtests } from "@/lib/dashboard-helpers";
-import { useLocalProgress } from "@/lib/local-progress";
-import type { Company } from "@/lib/types";
+import { countCompletedActiveSubtests } from "@/lib/assessment/dashboard";
+import { useLocalProgress } from "@/lib/client/local-progress";
+import type { Company } from "@/types/assessment";
 
 interface LearnerShellProps {
   companies: Company[];

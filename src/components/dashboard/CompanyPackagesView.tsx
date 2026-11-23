@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { IconArrowRight, IconChevronRight, IconClock, IconLayers } from "@/components/ui/Icons";
-import { useLocalProgress } from "@/lib/local-progress";
-import type { DashboardCompany } from "@/lib/types";
+import { useLocalProgress } from "@/lib/client/local-progress";
+import type { DashboardCompany } from "@/types/assessment";
 
 interface CompanyPackagesViewProps {
   company: DashboardCompany;

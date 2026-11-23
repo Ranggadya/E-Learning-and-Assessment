@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { RunnerHeader, formatClock } from "@/components/RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
 import { useCountdown } from "@/hooks/useCountdown";
-import type { PersonalityConfig } from "@/lib/types";
+import type { PersonalityConfig } from "@/types/assessment";
 
 const SCALE_OPTIONS = [
   { value: 1, label: "Sangat Tidak Setuju", short: "1" },

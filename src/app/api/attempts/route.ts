@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { submitAttempt, submitNonQuizAttempt } from "@/lib/queries";
-import type { SubmitAttemptInput, SubmitNonQuizInput } from "@/lib/types";
+import { submitAttempt, submitNonQuizAttempt } from "@/lib/assessment/attempt.queries";
+import type { SubmitAttemptInput, SubmitNonQuizInput } from "@/types/assessment";
 
 function isValidQuizPayload(value: unknown): value is SubmitAttemptInput {
   if (typeof value !== "object" || value === null) {

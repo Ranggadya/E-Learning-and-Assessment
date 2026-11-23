@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { RunnerHeader } from "@/components/RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
 import { useCountdown } from "@/hooks/useCountdown";
-import type { PauliColumnStat, PauliConfig } from "@/lib/types";
+import type { PauliColumnStat, PauliConfig } from "@/types/assessment";
 
 function generateColumns(columns: number, digitsPerColumn: number): number[][] {
   return Array.from({ length: columns }, () =>

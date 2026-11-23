@@ -15,9 +15,9 @@ import {
   getCompanyMonogram,
   getPackageKindChips,
   selectCompanyPackages,
-} from "@/lib/dashboard-helpers";
-import { useLocalProgress } from "@/lib/local-progress";
-import type { DashboardCompany } from "@/lib/types";
+} from "@/lib/assessment/dashboard";
+import { useLocalProgress } from "@/lib/client/local-progress";
+import type { DashboardCompany } from "@/types/assessment";
 
 interface LearnerDashboardProps {
   catalog: DashboardCompany[];

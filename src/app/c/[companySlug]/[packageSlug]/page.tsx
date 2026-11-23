@@ -6,7 +6,7 @@ import {
   getCompanyBySlug,
   getPackageBySlugs,
   getSubtestsByPackageId,
-} from "@/lib/queries";
+} from "@/lib/assessment/catalog.queries";
 
 export const dynamic = "force-dynamic";
 

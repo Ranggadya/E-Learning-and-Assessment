@@ -11,8 +11,8 @@ import {
   IconRotateCcw,
   IconXCircle,
 } from "@/components/ui/Icons";
-import { recordLocalAttempt } from "@/lib/local-progress";
-import type { AttemptResult } from "@/lib/types";
+import { recordLocalAttempt } from "@/lib/client/local-progress";
+import type { AttemptResult } from "@/types/assessment";
 
 type ReviewFilter = "all" | "wrong" | "blank" | "correct";
 

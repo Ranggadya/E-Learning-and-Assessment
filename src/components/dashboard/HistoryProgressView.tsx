@@ -8,18 +8,18 @@ import {
   IconHistory,
   IconTrash,
 } from "@/components/ui/Icons";
+import { SUBTEST_KIND_LABEL } from "@/lib/assessment/constants";
 import {
   computeDashboardStats,
   formatAttemptBadge,
   formatShortDate,
-  type AttemptBadge,
-} from "@/lib/dashboard-helpers";
-import { clearLocalProgress, useLocalProgress } from "@/lib/local-progress";
-import {
-  SUBTEST_KIND_LABEL,
-  type DashboardCompany,
-  type DashboardSubtest,
-} from "@/lib/types";
+} from "@/lib/assessment/dashboard";
+import { clearLocalProgress, useLocalProgress } from "@/lib/client/local-progress";
+import type {
+  AttemptBadge,
+  DashboardCompany,
+  DashboardSubtest,
+} from "@/types/assessment";
 
 interface HistoryProgressViewProps {
   catalog: DashboardCompany[];

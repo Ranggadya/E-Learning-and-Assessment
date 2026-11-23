@@ -670,61 +670,80 @@ export async function updatePackageMetadata(
   }
 }
 
-export interface SubtestEditTarget {
-  id: number;
-  slug: string;
-  name: string;
-  durationSeconds: number;
-  kind: SubtestKind;
+export interface UpdatedSubtestResult {
   companySlug: string;
   packageSlug: string;
   packageName: string;
-}
-
-export async function getSubtestForEdit(subtestId: number): Promise<SubtestEditTarget | null> {
-  const result = await databasePool.query<{
-    id: number;
-    slug: string;
-    name: string;
-    duration_seconds: number;
-    kind: string;
-    company_slug: string;
-    package_slug: string;
-    package_name: string;
-  }>(
-    `SELECT s.id, s.slug, s.name, s.duration_seconds, s.kind,
-            c.slug AS company_slug, p.slug AS package_slug, p.name AS package_name
-     FROM subtests s
-     JOIN test_packages p ON p.id = s.test_package_id
-     JOIN companies c ON c.id = p.company_id
-     WHERE s.id = $1`,
-    [subtestId],
-  );
-  if (result.rows.length === 0) {
-    return null;
-  }
-  const row = result.rows[0];
-  return {
-    id: row.id,
-    slug: row.slug,
-    name: row.name,
-    durationSeconds: row.duration_seconds,
-    kind: (row.kind as SubtestKind) ?? "QUIZ",
-    companySlug: row.company_slug,
-    packageSlug: row.package_slug,
-    packageName: row.package_name,
-  };
+  subtestSlug: string;
+  kind: SubtestKind;
+  before: { name: string; durationSeconds: number };
+  after: { name: string; durationSeconds: number };
 }
 
 export async function updateSubtestMetadata(
   subtestId: number,
-  input: { name: string; durationSeconds: number },
-): Promise<boolean> {
-  const result = await databasePool.query(
-    "UPDATE subtests SET name = $2, duration_seconds = $3 WHERE id = $1",
-    [subtestId, input.name, input.durationSeconds],
-  );
-  return (result.rowCount ?? 0) > 0;
+  validate: (kind: SubtestKind, currentDurationSeconds: number) =>
+    | { ok: true; data: { name: string; durationSeconds: number } }
+    | { ok: false; error: string },
+): Promise<
+  | { ok: true; updated: UpdatedSubtestResult }
+  | { ok: false; status: 400 | 404; error: string }
+> {
+  const client = await databasePool.connect();
+  try {
+    await client.query("BEGIN");
+    const existing = await client.query<{
+      slug: string;
+      name: string;
+      duration_seconds: number;
+      kind: string;
+      company_slug: string;
+      package_slug: string;
+      package_name: string;
+    }>(
+      `SELECT s.slug, s.name, s.duration_seconds, s.kind,
+              c.slug AS company_slug, p.slug AS package_slug, p.name AS package_name
+       FROM subtests s
+       JOIN test_packages p ON p.id = s.test_package_id
+       JOIN companies c ON c.id = p.company_id
+       WHERE s.id = $1
+       FOR UPDATE OF s`,
+      [subtestId],
+    );
+    if (existing.rows.length === 0) {
+      await client.query("ROLLBACK");
+      return { ok: false, status: 404, error: "Subtes tidak ditemukan" };
+    }
+    const row = existing.rows[0];
+    const kind: SubtestKind = (row.kind as SubtestKind) ?? "QUIZ";
+    const validation = validate(kind, row.duration_seconds);
+    if (!validation.ok) {
+      await client.query("ROLLBACK");
+      return { ok: false, status: 400, error: validation.error };
+    }
+    await client.query(
+      "UPDATE subtests SET name = $2, duration_seconds = $3 WHERE id = $1",
+      [subtestId, validation.data.name, validation.data.durationSeconds],
+    );
+    await client.query("COMMIT");
+    return {
+      ok: true,
+      updated: {
+        companySlug: row.company_slug,
+        packageSlug: row.package_slug,
+        packageName: row.package_name,
+        subtestSlug: row.slug,
+        kind,
+        before: { name: row.name, durationSeconds: row.duration_seconds },
+        after: validation.data,
+      },
+    };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
 }
 
 export interface DeletedPackageMeta {
@@ -734,31 +753,30 @@ export interface DeletedPackageMeta {
   packageName: string;
 }
 
-// Menghapus paket; perusahaan yang tidak punya paket lagi ikut dihapus agar tidak jadi kosong di beranda.
+// Menghapus paket secara atomik; perusahaan tanpa paket tersisa ikut dihapus agar beranda tetap bersih.
 export async function deletePackage(packageId: number): Promise<DeletedPackageMeta | null> {
   const client = await databasePool.connect();
   try {
     await client.query("BEGIN");
-    const existing = await client.query<{
+    const deleted = await client.query<{
       company_id: number;
       company_slug: string;
       company_name: string;
       package_slug: string;
       package_name: string;
     }>(
-      `SELECT p.company_id, c.slug AS company_slug, c.name AS company_name,
-              p.slug AS package_slug, p.name AS package_name
-       FROM test_packages p
-       JOIN companies c ON c.id = p.company_id
-       WHERE p.id = $1`,
+      `DELETE FROM test_packages p
+       USING companies c
+       WHERE p.id = $1 AND c.id = p.company_id
+       RETURNING p.company_id, c.slug AS company_slug, c.name AS company_name,
+                 p.slug AS package_slug, p.name AS package_name`,
       [packageId],
     );
-    if (existing.rows.length === 0) {
+    if (deleted.rows.length === 0) {
       await client.query("ROLLBACK");
       return null;
     }
-    const meta = existing.rows[0];
-    await client.query("DELETE FROM test_packages WHERE id = $1", [packageId]);
+    const meta = deleted.rows[0];
     await client.query(
       `DELETE FROM companies c WHERE c.id = $1
        AND NOT EXISTS (SELECT 1 FROM test_packages p WHERE p.company_id = c.id)`,

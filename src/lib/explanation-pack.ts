@@ -9,6 +9,8 @@ import {
 import {
   formatUploadTimestamp,
   ImportConfirmationRequiredError,
+  type ImportDbClient,
+  type ImportExecutionOptions,
   type ImportedSubtestSummary,
   type ImportSummary,
 } from "./pack-import";
@@ -65,12 +67,18 @@ export function validateExplanationPack(input: unknown): ExplanationValidation {
   if (!Array.isArray(input.subtests) || input.subtests.length === 0) {
     errors.push("subtests wajib berisi minimal satu subtes");
   } else {
+    const seenSlugs = new Set<string>();
     input.subtests.forEach(function checkSubtest(subtest, subtestIndex) {
       const label = `subtests[${subtestIndex}]`;
-      if (!isRecord(subtest) || typeof subtest.slug !== "string" || !Array.isArray(subtest.explanations) || subtest.explanations.length === 0) {
+      if (!isRecord(subtest) || typeof subtest.slug !== "string" || !subtest.slug.trim() || !Array.isArray(subtest.explanations) || subtest.explanations.length === 0) {
         errors.push(`${label}: wajib berisi slug dan explanations`);
         return;
       }
+      if (seenSlugs.has(subtest.slug)) {
+        errors.push(`${label}.slug: "${subtest.slug}" dipakai dua kali dalam file ini`);
+      }
+      seenSlugs.add(subtest.slug);
+
       const seen = new Set<number>();
       subtest.explanations.forEach(function checkEntry(entry, entryIndex) {
         const entryLabel = `${subtest.slug} butir ${entryIndex + 1}`;
@@ -124,18 +132,18 @@ interface PendingExplanationUpdate {
 
 export async function importExplanations(
   pack: ExplanationPackFile,
-  options: { dryRun: boolean; force?: boolean; contentHash?: string },
+  options: ImportExecutionOptions,
 ): Promise<ImportSummary> {
   const contentHash = options.contentHash ?? computeCanonicalHash(pack);
-  // Jalankan di luar transaksi agar ketiadaan tabel import_audit_logs (42P01) tidak menggagalkan transaksi utama.
-  const previousUpload = await findPreviousSuccessfulUpload(contentHash);
+  const lookupPrevious = options.findPreviousUpload ?? findPreviousSuccessfulUpload;
+  const previousUpload = await lookupPrevious(contentHash);
 
-  const { databasePool } = await import("./db");
-  const client = await databasePool.connect();
-  let transactionClosed = false;
+  const client: ImportDbClient = options.connectClient
+    ? await options.connectClient()
+    : await (await import("./db")).databasePool.connect();
+  let inTransaction = false;
 
   try {
-    await client.query("BEGIN");
     const packageResult = await client.query<{ id: number; name: string; company_name: string }>(
       `SELECT p.id, p.name, c.name AS company_name
        FROM test_packages p JOIN companies c ON c.id = p.company_id
@@ -322,40 +330,49 @@ export async function importExplanations(
     };
 
     if (options.dryRun) {
-      await client.query("ROLLBACK");
-      transactionClosed = true;
       return summary;
     }
 
     if (requiresConfirmation && !options.force) {
-      await client.query("ROLLBACK");
-      transactionClosed = true;
       throw new ImportConfirmationRequiredError(summary);
     }
 
-    for (const { questionId, entry } of pendingUpdates) {
+    if (pendingUpdates.length > 0) {
+      const questionIds: number[] = [];
+      const explanations: (string | null)[] = [];
+      const stepsJson: (string | null)[] = [];
+      const wrongNotesJson: (string | null)[] = [];
+      const quickTips: (string | null)[] = [];
+
+      for (const { questionId, entry } of pendingUpdates) {
+        questionIds.push(questionId);
+        explanations.push(entry.explanation ?? null);
+        stepsJson.push(entry.steps ? JSON.stringify(entry.steps) : null);
+        wrongNotesJson.push(entry.wrongNotes ? JSON.stringify(entry.wrongNotes) : null);
+        quickTips.push(entry.quickTip ?? null);
+      }
+
+      await client.query("BEGIN");
+      inTransaction = true;
       await client.query(
-        `UPDATE questions SET
-           explanation = COALESCE($2, explanation),
-           steps = COALESCE($3::jsonb, steps),
-           wrong_notes = COALESCE($4::jsonb, wrong_notes),
-           quick_tip = COALESCE($5, quick_tip)
-         WHERE id = $1`,
-        [
-          questionId,
-          entry.explanation ?? null,
-          entry.steps ? JSON.stringify(entry.steps) : null,
-          entry.wrongNotes ? JSON.stringify(entry.wrongNotes) : null,
-          entry.quickTip ?? null,
-        ],
+        `UPDATE questions AS q
+         SET
+           explanation = COALESCE(u.explanation, q.explanation),
+           steps = COALESCE(u.steps::jsonb, q.steps),
+           wrong_notes = COALESCE(u.wrong_notes::jsonb, q.wrong_notes),
+           quick_tip = COALESCE(u.quick_tip, q.quick_tip)
+         FROM UNNEST($1::int[], $2::text[], $3::text[], $4::text[], $5::text[])
+           AS u(id, explanation, steps, wrong_notes, quick_tip)
+         WHERE q.id = u.id`,
+        [questionIds, explanations, stepsJson, wrongNotesJson, quickTips],
       );
+      await client.query("COMMIT");
+      inTransaction = false;
     }
 
-    await client.query("COMMIT");
-    transactionClosed = true;
     return summary;
   } catch (error) {
-    if (!transactionClosed) {
+    if (inTransaction) {
       await client.query("ROLLBACK");
     }
     throw error;

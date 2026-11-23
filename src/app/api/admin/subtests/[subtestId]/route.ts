@@ -2,15 +2,17 @@ import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin-auth";
 import { recordAuditLog } from "@/lib/audit-log";
 import { validateSubtestUpdateInput } from "@/lib/import-analysis";
-import { deleteSubtest, getSubtestForEdit, updateSubtestMetadata } from "@/lib/queries";
+import { deleteSubtest, updateSubtestMetadata } from "@/lib/queries";
 
 interface RouteContext {
   params: Promise<{ subtestId: string }>;
 }
 
+const MAX_PG_INT4 = 2_147_483_647;
+
 function parseSubtestId(raw: string): number | null {
   const id = Number(raw);
-  return Number.isInteger(id) && id > 0 ? id : null;
+  return Number.isInteger(id) && id > 0 && id <= MAX_PG_INT4 ? id : null;
 }
 
 export async function PATCH(request: Request, context: RouteContext) {
@@ -24,11 +26,6 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "ID subtes tidak valid" }, { status: 400 });
   }
 
-  const existing = await getSubtestForEdit(subtestId);
-  if (!existing) {
-    return NextResponse.json({ error: "Subtes tidak ditemukan" }, { status: 404 });
-  }
-
   let body: unknown;
   try {
     body = await request.json();
@@ -36,31 +33,29 @@ export async function PATCH(request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Payload JSON tidak valid." }, { status: 400 });
   }
 
-  const validation = validateSubtestUpdateInput(body, existing.kind, existing.durationSeconds);
-  if (!validation.ok) {
-    return NextResponse.json({ error: validation.error }, { status: 400 });
+  const result = await updateSubtestMetadata(subtestId, (kind, currentDurationSeconds) =>
+    validateSubtestUpdateInput(body, kind, currentDurationSeconds),
+  );
+  if (!result.ok) {
+    return NextResponse.json({ error: result.error }, { status: result.status });
   }
 
-  const wasUpdated = await updateSubtestMetadata(subtestId, validation.data);
-  if (!wasUpdated) {
-    return NextResponse.json({ error: "Subtes tidak ditemukan" }, { status: 404 });
-  }
-
+  const { updated } = result;
   await recordAuditLog({
     actionType: "SUBTEST_UPDATED",
     status: "SUCCESS",
-    companySlug: existing.companySlug,
-    packageSlug: existing.packageSlug,
-    targetLabel: `${existing.packageName} / ${validation.data.name}`,
+    companySlug: updated.companySlug,
+    packageSlug: updated.packageSlug,
+    targetLabel: `${updated.packageName} / ${updated.after.name}`,
     summary: {
-      subtestSlug: existing.slug,
-      kind: existing.kind,
-      before: { name: existing.name, durationSeconds: existing.durationSeconds },
-      after: validation.data,
+      subtestSlug: updated.subtestSlug,
+      kind: updated.kind,
+      before: updated.before,
+      after: updated.after,
     },
   });
 
-  return NextResponse.json({ ok: true, subtest: { id: subtestId, ...validation.data } });
+  return NextResponse.json({ ok: true, subtest: { id: subtestId, ...updated.after } });
 }
 
 export async function DELETE(_request: Request, context: RouteContext) {

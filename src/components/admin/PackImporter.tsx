@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
+  ADMIN_BADGE_TONES,
+  formatDateTimeId,
+  formatDurationLabel,
+} from "@/components/admin/admin-format";
+import {
   IconAlertTriangle,
   IconCheckCircle,
   IconClipboardList,
@@ -21,17 +26,6 @@ interface ApiResponse {
   requiresConfirmation?: boolean;
 }
 
-const BADGE_TONES = {
-  neutral: "border border-line-strong bg-subtle text-ink-secondary",
-  emerald:
-    "border border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800/70 dark:bg-emerald-950/60 dark:text-emerald-300",
-  amber:
-    "border border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-700/70 dark:bg-amber-950/60 dark:text-amber-300",
-  rose:
-    "border border-rose-200 bg-rose-50 text-rose-800 dark:border-rose-800/70 dark:bg-rose-950/60 dark:text-rose-300",
-  brand: "border border-brand/30 bg-brand-soft text-brand-text",
-} as const;
-
 // HTTP Fetch headers require ISO-8859-1 (ByteString <= 0xFF) and forbid control chars.
 function toSafeHeaderFileName(raw: string | undefined | null): string | null {
   if (!raw) {
@@ -47,32 +41,6 @@ function toSafeHeaderFileName(raw: string | undefined | null): string | null {
   return cleaned ? cleaned.slice(0, 180) : null;
 }
 
-function formatTimestampId(iso: string): string {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) {
-    return iso;
-  }
-  return new Intl.DateTimeFormat("id-ID", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(date);
-}
-
-function formatDurationLabel(seconds: number): string {
-  if (seconds <= 0) {
-    return "0 dtk";
-  }
-  if (seconds >= 60 && seconds % 60 === 0) {
-    return `${seconds / 60} menit`;
-  }
-  if (seconds < 60) {
-    return `${seconds} dtk`;
-  }
-  const mins = Math.floor(seconds / 60);
-  const rem = seconds % 60;
-  return `${mins} mnt ${rem} dtk`;
-}
-
 function getSubtestImpactBadges(
   subtest: ImportedSubtestSummary,
   isExplanationMode: boolean,
@@ -82,22 +50,22 @@ function getSubtestImpactBadges(
   if (subtest.changeType === "baru") {
     badges.push({
       label: isExplanationMode ? "Pembahasan baru" : "Subtes baru",
-      className: BADGE_TONES.emerald,
+      className: ADMIN_BADGE_TONES.emerald,
     });
   } else if (subtest.changeType === "identik") {
     badges.push({
       label: "Identik · dilewati",
-      className: BADGE_TONES.neutral,
+      className: ADMIN_BADGE_TONES.neutral,
     });
   } else if (isExplanationMode) {
     badges.push({
       label: "Pembahasan ditimpa",
-      className: BADGE_TONES.amber,
+      className: ADMIN_BADGE_TONES.amber,
     });
     if ((subtest.existingDetailedOverwriteCount ?? 0) > 0) {
       badges.push({
         label: `${subtest.existingDetailedOverwriteCount} pembahasan rinci ditimpa`,
-        className: BADGE_TONES.rose,
+        className: ADMIN_BADGE_TONES.rose,
       });
     }
   } else {
@@ -105,23 +73,23 @@ function getSubtestImpactBadges(
       subtest.changedQuestionCount > 0
         ? {
             label: `Soal diganti (${subtest.changedQuestionCount} berubah)`,
-            className: BADGE_TONES.rose,
+            className: ADMIN_BADGE_TONES.rose,
           }
         : {
             label: "Metadata/konfigurasi berubah",
-            className: BADGE_TONES.amber,
+            className: ADMIN_BADGE_TONES.amber,
           },
     );
     if (subtest.losesDetailedExplanations) {
       badges.push({
         label: `Kehilangan pembahasan rinci (${subtest.existingDetailedCount} → ${subtest.incomingDetailedCount})`,
-        className: BADGE_TONES.rose,
+        className: ADMIN_BADGE_TONES.rose,
       });
     }
     if (subtest.replacedAttemptCount > 0) {
       badges.push({
         label: `${subtest.replacedAttemptCount} riwayat terdampak`,
-        className: BADGE_TONES.amber,
+        className: ADMIN_BADGE_TONES.amber,
       });
     }
   }
@@ -129,7 +97,7 @@ function getSubtestImpactBadges(
   if (subtest.coverageMismatch) {
     badges.push({
       label: `Cakupan tidak sama (${subtest.questionCount}/${subtest.existingQuestionCount})`,
-      className: BADGE_TONES.amber,
+      className: ADMIN_BADGE_TONES.amber,
     });
   }
 
@@ -187,19 +155,18 @@ export function PackImporter() {
     if (!target) {
       return;
     }
+    pendingFocusRef.current = null;
     const element =
       target === "confirmation"
         ? confirmationPanelRef.current
         : target === "rejected"
           ? rejectedNoticeRef.current
           : errorsAlertRef.current;
-    if (element) {
-      pendingFocusRef.current = null;
-      element.focus();
-    }
+    element?.focus();
   }, [stage, summary, errors, rejectedNotice]);
 
   function resetResult() {
+    pendingFocusRef.current = null;
     setStage("idle");
     setSummary(null);
     setErrors([]);
@@ -214,6 +181,9 @@ export function PackImporter() {
   }
 
   async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (isBusy || isRejecting) {
+      return;
+    }
     const file = event.target.files?.[0];
     if (!file) {
       return;
@@ -224,6 +194,9 @@ export function PackImporter() {
   async function handleDrop(event: React.DragEvent<HTMLDivElement>) {
     event.preventDefault();
     setIsDragging(false);
+    if (isBusy || isRejecting) {
+      return;
+    }
     const file = event.dataTransfer.files?.[0];
     if (!file) {
       return;
@@ -301,8 +274,9 @@ export function PackImporter() {
       return;
     }
     setIsRejecting(true);
+    let logged = false;
     try {
-      await fetch("/api/admin/packs/reject", {
+      const response = await fetch("/api/admin/packs/reject", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -315,8 +289,9 @@ export function PackImporter() {
           warnings: summary.warnings,
         }),
       });
+      logged = response.ok;
     } catch {
-      // Penolakan UI tetap berlanjut meskipun pencatatan audit gagal.
+      // Penolakan UI tetap berlanjut, namun pesan mencerminkan kegagalan pencatatan.
     } finally {
       pendingFocusRef.current = "rejected";
       setIsRejecting(false);
@@ -324,7 +299,11 @@ export function PackImporter() {
       setSummary(null);
       setErrors([]);
       setForceConfirmed(false);
-      setRejectedNotice("Impor dibatalkan dan dicatat di Audit Log.");
+      setRejectedNotice(
+        logged
+          ? "Impor dibatalkan dan dicatat di Audit Log."
+          : "Impor dibatalkan (gagal mencatat ke Audit Log).",
+      );
     }
   }
 
@@ -459,6 +438,7 @@ export function PackImporter() {
           </div>
           <textarea
             id="pack-text"
+            disabled={isBusy || isRejecting}
             value={jsonText}
             onChange={(event) => {
               setJsonText(event.target.value);
@@ -467,7 +447,7 @@ export function PackImporter() {
             }}
             rows={9}
             spellCheck={false}
-            className="mt-1.5 w-full rounded-lg border border-line-strong bg-canvas p-3.5 font-mono text-xs leading-relaxed text-ink placeholder:text-ink-muted transition focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
+            className="mt-1.5 w-full rounded-lg border border-line-strong bg-canvas p-3.5 font-mono text-xs leading-relaxed text-ink placeholder:text-ink-muted transition focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none disabled:cursor-not-allowed disabled:opacity-60"
             placeholder='{"company": {"slug": "...", "name": "..."}, "package": {...}, "subtests": [...]}'
           />
         </div>
@@ -549,7 +529,7 @@ export function PackImporter() {
                     : "Paket berhasil diimpor"
                   : "Pratinjau & Integritas (belum disimpan)"}
               </h2>
-              <span className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${BADGE_TONES.brand}`}>
+              <span className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${ADMIN_BADGE_TONES.brand}`}>
                 {isExplanationMode ? "Pembahasan Saja" : "Paket Soal"}
               </span>
             </div>
@@ -563,7 +543,7 @@ export function PackImporter() {
                   suppressHydrationWarning
                   className="rounded border border-amber-300 bg-amber-50 px-2 py-0.5 font-medium text-amber-900 dark:border-amber-700/70 dark:bg-amber-950/60 dark:text-amber-200"
                 >
-                  Pernah diunggah: {formatTimestampId(summary.previousUploadAt)}
+                  Pernah diunggah: {formatDateTimeId(summary.previousUploadAt)}
                 </span>
               ) : null}
               <span className="font-mono tabular-nums">
@@ -630,7 +610,7 @@ export function PackImporter() {
                               <span className="font-semibold text-ink">{subtest.name}</span>
                               {subtest.kind !== "QUIZ" ? (
                                 <span
-                                  className={`rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${BADGE_TONES.brand}`}
+                                  className={`rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${ADMIN_BADGE_TONES.brand}`}
                                 >
                                   {SUBTEST_KIND_LABEL[subtest.kind]}
                                 </span>
@@ -701,7 +681,7 @@ export function PackImporter() {
                         </div>
                         {subtest.kind !== "QUIZ" ? (
                           <span
-                            className={`rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${BADGE_TONES.brand}`}
+                            className={`rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${ADMIN_BADGE_TONES.brand}`}
                           >
                             {SUBTEST_KIND_LABEL[subtest.kind]}
                           </span>
@@ -782,13 +762,13 @@ export function PackImporter() {
                         </span>
                         <div className="flex flex-wrap items-center gap-1.5">
                           <span
-                            className={`rounded-md px-2 py-0.5 font-mono text-[11px] font-bold ${BADGE_TONES.brand}`}
+                            className={`rounded-md px-2 py-0.5 font-mono text-[11px] font-bold ${ADMIN_BADGE_TONES.brand}`}
                           >
                             Kunci DB: {spot.correctOption}
                           </span>
                           {spot.alreadyHasDetailed ? (
                             <span
-                              className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${BADGE_TONES.amber}`}
+                              className={`rounded-md px-2 py-0.5 text-[11px] font-bold ${ADMIN_BADGE_TONES.amber}`}
                             >
                               Sudah ada pembahasan rinci
                             </span>

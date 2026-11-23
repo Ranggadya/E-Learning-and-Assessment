@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ADMIN_BADGE_TONES, formatDurationLabel } from "@/components/admin/admin-format";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import {
   IconAlertTriangle,
@@ -43,17 +44,6 @@ interface PackageExplanationSummary {
   isComplete: boolean;
 }
 
-const BADGE_TONE_CLASSES = {
-  neutral: "border border-line bg-subtle text-ink-secondary",
-  emerald:
-    "border border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800/70 dark:bg-emerald-950/60 dark:text-emerald-300",
-  amber:
-    "border border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-700/70 dark:bg-amber-950/60 dark:text-amber-300",
-  rose:
-    "border border-rose-200 bg-rose-50 text-rose-800 dark:border-rose-800/70 dark:bg-rose-950/60 dark:text-rose-300",
-  brand: "border border-brand/30 bg-brand-soft text-brand-text",
-} as const;
-
 const FILTER_OPTIONS: Array<{ value: ExplanationFilter; label: string }> = [
   { value: "all", label: "Semua" },
   { value: "needs_explanation", label: "Perlu Pembahasan" },
@@ -89,11 +79,13 @@ function summarizePackage(pkg: AdminPackage): PackageExplanationSummary {
   };
 }
 
-function matchesStatusFilter(pkg: AdminPackage, filter: ExplanationFilter): boolean {
+function matchesStatusFilter(
+  summary: PackageExplanationSummary,
+  filter: ExplanationFilter,
+): boolean {
   if (filter === "all") {
     return true;
   }
-  const summary = summarizePackage(pkg);
   return filter === "needs_explanation" ? summary.needsExplanation : summary.isComplete;
 }
 
@@ -102,23 +94,23 @@ function getPackageStatusBadge(summary: PackageExplanationSummary): {
   className: string;
 } {
   if (summary.quizQuestions === 0) {
-    return { label: "Non-Kuis", className: BADGE_TONE_CLASSES.neutral };
+    return { label: "Non-Kuis", className: ADMIN_BADGE_TONES.neutral };
   }
   if (summary.detailedQuizQuestions >= summary.quizQuestions) {
     return {
       label: `Pembahasan Lengkap (${summary.detailedQuizQuestions}/${summary.quizQuestions})`,
-      className: BADGE_TONE_CLASSES.emerald,
+      className: ADMIN_BADGE_TONES.emerald,
     };
   }
   if (summary.detailedQuizQuestions > 0) {
     return {
       label: `Pembahasan Parsial (${summary.detailedQuizQuestions}/${summary.quizQuestions})`,
-      className: BADGE_TONE_CLASSES.amber,
+      className: ADMIN_BADGE_TONES.amber,
     };
   }
   return {
     label: `Belum Ada Pembahasan (0/${summary.quizQuestions})`,
-    className: BADGE_TONE_CLASSES.rose,
+    className: ADMIN_BADGE_TONES.rose,
   };
 }
 
@@ -134,34 +126,19 @@ function getSubtestExplanationBadge(subtest: AdminSubtest): {
   if (detailed >= subtest.questionCount) {
     return {
       label: `Lengkap ${detailed}/${subtest.questionCount}`,
-      className: BADGE_TONE_CLASSES.emerald,
+      className: ADMIN_BADGE_TONES.emerald,
     };
   }
   if (detailed > 0) {
     return {
       label: `Parsial ${detailed}/${subtest.questionCount}`,
-      className: BADGE_TONE_CLASSES.amber,
+      className: ADMIN_BADGE_TONES.amber,
     };
   }
   return {
     label: "Belum Ada",
-    className: BADGE_TONE_CLASSES.rose,
+    className: ADMIN_BADGE_TONES.rose,
   };
-}
-
-function formatDurationLabel(seconds: number): string {
-  if (seconds <= 0) {
-    return "0 detik";
-  }
-  if (seconds >= 60 && seconds % 60 === 0) {
-    return `${seconds / 60} menit`;
-  }
-  if (seconds < 60) {
-    return `${seconds} detik`;
-  }
-  const mins = Math.floor(seconds / 60);
-  const rem = seconds % 60;
-  return `${mins} menit ${rem} dtk`;
 }
 
 async function readApiError(response: Response, fallback: string): Promise<string> {
@@ -238,7 +215,9 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
             company.slug.toLowerCase().includes(trimmed));
 
         const matchedPackages = company.packages
-          .filter((pkg) => matchesStatusFilter(pkg, statusFilter))
+          .filter((pkg) =>
+            matchesStatusFilter(packageSummaryById.get(pkg.id) ?? summarizePackage(pkg), statusFilter),
+          )
           .map((pkg) => {
             if (!trimmed || companyMatches) {
               return pkg;
@@ -261,9 +240,12 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
         return matchedPackages.length > 0 ? { ...company, packages: matchedPackages } : null;
       })
       .filter((item): item is AdminCompany => item !== null);
-  }, [companies, query, statusFilter]);
+  }, [companies, packageSummaryById, query, statusFilter]);
 
   function openPackageEdit(pkg: AdminPackage) {
+    if (isSaving) {
+      return;
+    }
     if (editingTarget?.type === "package" && editingTarget.id === pkg.id) {
       setEditingTarget(null);
       setEditError(null);
@@ -276,6 +258,9 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
   }
 
   function openSubtestEdit(subtest: AdminSubtest) {
+    if (isSaving) {
+      return;
+    }
     if (editingTarget?.type === "subtest" && editingTarget.id === subtest.id) {
       setEditingTarget(null);
       setEditError(null);
@@ -627,9 +612,10 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
                             <div className="flex flex-wrap items-center gap-2">
                               <button
                                 type="button"
+                                disabled={isSaving}
                                 onClick={() => openPackageEdit(testPackage)}
                                 aria-expanded={isEditingPkg}
-                                className="inline-flex items-center gap-1 rounded-md border border-line-strong bg-surface px-2.5 py-1 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
+                                className="inline-flex items-center gap-1 rounded-md border border-line-strong bg-surface px-2.5 py-1 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
                               >
                                 <IconEdit className="h-3.5 w-3.5" />
                                 <span>Edit</span>
@@ -755,7 +741,7 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
                                     </code>
                                     {kind !== "QUIZ" ? (
                                       <span
-                                        className={`rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${BADGE_TONE_CLASSES.brand}`}
+                                        className={`rounded-md px-1.5 py-0.5 text-[11px] font-semibold ${ADMIN_BADGE_TONES.brand}`}
                                       >
                                         {SUBTEST_KIND_LABEL[kind]}
                                       </span>
@@ -776,9 +762,10 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
                                   <div className="flex items-center gap-2">
                                     <button
                                       type="button"
+                                      disabled={isSaving}
                                       onClick={() => openSubtestEdit(subtest)}
                                       aria-expanded={isEditingSubtest}
-                                      className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
+                                      className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink disabled:cursor-not-allowed disabled:opacity-50"
                                     >
                                       <IconEdit className="h-3.5 w-3.5" />
                                       <span>Edit</span>

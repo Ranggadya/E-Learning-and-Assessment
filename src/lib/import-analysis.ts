@@ -25,16 +25,7 @@ export interface ExistingQuestionSnapshot {
   quickTip: string | null;
 }
 
-export interface ExistingSubtestSnapshot {
-  name: string;
-  description: string | null;
-  durationSeconds: number;
-  kind: SubtestKind;
-  config: unknown | null;
-  questions: ExistingQuestionSnapshot[];
-}
-
-export interface IncomingSubtestSnapshot {
+export interface SubtestSnapshot {
   name: string;
   description: string | null;
   durationSeconds: number;
@@ -175,7 +166,7 @@ function hashQuestion(q: ExistingQuestionSnapshot): string {
   });
 }
 
-function hashSubtestMeta(s: ExistingSubtestSnapshot | IncomingSubtestSnapshot): string {
+function hashSubtestMeta(s: SubtestSnapshot): string {
   return computeCanonicalHash({
     name: s.name,
     description: s.description ?? null,
@@ -187,8 +178,8 @@ function hashSubtestMeta(s: ExistingSubtestSnapshot | IncomingSubtestSnapshot): 
 
 /** Membandingkan subtes lama di DB dengan subtes masuk untuk mendeteksi perubahan dan risiko kehilangan pembahasan detail. */
 export function compareSubtestContent(
-  existing: ExistingSubtestSnapshot,
-  incoming: IncomingSubtestSnapshot,
+  existing: SubtestSnapshot,
+  incoming: SubtestSnapshot,
 ): SubtestComparisonResult {
   const existingSorted = [...existing.questions].sort((a, b) => a.orderIndex - b.orderIndex);
   const incomingSorted = [...incoming.questions].sort((a, b) => a.orderIndex - b.orderIndex);

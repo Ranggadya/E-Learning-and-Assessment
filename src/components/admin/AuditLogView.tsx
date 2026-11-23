@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
+import { ADMIN_BADGE_TONES, formatDateTimeId } from "@/components/admin/admin-format";
 import {
   IconAlertTriangle,
   IconArrowLeft,
@@ -25,40 +26,29 @@ interface AuditLogViewProps {
 type CategoryFilter = "all" | "pack" | "explanation" | "mutation";
 type StatusFilter = "all" | AuditStatus;
 
-const BADGE_TONES = {
-  neutral: "border border-line-strong bg-subtle text-ink-secondary",
-  emerald:
-    "border border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-800/70 dark:bg-emerald-950/60 dark:text-emerald-300",
-  amber:
-    "border border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-700/70 dark:bg-amber-950/60 dark:text-amber-300",
-  rose:
-    "border border-rose-200 bg-rose-50 text-rose-800 dark:border-rose-800/70 dark:bg-rose-950/60 dark:text-rose-300",
-  brand: "border border-brand/30 bg-brand-soft text-brand-text",
-} as const;
-
 const ACTION_META: Record<AuditActionType, { label: string; className: string }> = {
-  PACK_NEW: { label: "Impor Paket Baru", className: BADGE_TONES.emerald },
-  PACK_OVERWRITE: { label: "Timpa Paket Soal", className: BADGE_TONES.amber },
-  PACK_DUPLICATE_FORCED: { label: "Duplikat Paket Dipaksa", className: BADGE_TONES.amber },
-  EXPLANATION_NEW: { label: "Pembahasan Baru", className: BADGE_TONES.brand },
-  EXPLANATION_OVERWRITE: { label: "Timpa Pembahasan", className: BADGE_TONES.amber },
+  PACK_NEW: { label: "Impor Paket Baru", className: ADMIN_BADGE_TONES.emerald },
+  PACK_OVERWRITE: { label: "Timpa Paket Soal", className: ADMIN_BADGE_TONES.amber },
+  PACK_DUPLICATE_FORCED: { label: "Duplikat Paket Dipaksa", className: ADMIN_BADGE_TONES.amber },
+  EXPLANATION_NEW: { label: "Pembahasan Baru", className: ADMIN_BADGE_TONES.brand },
+  EXPLANATION_OVERWRITE: { label: "Timpa Pembahasan", className: ADMIN_BADGE_TONES.amber },
   EXPLANATION_DUPLICATE_FORCED: {
     label: "Duplikat Pembahasan Dipaksa",
-    className: BADGE_TONES.amber,
+    className: ADMIN_BADGE_TONES.amber,
   },
-  IMPORT_REJECTED: { label: "Impor Dibatalkan", className: BADGE_TONES.neutral },
-  IMPORT_FAILED: { label: "Impor Gagal", className: BADGE_TONES.rose },
-  PACKAGE_UPDATED: { label: "Edit Paket", className: BADGE_TONES.brand },
-  SUBTEST_UPDATED: { label: "Edit Subtes", className: BADGE_TONES.brand },
-  PACKAGE_DELETED: { label: "Hapus Paket", className: BADGE_TONES.rose },
-  SUBTEST_DELETED: { label: "Hapus Subtes", className: BADGE_TONES.rose },
+  IMPORT_REJECTED: { label: "Impor Dibatalkan", className: ADMIN_BADGE_TONES.neutral },
+  IMPORT_FAILED: { label: "Impor Gagal", className: ADMIN_BADGE_TONES.rose },
+  PACKAGE_UPDATED: { label: "Edit Paket", className: ADMIN_BADGE_TONES.brand },
+  SUBTEST_UPDATED: { label: "Edit Subtes", className: ADMIN_BADGE_TONES.brand },
+  PACKAGE_DELETED: { label: "Hapus Paket", className: ADMIN_BADGE_TONES.rose },
+  SUBTEST_DELETED: { label: "Hapus Subtes", className: ADMIN_BADGE_TONES.rose },
 };
 
 const STATUS_META: Record<AuditStatus, { label: string; className: string }> = {
-  SUCCESS: { label: "SUKSES", className: BADGE_TONES.emerald },
-  FORCED: { label: "TIMPA PAKSA", className: BADGE_TONES.amber },
-  REJECTED: { label: "DITOLAK", className: BADGE_TONES.neutral },
-  FAILED: { label: "GAGAL", className: BADGE_TONES.rose },
+  SUCCESS: { label: "SUKSES", className: ADMIN_BADGE_TONES.emerald },
+  FORCED: { label: "TIMPA PAKSA", className: ADMIN_BADGE_TONES.amber },
+  REJECTED: { label: "DITOLAK", className: ADMIN_BADGE_TONES.neutral },
+  FAILED: { label: "GAGAL", className: ADMIN_BADGE_TONES.rose },
 };
 
 const CATEGORY_OPTIONS: Array<{ value: CategoryFilter; label: string }> = [
@@ -115,17 +105,6 @@ function getActionCategory(entry: ImportAuditLogEntry): Exclude<CategoryFilter, 
     case "IMPORT_FAILED":
       return entry.summary.mode === "pembahasan" ? "explanation" : "pack";
   }
-}
-
-function formatDateTimeId(iso: string): string {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) {
-    return iso;
-  }
-  return new Intl.DateTimeFormat("id-ID", {
-    dateStyle: "medium",
-    timeStyle: "short",
-  }).format(date);
 }
 
 function formatAuditSummary(entry: ImportAuditLogEntry): {
@@ -301,11 +280,11 @@ export function AuditLogView({ logs, migrationRequired }: AuditLogViewProps) {
       entry,
       actionMeta: ACTION_META[entry.actionType] ?? {
         label: entry.actionType,
-        className: BADGE_TONES.neutral,
+        className: ADMIN_BADGE_TONES.neutral,
       },
       statusMeta: STATUS_META[entry.status] ?? {
         label: entry.status,
-        className: BADGE_TONES.neutral,
+        className: ADMIN_BADGE_TONES.neutral,
       },
       formattedSummary: formatAuditSummary(entry),
       slugPath:

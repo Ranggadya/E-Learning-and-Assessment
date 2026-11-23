@@ -11,7 +11,7 @@ import {
   validatePackageUpdateInput,
   validateSubtestUpdateInput,
   type ExistingQuestionSnapshot,
-  type ExistingSubtestSnapshot,
+  type SubtestSnapshot,
 } from "./import-analysis";
 
 function makeQuestion(overrides: Partial<ExistingQuestionSnapshot> = {}): ExistingQuestionSnapshot {
@@ -30,7 +30,7 @@ function makeQuestion(overrides: Partial<ExistingQuestionSnapshot> = {}): Existi
   };
 }
 
-function makeSubtest(overrides: Partial<ExistingSubtestSnapshot> = {}): ExistingSubtestSnapshot {
+function makeSubtest(overrides: Partial<SubtestSnapshot> = {}): SubtestSnapshot {
   return {
     name: "Numerik Dasar",
     description: null,

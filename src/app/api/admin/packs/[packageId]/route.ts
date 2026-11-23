@@ -8,9 +8,11 @@ interface RouteContext {
   params: Promise<{ packageId: string }>;
 }
 
+const MAX_PG_INT4 = 2_147_483_647;
+
 function parsePackageId(raw: string): number | null {
   const id = Number(raw);
-  return Number.isInteger(id) && id > 0 ? id : null;
+  return Number.isInteger(id) && id > 0 && id <= MAX_PG_INT4 ? id : null;
 }
 
 export async function PATCH(request: Request, context: RouteContext) {

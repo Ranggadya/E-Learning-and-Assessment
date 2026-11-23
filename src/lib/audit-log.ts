@@ -85,7 +85,7 @@ export async function findPreviousSuccessfulUpload(
       `SELECT created_at, file_name
        FROM import_audit_logs
        WHERE content_hash = $1 AND status IN ('SUCCESS', 'FORCED')
-       ORDER BY created_at DESC
+       ORDER BY created_at DESC, id DESC
        LIMIT 1`,
       [contentHash],
     );

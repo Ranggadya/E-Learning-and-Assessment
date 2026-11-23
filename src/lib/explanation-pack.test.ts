@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { validateExplanationPack } from "./explanation-pack";
-import { ImportConfirmationRequiredError, type ImportSummary } from "./pack-import";
+import { formatUploadTimestamp, ImportConfirmationRequiredError, type ImportSummary } from "./pack-import";
 
 function makeBaseExplanationPack(entryOverrides: Record<string, unknown> = {}) {
   return {
@@ -73,4 +73,27 @@ test("ImportConfirmationRequiredError menyimpan summary lengkap dan mewarisi Err
   assert.ok(err instanceof ImportConfirmationRequiredError);
   assert.equal(err.summary, dummySummary);
   assert.ok(err.message.length > 0);
+});
+
+test("validateExplanationPack menolak subtest.slug duplikat dalam satu file", () => {
+  const duplicate = {
+    pembahasanSaja: true,
+    company: { slug: "astra" },
+    package: { slug: "paket-1" },
+    subtests: [
+      { slug: "verbal", explanations: [{ number: 1, correctIndex: 0, quickTip: "Tip 1" }] },
+      { slug: "verbal", explanations: [{ number: 2, correctIndex: 1, quickTip: "Tip 2" }] },
+    ],
+  };
+  const res = validateExplanationPack(duplicate);
+  assert.equal(res.ok, false);
+  if (!res.ok) {
+    assert.ok(res.errors.some((e) => e.includes('"verbal" dipakai dua kali')));
+  }
+});
+
+test("formatUploadTimestamp memformat waktu konsisten dalam zona WIB (Asia/Jakarta)", () => {
+  const formatted = formatUploadTimestamp("2026-11-23T01:30:00.000Z");
+  assert.ok(formatted.endsWith("WIB"), `Seharusnya berakhiran WIB: ${formatted}`);
+  assert.ok(formatted.includes("08.30") || formatted.includes("08:30"), `Seharusnya 08:30 WIB: ${formatted}`);
 });

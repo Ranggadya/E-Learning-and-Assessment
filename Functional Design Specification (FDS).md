@@ -1,328 +1,143 @@
 # Functional Design Specification (FDS)
 
-**Aplikasi Latihan Psikotes** · Versi 1.0 · 19 November 2026 · Penyusun: Dya
+**Aplikasi Latihan Psikotes & Materi Bahasa Inggris** · Versi 1.2 · 23 November 2026 · Penyusun: Dya
 
-Dokumen ini menjelaskan rancangan fungsional dan teknis aplikasi: arsitektur, alur, spesifikasi halaman, API, logika bisnis, dan struktur data. Kebutuhan yang dipenuhi tercantum pada dokumen SRS (kode FR, VR, NFR).
+Dokumen ini menjelaskan rancangan fungsional dan teknis aplikasi terkini: arsitektur, alur pengguna, spesifikasi halaman, API, logika bisnis, skema basis data, keamanan, struktur kode Domain-First, dan rencana pengujian.
 
-**Cakupan yang berkembang.** Rancangan sengaja generik. Astra dan Paragon adalah isi awal. Perusahaan lain dan seleksi lain seperti CPNS ditambahkan dengan mengimpor file paket baru, tanpa mengubah kode. Hal yang belum didukung dan rencana penambahannya ada pada bagian 14.
+---
 
-## 1. Ringkasan sistem
+## 1. Ringkasan Sistem
 
-Aplikasi adalah satu proyek Next.js 16 (App Router) berbahasa TypeScript dengan Tailwind CSS. Halaman dirender di server dan membaca PostgreSQL langsung lewat library `pg`. Soal diisi lewat file paket JSON yang diimpor di CMS, bukan lewat kode.
+Aplikasi adalah satu proyek **Next.js 16.4.6 (App Router, Turbopack)** berbahasa TypeScript (*strict*) dengan Tailwind CSS 4 yang mengakses PostgreSQL langsung melalui `pg` Pool (maks. 5 koneksi, tanpa ORM).
 
-| Lapisan | Teknologi | Peran |
+| Lapisan | Teknologi / Lokasi | Peran |
 | --- | --- | --- |
-| Tampilan | React (server component dan client component), Tailwind CSS | Halaman publik dan admin |
-| Logika server | Route handler Next.js (`/api/...`), modul `src/lib` | Penilaian, impor, autentikasi |
-| Data | PostgreSQL, `pg` Pool (maks. 5 koneksi) | Penyimpanan soal dan hasil |
-| Hosting (rencana) | Vercel dan Neon | Produksi |
+| Tipe Murni | `src/types/{assessment,admin,english}.ts` | 100% definisi `type`/`interface`, aman untuk client & server |
+| Tampilan | React 19 (Server & Client Components), Tailwind CSS 4 | Halaman publik psikotes, materi Inggris, dan CMS admin |
+| Logika Domain | `src/lib/{assessment,admin,english}/*`, `src/lib/format.ts` | Penilaian, Leitner, generator kuis, validasi JSON, analisis diff |
+| Akses Data | `src/lib/db/pool.ts`, `*.queries.ts`, `admin/{audit-log,pack-import,explanation-pack}.ts` | Seluruh query SQL berparameter & transaksi PostgreSQL |
+| State Browser | `src/lib/client/{local-progress,anon-user}.ts` | Riwayat psikotes lokal & `user_id` anonim materi Inggris |
 
-Semua halaman memakai `force-dynamic` sehingga selalu membaca data terbaru. Tidak ada middleware: pemeriksaan admin dilakukan di setiap halaman dan route admin.
+Seluruh halaman dinamis memakai `export const dynamic = "force-dynamic"` agar selalu membaca data terbaru. Pemeriksaan otorisasi admin dilakukan di setiap halaman dan route `/api/admin/*`.
 
-## 2. Hierarki konten
+---
 
-| Level | Contoh | URL |
-| --- | --- | --- |
-| Perusahaan | Astra Group | `/c/astra` |
-| Paket | Paket 2 | `/c/astra/paket-2` |
-| Subtes | Visualization (VIZ) | `/test/{subtestId}` |
-| Hasil | Skor dan pembahasan | `/result/{attemptId}` |
+## 2. Spesifikasi Halaman (Routes)
 
-Isi saat ini: Astra Paket 1 (7 subtes, 90 soal), Astra Paket 2 (7 subtes, 90 soal), Paragon Paket 1 (3 subtes, 40 soal), Paragon Paket 2 (3 subtes, 40 soal).
+| Halaman | Route | Akses | Data / Perilaku Utama |
+| --- | --- | --- | --- |
+| Beranda Psikotes | `/` | Publik | `LearnerShell` + `LearnerDashboard` (Focus Hero 3-status, statistik lokal, kartu perusahaan 2-kolom maks. 4 paket) |
+| Riwayat & Progres | `/riwayat` | Publik | `HistoryProgressView` (riwayat pengerjaan lokal, filter kategori subtes, reset progres) |
+| Katalog Perusahaan | `/c/[companySlug]` | Publik | `CompanyPackagesView` (daftar seluruh paket milik perusahaan; 404 bila slug tidak ditemukan) |
+| Daftar Subtes Paket | `/c/[companySlug]/[packageSlug]` | Publik | `PackageSubtestsView` (daftar subtes, jenis, jumlah item, durasi, status pengerjaan lokal, tombol Mulai) |
+| Sesi Tes | `/test/[subtestId]` | Publik | Memilih runner sesuai `subtest.kind`: `TestRunner` (`QUIZ`), `PersonalityRunner`, `PauliRunner`, atau `DrawingRunner` |
+| Review Hasil | `/result/[attemptId]` | Publik | `ResultReviewClient` (skor, akurasi, pembahasan lengkap `steps`/`wrongNotes`/`quickTip`, atau hasil non-kuis; otomatis mencatat progres lokal) |
+| Pusat Materi Inggris | `/materi` | Publik | `MateriOverviewClient` (distribusi 5 kotak Leitner, persentase per level CEFR A1–C1, kartu Kamus + 3 kartu *Segera Hadir*) |
+| Kamus 1.000 Kata | `/materi/kamus` | Publik | Server-rendered filter chip CEFR (`A1`–`C1`), dropdown `pos`, pencarian `q`, `LevelBadge`, paginasi 50 kata/halaman |
+| Flashcard Leitner | `/materi/kamus/belajar` | Publik | `FlashcardStudyClient` (antrean jatuh tempo + $N$ kata baru, filter CEFR, batas kata baru 5–50, keyboard `Spasi`/`1`/`2`) |
+| Kuis Kosakata | `/materi/kamus/kuis` | Publik | `EnglishQuizClient` (10 soal otomatis bolak-balik EN↔ID, 4 opsi, filter CEFR, keyboard `1–4`, skor & pembahasan salah) |
+| Dashboard Admin | `/admin` | Admin | Login form bila belum terautentikasi; `AdminDashboardClient` (metrik + % pembahasan rinci `QUIZ`, filter, inline edit paket/subtes, ekspor, hapus) |
+| Impor JSON Admin | `/admin/import` | Admin | `PackImporter` (dry-run 2-fase paket & `pembahasanSaja`, spot-check, konfirmasi 409) + `EnglishWordsImporter` (upsert kamus JSON) |
+| Audit Log Admin | `/admin/audit` | Admin | `AuditLogView` (riwayat log `import_audit_logs`, filter status & aksi, modal detail JSON, pesan ramah jika migrasi belum dijalankan) |
 
-Istilah "perusahaan" pada tabel `companies` dan URL `/c/...` berarti penyelenggara tes secara umum, termasuk instansi seperti penyelenggara CPNS. Slug penyelenggara baru yang muncul pada file paket otomatis membuat penyelenggara baru dan tampil di beranda.
+---
 
-## 3. Alur pengguna
+## 3. Spesifikasi API
 
-### 3.1 Peserta latihan
-
-1. Membuka halaman utama dan memilih perusahaan.
-2. Memilih paket, lalu melihat daftar subtes dengan jumlah soal dan durasi.
-3. Menekan Mulai. Timer berjalan segera.
-4. Menjawab soal, berpindah soal, atau melompat lewat nomor soal.
-5. Menekan Selesai atau menunggu waktu habis. Jawaban dikirim otomatis.
-6. Melihat skor dan pembahasan, lalu kembali ke daftar subtes paket.
-
-### 3.2 Admin
-
-1. Membuka `/admin` dan login dengan password.
-2. Dari dashboard memilih Impor paket soal.
-3. Memilih file atau menempelkan JSON, lalu menekan Periksa dulu.
-4. Membaca pratinjau. Bila ada kesalahan, memperbaiki file dan mengulang.
-5. Menekan Impor sekarang. Paket muncul di situs.
-6. Opsional: mengekspor atau menghapus paket dan subtes dari dashboard.
-
-## 4. Spesifikasi halaman
-
-| Halaman | Route | Akses | Data yang dibaca | Perilaku utama |
+| Endpoint | Metode | Akses | Fungsi | Respons Utama |
 | --- | --- | --- | --- | --- |
-| Beranda | `/` | Publik | Daftar perusahaan | Kartu perusahaan menuju daftar paket |
-| Daftar paket | `/c/[companySlug]` | Publik | Perusahaan dan paketnya | Menampilkan 404 bila slug tidak ada |
-| Daftar subtes | `/c/[companySlug]/[packageSlug]` | Publik | Paket dan subtesnya | Tombol Mulai per subtes |
-| Pengerjaan | `/test/[subtestId]` | Publik | Subtes dan soal tanpa kunci | Menjalankan TestRunner |
-| Hasil | `/result/[attemptId]` | Publik | Skor dan pembahasan | Tautan kembali ke `/c/{company}/{package}` |
-| Admin | `/admin` | Admin | Ringkasan semua paket | Form login atau dashboard |
-| Impor | `/admin/import` | Admin | Tidak ada | Pengalihan ke `/admin` bila belum login |
+| `/api/attempts` | `POST` | Publik | Menilai & menyimpan sesi `QUIZ` atau non-kuis (`PERSONALITY`, `PAULI`, `DRAWING`) | `200 {attemptId}`; `400 {error}`; `404` |
+| `/api/materi/progress` | `GET` | Publik | Ringkasan kotak Leitner & persentase CEFR berdasarkan `?userId=...` | `200 {overview}` |
+| `/api/materi/study` | `GET` | Publik | Antrean flashcard (`?userId=...&cefr=...&newLimit=10`) | `200 {dueWords, newWords}`; `400` |
+| `/api/materi/study` | `POST` | Publik | Menyimpan hasil review kartu (`{userId, wordId, known}`) | `200 {box, intervalDays, nextReviewAt}`; `400` |
+| `/api/materi/quiz` | `GET` | Publik | Menghasilkan 10 soal pilihan ganda (`?cefr=...`) | `200 {questions}` |
+| `/api/admin/login` | `POST` | Publik | Login admin dengan timing-safe check & rate limit 5/menit per IP | `200 {ok:true}` + cookie; `401`; `429` (`Retry-After`); `503` |
+| `/api/admin/logout` | `POST` | Publik | Menghapus cookie `admin_session` | `200 {ok:true}` |
+| `/api/admin/packs` | `POST` | Admin | Validasi & impor paket soal atau `pembahasanSaja` (`?dryRun=1`, `?force=1`, header `X-Import-Filename`) | `200 {summary}`; `400 {errors}`; `401`; `409 {requiresConfirmation, summary, errors}`; `413`; `500` |
+| `/api/admin/packs/reject` | `POST` | Admin | Mencatat pembatalan impor berisiko ke `import_audit_logs` (`IMPORT_REJECTED`) | `200 {ok:true}`; `400`; `401` |
+| `/api/admin/packs/[packageId]` | `PATCH` | Admin | Edit inline nama & deskripsi paket (`FOR UPDATE`) + audit log | `200 {updated}`; `400`; `401`; `404` |
+| `/api/admin/packs/[packageId]` | `DELETE` | Admin | Hapus paket atomik (`DELETE ... RETURNING`, ikut hapus perusahaan bila paket terakhir) + audit log | `200 {ok:true}`; `400`; `401`; `404` |
+| `/api/admin/packs/[packageId]/export` | `GET` | Admin | Unduh paket dalam format JSON kompatibel impor | `200` file JSON; `400`; `401`; `404` |
+| `/api/admin/subtests/[subtestId]` | `PATCH` | Admin | Edit inline nama & durasi subtes (`FOR UPDATE`, durasi terkunci untuk `PAULI`/`DRAWING`) + audit log | `200 {updated}`; `400`; `401`; `404` |
+| `/api/admin/subtests/[subtestId]` | `DELETE` | Admin | Hapus subtes atomik + audit log | `200 {ok:true}`; `400`; `401`; `404` |
+| `/api/admin/english` | `POST` | Admin | Validasi & batch upsert JSON kamus bahasa Inggris (maks. 8 MB, maks. 10.000 kata) | `200 {upsertedCount, totalInFile}`; `400 {errors}`; `401`; `413` |
+| `/api/admin/template` | `GET` | Admin | Unduh contoh file paket soal JSON | `200` file JSON; `401` |
 
-### 4.1 Halaman pengerjaan (TestRunner)
+---
 
-| Elemen | Perilaku |
-| --- | --- |
-| Timer | Menampilkan sisa waktu mm:ss. Berwarna peringatan saat sisa 30 detik atau kurang. Dihitung dari jam sistem. Saat nol, jawaban dikirim otomatis. |
-| Soal TEXT | Menampilkan teks soal dan pilihan. |
-| Soal IMAGE | Menampilkan SVG di atas pilihan. Pada soal bergambar, pilihan A sampai E ada di dalam SVG, tombol berlabel Gambar A sampai E. |
-| Soal MEMORY | Gambar tampil 5 detik, lalu disembunyikan dan tidak dapat ditampilkan lagi. Peserta menjawab dari ingatan. |
-| Soal SPEED | Setelah memilih opsi, sistem langsung pindah ke soal berikutnya. |
-| Navigasi | Tombol Sebelumnya dan Berikutnya, serta nomor soal untuk melompat. Soal yang sudah dijawab ditandai. |
-| Keyboard | Tombol 1 sampai 5 atau huruf A sampai E memilih pilihan dengan urutan tersebut. Teks bantuan ditampilkan di layar. |
-| Selesai | Mengirim jawaban ke `/api/attempts` lalu mengarahkan ke halaman hasil. Tombol dinonaktifkan selama pengiriman untuk mencegah kirim ganda. |
+## 4. Logika Bisnis Utama
 
-Jawaban disimpan sementara di memori browser selama sesi berjalan. Menutup tab sebelum selesai membuat pengerjaan tidak tercatat.
+### 4.1 Penilaian Psikotes (`src/lib/assessment/attempt.queries.ts` & `scoring.ts`)
+- **`QUIZ`:** Server membaca `correct_option` dari `questions`, menulis `attempts` + batch `UNNEST` ke `answers` dalam satu transaksi, menghitung skor (+1 benar, 0 salah/kosong).
+- **`PERSONALITY`:** `scorePersonality()` menormalisasi skala 1–5 (membalik skor `6 - raw` untuk pernyataan `reverse`) menjadi persentase `0–100%` dan level (`Tinggi` ≥ 65%, `Rendah` ≤ 35%, `Sedang`, atau `Belum dijawab`).
+- **`PAULI` & `DRAWING`:** Payload disanitasi & di-clamp terhadap `subtests.config` (termasuk verifikasi prefix PNG data URL pada gambar) lalu disimpan ke `attempts.result` (JSONB).
 
-### 4.2 Halaman hasil
+### 4.2 Impor Paket & Pembahasan 2-Fase (`src/lib/admin/pack-import.ts`, `explanation-pack.ts`, `import-analysis.ts`)
+1. **Fase 1 (Read-Only Analysis):** Hanya menjalankan `SELECT` — menghitung canonical SHA-256 hash, memeriksa duplikasi pada `import_audit_logs`, membandingkan snapshot DB vs file masuk per subtes (`baru`, `identik`, `berubah`), menghitung riwayat terdampak & risiko kehilangan pembahasan rinci, serta menyusun maksimal 3 spot-check per subtes (total maks. 6) untuk mode `pembahasanSaja`.
+2. **Gerbang Konfirmasi:** Jika `?dryRun=1`, kembalikan `summary` tanpa membuka transaksi tulis. Jika berisiko (`requiresConfirmation === true`) dan `?force=1` tidak ada, lempar `ImportConfirmationRequiredError` → HTTP `409 Conflict`.
+3. **Fase 2 (Transaksi Tulis):** Membuka `BEGIN ... COMMIT`, **melewati (*skip rewrite*)** subtes yang `identik` agar riwayat peserta aman, menulis soal baru lewat 1 query batch `UNNEST` (atau memperbarui hanya butir yang berubah pada `pembahasanSaja`), lalu mencatat hasil ke `import_audit_logs`.
 
-Menampilkan nama subtes, skor dengan format benar per total, catatan aturan nilai (benar +1, salah atau kosong 0, tanpa pengurangan), dan bagian Pembahasan. Setiap butir pembahasan memuat teks soal, gambar (bila ada), jawaban peserta, jawaban benar, status benar atau salah, dan penjelasan.
+### 4.3 Materi Bahasa Inggris (`src/lib/english/logic.ts` & `queries.ts`)
+- **Leitner 5 Kotak (`computeNextLeitnerState`):**
+  - Jeda hari per kotak: `{ 1: 1, 2: 2, 3: 4, 4: 8, 5: 16 }`.
+  - Jawaban **Tahu (`known: true`)**: kata baru (`null`) masuk Kotak 2 (2 hari); kata di Kotak `b` naik ke `min(5, b + 1)`.
+  - Jawaban **Belum (`known: false`)**: langsung reset ke Kotak 1 (1 hari).
+- **Antrean Sesi (`getStudyQueue`):** Mengambil kata jatuh tempo (`next_review_at <= now()`, maks. 100) diurutkan paling lama jatuh tempo lalu `no ASC`, diikuti hingga `newLimit` (1–50, default 10) kata yang belum ada di `english_progress` menurut urutan `no ASC`.
+- **Generator Kuis (`buildQuizQuestionsFromPool`):** Mengambil 10 target acak (bergantian `en_to_id` dan `id_to_en`); menyusun 3 pengecoh unik dengan prioritas berjenjang: (1) `pos` & `cefr` sama → (2) `pos` sama → (3) `cefr` sama → (4) kata lain.
 
-### 4.3 Dashboard admin
+---
 
-Menampilkan setiap perusahaan, paket, dan subtes dengan jumlah soal dan durasi dalam menit. Tersedia tautan Impor paket soal, Unduh contoh format, Lihat situs, dan Logout. Per paket tersedia Ekspor dan Hapus paket, per subtes tersedia Hapus. Penghapusan meminta konfirmasi dan menyegarkan halaman setelah berhasil.
+## 5. Desain Basis Data (`db/schema.sql`)
 
-### 4.4 Halaman impor
-
-Mesin status pada komponen PackImporter: `idle` → `checking` → `previewed` → `importing` → `done`. Mengubah isi teks atau file mengembalikan status ke `idle`. Tombol Impor sekarang hanya muncul setelah pratinjau berhasil. Setelah impor selesai tampil tautan kembali ke dashboard.
-
-## 5. Spesifikasi API
-
-Semua respons berformat JSON, kecuali ekspor yang berupa unduhan file.
-
-| Endpoint | Metode | Akses | Fungsi | Respons |
-| --- | --- | --- | --- | --- |
-| `/api/attempts` | POST | Publik | Mengirim jawaban dan menilai | 200 `{attemptId}`; 400 `{error}` bila payload tidak valid |
-| `/api/admin/login` | POST | Publik | Login admin | 200 `{ok:true}` dan cookie sesi; 401 password salah; 503 admin belum dikonfigurasi |
-| `/api/admin/logout` | POST | Admin | Menghapus sesi (tidak memerlukan sesi aktif) | 200 |
-| `/api/admin/packs` | POST | Admin | Validasi dan impor paket. Tambahkan `?dryRun=1` untuk pratinjau tanpa menyimpan | 200 `{summary}`; 400 `{errors[]}`; 401; 413 file lebih dari 8 MB; 500 impor gagal |
-| `/api/admin/packs/[packageId]` | DELETE | Admin | Menghapus paket | 200; 400 ID tidak valid; 404 tidak ditemukan |
-| `/api/admin/packs/[packageId]/export` | GET | Admin | Mengunduh paket sebagai JSON | File JSON; 404 |
-| `/api/admin/subtests/[subtestId]` | DELETE | Admin | Menghapus subtes | 200; 400; 404 |
-| `/api/admin/template` | GET | Admin | Mengunduh contoh format paket | File JSON |
-
-### 5.1 Payload pengiriman jawaban
-
-`{ "subtestId": number, "answers": [ { "questionId": number, "selectedOption": string | null } ] }`
-
-`selectedOption` bernilai `null` bila soal tidak dijawab. Payload diperiksa bentuknya sebelum diproses.
-
-### 5.2 Ringkasan hasil impor
-
-`summary` berisi `companyName`, `companyStatus`, `packageName`, `packageStatus`, `totalQuestions`, dan daftar `subtests` dengan `slug`, `name`, `questionCount`, `durationSeconds`, `status` (baru atau diganti), dan `replacedAttemptCount`.
-
-## 6. Logika bisnis
-
-### 6.1 Penilaian
-
-1. Server menerima `subtestId` dan daftar jawaban.
-2. Server membaca kunci jawaban dari tabel `questions` untuk subtes tersebut. Kunci dari klien tidak pernah dipakai.
-3. Dalam satu transaksi, server membuat baris `attempts`, menulis satu baris `answers` untuk setiap soal (kosong bila tidak dijawab) dengan `is_correct`, menghitung skor, lalu mengisi `score`, `total_questions`, dan `finished_at`.
-4. Skor = jumlah jawaban benar. Jawaban salah atau kosong bernilai 0 dan tidak ada pengurangan.
-5. Server mengembalikan `attemptId`. Pembahasan dibaca dari database saat halaman hasil dibuka.
-
-### 6.2 Impor paket
-
-| Langkah | Aturan |
-| --- | --- |
-| 1. Validasi | Struktur dan aturan VR-01 sampai VR-06 diperiksa. Kesalahan dikumpulkan (maksimal 30) dan impor tidak dilanjutkan. |
-| 2. Perusahaan | Upsert berdasarkan slug. Nama dan deskripsi diperbarui. |
-| 3. Paket | Upsert berdasarkan slug di dalam perusahaan. |
-| 4. Subtes | Upsert berdasarkan slug di dalam paket. Nama, deskripsi, durasi, dan urutan diperbarui. |
-| 5. Soal | Untuk subtes yang sudah ada, seluruh soal lama dihapus lalu diganti soal dari file. Subtes lain di paket yang sama tidak disentuh. |
-| 6. Pengerjaan lama | Baris `attempts` tetap ada dengan skornya. Detail `answers` hilang karena soalnya diganti. Jumlahnya dilaporkan di pratinjau. |
-| 7. Dry run | Semua langkah dijalankan di dalam transaksi lalu di-ROLLBACK, sehingga ringkasan akurat tanpa mengubah data. |
-| 8. Kegagalan | Kesalahan database membatalkan seluruh transaksi. |
-
-Kunci jawaban pada file ditulis sebagai `correctIndex` (urutan pilihan mulai dari 0). Saat disimpan, pilihan diberi kunci huruf A sampai E dan `correct_option` berisi hurufnya.
-
-### 6.3 Penghapusan
-
-Menghapus paket menghapus subtes, soal, pengerjaan, dan jawabannya (cascade). Bila paket tersebut paket terakhir pada perusahaan, perusahaan ikut dihapus. Menghapus subtes menghapus soal dan riwayatnya.
-
-### 6.4 Ekspor
-
-Ekspor menghasilkan JSON dengan format yang sama dengan format impor (termasuk `type` eksplisit pada setiap soal), sehingga hasil ekspor dapat diimpor kembali.
-
-## 7. Format file paket soal
-
-Satu file memuat satu paket milik satu perusahaan.
-
-| Bidang | Tipe | Keterangan |
+| Tabel | Kolom Utama | Kunci & Indeks |
 | --- | --- | --- |
-| `company.slug`, `company.name`, `company.description?` | teks | Slug sesuai VR-01 |
-| `package.slug`, `package.name`, `package.description?` | teks | Slug sesuai VR-01 |
-| `subtests[].slug`, `name`, `description?` | teks | Slug sesuai VR-01 |
-| `subtests[].durationSeconds` | angka | 10 sampai 10.800 |
-| `questions[].type?` | teks | TEXT (bawaan), IMAGE, MEMORY, atau SPEED |
-| `questions[].prompt` | teks | Teks soal |
-| `questions[].imageSvg?` | teks | Wajib untuk IMAGE dan MEMORY |
-| `questions[].options` | daftar teks | 2 sampai 5 pilihan unik |
-| `questions[].correctIndex` | angka | Indeks pilihan benar, mulai dari 0 |
-| `questions[].explanation` | teks | Pembahasan |
+| `companies` | `id`, `slug`, `name`, `description`, `created_at` | `slug UNIQUE` |
+| `test_packages` | `id`, `company_id`, `slug`, `name`, `description`, `created_at` | FK `companies` cascade; `UNIQUE (company_id, slug)` |
+| `subtests` | `id`, `test_package_id`, `slug`, `name`, `description`, `duration_seconds`, `order_index`, `kind`, `config` | FK `test_packages` cascade; `UNIQUE (test_package_id, slug)` |
+| `questions` | `id`, `subtest_id`, `type`, `order_index`, `prompt`, `image_svg`, `options`, `correct_option`, `explanation`, `steps`, `wrong_notes`, `quick_tip` | FK `subtests` cascade; indeks `(subtest_id, order_index)` |
+| `attempts` | `id`, `subtest_id`, `started_at`, `finished_at`, `score`, `total_questions`, `result` | FK `subtests` cascade |
+| `answers` | `id`, `attempt_id`, `question_id`, `selected_option`, `is_correct` | FK cascade; `UNIQUE (attempt_id, question_id)` |
+| `import_audit_logs` | `id`, `created_at`, `action_type`, `status`, `company_slug`, `package_slug`, `target_label`, `file_name`, `content_hash`, `forced_overwrite`, `summary` | Indeks `created_at DESC` & partial index `(content_hash, status)` |
+| `english_words` | `id`, `no`, `word`, `pos`, `meaning_id`, `example_en`, `example_id`, `cefr`, `topic` | `no UNIQUE`; indeks `(cefr, pos)` |
+| `english_progress` | `user_id`, `word_id`, `box`, `next_review_at`, `correct_count`, `wrong_count` | `PK (user_id, word_id)`; FK `english_words` cascade; indeks `(user_id, next_review_at)` |
 
-Contoh ringkas:
+---
 
-`{ "company": {"slug":"astra","name":"Astra Group"}, "package": {"slug":"paket-2","name":"Paket 2"}, "subtests": [ {"slug":"quantitative-reasoning","name":"Quantitative Reasoning (QR)","durationSeconds":660,"questions":[ {"prompt":"...","options":["...","..."],"correctIndex":0,"explanation":"..."} ]} ] }`
+## 6. Keamanan & Guardrail Arsitektur
 
-## 8. Desain basis data
+- **Autentikasi Admin (`src/lib/admin/auth.ts`):** Cookie `admin_session` (`httpOnly`, `sameSite=lax`, `secure` di produksi, 7 hari), token HMAC-SHA256 dari `SESSION_SECRET || ADMIN_PASSWORD`, perbandingan SHA-256 + `timingSafeEqual`, penundaan gagal 800 ms, dan rate limiter in-memory per IP (maks. 5 gagal / 60 detik → HTTP `429`).
+- **Sanitasi SVG (`src/lib/admin/pack-schema.ts`):** Menolak `<script`, `<foreignObject`, `<iframe`, `<embed`, `<object`, `<a`, entity `&#`/`&colon;`, event `on*=`, `javascript:`, dan `data:text/html`.
+- **Guardrail Statis (`src/lib/architecture.test.ts`):** Otomatis memverifikasi pada setiap `npm test` bahwa `src/types/` murni tipe, `src/lib/` bebas impor `components`/`app`, root `src/components/` bersih, nol file 0-byte, dan tidak ada modul `"use client"` yang mengimpor `db`/`*.queries`/server `admin/*`.
 
-| Tabel | Kolom utama | Kunci dan batasan |
-| --- | --- | --- |
-| companies | id, slug, name, description, created\_at | slug UNIQUE |
-| test\_packages | id, company\_id, slug, name, description, created\_at | FK ke companies (cascade); UNIQUE (company\_id, slug) |
-| subtests | id, test\_package\_id, slug, name, description, duration\_seconds, order\_index | FK ke test\_packages (cascade); UNIQUE (test\_package\_id, slug) |
-| questions | id, subtest\_id, type, order\_index, prompt, image\_svg, options (JSONB), correct\_option, explanation | FK ke subtests (cascade); type dibatasi TEXT, IMAGE, MEMORY, SPEED; indeks (subtest\_id, order\_index) |
-| attempts | id, subtest\_id, started\_at, finished\_at, score, total\_questions | FK ke subtests (cascade) |
-| answers | id, attempt\_id, question\_id, selected\_option, is\_correct | FK ke attempts dan questions (cascade); UNIQUE (attempt\_id, question\_id) |
+---
 
-Skema dibuat dengan `npm run db:migrate` (`db/schema.sql`, idempoten). Skrip migrasi menghapus tabel versi lama bila `test_packages.company_id` belum ada.
+## 7. Struktur Kode (Domain-First)
 
-## 9. Keamanan
-
-| Aspek | Rancangan |
+| Lokasi | Tanggung Jawab |
 | --- | --- |
-| Autentikasi admin | Password dari `ADMIN_PASSWORD`. Sesi berupa cookie `admin_session` berisi token HMAC-SHA256 yang diturunkan dari `SESSION_SECRET` (bila ada) atau password. |
-| Cookie | httpOnly, sameSite lax, secure pada produksi, berlaku 7 hari. |
-| Perbandingan password | Di-hash lalu dibandingkan dengan `timingSafeEqual`. Login gagal ditunda 800 ms. |
-| Otorisasi | Setiap route admin memanggil `rejectIfNotAdmin()` (401). Halaman admin memeriksa sesi dan mengalihkan atau menampilkan login. |
-| Kerahasiaan kunci | Query soal publik tidak memilih `correct_option` dan `explanation`. |
-| SQL | Seluruh query memakai parameter `$1, $2, ...`. |
-| SVG | Disaring pada validasi impor (VR-05). |
-| Batas ukuran | Impor maksimal 8 MB. |
-| Risiko yang diterima | Belum ada pembatasan percobaan login per IP. Disarankan password panjang dan unik. |
+| `src/types/{assessment,admin,english}.ts` | Definisi tipe & interface murni (nol kode runtime) |
+| `src/lib/db/pool.ts` | Singleton `pg` Pool (maks. 5 koneksi, SSL otomatis untuk cloud DB) |
+| `src/lib/format.ts` | Formatter `formatDateTimeId` (WIB) & `formatDurationLabel` |
+| `src/lib/client/{local-progress,anon-user}.ts` | Hook & penyimpanan `localStorage` sisi browser (`"use client"`) |
+| `src/lib/assessment/` | `constants.ts`, `scoring.ts`, `dashboard.ts`, `catalog.queries.ts`, `attempt.queries.ts` + tests |
+| `src/lib/admin/` | `auth.ts`, `audit-log.ts`, `queries.ts`, `pack-schema.ts`, `import-analysis.ts`, `pack-import.ts`, `explanation-pack.ts` + 6 tests |
+| `src/lib/english/` | `constants.ts`, `logic.ts`, `queries.ts` + `logic.test.ts` |
+| `src/components/` | `admin/`, `dashboard/`, `layout/` (termasuk `ThemeToggle`), `materi/`, `result/`, `test/` (6 runner), `ui/` |
+| `src/hooks/useCountdown.ts` | Timer hitung mundur berbasis jam sistem |
+| `scripts/` | `migrate.ts`, `import-packs.ts`, `seed-english.ts`, `run-tests.mjs` |
 
-## 10. Penanganan kesalahan
+---
 
-| Situasi | Perilaku |
-| --- | --- |
-| Slug atau ID tidak ditemukan | Halaman 404 |
-| Payload jawaban tidak valid | 400 dan pesan kesalahan |
-| Pengiriman jawaban gagal karena jaringan | Tombol Selesai aktif kembali agar peserta dapat mencoba lagi |
-| File impor bukan JSON atau tidak lolos validasi | Daftar kesalahan tampil di halaman impor, tidak ada data berubah |
-| Kesalahan database saat impor | 500 dengan pesan bahwa tidak ada data yang berubah |
-| `ADMIN_PASSWORD` belum diatur | Halaman admin menampilkan pesan admin belum aktif, login 503 |
+## 8. Pengujian Otomatis
 
-## 11. Struktur kode
+Seluruh pengujian berjalan cepat tanpa memerlukan koneksi database (`$env:DATABASE_URL=$null; npm test`):
 
-| Lokasi | Isi |
-| --- | --- |
-| `db/schema.sql`, `db/packs/*.json` | Skema dan file paket soal |
-| `src/app/` | Halaman dan route API (App Router) |
-| `src/components/` | TestRunner, QuestionImage, dan komponen admin (login, logout, hapus, impor) |
-| `src/hooks/useCountdown.ts` | Hitung mundur berbasis jam sistem |
-| `src/lib/queries.ts` | Seluruh query data dan penilaian |
-| `src/lib/pack-schema.ts`, `pack-import.ts` | Validasi dan impor paket |
-| `src/lib/admin-auth.ts`, `db.ts`, `types.ts` | Autentikasi, koneksi, tipe |
-| `scripts/` | Migrasi, impor lewat terminal, dan generator soal berbasis Python dengan kunci terverifikasi kode |
+- **52 test cases** tersebar di 11 file `*.test.ts` berdampingan dengan domainnya (`admin/*`, `assessment/*`, `english/logic.test.ts`, `format.test.ts`, `architecture.test.ts`).
+- Validasi tambahan sebelum rilis: `npx tsc --noEmit`, `npx eslint src scripts`, dan `npm run build` (Next.js 16 Turbopack).
 
-## 12. Konfigurasi dan deployment
+---
 
-| Variabel | Fungsi |
-| --- | --- |
-| `DATABASE_URL` | Koneksi PostgreSQL (Neon: tambahkan `sslmode=require`) |
-| `ADMIN_PASSWORD` | Password admin |
-| `SESSION_SECRET` | Opsional, rahasia penanda sesi |
+## 9. Rencana Perluasan (Kompatibel Mundur)
 
-Langkah deploy: unggah kode ke GitHub, hubungkan ke Vercel, buat basis data di Neon, isi variabel lingkungan, jalankan `npm run db:migrate` sekali, lalu unggah paket soal lewat `/admin/import`. Langkah deploy ini belum diuji pada hosting sungguhan.
-
-Menjalankan lokal: `npm install`, atur `.env.local`, `npm run db:migrate`, `npm run db:import`, lalu `npm run dev`.
-
-## 13. Rencana pengujian
-
-| Area | Pengujian | Hasil yang diharapkan |
-| --- | --- | --- |
-| Penilaian | Kirim semua jawaban sesuai kunci untuk tiap subtes | Skor sama dengan jumlah soal |
-| Kerahasiaan | Periksa HTML halaman pengerjaan | Tidak memuat kunci jawaban atau pembahasan |
-| Impor | Dry run lalu impor file paket | Ringkasan sesuai, data tersimpan hanya setelah impor |
-| Impor ulang | Impor file yang sama dua kali | Tidak ada data ganda, soal diganti |
-| Validasi | File dengan slug salah, SVG berbahaya, atau pilihan ganda | Ditolak dengan pesan jelas |
-| Autentikasi | Akses `/api/admin/*` tanpa login | 401 |
-| Timer | Biarkan waktu habis | Jawaban terkirim otomatis |
-| MEMORY dan SPEED | Jalankan subtes WM dan PS | Gambar hilang setelah 5 detik, soal pindah otomatis |
-| Ekspor | Ekspor lalu impor ulang | Isi sama dengan aslinya |
-
-Pengujian di atas sudah dijalankan secara lokal untuk Astra Paket 1 dan 2 serta Paragon Paket 1 dan 2 (penilaian, kerahasiaan kunci, impor, dan tampilan soal gambar).
-
-## 14. Rancangan perluasan ke penyelenggara dan jenis tes lain
-
-Bagian ini memenuhi EX-01 sampai EX-09 pada SRS. Perubahan bersifat bertahap dan kompatibel mundur.
-
-### 14.1 Menambah penyelenggara baru (sudah bisa sekarang)
-
-1. Buat file paket dengan `company.slug` dan `company.name` yang baru (misalnya `cpns`), `package`, dan `subtests` berisi soal.
-2. Impor lewat `/admin/import`. Penyelenggara, paket, subtes, dan soal dibuat otomatis.
-3. Penyelenggara baru langsung tampil di beranda dan dapat dikerjakan.
-
-Tidak ada perubahan kode, skema, atau deploy. Syaratnya subtes memakai tipe soal pilihan ganda yang sudah ada (TEXT, IMAGE, MEMORY, SPEED) dan penilaian biner.
-
-### 14.2 Keterbatasan saat ini
-
-| Keterbatasan | Dampak pada tes lain |
-| --- | --- |
-| Penilaian hanya biner (+1 atau 0) | Subtes berbobot per pilihan (contoh: karakteristik pribadi pada seleksi CPNS) belum dapat dinilai dengan benar |
-| Tidak ada ambang batas kelulusan | Skor tidak dibandingkan dengan nilai minimal |
-| Satu soal berdiri sendiri | Bacaan panjang yang dipakai banyak soal harus diulang pada tiap soal |
-| Hanya pilihan ganda 2 sampai 5 opsi | Tes kepribadian berskala, Koran atau Pauli, dan menggambar belum didukung |
-| Beranda berupa daftar datar | Tidak nyaman bila penyelenggara banyak |
-| Subtes dikerjakan satu per satu | Belum ada simulasi paket penuh dengan skor gabungan |
-
-### 14.3 Rancangan perubahan data (usulan)
-
-Semua kolom baru bersifat opsional dengan nilai bawaan yang menjaga perilaku lama, sehingga file paket lama tetap valid (EX-08).
-
-| Perubahan | Fungsi | Kebutuhan |
-| --- | --- | --- |
-| `companies.category` (teks, boleh kosong) | Pengelompokan di beranda: Swasta, BUMN, CPNS, dan seterusnya | EX-02 |
-| `subtests.scoring_mode` (`BINARY` bawaan atau `WEIGHTED`) | Memilih cara menghitung skor | EX-03 |
-| `questions.option_weights` (JSONB, boleh kosong) | Bobot tiap pilihan pada subtes berbobot. Bila kosong dipakai `correct_option` | EX-03 |
-| `subtests.passing_score` (angka, boleh kosong) | Nilai minimal untuk lulus | EX-04 |
-| Tabel `passages` dan `questions.passage_id` | Wacana atau gambar bersama untuk beberapa soal | EX-05 |
-| Nilai `type` baru pada `questions` (misalnya `SCALE`) | Soal berskala untuk tes kepribadian | EX-06 |
-
-Migrasi memakai `ALTER TABLE ... ADD COLUMN IF NOT EXISTS` pada `db/schema.sql` sehingga `npm run db:migrate` aman dijalankan ulang.
-
-### 14.4 Dampak pada format file paket (usulan)
-
-- `company.category?`: teks opsional.
-- `subtests[].scoringMode?`: `BINARY` (bawaan) atau `WEIGHTED`.
-- `subtests[].passingScore?`: angka opsional.
-- `questions[].optionWeights?`: daftar angka sepanjang `options`, wajib bila `scoringMode` adalah `WEIGHTED`.
-- `passages?` pada subtes dan `questions[].passage?` yang merujuk ke wacana.
-
-Validator (`pack-schema.ts`) menolak kombinasi yang tidak konsisten, misalnya `WEIGHTED` tanpa `optionWeights`.
-
-### 14.5 Dampak pada logika dan tampilan
-
-| Bagian | Perubahan |
-| --- | --- |
-| Penilaian (`submitAttempt`) | Cabang berdasarkan `scoring_mode`. Biner seperti sekarang. Berbobot menjumlahkan bobot pilihan yang dipilih. Skor maksimum dihitung dari bobot tertinggi tiap soal dan disimpan agar halaman hasil dapat menampilkan skor per maksimum. |
-| Halaman hasil | Menampilkan aturan nilai sesuai metode subtes, status lulus atau belum bila ada ambang batas. |
-| Beranda | Pencarian nama dan filter kategori. |
-| TestRunner | Menampilkan wacana bersama di atas soal terkait. Tipe soal baru memakai komponen tersendiri. |
-| Simulasi paket penuh | Halaman baru yang menjalankan subtes berurutan dan menggabungkan skor. |
-| Ekspor dan impor | Memuat bidang baru agar ekspor dapat diimpor kembali. |
-
-### 14.6 Urutan pengerjaan yang disarankan
-
-1. Tambah penyelenggara lain dengan pilihan ganda biner (tanpa perubahan kode).
-2. Kategori dan pencarian di beranda.
-3. Penilaian berbobot dan ambang batas kelulusan.
-4. Wacana bersama.
-5. Simulasi paket penuh.
-6. Tipe soal khusus: kepribadian, Koran atau Pauli, menggambar.
-
-### 14.7 Pengujian tambahan
-
-| Pengujian | Hasil yang diharapkan |
-| --- | --- |
-| Impor file paket lama setelah migrasi | Berhasil dan perilaku tidak berubah |
-| Subtes `WEIGHTED` dengan jawaban terbobot tertinggi semua | Skor sama dengan skor maksimum |
-| `WEIGHTED` tanpa `optionWeights` | Ditolak oleh validator |
-| Subtes dengan ambang batas | Hasil menampilkan lulus atau belum sesuai skor |
-| Halaman soal pada subtes berbobot | Tidak memuat bobot atau kunci |
+1. **Topik Materi Bahasa Inggris baru** (Verb 1-2-3, Grammar, Merangkai Kata): cukup menambah data bertag `topic` dan halaman/komponen latihan spesifik tanpa mengubah skema psikotes.
+2. **Penyelenggara & Penilaian Lanjutan** (BUMN, CPNS): menambah kolom opsional `companies.category`, `subtests.scoring_mode` (`BINARY|WEIGHTED`), `questions.option_weights`, `subtests.passing_score`, serta tabel `passages` untuk wacana bersama — semuanya opsional agar file JSON lama tetap valid.

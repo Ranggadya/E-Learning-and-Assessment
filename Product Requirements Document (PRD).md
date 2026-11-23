@@ -1,165 +1,97 @@
 # Product Requirements Document (PRD)
 
-**Aplikasi Latihan Psikotes** · Versi 1.0 · 20 November 2026 · Pemilik produk: Dya
+**Aplikasi Latihan Psikotes & Materi Bahasa Inggris (e-assessment)** · Versi 1.2 · 23 November 2026 · Pemilik produk: Dya
 
 ## 1. Ringkasan
 
-Aplikasi Latihan Psikotes adalah situs web untuk berlatih soal berbagai tes seleksi dengan kondisi yang mirip aslinya: ada batas waktu, penilaian otomatis, dan pembahasan tiap soal. Isi awalnya adalah psikotes Astra dan Paragon. Produk ini dirancang sebagai platform yang terus tumbuh: perusahaan lain, BUMN, dan seleksi CPNS akan ditambahkan bertahap tanpa membangun ulang situs.
+**e-assessment** adalah platform web mandiri untuk membantu pencari kerja dan mahasiswa mempersiapkan seleksi kerja/magang melalui dua pilar utama:
 
-Konten soal tidak ditulis lewat formulir. Soal dibuat sebagai satu file paket per perusahaan dan paket, lalu diimpor lewat halaman admin. Cara ini membuat penambahan soal cepat dan tidak perlu mengubah kode.
+1. **Simulasi Psikotes:** latihan soal bertimer untuk berbagai penyelenggara (isi awal Astra dan Paragon, dapat diperluas ke BUMN/CPNS tanpa ubah kode), mencakup pilihan ganda kognitif (teks, SVG, memori 5 detik, kecepatan persepsi) serta subtes non-kuis (Kepribadian, Pauli/Koran, dan Menggambar), lengkap dengan penilaian server-side dan pembahasan terstruktur.
+2. **Materi Bahasa Inggris:** kamus 1.000 kata inti (CEFR A1–C1), latihan hafalan flashcard berbasis sistem 5 kotak Leitner (*spaced repetition*), dan kuis kosakata 10 soal otomatis — dirancang modular agar topik berikutnya (Verb 1-2-3, Grammar, Merangkai Kata) tinggal menambah file data.
 
-## 2. Latar belakang dan masalah
+Seluruh konten soal, pembahasan, maupun kamus dikelola melalui **CMS Admin** berbasis unggah JSON (bukan formulir manual) dengan pratinjau dry-run, perlindungan anti-timpa tidak sengaja, dan audit log.
+
+## 2. Latar Belakang dan Masalah
 
 | Masalah | Dampak pada pencari kerja |
 | --- | --- |
-| Soal latihan tersebar di banyak sumber dan kualitasnya tidak seragam | Sulit berlatih terarah |
-| Latihan tanpa batas waktu tidak mencerminkan tes sebenarnya | Peserta kaget dengan tekanan waktu |
-| Tidak semua soal punya pembahasan | Peserta tidak tahu letak kesalahan |
-| Tipe soal khusus (gambar, memori, kecepatan persepsi) jarang tersedia | Subtes ini jadi titik lemah |
-| Format tes tiap penyelenggara berbeda | Peserta harus mencari latihan satu per satu |
+| Soal latihan tersebar dan kualitasnya tidak seragam | Sulit berlatih terarah sesuai format perusahaan |
+| Latihan tanpa batas waktu tidak mencerminkan tes asli | Peserta kaget dengan tekanan waktu |
+| Pembahasan sering tidak menjelaskan langkah & alasan opsi salah | Peserta mengulang kesalahan yang sama |
+| Tipe soal khusus (gambar SVG, memori 5 detik, kecepatan, Pauli, kepribadian) jarang tersedia | Subtes ini menjadi titik lemah saat seleksi |
+| Penguasaan kosakata bahasa Inggris sering lemah tanpa metode pengulangan terjadwal | Cepat lupa kata yang baru dibaca |
 
-## 3. Tujuan dan non-tujuan
+## 3. Tujuan dan Non-Tujuan
 
 ### 3.1 Tujuan
+- Peserta dapat langsung berlatih psikotes dan bahasa Inggris tanpa hambatan registrasi akun.
+- Simulasi meniru kondisi tes asli: timer akurat, navigasi keyboard, penilaian di server, dan pembahasan langkah demi langkah.
+- Penambahan penyelenggara, paket, pembahasan, atau kosakata baru cukup lewat file JSON di CMS tanpa deploy ulang.
+- Pengelolaan konten di CMS aman dari duplikasi file, penimpaan pembahasan rinci, atau reset riwayat peserta secara tidak sengaja.
 
-- Peserta dapat berlatih subtes tertentu dengan timer dan mendapat skor serta pembahasan dalam hitungan menit.
-- Struktur latihan meniru tes asli: subtes, durasi, dan aturan nilai.
-- Menambah penyelenggara atau paket baru cukup dengan mengimpor satu file.
-- Kunci jawaban benar dan tidak bocor sebelum peserta mengumpulkan.
-- Mendukung tipe soal yang sulit dilatih di tempat lain: soal gambar, memori jangka pendek, dan kecepatan persepsi.
+### 3.2 Non-Tujuan (Saat Ini)
+- Bukan tes resmi dan tidak berafiliasi dengan penyelenggara tes mana pun (Astra, Paragon, BUMN, CPNS).
+- Tidak menyalin soal resmi atau materi berbayar pihak lain.
+- Tidak menyediakan akun lintas perangkat, papan peringkat, pembayaran, atau editor soal berbasis formulir.
 
-### 3.2 Non-tujuan (untuk saat ini)
-
-- Bukan tes resmi dan tidak memprediksi hasil seleksi sungguhan.
-- Tidak menyalin soal resmi atau soal berbayar milik pihak lain.
-- Tidak menyediakan akun peserta, papan peringkat, atau pembayaran pada versi awal.
-- Tidak ada editor soal berbasis formulir di admin.
-
-## 4. Pengguna sasaran
+## 4. Pengguna Sasaran & Cerita Pengguna
 
 | Persona | Kebutuhan | Cara memakai produk |
 | --- | --- | --- |
-| Pencari kerja atau magang (fresh graduate, mahasiswa tingkat akhir) | Berlatih psikotes perusahaan tertentu sebelum seleksi | Memilih perusahaan, paket, dan subtes, lalu mengerjakan dengan timer |
-| Peserta seleksi CPNS (tahap berikutnya) | Berlatih tes seleksi dengan struktur dan penilaian khasnya | Sama, dengan subtes dan aturan nilai CPNS |
-| Admin atau pembuat konten (Dya) | Menambah soal dengan cepat dan aman | Mengimpor file paket, memeriksa pratinjau, mengekspor atau menghapus |
+| Pencari kerja / mahasiswa | Berlatih psikotes perusahaan & memperkuat kosakata bahasa Inggris | Memilih perusahaan/paket di `/` atau belajar kamus/flashcard/kuis di `/materi`, memantau progres di `/riwayat` & `/materi` |
+| Admin / kurator konten (Dya) | Mengelola bank soal, pembahasan rinci, dan kamus dengan cepat dan aman | Mengimpor JSON lewat `/admin/import`, mengecek diff dry-run, memantau `/admin/audit`, serta edit/ekspor/hapus di `/admin` |
 
-### 4.1 Cerita pengguna utama
+### Cerita Pengguna Utama
 
-| ID | Sebagai | Saya ingin | Agar |
-| --- | --- | --- | --- |
-| US-01 | Peserta | melihat daftar perusahaan, paket, dan subtes | cepat menemukan latihan yang saya butuhkan |
-| US-02 | Peserta | mengerjakan subtes dengan timer hitung mundur | merasakan tekanan waktu seperti tes asli |
-| US-03 | Peserta | langsung melihat skor dan pembahasan setelah selesai | tahu letak kesalahan |
-| US-04 | Peserta | berlatih soal memori dan kecepatan persepsi dengan perilaku seperti aslinya | melatih subtes yang paling menantang |
-| US-05 | Admin | mengimpor satu file paket dan melihat pratinjau dulu | tidak merusak data yang sudah ada |
-| US-06 | Admin | menambah perusahaan baru hanya dengan file baru | produk bisa berkembang tanpa ubah kode |
-| US-07 | Admin | mengekspor atau menghapus paket | menjaga isi konten tetap rapi |
-| US-08 | Peserta | mencari dan menyaring penyelenggara berdasarkan kategori | tetap mudah memakai situs saat pilihannya banyak (direncanakan) |
-| US-09 | Peserta | mengerjakan seluruh subtes dalam satu paket berurutan dengan skor gabungan | mensimulasikan satu sesi tes penuh (direncanakan) |
+| ID | Sebagai | Saya ingin | Agar | Status |
+| --- | --- | --- | --- | --- |
+| US-01 | Peserta | melihat dashboard yang langsung mengarahkan ke latihan berikutnya dan melacak riwayat lokal | bisa fokus belajar tanpa bingung mulai dari mana | Tersedia |
+| US-02 | Peserta | mengerjakan subtes kognitif (teks, SVG, memori, kecepatan) serta kepribadian, Pauli, dan gambar dengan timer | terbiasa dengan tekanan waktu dan ragam tes seleksi | Tersedia |
+| US-03 | Peserta | melihat skor dan pembahasan langkah demi langkah termasuk alasan opsi salah | memahami pola soal dan tidak mengulang kesalahan | Tersedia |
+| US-04 | Peserta | belajar 1.000 kata bahasa Inggris lewat kamus berfilter CEFR, flashcard Leitner 5 kotak, dan kuis 10 soal | hafalan kosakata bertahan jangka panjang | Tersedia |
+| US-05 | Admin | memeriksa diff dry-run, deteksi duplikasi, dan spot-check sebelum menyimpan impor JSON | tidak menimpa pembahasan rinci atau merusak riwayat peserta secara tidak sengaja | Tersedia |
+| US-06 | Admin | menyunting nama/deskripsi paket & subtes secara inline, mengunggah ulang kamus JSON, dan melihat Audit Log | pengelolaan konten cepat, rapi, dan terlacak | Tersedia |
+| US-07 | Peserta | berlatih Verb 1-2-3, Grammar, dan Merangkai Kata di modul Materi | kemampuan bahasa Inggris lengkap di luar kosakata | Direncanakan |
+| US-08 | Peserta | berlatih soal berbobot (mis. TKP CPNS) dan simulasi paket penuh dengan skor gabungan | persiapan seleksi CPNS & tes maraton lebih realistis | Direncanakan |
 
-## 5. Cakupan produk
+## 5. Cakupan Produk
 
-### 5.1 Sudah tersedia (rilis 1.0)
+### 5.1 Sudah Tersedia (Rilis 1.2)
 
-| Fitur | Keterangan |
+| Area | Fitur Tersedia |
 | --- | --- |
-| Hierarki perusahaan, paket, subtes | Navigasi tiga tingkat |
-| Pengerjaan dengan timer | Hitung mundur, kirim otomatis saat waktu habis, navigasi soal, pintasan keyboard |
-| Empat tipe soal | Teks, gambar SVG, memori (gambar hilang setelah 5 detik), kecepatan persepsi (pindah otomatis) |
-| Penilaian di server | Benar +1, salah atau kosong 0, tanpa pengurangan. Kunci tidak dikirim ke browser |
-| Hasil dan pembahasan | Skor dan penjelasan per soal |
-| CMS admin | Login, impor dengan pratinjau, ekspor, hapus paket atau subtes |
-| Konten awal | Astra Paket 1 dan 2 (7 subtes kognitif, 90 soal per paket), Paragon Paket 1 dan 2 (verbal, numerik, spasial, 40 soal per paket) |
+| **Dashboard & Navigasi Peserta** | Beranda Solid Cobalt dengan *Focus Hero Banner* 3-status, metrik progres lokal, kartu perusahaan 2-kolom (pratinjau 4 paket), sidebar responsif + mobile drawer, mode terang/gelap, dan halaman `/riwayat`. |
+| **Mesin Tes Psikotes** | 4 ragam subtes (`QUIZ`, `PERSONALITY`, `PAULI`, `DRAWING`); 4 tipe soal kuis (`TEXT`, `IMAGE` SVG, `MEMORY` 5 detik, `SPEED` auto-advance); timer berbasis jam sistem; keyboard `1–5`/`A–E`; penilaian server-side tanpa kebocoran kunci. |
+| **Pembahasan Rinci** | Halaman `/result/[attemptId]` menampilkan penjelasan, langkah pengerjaan (`steps`), catatan opsi salah (`wrongNotes`), dan `quickTip`. |
+| **Materi Bahasa Inggris** | `/materi` (ringkasan 5 kotak Leitner & persentase per level A1–C1 + daftar topik), `/materi/kamus` (filter CEFR, filter POS, cari, paginasi 50/halaman), `/materi/kamus/belajar` (flashcard Leitner 1/2/4/8/16 hari, batas kata baru dapat diatur, keyboard `Spasi`/`1`/`2`), `/materi/kamus/kuis` (10 soal otomatis, pengecoh se-pos & se-level, rekap salah). |
+| **CMS Admin & Keamanan** | Login cookie `httpOnly` HMAC-SHA256 + timing-safe + rate limit 5 gagal/menit per IP (`429`); metrik kelengkapan pembahasan khusus `QUIZ`; inline edit paket/subtes; ekspor JSON; hapus atomik; impor 2-fase (paket, `pembahasanSaja`, dan kamus Inggris) dengan SHA-256 hash, skip subtes identik, HTTP 409 force-gate, dan `/admin/audit`. |
 
-### 5.2 Rencana pengembangan
+### 5.2 Rencana Pengembangan Berikutnya
 
 | Fitur | Nilai bagi pengguna | Prioritas |
 | --- | --- | --- |
-| Penyelenggara dan paket baru (perusahaan lain, BUMN, CPNS) dengan pilihan ganda biner | Cakupan latihan melebar tanpa perubahan kode | Tinggi |
-| Kategori dan pencarian di beranda | Tetap mudah dipakai saat penyelenggara banyak | Tinggi |
-| Penilaian berbobot per pilihan dan ambang batas kelulusan | Mendukung subtes yang bobot nilainya berbeda, misalnya karakteristik pribadi pada seleksi CPNS | Tinggi |
-| Wacana atau gambar bersama untuk beberapa soal | Bacaan panjang tidak perlu diulang | Sedang |
-| Simulasi paket penuh dengan skor gabungan | Pengalaman mirip hari tes | Sedang |
-| Tes kepribadian berskala | Melengkapi psikotes perusahaan | Sedang |
-| Koran atau Pauli dan tes menggambar | Mendukung tes Paragon yang butuh antarmuka khusus | Rendah |
-| Akun peserta dan riwayat lintas perangkat | Melihat perkembangan dari waktu ke waktu | Rendah |
-| Pembatasan percobaan login admin per IP | Memperkuat keamanan admin | Sedang |
+| Materi Inggris lanjutan: Verb 1-2-3, Grammar, Merangkai Kata | Melengkapi pembelajaran bahasa Inggris berbasis struktur `materi` yang sudah ada | Tinggi |
+| Penyelenggara baru (BUMN, CPNS) & penilaian berbobot + ambang kelulusan | Mendukung tes seperti TKP CPNS yang bernilai 1–5 per opsi | Tinggi |
+| Wacana / gambar bersama untuk beberapa soal (`passages`) | Bacaan panjang tidak perlu diulang di tiap butir soal | Sedang |
+| Simulasi paket penuh berurutan dengan skor gabungan | Pengalaman mirip hari tes sesungguhnya | Sedang |
+| Akun peserta opsional / sinkronisasi progres lintas perangkat | Progres psikotes & kotak Leitner tidak hilang saat ganti perangkat | Rendah |
 
-Catatan CPNS: struktur seleksi CPNS (misalnya subtes TWK, TIU, dan TKP) dipakai sebagai arah pengembangan. Struktur, durasi, dan bobot resmi harus diperiksa dari sumber resmi pada saat paket dibuat.
+## 6. Kualitas Konten & Indikator Keberhasilan
 
-## 6. Kebutuhan produk
+- **Standar konten:** soal dibuat mandiri (bukan salinan resmi), kunci diverifikasi dengan skrip, sebaran kunci seimbang, SVG diperiksa visual & disanitasi anti-XSS, dan setiap perubahan format JSON kompatibel mundur.
+- **Indikator pemakaian:** jumlah `attempts` selesai, tingkat pengerjaan ulang subtes, jumlah kata masuk Kotak 4–5 pada `english_progress`, kelengkapan pembahasan rinci di dashboard admin, dan nol kesalahan kunci/regresi pada 52 automated tests.
 
-Rincian teknis ada pada SRS (kebutuhan) dan FDS (rancangan). Ringkasan kebutuhan produk:
-
-| ID | Kebutuhan | Rujukan |
-| --- | --- | --- |
-| PR-01 | Pengunjung dapat memulai latihan tanpa membuat akun. | SRS FR-01 sampai FR-03 |
-| PR-02 | Timer berjalan akurat dan jawaban terkirim otomatis saat waktu habis. | SRS FR-05, NFR-08 |
-| PR-03 | Penilaian dilakukan di server dan kunci jawaban tidak terlihat sebelum pengumpulan. | SRS FR-14, NFR-01 |
-| PR-04 | Admin dapat menambah atau mengganti konten lewat file tanpa deploy ulang. | SRS FR-22 sampai FR-27 |
-| PR-05 | Struktur data generik agar penyelenggara dan jenis tes baru dapat ditambahkan. | SRS bagian 9 (EX-01 sampai EX-09) |
-| PR-06 | Setiap soal punya pembahasan dan kunci jawaban yang sudah diverifikasi. | SRS EX-09 |
-| PR-07 | Format file paket kompatibel mundur pada setiap perubahan. | SRS EX-08 |
-
-## 7. Kualitas konten
-
-Kualitas soal adalah inti produk. Standar yang dipakai:
-
-- Soal dibuat sendiri, bukan salinan soal resmi atau soal berbayar.
-- Kunci jawaban diverifikasi dengan kode (soal hitungan dan pola dihitung ulang oleh skrip).
-- Letak kunci jawaban diacak seimbang agar tidak bisa ditebak dari posisinya.
-- Soal gambar dilihat langsung (visual) sebelum dikirim.
-- Pembahasan menjelaskan alasan jawaban benar dan jebakan pada pilihan lain.
-- Durasi subtes yang tidak diketahui dari sumber resmi diberi catatan sebagai perkiraan latihan.
-
-## 8. Indikator keberhasilan
-
-Produk ini belum punya pengguna publik, jadi target angka belum ditetapkan. Indikator yang akan diukur setelah dirilis dan angkanya ditentukan kemudian:
-
-| Indikator | Cara mengukur | Alasan |
-| --- | --- | --- |
-| Jumlah subtes yang selesai dikerjakan | Tabel `attempts` dengan `finished_at` terisi | Menunjukkan pemakaian nyata |
-| Pengerjaan ulang subtes yang sama | Beberapa `attempts` pada subtes yang sama | Menunjukkan latihan berulang |
-| Waktu menambah satu paket baru | Dari file siap sampai tampil di situs | Menunjukkan kemudahan mengelola konten |
-| Jumlah paket dan penyelenggara | Hitungan di dashboard admin | Menunjukkan pertumbuhan cakupan |
-| Kesalahan kunci jawaban yang dilaporkan | Laporan pengguna atau temuan pemeriksaan | Menjaga kepercayaan pada konten |
-
-## 9. Peta jalan
-
-| Tahap | Isi | Status |
-| --- | --- | --- |
-| 1. Fondasi | Situs latihan, timer, penilaian server, CMS impor | Selesai |
-| 2. Konten awal | Astra Paket 1 dan 2, Paragon Paket 1 dan 2 | Selesai |
-| 3. Penyelenggara baru | Perusahaan lain dan CPNS dengan pilihan ganda biner, lewat file paket | Berikutnya |
-| 4. Penataan beranda | Kategori dan pencarian | Direncanakan |
-| 5. Penilaian lanjutan | Skor berbobot, ambang kelulusan, wacana bersama | Direncanakan |
-| 6. Simulasi dan tipe khusus | Simulasi paket penuh, tes kepribadian, Koran atau Pauli, menggambar | Direncanakan |
-| 7. Akun dan riwayat | Akun peserta dan perkembangan | Opsional |
-
-Urutan dapat berubah menurut kebutuhan pengguna dan waktu pengembangan. Tidak ada tanggal rilis yang dijanjikan.
-
-## 10. Risiko dan mitigasi
+## 7. Risiko dan Mitigasi
 
 | Risiko | Mitigasi |
 | --- | --- |
-| Soal dianggap meniru soal resmi | Semua soal dibuat sendiri dan tidak menyalin sumber berbayar atau resmi |
-| Format tes resmi berubah atau berbeda dari asumsi | Durasi dan struktur diberi catatan perkiraan dan diperbarui dari sumber resmi |
-| Kesalahan kunci jawaban merusak kepercayaan | Verifikasi kunci dengan kode dan pembahasan di setiap soal |
-| Penilaian CPNS berbeda dari model biner | Rancangan penilaian berbobot dan ambang batas pada SRS bagian 9 dan FDS bagian 14 |
-| Konten makin banyak dan sulit dicari | Kategori dan pencarian di beranda |
-| Brute force pada login admin | Password panjang dan unik, rencana pembatasan percobaan per IP |
-| Layanan hosting gratis memiliki batas | Pool koneksi dibatasi dan data soal dapat diekspor kapan saja |
-| Langkah deploy belum diuji di hosting sungguhan | Menguji deploy ke Vercel dan Neon sebelum dipakai publik |
+| Progres lokal hilang saat peserta membersihkan data browser | Disampaikan jelas sebagai latihan mandiri lokal; ID anonim di `localStorage` terpisah dari data server, siap di-upgrade ke akun bila diperlukan |
+| Impor ulang menimpa pembahasan rinci atau mereset riwayat peserta | Dry-run 2-fase, canonical SHA-256 hash, skip subtes identik, spot-check, HTTP 409 force-gate, dan Audit Log |
+| Brute force pada halaman login admin | Password panjang/acak + timing-safe + penundaan 800 ms + rate limit 5 gagal/menit per IP (`429`) |
+| Kebocoran modul database server (`pg`) ke bundle client Next.js | Pemisahan ketat `src/types/` murni + Domain-First `src/lib/` + guardrail otomatis di `src/lib/architecture.test.ts` |
 
-## 11. Asumsi dan pertanyaan terbuka
+## 8. Dokumen Terkait
 
-- Siapa yang akan memakai situs: hanya Dya atau dibuka untuk umum? Jawabannya memengaruhi kebutuhan akun, keamanan, dan hak cipta.
-- Apakah situs akan gratis atau berbayar di kemudian hari?
-- Seberapa mirip aturan nilai CPNS dengan model berbobot yang dirancang? Perlu diperiksa dari sumber resmi saat paketnya dibuat.
-- Apakah nama aplikasi perlu diganti agar mencakup tes non-psikotes?
-- Kapan dan di mana situs akan dideploy?
-
-## 12. Dokumen terkait
-
-- SRS Aplikasi Latihan Psikotes: kebutuhan perangkat lunak.
-- FDS Aplikasi Latihan Psikotes: rancangan fungsional dan teknis.
+- [PROJECT.md](PROJECT.md) — Gambaran sistem & referensi teknis lengkap.
+- [Software Requirements Specification (SRS).md](Software%20Requirements%20Specification%20(SRS).md) — Spesifikasi kebutuhan v1.2.
+- [Functional Design Specification (FDS).md](Functional%20Design%20Specification%20(FDS).md) — Rancangan halaman, API, logika bisnis, dan basis data v1.2.

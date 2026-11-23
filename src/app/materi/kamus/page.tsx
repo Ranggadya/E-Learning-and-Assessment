@@ -8,11 +8,9 @@ import {
   IconZap,
 } from "@/components/ui/Icons";
 import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
-import {
-  CEFR_LEVELS,
-  isCefrLevel,
-  queryEnglishDictionary,
-} from "@/lib/english";
+import { CEFR_LEVELS } from "@/lib/english/constants";
+import { isCefrLevel } from "@/lib/english/logic";
+import { queryEnglishDictionary } from "@/lib/english/queries";
 import { getCompanies } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";

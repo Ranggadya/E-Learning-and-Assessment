@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LearnerShell } from "@/components/layout/LearnerShell";
 import { MateriOverviewClient } from "@/components/materi/MateriOverviewClient";
-import { getEnglishProgressOverview } from "@/lib/english";
+import { getEnglishProgressOverview } from "@/lib/english/queries";
 import { getCompanies } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";

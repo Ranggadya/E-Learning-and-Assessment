@@ -1,126 +1,23 @@
+import { databasePool } from "@/lib/db/pool";
+import type {
+  CefrLevel,
+  EnglishLevelSummary,
+  EnglishProgressOverview,
+  EnglishQuizQuestion,
+  EnglishWord,
+  EnglishWordInput,
+  EnglishWordWithProgress,
+} from "@/types/english";
+import { CEFR_LEVELS } from "./constants";
 import {
-  CEFR_LEVELS,
-  LEITNER_BOX_DAYS,
+  buildQuizQuestionsFromPool,
+  computeNextLeitnerState,
   isCefrLevel,
   isValidAnonUserId,
-  type CefrLevel,
-  type EnglishLevelSummary,
-  type EnglishProgressOverview,
-  type EnglishQuizQuestion,
-  type EnglishWord,
-  type EnglishWordInput,
-  type EnglishWordWithProgress,
-} from "@/lib/english-types";
-
-export {
-  CEFR_LEVELS,
-  LEITNER_BOX_DAYS,
-  isCefrLevel,
-  isValidAnonUserId,
-  type CefrLevel,
-  type EnglishLevelSummary,
-  type EnglishProgressOverview,
-  type EnglishQuizQuestion,
-  type EnglishWord,
-  type EnglishWordInput,
-  type EnglishWordWithProgress,
-};
-
-async function getPool() {
-  const { databasePool } = await import("@/lib/db");
-  return databasePool;
-}
-
-export function computeNextLeitnerState(
-  currentBox: number | null | undefined,
-  known: boolean,
-  now: Date = new Date(),
-): { nextBox: number; intervalDays: number; nextReviewAt: Date } {
-  const baseBox =
-    typeof currentBox === "number" && currentBox >= 1 && currentBox <= 5 ? currentBox : 0;
-  const nextBox = known ? Math.min(5, baseBox === 0 ? 2 : baseBox + 1) : 1;
-  const intervalDays = LEITNER_BOX_DAYS[nextBox] ?? 1;
-  const nextReviewAt = new Date(now.getTime() + intervalDays * 86_400_000);
-  return { nextBox, intervalDays, nextReviewAt };
-}
-
-export function validateEnglishWordsJson(
-  raw: unknown,
-): { ok: true; words: EnglishWordInput[] } | { ok: false; errors: string[] } {
-  if (!Array.isArray(raw)) {
-    return { ok: false, errors: ["Format JSON harus berupa array daftar kata."] };
-  }
-  if (raw.length === 0) {
-    return { ok: false, errors: ["Array kata tidak boleh kosong."] };
-  }
-  if (raw.length > 10_000) {
-    return { ok: false, errors: ["Maksimal 10.000 kata dalam satu file."] };
-  }
-
-  const errors: string[] = [];
-  const seenNo = new Set<number>();
-  const words: EnglishWordInput[] = [];
-
-  for (let i = 0; i < raw.length; i++) {
-    const item = raw[i];
-    const label = `Baris #${i + 1}`;
-    if (!item || typeof item !== "object") {
-      errors.push(`${label}: harus berupa objek.`);
-      if (errors.length >= 30) break;
-      continue;
-    }
-    const rec = item as Record<string, unknown>;
-    const no = rec.no;
-    const word = typeof rec.word === "string" ? rec.word.trim() : "";
-    const pos = typeof rec.pos === "string" ? rec.pos.trim() : "";
-    const meaning_id = typeof rec.meaning_id === "string" ? rec.meaning_id.trim() : "";
-    const example_en = typeof rec.example_en === "string" ? rec.example_en.trim() : "";
-    const example_id = typeof rec.example_id === "string" ? rec.example_id.trim() : "";
-    const cefr = rec.cefr;
-
-    if (typeof no !== "number" || !Number.isInteger(no) || no < 1) {
-      errors.push(`${label}: 'no' harus bilangan bulat positif.`);
-    } else if (seenNo.has(no)) {
-      errors.push(`${label}: nomor urut 'no' (${no}) duplikat dalam file.`);
-    } else {
-      seenNo.add(no);
-    }
-
-    if (!word) errors.push(`${label}: 'word' wajib diisi.`);
-    if (!pos) errors.push(`${label}: 'pos' wajib diisi.`);
-    if (!meaning_id) errors.push(`${label}: 'meaning_id' wajib diisi.`);
-    if (!example_en) errors.push(`${label}: 'example_en' wajib diisi.`);
-    if (!example_id) errors.push(`${label}: 'example_id' wajib diisi.`);
-    if (!isCefrLevel(cefr)) {
-      errors.push(`${label}: 'cefr' harus salah satu dari A1, A2, B1, B2, C1.`);
-    }
-
-    if (errors.length >= 30) break;
-
-    if (
-      typeof no === "number" &&
-      Number.isInteger(no) &&
-      no >= 1 &&
-      word &&
-      pos &&
-      meaning_id &&
-      example_en &&
-      example_id &&
-      isCefrLevel(cefr)
-    ) {
-      words.push({ no, word, pos, meaning_id, example_en, example_id, cefr });
-    }
-  }
-
-  if (errors.length > 0) {
-    return { ok: false, errors };
-  }
-  return { ok: true, words };
-}
+} from "./logic";
 
 export async function ensureEnglishSchema(): Promise<void> {
-  const pool = await getPool();
-  await pool.query(`
+  await databasePool.query(`
     CREATE TABLE IF NOT EXISTS english_words (
       id          SERIAL PRIMARY KEY,
       no          INTEGER NOT NULL UNIQUE,
@@ -153,7 +50,6 @@ export async function upsertEnglishWords(
     return { upsertedCount: 0 };
   }
   await ensureEnglishSchema();
-  const pool = await getPool();
 
   const nos = words.map((w) => w.no);
   const wordList = words.map((w) => w.word);
@@ -163,7 +59,7 @@ export async function upsertEnglishWords(
   const exampleIdList = words.map((w) => w.example_id);
   const cefrList = words.map((w) => w.cefr);
 
-  const result = await pool.query(
+  const result = await databasePool.query(
     `
     INSERT INTO english_words (no, word, pos, meaning_id, example_en, example_id, cefr)
     SELECT * FROM UNNEST(
@@ -224,13 +120,12 @@ export async function queryEnglishDictionary(params: {
   const whereSql = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
 
   try {
-    const pool = await getPool();
     const [countRes, posRes] = await Promise.all([
-      pool.query<{ total: string }>(
+      databasePool.query<{ total: string }>(
         `SELECT COUNT(*)::text AS total FROM english_words ${whereSql}`,
         values,
       ),
-      pool.query<{ pos: string }>(
+      databasePool.query<{ pos: string }>(
         `SELECT DISTINCT pos FROM english_words ORDER BY pos ASC`,
       ),
     ]);
@@ -241,7 +136,7 @@ export async function queryEnglishDictionary(params: {
     const offset = (page - 1) * pageSize;
 
     const listValues = [...values, pageSize, offset];
-    const itemsRes = await pool.query<EnglishWord>(
+    const itemsRes = await databasePool.query<EnglishWord>(
       `
       SELECT id, no, word, pos, meaning_id, example_en, example_id, cefr
       FROM english_words
@@ -285,9 +180,8 @@ export async function getEnglishProgressOverview(
   }));
 
   try {
-    const pool = await getPool();
     const validUser = isValidAnonUserId(userId) ? userId : null;
-    const levelRes = await pool.query<{
+    const levelRes = await databasePool.query<{
       cefr: CefrLevel;
       total: string;
       learned: string;
@@ -349,7 +243,7 @@ export async function getEnglishProgressOverview(
 
     let dueCount = 0;
     if (validUser) {
-      const boxRes = await pool.query<{
+      const boxRes = await databasePool.query<{
         box: number;
         cnt: string;
         due_cnt: string;
@@ -406,11 +300,10 @@ export async function getStudyQueue(params: {
   cefr?: string;
   newLimit?: number;
 }): Promise<{ dueWords: EnglishWordWithProgress[]; newWords: EnglishWordWithProgress[] }> {
-  const pool = await getPool();
   const newLimit = Math.min(50, Math.max(1, params.newLimit ?? 10));
   const filterCefr = params.cefr && isCefrLevel(params.cefr) ? params.cefr : null;
 
-  const dueRes = await pool.query<EnglishWordWithProgress>(
+  const dueRes = await databasePool.query<EnglishWordWithProgress>(
     `
     SELECT
       w.id, w.no, w.word, w.pos, w.meaning_id, w.example_en, w.example_id, w.cefr,
@@ -426,7 +319,7 @@ export async function getStudyQueue(params: {
     [params.userId, filterCefr],
   );
 
-  const newRes = await pool.query<EnglishWordWithProgress>(
+  const newRes = await databasePool.query<EnglishWordWithProgress>(
     `
     SELECT
       w.id, w.no, w.word, w.pos, w.meaning_id, w.example_en, w.example_id, w.cefr,
@@ -452,8 +345,7 @@ export async function recordFlashcardReview(params: {
   wordId: number;
   known: boolean;
 }): Promise<{ box: number; intervalDays: number; nextReviewAt: string }> {
-  const pool = await getPool();
-  const existingRes = await pool.query<{ box: number }>(
+  const existingRes = await databasePool.query<{ box: number }>(
     `SELECT box FROM english_progress WHERE user_id = $1 AND word_id = $2`,
     [params.userId, params.wordId],
   );
@@ -463,7 +355,7 @@ export async function recordFlashcardReview(params: {
     params.known,
   );
 
-  await pool.query(
+  await databasePool.query(
     `
     INSERT INTO english_progress (user_id, word_id, box, next_review_at, correct_count, wrong_count)
     VALUES ($1, $2, $3, $4, $5, $6)
@@ -490,76 +382,12 @@ export async function recordFlashcardReview(params: {
   };
 }
 
-function shuffleArray<T>(items: readonly T[]): T[] {
-  const copy = [...items];
-  for (let i = copy.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = copy[i];
-    copy[i] = copy[j];
-    copy[j] = tmp;
-  }
-  return copy;
-}
-
-export function buildQuizQuestionsFromPool(
-  pool: EnglishWord[],
-  count = 10,
-): EnglishQuizQuestion[] {
-  if (pool.length < 4) {
-    return [];
-  }
-
-  const targets = shuffleArray(pool).slice(0, Math.min(count, pool.length));
-
-  return targets.map((target, index) => {
-    const direction: "en_to_id" | "id_to_en" = index % 2 === 0 ? "en_to_id" : "id_to_en";
-    const valueOf = (w: EnglishWord) => (direction === "en_to_id" ? w.meaning_id : w.word);
-    const correctAnswer = valueOf(target);
-
-    // Prioritas pengecoh: 1) pos sama & level sama, 2) pos sama, 3) level sama, 4) kata lain
-    const samePosAndCefr = pool.filter(
-      (w) => w.id !== target.id && w.pos === target.pos && w.cefr === target.cefr,
-    );
-    const samePos = pool.filter((w) => w.id !== target.id && w.pos === target.pos);
-    const sameCefr = pool.filter((w) => w.id !== target.id && w.cefr === target.cefr);
-    const anyOther = pool.filter((w) => w.id !== target.id);
-
-    const distractorSet = new Set<string>();
-    for (const group of [samePosAndCefr, samePos, sameCefr, anyOther]) {
-      for (const candidate of shuffleArray(group)) {
-        const val = valueOf(candidate);
-        if (val !== correctAnswer) {
-          distractorSet.add(val);
-        }
-        if (distractorSet.size >= 3) break;
-      }
-      if (distractorSet.size >= 3) break;
-    }
-
-    const options = shuffleArray([correctAnswer, ...Array.from(distractorSet).slice(0, 3)]);
-
-    return {
-      wordId: target.id,
-      no: target.no,
-      direction,
-      prompt: direction === "en_to_id" ? target.word : target.meaning_id,
-      pos: target.pos,
-      cefr: target.cefr,
-      exampleEn: target.example_en,
-      exampleId: target.example_id,
-      options,
-      correctAnswer,
-    };
-  });
-}
-
 export async function generateEnglishQuiz(params: {
   cefr?: string;
   count?: number;
 }): Promise<EnglishQuizQuestion[]> {
-  const pool = await getPool();
   const filterCefr = params.cefr && isCefrLevel(params.cefr) ? params.cefr : null;
-  const res = await pool.query<EnglishWord>(
+  const res = await databasePool.query<EnglishWord>(
     `
     SELECT id, no, word, pos, meaning_id, example_en, example_id, cefr
     FROM english_words

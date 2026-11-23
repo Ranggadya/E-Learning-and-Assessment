@@ -10,13 +10,9 @@ import {
   IconXCircle,
 } from "@/components/ui/Icons";
 import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
-import { useAnonUserId } from "@/lib/anon-user";
-import {
-  CEFR_LEVELS,
-  LEITNER_BOX_DAYS,
-  type CefrLevel,
-  type EnglishWordWithProgress,
-} from "@/lib/english-types";
+import { useAnonUserId } from "@/lib/client/anon-user";
+import { CEFR_LEVELS, LEITNER_BOX_DAYS } from "@/lib/english/constants";
+import type { CefrLevel, EnglishWordWithProgress } from "@/types/english";
 
 const NEW_LIMIT_KEY = "e-assessment:english-new-limit:v1";
 

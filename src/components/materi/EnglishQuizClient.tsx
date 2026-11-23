@@ -9,11 +9,8 @@ import {
   IconXCircle,
 } from "@/components/ui/Icons";
 import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
-import {
-  CEFR_LEVELS,
-  type CefrLevel,
-  type EnglishQuizQuestion,
-} from "@/lib/english-types";
+import { CEFR_LEVELS } from "@/lib/english/constants";
+import type { CefrLevel, EnglishQuizQuestion } from "@/types/english";
 
 interface EnglishQuizClientProps {
   initialCefr: CefrLevel | "";

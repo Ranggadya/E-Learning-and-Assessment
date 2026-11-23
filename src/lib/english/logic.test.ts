@@ -1,11 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import type { EnglishWord } from "@/types/english";
 import {
   buildQuizQuestionsFromPool,
   computeNextLeitnerState,
+  isCefrLevel,
+  isValidAnonUserId,
   validateEnglishWordsJson,
-  type EnglishWord,
-} from "./english";
+} from "./logic";
 
 test("computeNextLeitnerState menaikkan kotak 1..5 dengan jeda 1, 2, 4, 8, 16 hari dan reset ke 1 jika salah", () => {
   const baseDate = new Date("2026-11-23T00:00:00.000Z");
@@ -95,4 +97,38 @@ test("buildQuizQuestionsFromPool menghasilkan 4 opsi unik dengan pengecoh seleve
     assert.equal(new Set(q.options).size, 4);
     assert.ok(q.options.includes(q.correctAnswer));
   }
+});
+
+test("buildQuizQuestionsFromPool mengembalikan array kosong jika pool kurang dari 4 kata", () => {
+  const smallPool: EnglishWord[] = [
+    { id: 1, no: 1, word: "apple", pos: "noun", meaning_id: "apel", example_en: "E1", example_id: "I1", cefr: "A1" },
+    { id: 2, no: 2, word: "book", pos: "noun", meaning_id: "buku", example_en: "E2", example_id: "I2", cefr: "A1" },
+    { id: 3, no: 3, word: "cat", pos: "noun", meaning_id: "kucing", example_en: "E3", example_id: "I3", cefr: "A1" },
+  ];
+
+  assert.deepEqual(buildQuizQuestionsFromPool([]), []);
+  assert.deepEqual(buildQuizQuestionsFromPool(smallPool.slice(0, 1)), []);
+  assert.deepEqual(buildQuizQuestionsFromPool(smallPool), []);
+});
+
+test("isCefrLevel hanya menerima level A1 sampai C1", () => {
+  for (const valid of ["A1", "A2", "B1", "B2", "C1"]) {
+    assert.equal(isCefrLevel(valid), true);
+  }
+  for (const invalid of ["C2", "a1", "", "B3", null, undefined, 1]) {
+    assert.equal(isCefrLevel(invalid), false);
+  }
+});
+
+test("isValidAnonUserId memvalidasi panjang 8..64 karakter [a-zA-Z0-9_-]", () => {
+  assert.equal(isValidAnonUserId("abcd1234"), true);
+  assert.equal(isValidAnonUserId("anon_user-123456"), true);
+  assert.equal(isValidAnonUserId("a".repeat(64)), true);
+
+  assert.equal(isValidAnonUserId("short"), false);
+  assert.equal(isValidAnonUserId("a".repeat(65)), false);
+  assert.equal(isValidAnonUserId("invalid user!"), false);
+  assert.equal(isValidAnonUserId("user/1234"), false);
+  assert.equal(isValidAnonUserId(null), false);
+  assert.equal(isValidAnonUserId(12345678), false);
 });

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin-auth";
-import { upsertEnglishWords, validateEnglishWordsJson } from "@/lib/english";
+import { validateEnglishWordsJson } from "@/lib/english/logic";
+import { upsertEnglishWords } from "@/lib/english/queries";
 
 const MAX_BODY_BYTES = 8 * 1024 * 1024;
 

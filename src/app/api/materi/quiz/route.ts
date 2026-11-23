@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { generateEnglishQuiz } from "@/lib/english";
+import { generateEnglishQuiz } from "@/lib/english/queries";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);

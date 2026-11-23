@@ -1,9 +1,6 @@
 import { NextResponse } from "next/server";
-import {
-  getStudyQueue,
-  isValidAnonUserId,
-  recordFlashcardReview,
-} from "@/lib/english";
+import { isValidAnonUserId } from "@/lib/english/logic";
+import { getStudyQueue, recordFlashcardReview } from "@/lib/english/queries";
 
 export async function GET(request: Request) {
   const url = new URL(request.url);

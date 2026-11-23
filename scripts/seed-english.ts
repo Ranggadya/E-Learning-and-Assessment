@@ -1,7 +1,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { databasePool } from "../src/lib/db";
-import { upsertEnglishWords, validateEnglishWordsJson } from "../src/lib/english";
+import { databasePool } from "../src/lib/db/pool";
+import { validateEnglishWordsJson } from "../src/lib/english/logic";
+import { upsertEnglishWords } from "../src/lib/english/queries";
 
 // Mengimpor kamus bahasa Inggris secara idempoten (upsert berdasarkan kolom 'no').
 async function main(): Promise<void> {

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { LearnerShell } from "@/components/layout/LearnerShell";
 import { FlashcardStudyClient } from "@/components/materi/FlashcardStudyClient";
-import { isCefrLevel } from "@/lib/english";
+import { isCefrLevel } from "@/lib/english/logic";
 import { getCompanies } from "@/lib/queries";
 
 export const dynamic = "force-dynamic";

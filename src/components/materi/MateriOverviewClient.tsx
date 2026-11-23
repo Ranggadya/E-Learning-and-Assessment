@@ -10,11 +10,9 @@ import {
   IconZap,
 } from "@/components/ui/Icons";
 import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
-import { useAnonUserId } from "@/lib/anon-user";
-import {
-  LEITNER_BOX_DAYS,
-  type EnglishProgressOverview,
-} from "@/lib/english-types";
+import { useAnonUserId } from "@/lib/client/anon-user";
+import { LEITNER_BOX_DAYS } from "@/lib/english/constants";
+import type { EnglishProgressOverview } from "@/types/english";
 
 interface MateriOverviewClientProps {
   initialOverview: EnglishProgressOverview;

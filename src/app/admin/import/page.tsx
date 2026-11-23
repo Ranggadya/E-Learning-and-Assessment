@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin/AdminShell";
+import { EnglishWordsImporter } from "@/components/admin/EnglishWordsImporter";
 import { PackImporter } from "@/components/admin/PackImporter";
 import { IconArrowLeft, IconDownload } from "@/components/ui/Icons";
 import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin-auth";
@@ -46,6 +47,8 @@ export default async function ImportPage() {
         </div>
 
         <PackImporter />
+
+        <EnglishWordsImporter />
       </div>
     </AdminShell>
   );

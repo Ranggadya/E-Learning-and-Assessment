@@ -8,6 +8,7 @@ import {
   IconBuilding,
   IconClose,
   IconDashboard,
+  IconFileText,
   IconHistory,
   IconMenu,
   IconShield,
@@ -81,6 +82,7 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
 
   const isDashboardActive = pathname === "/";
   const isHistoryActive = pathname === "/riwayat";
+  const isMateriActive = pathname === "/materi" || pathname.startsWith("/materi/");
 
   function renderSidebar(isMobileDrawer: boolean) {
     return (
@@ -143,6 +145,19 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
                   {recentAttemptCount > 0 ? (
                     <span className={navBadgeClassName(isHistoryActive)}>{recentAttemptCount}</span>
                   ) : null}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/materi"
+                  onClick={() => setMobileOpen(false)}
+                  aria-current={isMateriActive ? "page" : undefined}
+                  className={navItemClassName(isMateriActive)}
+                >
+                  <span className="inline-flex min-w-0 items-center gap-2.5">
+                    <IconFileText className="h-4 w-4 shrink-0" />
+                    <span className="truncate">Materi Inggris</span>
+                  </span>
                 </Link>
               </li>
             </ul>

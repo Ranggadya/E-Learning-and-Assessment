@@ -145,3 +145,34 @@ CREATE INDEX IF NOT EXISTS import_audit_logs_hash_status_idx
   ON import_audit_logs (content_hash, status)
   WHERE content_hash IS NOT NULL;
 
+-- Fitur Materi Bahasa Inggris (Kamus & Spaced Repetition Kotak 1..5).
+-- Dirancang umum (topic default 'kamus') agar materi berikutnya tinggal menambah file data.
+CREATE TABLE IF NOT EXISTS english_words (
+  id          SERIAL PRIMARY KEY,
+  no          INTEGER NOT NULL UNIQUE,
+  word        TEXT NOT NULL,
+  pos         TEXT NOT NULL,
+  meaning_id  TEXT NOT NULL,
+  example_en  TEXT NOT NULL,
+  example_id  TEXT NOT NULL,
+  cefr        TEXT NOT NULL CHECK (cefr IN ('A1', 'A2', 'B1', 'B2', 'C1')),
+  topic       TEXT NOT NULL DEFAULT 'kamus'
+);
+
+CREATE INDEX IF NOT EXISTS english_words_cefr_pos_idx
+  ON english_words (cefr, pos);
+
+CREATE TABLE IF NOT EXISTS english_progress (
+  user_id        TEXT NOT NULL,
+  word_id        INTEGER NOT NULL REFERENCES english_words(id) ON DELETE CASCADE,
+  box            INTEGER NOT NULL DEFAULT 1 CHECK (box BETWEEN 1 AND 5),
+  next_review_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  correct_count  INTEGER NOT NULL DEFAULT 0,
+  wrong_count    INTEGER NOT NULL DEFAULT 0,
+  PRIMARY KEY (user_id, word_id)
+);
+
+CREATE INDEX IF NOT EXISTS english_progress_user_review_idx
+  ON english_progress (user_id, next_review_at);
+
+

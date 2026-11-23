@@ -1,0 +1,337 @@
+import type { Metadata } from "next";
+import Link from "next/link";
+import { LearnerShell } from "@/components/layout/LearnerShell";
+import {
+  IconArrowLeft,
+  IconArrowRight,
+  IconSearch,
+  IconZap,
+} from "@/components/ui/Icons";
+import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
+import {
+  CEFR_LEVELS,
+  isCefrLevel,
+  queryEnglishDictionary,
+} from "@/lib/english";
+import { getCompanies } from "@/lib/queries";
+
+export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Kamus 1.000 Kata · Materi Bahasa Inggris",
+};
+
+interface KamusPageProps {
+  searchParams: Promise<{
+    cefr?: string;
+    pos?: string;
+    q?: string;
+    page?: string;
+  }>;
+}
+
+function buildKamusUrl(params: {
+  cefr?: string;
+  pos?: string;
+  q?: string;
+  page?: number;
+}): string {
+  const sp = new URLSearchParams();
+  if (params.cefr) sp.set("cefr", params.cefr);
+  if (params.pos) sp.set("pos", params.pos);
+  if (params.q) sp.set("q", params.q);
+  if (params.page && params.page > 1) sp.set("page", String(params.page));
+  const qs = sp.toString();
+  return `/materi/kamus${qs ? `?${qs}` : ""}`;
+}
+
+export default async function KamusPage({ searchParams }: KamusPageProps) {
+  const sp = await searchParams;
+  const activeCefr = sp.cefr && isCefrLevel(sp.cefr) ? sp.cefr : "";
+  const activePos = sp.pos?.trim() ?? "";
+  const activeQ = sp.q?.trim() ?? "";
+  const requestedPage = Math.max(1, Number(sp.page ?? 1) || 1);
+
+  const [companies, dict] = await Promise.all([
+    getCompanies(),
+    queryEnglishDictionary({
+      cefr: activeCefr || undefined,
+      pos: activePos || undefined,
+      q: activeQ || undefined,
+      page: requestedPage,
+      pageSize: 50,
+    }),
+  ]);
+
+  const totalPages = Math.max(1, Math.ceil(dict.total / dict.pageSize));
+
+  return (
+    <LearnerShell companies={companies}>
+      <div className="space-y-5">
+        {/* Header & Tombol Aksi */}
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <Link
+              href="/materi"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-secondary transition hover:text-ink"
+            >
+              <IconArrowLeft className="h-3.5 w-3.5" />
+              <span>Kembali ke Daftar Materi</span>
+            </Link>
+            <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-ink sm:text-[26px]">
+              Kamus 1.000 Kata Bahasa Inggris
+            </h1>
+            <p className="mt-1 text-sm text-ink-secondary">
+              Terurut dari level dasar (A1) hingga mahir (C1) · Menampilkan 50 kata per halaman.
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <Link
+              href={activeCefr ? `/materi/kamus/belajar?cefr=${activeCefr}` : "/materi/kamus/belajar"}
+              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-brand-hover"
+            >
+              <IconZap className="h-3.5 w-3.5" />
+              <span>Belajar Kartu{activeCefr ? ` (${activeCefr})` : ""}</span>
+            </Link>
+            <Link
+              href={activeCefr ? `/materi/kamus/kuis?cefr=${activeCefr}` : "/materi/kamus/kuis"}
+              className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+            >
+              <span>Kuis Pilihan Ganda{activeCefr ? ` (${activeCefr})` : ""}</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Panel Filter: Chip CEFR, Jenis Kata (POS), dan Kotak Cari */}
+        <section
+          aria-label="Filter kamus"
+          className="space-y-4 rounded-[10px] border border-line-strong bg-surface p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-none"
+        >
+          {/* Chip Level CEFR */}
+          <div className="flex flex-wrap items-center gap-1.5">
+            <span className="mr-1 text-xs font-bold text-ink-muted">Level CEFR:</span>
+            <Link
+              href={buildKamusUrl({ pos: activePos, q: activeQ })}
+              className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition ${
+                activeCefr === ""
+                  ? "border-brand bg-brand text-white"
+                  : "border-line-strong bg-canvas text-ink-secondary hover:bg-subtle hover:text-ink"
+              }`}
+            >
+              Semua
+            </Link>
+            {CEFR_LEVELS.map((lvl) => {
+              const isSelected = activeCefr === lvl;
+              return (
+                <Link
+                  key={lvl}
+                  href={buildKamusUrl({ cefr: lvl, pos: activePos, q: activeQ })}
+                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition ${
+                    isSelected
+                      ? "border-brand bg-brand text-white"
+                      : "border-line-strong bg-canvas text-ink-secondary hover:bg-subtle hover:text-ink"
+                  }`}
+                >
+                  {lvl}
+                </Link>
+              );
+            })}
+          </div>
+
+          {/* Form Pencarian & Dropdown Jenis Kata */}
+          <form method="GET" action="/materi/kamus" className="grid grid-cols-1 gap-2.5 sm:grid-cols-[1fr_200px_auto]">
+            {activeCefr ? <input type="hidden" name="cefr" value={activeCefr} /> : null}
+            <div className="relative">
+              <IconSearch className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+              <input
+                type="search"
+                name="q"
+                defaultValue={activeQ}
+                placeholder="Cari kata bahasa Inggris atau arti Indonesia..."
+                aria-label="Cari kata atau arti"
+                className="w-full rounded-lg border border-line-strong bg-canvas py-2 pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
+              />
+            </div>
+
+            <div>
+              <select
+                name="pos"
+                defaultValue={activePos}
+                aria-label="Filter jenis kata"
+                className="w-full rounded-lg border border-line-strong bg-canvas px-3 py-2 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
+              >
+                <option value="">Semua jenis kata</option>
+                {dict.posList.map((pos) => (
+                  <option key={pos} value={pos}>
+                    {pos}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="submit"
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900"
+              >
+                Terapkan
+              </button>
+              {activeCefr || activePos || activeQ ? (
+                <Link
+                  href="/materi/kamus"
+                  className="rounded-lg border border-line-strong bg-surface px-3 py-2 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
+                >
+                  Reset
+                </Link>
+              ) : null}
+            </div>
+          </form>
+        </section>
+
+        {/* Info Jumlah & Paginasi Atas */}
+        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-ink-secondary">
+          <span>
+            Menampilkan <strong className="text-ink">{dict.items.length}</strong> dari{" "}
+            <strong className="text-ink">{dict.total}</strong> kata (Halaman {dict.page} dari {totalPages})
+          </span>
+        </div>
+
+        {/* Daftar Kata */}
+        {dict.items.length === 0 ? (
+          <div className="rounded-[10px] border border-dashed border-line-strong bg-surface p-8 text-center">
+            <p className="text-sm font-semibold text-ink">
+              {dict.posList.length === 0
+                ? "Database kamus masih kosong."
+                : "Tidak ada kata yang cocok dengan filter ini."}
+            </p>
+            {dict.posList.length === 0 ? (
+              <p className="mt-1 text-xs text-ink-muted">
+                Jalankan <code className="rounded bg-subtle px-1.5 py-0.5 font-mono">npm run db:seed-english</code> atau unggah file JSON kamus melalui halaman Admin.
+              </p>
+            ) : null}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+            {dict.items.map((item) => (
+              <article
+                key={item.id}
+                className="flex flex-col justify-between rounded-[10px] border border-line-strong bg-surface p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)] dark:shadow-none"
+              >
+                <div>
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="flex flex-wrap items-baseline gap-2">
+                      <span className="font-mono text-xs font-semibold tabular-nums text-ink-muted">
+                        #{item.no}
+                      </span>
+                      <h2 className="text-lg font-extrabold tracking-tight text-ink">
+                        {item.word}
+                      </h2>
+                      <span className="rounded border border-line bg-subtle px-1.5 py-0.5 font-mono text-[11px] font-medium text-ink-secondary">
+                        {item.pos}
+                      </span>
+                    </div>
+                    <LevelBadge level={item.cefr} />
+                  </div>
+
+                  <p className="mt-1.5 text-sm font-semibold text-brand-text">
+                    {item.meaning_id}
+                  </p>
+                </div>
+
+                <div className="mt-3 rounded-lg border border-line bg-canvas px-3 py-2 text-xs leading-relaxed">
+                  <p className="font-medium text-ink">&ldquo;{item.example_en}&rdquo;</p>
+                  <p className="mt-0.5 text-ink-secondary">{item.example_id}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
+
+        {/* Navigasi Paginasi (50 per halaman) */}
+        {totalPages > 1 ? (
+          <nav
+            aria-label="Paginasi kamus"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-line-strong bg-surface px-4 py-3"
+          >
+            <div>
+              {dict.page > 1 ? (
+                <Link
+                  href={buildKamusUrl({
+                    cefr: activeCefr,
+                    pos: activePos,
+                    q: activeQ,
+                    page: dict.page - 1,
+                  })}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-1.5 text-xs font-bold text-ink transition hover:bg-subtle"
+                >
+                  <IconArrowLeft className="h-3.5 w-3.5" />
+                  <span>Sebelumnya</span>
+                </Link>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-subtle/50 px-3 py-1.5 text-xs font-semibold text-ink-muted opacity-50">
+                  <IconArrowLeft className="h-3.5 w-3.5" />
+                  <span>Sebelumnya</span>
+                </span>
+              )}
+            </div>
+
+            <div className="flex flex-wrap items-center gap-1">
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((p) => p === 1 || p === totalPages || Math.abs(p - dict.page) <= 2)
+                .map((p, idx, arr) => {
+                  const prev = arr[idx - 1];
+                  const showEllipsis = prev !== undefined && p - prev > 1;
+                  return (
+                    <span key={p} className="inline-flex items-center gap-1">
+                      {showEllipsis ? (
+                        <span className="px-1 text-xs text-ink-muted">…</span>
+                      ) : null}
+                      <Link
+                        href={buildKamusUrl({
+                          cefr: activeCefr,
+                          pos: activePos,
+                          q: activeQ,
+                          page: p,
+                        })}
+                        aria-current={p === dict.page ? "page" : undefined}
+                        className={`inline-flex h-8 min-w-8 items-center justify-center rounded-lg px-2 text-xs font-bold tabular-nums transition ${
+                          p === dict.page
+                            ? "bg-brand text-white"
+                            : "border border-line-strong bg-canvas text-ink-secondary hover:bg-subtle hover:text-ink"
+                        }`}
+                      >
+                        {p}
+                      </Link>
+                    </span>
+                  );
+                })}
+            </div>
+
+            <div>
+              {dict.page < totalPages ? (
+                <Link
+                  href={buildKamusUrl({
+                    cefr: activeCefr,
+                    pos: activePos,
+                    q: activeQ,
+                    page: dict.page + 1,
+                  })}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-1.5 text-xs font-bold text-ink transition hover:bg-subtle"
+                >
+                  <span>Berikutnya</span>
+                  <IconArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-subtle/50 px-3 py-1.5 text-xs font-semibold text-ink-muted opacity-50">
+                  <span>Berikutnya</span>
+                  <IconArrowRight className="h-3.5 w-3.5" />
+                </span>
+              )}
+            </div>
+          </nav>
+        ) : null}
+      </div>
+    </LearnerShell>
+  );
+}

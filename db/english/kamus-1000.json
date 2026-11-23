@@ -1,0 +1,9002 @@
+[
+ {
+  "no": 1,
+  "word": "a",
+  "pos": "determiner",
+  "meaning_id": "sebuah; seorang (sebelum bunyi konsonan)",
+  "example_en": "I have a dog.",
+  "example_id": "Saya punya seekor anjing.",
+  "cefr": "A1"
+ },
+ {
+  "no": 2,
+  "word": "about",
+  "pos": "preposition",
+  "meaning_id": "tentang",
+  "example_en": "This story is about a dog.",
+  "example_id": "Cerita ini tentang seekor anjing.",
+  "cefr": "A1"
+ },
+ {
+  "no": 3,
+  "word": "after",
+  "pos": "preposition",
+  "meaning_id": "setelah",
+  "example_en": "I read after dinner.",
+  "example_id": "Saya membaca setelah makan malam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 4,
+  "word": "afternoon",
+  "pos": "noun",
+  "meaning_id": "siang menjelang sore",
+  "example_en": "We play in the afternoon.",
+  "example_id": "Kami bermain di sore hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 5,
+  "word": "again",
+  "pos": "adverb",
+  "meaning_id": "lagi",
+  "example_en": "Please say it again.",
+  "example_id": "Tolong katakan lagi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 6,
+  "word": "age",
+  "pos": "noun",
+  "meaning_id": "umur",
+  "example_en": "What is your age?",
+  "example_id": "Berapa umurmu?",
+  "cefr": "A1"
+ },
+ {
+  "no": 7,
+  "word": "all",
+  "pos": "determiner",
+  "meaning_id": "semua",
+  "example_en": "All students are here.",
+  "example_id": "Semua siswa ada di sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 8,
+  "word": "already",
+  "pos": "adverb",
+  "meaning_id": "sudah",
+  "example_en": "I already eat.",
+  "example_id": "Aku sudah makan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 9,
+  "word": "also",
+  "pos": "adverb",
+  "meaning_id": "juga",
+  "example_en": "I also like tea.",
+  "example_id": "Aku juga suka teh.",
+  "cefr": "A1"
+ },
+ {
+  "no": 10,
+  "word": "always",
+  "pos": "adverb",
+  "meaning_id": "selalu",
+  "example_en": "She always smiles.",
+  "example_id": "Dia selalu tersenyum.",
+  "cefr": "A1"
+ },
+ {
+  "no": 11,
+  "word": "an",
+  "pos": "determiner",
+  "meaning_id": "sebuah; seorang (sebelum bunyi vokal)",
+  "example_en": "She eats an egg.",
+  "example_id": "Dia makan sebutir telur.",
+  "cefr": "A1"
+ },
+ {
+  "no": 12,
+  "word": "and",
+  "pos": "conjunction",
+  "meaning_id": "dan",
+  "example_en": "I like tea and cake.",
+  "example_id": "Saya suka teh dan kue.",
+  "cefr": "A1"
+ },
+ {
+  "no": 13,
+  "word": "angry",
+  "pos": "adjective",
+  "meaning_id": "marah",
+  "example_en": "My boss is angry.",
+  "example_id": "Atasanku marah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 14,
+  "word": "animal",
+  "pos": "noun",
+  "meaning_id": "hewan",
+  "example_en": "A cat is a small animal.",
+  "example_id": "Kucing adalah hewan kecil.",
+  "cefr": "A1"
+ },
+ {
+  "no": 15,
+  "word": "answer",
+  "pos": "noun, verb",
+  "meaning_id": "jawaban; menjawab",
+  "example_en": "The answer is right. / Please answer me.",
+  "example_id": "Jawabannya benar. / Tolong jawab aku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 16,
+  "word": "any",
+  "pos": "determiner",
+  "meaning_id": "apa saja; sama sekali (kalimat tanya atau negatif)",
+  "example_en": "Do you have any money?",
+  "example_id": "Apakah kamu punya uang?",
+  "cefr": "A1"
+ },
+ {
+  "no": 17,
+  "word": "apple",
+  "pos": "noun",
+  "meaning_id": "apel",
+  "example_en": "The apple is sweet.",
+  "example_id": "Apelnya manis.",
+  "cefr": "A1"
+ },
+ {
+  "no": 18,
+  "word": "arm",
+  "pos": "noun",
+  "meaning_id": "lengan",
+  "example_en": "He broke his arm.",
+  "example_id": "Dia mematahkan lengannya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 19,
+  "word": "ask",
+  "pos": "verb",
+  "meaning_id": "bertanya; meminta",
+  "example_en": "Ask the teacher.",
+  "example_id": "Tanyakan pada guru.",
+  "cefr": "A1"
+ },
+ {
+  "no": 20,
+  "word": "at",
+  "pos": "preposition",
+  "meaning_id": "di; pada (titik tempat atau jam)",
+  "example_en": "I wake up at six.",
+  "example_id": "Saya bangun pukul enam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 21,
+  "word": "aunt",
+  "pos": "noun",
+  "meaning_id": "bibi; tante",
+  "example_en": "My aunt has two cats.",
+  "example_id": "Tanteku punya dua kucing.",
+  "cefr": "A1"
+ },
+ {
+  "no": 22,
+  "word": "baby",
+  "pos": "noun",
+  "meaning_id": "bayi",
+  "example_en": "The baby is sleeping.",
+  "example_id": "Bayinya sedang tidur.",
+  "cefr": "A1"
+ },
+ {
+  "no": 23,
+  "word": "back",
+  "pos": "noun",
+  "meaning_id": "punggung",
+  "example_en": "My back aches.",
+  "example_id": "Punggungku pegal.",
+  "cefr": "A1"
+ },
+ {
+  "no": 24,
+  "word": "bad",
+  "pos": "adjective",
+  "meaning_id": "buruk; jelek",
+  "example_en": "The weather is bad.",
+  "example_id": "Cuacanya buruk.",
+  "cefr": "A1"
+ },
+ {
+  "no": 25,
+  "word": "bag",
+  "pos": "noun",
+  "meaning_id": "tas",
+  "example_en": "My bag is heavy.",
+  "example_id": "Tasku berat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 26,
+  "word": "banana",
+  "pos": "noun",
+  "meaning_id": "pisang",
+  "example_en": "Monkeys love bananas.",
+  "example_id": "Monyet suka pisang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 27,
+  "word": "bank",
+  "pos": "noun",
+  "meaning_id": "bank",
+  "example_en": "The bank closes at three.",
+  "example_id": "Bank tutup jam tiga.",
+  "cefr": "A1"
+ },
+ {
+  "no": 28,
+  "word": "bathroom",
+  "pos": "noun",
+  "meaning_id": "kamar mandi",
+  "example_en": "Where is the bathroom?",
+  "example_id": "Di mana kamar mandi?",
+  "cefr": "A1"
+ },
+ {
+  "no": 29,
+  "word": "be",
+  "pos": "verb",
+  "meaning_id": "adalah; menjadi; berada",
+  "example_en": "She wants to be a doctor.",
+  "example_id": "Dia ingin menjadi dokter.",
+  "cefr": "A1"
+ },
+ {
+  "no": 30,
+  "word": "beach",
+  "pos": "noun",
+  "meaning_id": "pantai",
+  "example_en": "We walk on the beach.",
+  "example_id": "Kami berjalan di pantai.",
+  "cefr": "A1"
+ },
+ {
+  "no": 31,
+  "word": "beautiful",
+  "pos": "adjective",
+  "meaning_id": "cantik; indah",
+  "example_en": "The beach is beautiful.",
+  "example_id": "Pantainya indah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 32,
+  "word": "because",
+  "pos": "conjunction",
+  "meaning_id": "karena",
+  "example_en": "I stay home because it rains.",
+  "example_id": "Saya di rumah karena hujan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 33,
+  "word": "become",
+  "pos": "verb",
+  "meaning_id": "menjadi",
+  "example_en": "He wants to become a pilot.",
+  "example_id": "Dia ingin menjadi pilot.",
+  "cefr": "A1"
+ },
+ {
+  "no": 34,
+  "word": "bed",
+  "pos": "noun",
+  "meaning_id": "tempat tidur",
+  "example_en": "I go to bed at ten.",
+  "example_id": "Aku tidur jam sepuluh.",
+  "cefr": "A1"
+ },
+ {
+  "no": 35,
+  "word": "bedroom",
+  "pos": "noun",
+  "meaning_id": "kamar tidur",
+  "example_en": "The bedroom is upstairs.",
+  "example_id": "Kamar tidurnya di lantai atas.",
+  "cefr": "A1"
+ },
+ {
+  "no": 36,
+  "word": "before",
+  "pos": "preposition",
+  "meaning_id": "sebelum",
+  "example_en": "Wash your hands before lunch.",
+  "example_id": "Cuci tanganmu sebelum makan siang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 37,
+  "word": "begin",
+  "pos": "verb",
+  "meaning_id": "memulai",
+  "example_en": "Let us begin.",
+  "example_id": "Mari kita mulai.",
+  "cefr": "A1"
+ },
+ {
+  "no": 38,
+  "word": "behind",
+  "pos": "preposition",
+  "meaning_id": "di belakang",
+  "example_en": "The garden is behind the house.",
+  "example_id": "Kebun itu ada di belakang rumah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 39,
+  "word": "between",
+  "pos": "preposition",
+  "meaning_id": "di antara",
+  "example_en": "The bank is between the shop and the school.",
+  "example_id": "Bank itu ada di antara toko dan sekolah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 40,
+  "word": "big",
+  "pos": "adjective",
+  "meaning_id": "besar",
+  "example_en": "It is a big house.",
+  "example_id": "Itu rumah besar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 41,
+  "word": "bike",
+  "pos": "noun",
+  "meaning_id": "sepeda",
+  "example_en": "I ride a bike to school.",
+  "example_id": "Aku naik sepeda ke sekolah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 42,
+  "word": "bird",
+  "pos": "noun",
+  "meaning_id": "burung",
+  "example_en": "A bird sings in the tree.",
+  "example_id": "Seekor burung berkicau di pohon.",
+  "cefr": "A1"
+ },
+ {
+  "no": 43,
+  "word": "black",
+  "pos": "adjective",
+  "meaning_id": "hitam",
+  "example_en": "My cat is black.",
+  "example_id": "Kucingku hitam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 44,
+  "word": "blue",
+  "pos": "adjective",
+  "meaning_id": "biru",
+  "example_en": "The sky is blue.",
+  "example_id": "Langitnya biru.",
+  "cefr": "A1"
+ },
+ {
+  "no": 45,
+  "word": "body",
+  "pos": "noun",
+  "meaning_id": "badan; tubuh",
+  "example_en": "Sport is good for the body.",
+  "example_id": "Olahraga baik untuk tubuh.",
+  "cefr": "A1"
+ },
+ {
+  "no": 46,
+  "word": "book",
+  "pos": "noun",
+  "meaning_id": "buku",
+  "example_en": "I read a book every week.",
+  "example_id": "Aku membaca buku setiap minggu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 47,
+  "word": "boss",
+  "pos": "noun",
+  "meaning_id": "atasan; bos",
+  "example_en": "My boss is in a meeting.",
+  "example_id": "Atasanku sedang rapat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 48,
+  "word": "box",
+  "pos": "noun",
+  "meaning_id": "kotak",
+  "example_en": "The box is empty.",
+  "example_id": "Kotaknya kosong.",
+  "cefr": "A1"
+ },
+ {
+  "no": 49,
+  "word": "boy",
+  "pos": "noun",
+  "meaning_id": "anak laki-laki",
+  "example_en": "The boy plays football.",
+  "example_id": "Anak laki-laki itu bermain sepak bola.",
+  "cefr": "A1"
+ },
+ {
+  "no": 50,
+  "word": "bread",
+  "pos": "noun",
+  "meaning_id": "roti",
+  "example_en": "I eat bread for breakfast.",
+  "example_id": "Aku makan roti untuk sarapan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 51,
+  "word": "break",
+  "pos": "verb",
+  "meaning_id": "memecahkan; merusak",
+  "example_en": "Do not break the glass.",
+  "example_id": "Jangan pecahkan gelasnya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 52,
+  "word": "breakfast",
+  "pos": "noun",
+  "meaning_id": "sarapan",
+  "example_en": "We have breakfast at seven.",
+  "example_id": "Kami sarapan jam tujuh.",
+  "cefr": "A1"
+ },
+ {
+  "no": 53,
+  "word": "bright",
+  "pos": "adjective",
+  "meaning_id": "terang; cerah",
+  "example_en": "The moon is bright.",
+  "example_id": "Bulannya terang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 54,
+  "word": "bring",
+  "pos": "verb",
+  "meaning_id": "membawa",
+  "example_en": "Bring your book.",
+  "example_id": "Bawa bukumu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 55,
+  "word": "brother",
+  "pos": "noun",
+  "meaning_id": "saudara laki-laki",
+  "example_en": "I have one brother.",
+  "example_id": "Aku punya satu saudara laki-laki.",
+  "cefr": "A1"
+ },
+ {
+  "no": 56,
+  "word": "brown",
+  "pos": "adjective",
+  "meaning_id": "cokelat",
+  "example_en": "He has brown eyes.",
+  "example_id": "Dia bermata cokelat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 57,
+  "word": "build",
+  "pos": "verb",
+  "meaning_id": "membangun",
+  "example_en": "They build a house.",
+  "example_id": "Mereka membangun rumah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 58,
+  "word": "bus",
+  "pos": "noun",
+  "meaning_id": "bus",
+  "example_en": "The bus is late.",
+  "example_id": "Busnya terlambat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 59,
+  "word": "busy",
+  "pos": "adjective",
+  "meaning_id": "sibuk",
+  "example_en": "I am busy now.",
+  "example_id": "Aku sibuk sekarang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 60,
+  "word": "but",
+  "pos": "conjunction",
+  "meaning_id": "tetapi",
+  "example_en": "I am tired but happy.",
+  "example_id": "Saya lelah tetapi senang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 61,
+  "word": "buy",
+  "pos": "verb",
+  "meaning_id": "membeli",
+  "example_en": "I buy bread.",
+  "example_id": "Aku membeli roti.",
+  "cefr": "A1"
+ },
+ {
+  "no": 62,
+  "word": "by",
+  "pos": "preposition",
+  "meaning_id": "oleh; dengan (alat); di dekat",
+  "example_en": "I go to work by bus.",
+  "example_id": "Saya pergi bekerja naik bus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 63,
+  "word": "cake",
+  "pos": "noun",
+  "meaning_id": "kue",
+  "example_en": "She bakes a cake.",
+  "example_id": "Dia memanggang kue.",
+  "cefr": "A1"
+ },
+ {
+  "no": 64,
+  "word": "call",
+  "pos": "verb",
+  "meaning_id": "memanggil; menelepon",
+  "example_en": "I call my mother.",
+  "example_id": "Aku menelepon ibuku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 65,
+  "word": "can",
+  "pos": "modal verb",
+  "meaning_id": "bisa; dapat",
+  "example_en": "I can swim.",
+  "example_id": "Aku bisa berenang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 66,
+  "word": "car",
+  "pos": "noun",
+  "meaning_id": "mobil",
+  "example_en": "He drives a white car.",
+  "example_id": "Dia mengendarai mobil putih.",
+  "cefr": "A1"
+ },
+ {
+  "no": 67,
+  "word": "cat",
+  "pos": "noun",
+  "meaning_id": "kucing",
+  "example_en": "The cat sleeps on the bed.",
+  "example_id": "Kucing itu tidur di kasur.",
+  "cefr": "A1"
+ },
+ {
+  "no": 68,
+  "word": "chair",
+  "pos": "noun",
+  "meaning_id": "kursi",
+  "example_en": "Sit on that chair.",
+  "example_id": "Duduklah di kursi itu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 69,
+  "word": "change",
+  "pos": "verb",
+  "meaning_id": "mengubah; berubah",
+  "example_en": "I change my clothes.",
+  "example_id": "Aku mengganti pakaianku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 70,
+  "word": "cheap",
+  "pos": "adjective",
+  "meaning_id": "murah",
+  "example_en": "This shirt is cheap.",
+  "example_id": "Kemeja ini murah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 71,
+  "word": "chicken",
+  "pos": "noun",
+  "meaning_id": "ayam",
+  "example_en": "The chicken is delicious.",
+  "example_id": "Ayamnya lezat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 72,
+  "word": "child",
+  "pos": "noun",
+  "meaning_id": "anak",
+  "example_en": "Every child needs love.",
+  "example_id": "Setiap anak butuh kasih sayang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 73,
+  "word": "city",
+  "pos": "noun",
+  "meaning_id": "kota",
+  "example_en": "Jakarta is a big city.",
+  "example_id": "Jakarta adalah kota besar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 74,
+  "word": "class",
+  "pos": "noun",
+  "meaning_id": "kelas",
+  "example_en": "Our class starts at eight.",
+  "example_id": "Kelas kami mulai jam delapan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 75,
+  "word": "clean",
+  "pos": "verb",
+  "meaning_id": "membersihkan",
+  "example_en": "I clean my room.",
+  "example_id": "Aku membersihkan kamarku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 76,
+  "word": "clock",
+  "pos": "noun",
+  "meaning_id": "jam dinding",
+  "example_en": "The clock is on the wall.",
+  "example_id": "Jam dindingnya di tembok.",
+  "cefr": "A1"
+ },
+ {
+  "no": 77,
+  "word": "close",
+  "pos": "verb",
+  "meaning_id": "menutup",
+  "example_en": "Close the window.",
+  "example_id": "Tutup jendelanya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 78,
+  "word": "clothes",
+  "pos": "noun",
+  "meaning_id": "pakaian",
+  "example_en": "I wash my clothes on Sunday.",
+  "example_id": "Aku mencuci pakaianku hari Minggu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 79,
+  "word": "cloud",
+  "pos": "noun",
+  "meaning_id": "awan",
+  "example_en": "There is a big cloud.",
+  "example_id": "Ada awan besar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 80,
+  "word": "coffee",
+  "pos": "noun",
+  "meaning_id": "kopi",
+  "example_en": "I drink coffee in the morning.",
+  "example_id": "Aku minum kopi di pagi hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 81,
+  "word": "cold",
+  "pos": "adjective",
+  "meaning_id": "dingin",
+  "example_en": "The water is cold.",
+  "example_id": "Airnya dingin.",
+  "cefr": "A1"
+ },
+ {
+  "no": 82,
+  "word": "color",
+  "pos": "noun",
+  "meaning_id": "warna",
+  "example_en": "What color is it?",
+  "example_id": "Warnanya apa?",
+  "cefr": "A1"
+ },
+ {
+  "no": 83,
+  "word": "come",
+  "pos": "verb",
+  "meaning_id": "datang",
+  "example_en": "Please come here.",
+  "example_id": "Tolong datang ke sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 84,
+  "word": "computer",
+  "pos": "noun",
+  "meaning_id": "komputer",
+  "example_en": "He works on a computer.",
+  "example_id": "Dia bekerja dengan komputer.",
+  "cefr": "A1"
+ },
+ {
+  "no": 85,
+  "word": "cook",
+  "pos": "verb",
+  "meaning_id": "memasak",
+  "example_en": "She cooks dinner.",
+  "example_id": "Dia memasak makan malam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 86,
+  "word": "cost",
+  "pos": "verb",
+  "meaning_id": "berharga; berbiaya",
+  "example_en": "It costs ten dollars.",
+  "example_id": "Harganya sepuluh dolar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 87,
+  "word": "could",
+  "pos": "modal verb",
+  "meaning_id": "bisa (lampau/sopan)",
+  "example_en": "Could you help me?",
+  "example_id": "Bisakah kamu membantuku?",
+  "cefr": "A1"
+ },
+ {
+  "no": 88,
+  "word": "country",
+  "pos": "noun",
+  "meaning_id": "negara",
+  "example_en": "Indonesia is a beautiful country.",
+  "example_id": "Indonesia adalah negara yang indah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 89,
+  "word": "cousin",
+  "pos": "noun",
+  "meaning_id": "sepupu",
+  "example_en": "My cousin visits us in July.",
+  "example_id": "Sepupuku mengunjungi kami bulan Juli.",
+  "cefr": "A1"
+ },
+ {
+  "no": 90,
+  "word": "cow",
+  "pos": "noun",
+  "meaning_id": "sapi",
+  "example_en": "The cow eats grass.",
+  "example_id": "Sapi itu makan rumput.",
+  "cefr": "A1"
+ },
+ {
+  "no": 91,
+  "word": "cry",
+  "pos": "verb",
+  "meaning_id": "menangis",
+  "example_en": "The baby cries.",
+  "example_id": "Bayinya menangis.",
+  "cefr": "A1"
+ },
+ {
+  "no": 92,
+  "word": "cup",
+  "pos": "noun",
+  "meaning_id": "cangkir",
+  "example_en": "A cup of tea, please.",
+  "example_id": "Secangkir teh, tolong.",
+  "cefr": "A1"
+ },
+ {
+  "no": 93,
+  "word": "cut",
+  "pos": "verb",
+  "meaning_id": "memotong",
+  "example_en": "Cut the bread.",
+  "example_id": "Potong rotinya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 94,
+  "word": "dance",
+  "pos": "verb",
+  "meaning_id": "menari",
+  "example_en": "They dance at the party.",
+  "example_id": "Mereka menari di pesta.",
+  "cefr": "A1"
+ },
+ {
+  "no": 95,
+  "word": "dangerous",
+  "pos": "adjective",
+  "meaning_id": "berbahaya",
+  "example_en": "Fire is dangerous.",
+  "example_id": "Api itu berbahaya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 96,
+  "word": "dark",
+  "pos": "adjective",
+  "meaning_id": "gelap",
+  "example_en": "The room is dark.",
+  "example_id": "Ruangannya gelap.",
+  "cefr": "A1"
+ },
+ {
+  "no": 97,
+  "word": "daughter",
+  "pos": "noun",
+  "meaning_id": "anak perempuan (kandung)",
+  "example_en": "Her daughter likes music.",
+  "example_id": "Anak perempuannya suka musik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 98,
+  "word": "day",
+  "pos": "noun",
+  "meaning_id": "hari",
+  "example_en": "Today is a good day.",
+  "example_id": "Hari ini hari yang baik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 99,
+  "word": "different",
+  "pos": "adjective",
+  "meaning_id": "berbeda",
+  "example_en": "The two cities are different.",
+  "example_id": "Kedua kota itu berbeda.",
+  "cefr": "A1"
+ },
+ {
+  "no": 100,
+  "word": "difficult",
+  "pos": "adjective",
+  "meaning_id": "sulit",
+  "example_en": "English is not difficult.",
+  "example_id": "Bahasa Inggris tidak sulit.",
+  "cefr": "A1"
+ },
+ {
+  "no": 101,
+  "word": "dinner",
+  "pos": "noun",
+  "meaning_id": "makan malam",
+  "example_en": "Dinner is ready.",
+  "example_id": "Makan malam sudah siap.",
+  "cefr": "A1"
+ },
+ {
+  "no": 102,
+  "word": "dirty",
+  "pos": "adjective",
+  "meaning_id": "kotor",
+  "example_en": "My shoes are dirty.",
+  "example_id": "Sepatuku kotor.",
+  "cefr": "A1"
+ },
+ {
+  "no": 103,
+  "word": "do",
+  "pos": "verb",
+  "meaning_id": "melakukan; mengerjakan",
+  "example_en": "I do my homework after school.",
+  "example_id": "Aku mengerjakan PR setelah sekolah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 104,
+  "word": "doctor",
+  "pos": "noun",
+  "meaning_id": "dokter",
+  "example_en": "The doctor works at a hospital.",
+  "example_id": "Dokter itu bekerja di rumah sakit.",
+  "cefr": "A1"
+ },
+ {
+  "no": 105,
+  "word": "dog",
+  "pos": "noun",
+  "meaning_id": "anjing",
+  "example_en": "The dog runs fast.",
+  "example_id": "Anjing itu berlari cepat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 106,
+  "word": "door",
+  "pos": "noun",
+  "meaning_id": "pintu",
+  "example_en": "Please close the door.",
+  "example_id": "Tolong tutup pintunya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 107,
+  "word": "draw",
+  "pos": "verb",
+  "meaning_id": "menggambar",
+  "example_en": "She draws a cat.",
+  "example_id": "Dia menggambar kucing.",
+  "cefr": "A1"
+ },
+ {
+  "no": 108,
+  "word": "dress",
+  "pos": "noun",
+  "meaning_id": "gaun",
+  "example_en": "Her dress is beautiful.",
+  "example_id": "Gaunnya cantik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 109,
+  "word": "drink",
+  "pos": "verb",
+  "meaning_id": "minum",
+  "example_en": "I drink water.",
+  "example_id": "Aku minum air.",
+  "cefr": "A1"
+ },
+ {
+  "no": 110,
+  "word": "drive",
+  "pos": "verb",
+  "meaning_id": "mengemudi",
+  "example_en": "He drives to work.",
+  "example_id": "Dia mengemudi ke tempat kerja.",
+  "cefr": "A1"
+ },
+ {
+  "no": 111,
+  "word": "driver",
+  "pos": "noun",
+  "meaning_id": "sopir; pengemudi",
+  "example_en": "The driver is waiting outside.",
+  "example_id": "Sopirnya menunggu di luar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 112,
+  "word": "ear",
+  "pos": "noun",
+  "meaning_id": "telinga",
+  "example_en": "The rabbit has long ears.",
+  "example_id": "Kelinci itu bertelinga panjang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 113,
+  "word": "early",
+  "pos": "adverb",
+  "meaning_id": "awal; pagi-pagi",
+  "example_en": "I get up early.",
+  "example_id": "Saya bangun pagi-pagi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 114,
+  "word": "easy",
+  "pos": "adjective",
+  "meaning_id": "mudah",
+  "example_en": "The test is easy.",
+  "example_id": "Tesnya mudah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 115,
+  "word": "eat",
+  "pos": "verb",
+  "meaning_id": "makan",
+  "example_en": "We eat lunch at noon.",
+  "example_id": "Kami makan siang jam dua belas.",
+  "cefr": "A1"
+ },
+ {
+  "no": 116,
+  "word": "egg",
+  "pos": "noun",
+  "meaning_id": "telur",
+  "example_en": "I fry two eggs.",
+  "example_id": "Aku menggoreng dua telur.",
+  "cefr": "A1"
+ },
+ {
+  "no": 117,
+  "word": "eight",
+  "pos": "number",
+  "meaning_id": "delapan",
+  "example_en": "School starts at eight.",
+  "example_id": "Sekolah mulai pukul delapan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 118,
+  "word": "empty",
+  "pos": "adjective",
+  "meaning_id": "kosong",
+  "example_en": "The box is empty.",
+  "example_id": "Kotaknya kosong.",
+  "cefr": "A1"
+ },
+ {
+  "no": 119,
+  "word": "end",
+  "pos": "noun",
+  "meaning_id": "akhir; ujung",
+  "example_en": "This is the end.",
+  "example_id": "Ini akhirnya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 120,
+  "word": "evening",
+  "pos": "noun",
+  "meaning_id": "sore menjelang malam",
+  "example_en": "I watch TV in the evening.",
+  "example_id": "Saya menonton TV di malam hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 121,
+  "word": "every",
+  "pos": "determiner",
+  "meaning_id": "setiap",
+  "example_en": "I study every day.",
+  "example_id": "Saya belajar setiap hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 122,
+  "word": "expensive",
+  "pos": "adjective",
+  "meaning_id": "mahal",
+  "example_en": "The phone is expensive.",
+  "example_id": "Ponselnya mahal.",
+  "cefr": "A1"
+ },
+ {
+  "no": 123,
+  "word": "eye",
+  "pos": "noun",
+  "meaning_id": "mata",
+  "example_en": "I have brown eyes.",
+  "example_id": "Aku bermata cokelat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 124,
+  "word": "face",
+  "pos": "noun",
+  "meaning_id": "wajah",
+  "example_en": "She has a kind face.",
+  "example_id": "Dia punya wajah yang ramah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 125,
+  "word": "family",
+  "pos": "noun",
+  "meaning_id": "keluarga",
+  "example_en": "My family is big.",
+  "example_id": "Keluargaku besar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 126,
+  "word": "famous",
+  "pos": "adjective",
+  "meaning_id": "terkenal",
+  "example_en": "He is a famous singer.",
+  "example_id": "Dia penyanyi terkenal.",
+  "cefr": "A1"
+ },
+ {
+  "no": 127,
+  "word": "farmer",
+  "pos": "noun",
+  "meaning_id": "petani",
+  "example_en": "The farmer grows rice.",
+  "example_id": "Petani menanam padi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 128,
+  "word": "fast",
+  "pos": "adjective",
+  "meaning_id": "cepat",
+  "example_en": "The car is fast.",
+  "example_id": "Mobilnya cepat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 129,
+  "word": "father",
+  "pos": "noun",
+  "meaning_id": "ayah",
+  "example_en": "My father works in a bank.",
+  "example_id": "Ayahku bekerja di bank.",
+  "cefr": "A1"
+ },
+ {
+  "no": 130,
+  "word": "feel",
+  "pos": "verb",
+  "meaning_id": "merasa",
+  "example_en": "I feel happy.",
+  "example_id": "Aku merasa senang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 131,
+  "word": "fifty",
+  "pos": "number",
+  "meaning_id": "lima puluh",
+  "example_en": "This bag costs fifty thousand.",
+  "example_id": "Tas ini harganya lima puluh ribu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 132,
+  "word": "find",
+  "pos": "verb",
+  "meaning_id": "menemukan",
+  "example_en": "I find my key.",
+  "example_id": "Aku menemukan kunciku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 133,
+  "word": "finger",
+  "pos": "noun",
+  "meaning_id": "jari",
+  "example_en": "I cut my finger.",
+  "example_id": "Jariku teriris.",
+  "cefr": "A1"
+ },
+ {
+  "no": 134,
+  "word": "finish",
+  "pos": "verb",
+  "meaning_id": "menyelesaikan",
+  "example_en": "I finish my work at five.",
+  "example_id": "Aku menyelesaikan pekerjaanku jam lima.",
+  "cefr": "A1"
+ },
+ {
+  "no": 135,
+  "word": "fire",
+  "pos": "noun",
+  "meaning_id": "api",
+  "example_en": "Fire is dangerous.",
+  "example_id": "Api itu berbahaya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 136,
+  "word": "first",
+  "pos": "number",
+  "meaning_id": "pertama",
+  "example_en": "This is my first day.",
+  "example_id": "Ini hari pertamaku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 137,
+  "word": "fish",
+  "pos": "noun",
+  "meaning_id": "ikan",
+  "example_en": "We buy fish at the market.",
+  "example_id": "Kami membeli ikan di pasar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 138,
+  "word": "five",
+  "pos": "number",
+  "meaning_id": "lima",
+  "example_en": "I wait for five minutes.",
+  "example_id": "Saya menunggu lima menit.",
+  "cefr": "A1"
+ },
+ {
+  "no": 139,
+  "word": "floor",
+  "pos": "noun",
+  "meaning_id": "lantai",
+  "example_en": "The floor is wet.",
+  "example_id": "Lantainya basah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 140,
+  "word": "flower",
+  "pos": "noun",
+  "meaning_id": "bunga",
+  "example_en": "She gives me a flower.",
+  "example_id": "Dia memberiku setangkai bunga.",
+  "cefr": "A1"
+ },
+ {
+  "no": 141,
+  "word": "food",
+  "pos": "noun",
+  "meaning_id": "makanan",
+  "example_en": "I like Indonesian food.",
+  "example_id": "Aku suka makanan Indonesia.",
+  "cefr": "A1"
+ },
+ {
+  "no": 142,
+  "word": "foot",
+  "pos": "noun",
+  "meaning_id": "kaki (telapak)",
+  "example_en": "My left foot hurts.",
+  "example_id": "Kaki kiriku sakit.",
+  "cefr": "A1"
+ },
+ {
+  "no": 143,
+  "word": "for",
+  "pos": "preposition",
+  "meaning_id": "untuk; selama",
+  "example_en": "This gift is for you.",
+  "example_id": "Hadiah ini untukmu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 144,
+  "word": "four",
+  "pos": "number",
+  "meaning_id": "empat",
+  "example_en": "We have four rooms.",
+  "example_id": "Kami punya empat kamar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 145,
+  "word": "free",
+  "pos": "adjective",
+  "meaning_id": "bebas; gratis",
+  "example_en": "I am free on Sunday.",
+  "example_id": "Aku senggang hari Minggu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 146,
+  "word": "Friday",
+  "pos": "noun",
+  "meaning_id": "hari Jumat",
+  "example_en": "Friday is my favorite day.",
+  "example_id": "Jumat adalah hari favoritku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 147,
+  "word": "friend",
+  "pos": "noun",
+  "meaning_id": "teman",
+  "example_en": "She is my best friend.",
+  "example_id": "Dia sahabat terbaikku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 148,
+  "word": "from",
+  "pos": "preposition",
+  "meaning_id": "dari",
+  "example_en": "I am from Indonesia.",
+  "example_id": "Saya berasal dari Indonesia.",
+  "cefr": "A1"
+ },
+ {
+  "no": 149,
+  "word": "fruit",
+  "pos": "noun",
+  "meaning_id": "buah",
+  "example_en": "I eat fruit every morning.",
+  "example_id": "Aku makan buah setiap pagi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 150,
+  "word": "full",
+  "pos": "adjective",
+  "meaning_id": "penuh; kenyang",
+  "example_en": "The bus is full.",
+  "example_id": "Busnya penuh.",
+  "cefr": "A1"
+ },
+ {
+  "no": 151,
+  "word": "funny",
+  "pos": "adjective",
+  "meaning_id": "lucu",
+  "example_en": "The story is funny.",
+  "example_id": "Ceritanya lucu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 152,
+  "word": "game",
+  "pos": "noun",
+  "meaning_id": "permainan",
+  "example_en": "We play a game.",
+  "example_id": "Kami bermain permainan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 153,
+  "word": "garden",
+  "pos": "noun",
+  "meaning_id": "kebun; taman rumah",
+  "example_en": "We have a small garden.",
+  "example_id": "Kami punya kebun kecil.",
+  "cefr": "A1"
+ },
+ {
+  "no": 154,
+  "word": "get",
+  "pos": "verb",
+  "meaning_id": "mendapat; menjadi",
+  "example_en": "I get a gift today.",
+  "example_id": "Aku mendapat hadiah hari ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 155,
+  "word": "girl",
+  "pos": "noun",
+  "meaning_id": "anak perempuan",
+  "example_en": "The girl reads a book.",
+  "example_id": "Anak perempuan itu membaca buku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 156,
+  "word": "give",
+  "pos": "verb",
+  "meaning_id": "memberi",
+  "example_en": "He gives me a pen.",
+  "example_id": "Dia memberiku pulpen.",
+  "cefr": "A1"
+ },
+ {
+  "no": 157,
+  "word": "glass",
+  "pos": "noun",
+  "meaning_id": "gelas; kaca",
+  "example_en": "The glass is empty.",
+  "example_id": "Gelasnya kosong.",
+  "cefr": "A1"
+ },
+ {
+  "no": 158,
+  "word": "go",
+  "pos": "verb",
+  "meaning_id": "pergi",
+  "example_en": "We go to school every day.",
+  "example_id": "Kami pergi ke sekolah setiap hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 159,
+  "word": "good",
+  "pos": "adjective",
+  "meaning_id": "baik; bagus",
+  "example_en": "This is a good idea.",
+  "example_id": "Ini ide yang bagus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 160,
+  "word": "grandfather",
+  "pos": "noun",
+  "meaning_id": "kakek",
+  "example_en": "My grandfather tells old stories.",
+  "example_id": "Kakekku menceritakan cerita lama.",
+  "cefr": "A1"
+ },
+ {
+  "no": 161,
+  "word": "grandmother",
+  "pos": "noun",
+  "meaning_id": "nenek",
+  "example_en": "My grandmother makes good tea.",
+  "example_id": "Nenekku membuat teh yang enak.",
+  "cefr": "A1"
+ },
+ {
+  "no": 162,
+  "word": "green",
+  "pos": "adjective",
+  "meaning_id": "hijau",
+  "example_en": "The grass is green.",
+  "example_id": "Rumputnya hijau.",
+  "cefr": "A1"
+ },
+ {
+  "no": 163,
+  "word": "group",
+  "pos": "noun",
+  "meaning_id": "kelompok",
+  "example_en": "We work in a group.",
+  "example_id": "Kami bekerja dalam kelompok.",
+  "cefr": "A1"
+ },
+ {
+  "no": 164,
+  "word": "hair",
+  "pos": "noun",
+  "meaning_id": "rambut",
+  "example_en": "He has short black hair.",
+  "example_id": "Dia berambut hitam pendek.",
+  "cefr": "A1"
+ },
+ {
+  "no": 165,
+  "word": "hand",
+  "pos": "noun",
+  "meaning_id": "tangan",
+  "example_en": "Wash your hands before eating.",
+  "example_id": "Cuci tanganmu sebelum makan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 166,
+  "word": "happy",
+  "pos": "adjective",
+  "meaning_id": "senang; bahagia",
+  "example_en": "I am happy today.",
+  "example_id": "Aku senang hari ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 167,
+  "word": "hate",
+  "pos": "verb",
+  "meaning_id": "membenci",
+  "example_en": "I hate rainy days.",
+  "example_id": "Aku benci hari hujan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 168,
+  "word": "have",
+  "pos": "verb",
+  "meaning_id": "punya; memiliki",
+  "example_en": "I have two brothers.",
+  "example_id": "Aku punya dua saudara laki-laki.",
+  "cefr": "A1"
+ },
+ {
+  "no": 169,
+  "word": "he",
+  "pos": "pronoun",
+  "meaning_id": "dia (laki-laki)",
+  "example_en": "He is my brother.",
+  "example_id": "Dia adalah kakak/adik laki-lakiku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 170,
+  "word": "head",
+  "pos": "noun",
+  "meaning_id": "kepala",
+  "example_en": "My head hurts.",
+  "example_id": "Kepalaku sakit.",
+  "cefr": "A1"
+ },
+ {
+  "no": 171,
+  "word": "healthy",
+  "pos": "adjective",
+  "meaning_id": "sehat",
+  "example_en": "Fruit is healthy.",
+  "example_id": "Buah itu sehat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 172,
+  "word": "hear",
+  "pos": "verb",
+  "meaning_id": "mendengar",
+  "example_en": "I hear a song.",
+  "example_id": "Aku mendengar sebuah lagu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 173,
+  "word": "heart",
+  "pos": "noun",
+  "meaning_id": "jantung; hati",
+  "example_en": "Your heart beats fast.",
+  "example_id": "Jantungmu berdetak cepat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 174,
+  "word": "heavy",
+  "pos": "adjective",
+  "meaning_id": "berat",
+  "example_en": "The bag is heavy.",
+  "example_id": "Tasnya berat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 175,
+  "word": "hello",
+  "pos": "interjection",
+  "meaning_id": "halo",
+  "example_en": "Hello, my name is Dya.",
+  "example_id": "Halo, namaku Dya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 176,
+  "word": "help",
+  "pos": "verb",
+  "meaning_id": "membantu",
+  "example_en": "Can you help me?",
+  "example_id": "Bisakah kamu membantuku?",
+  "cefr": "A1"
+ },
+ {
+  "no": 177,
+  "word": "her",
+  "pos": "pronoun",
+  "meaning_id": "dia perempuan (sebagai objek); milik dia perempuan",
+  "example_en": "I see her every day.",
+  "example_id": "Saya melihatnya setiap hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 178,
+  "word": "here",
+  "pos": "adverb",
+  "meaning_id": "di sini",
+  "example_en": "Come here.",
+  "example_id": "Datang ke sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 179,
+  "word": "high",
+  "pos": "adjective",
+  "meaning_id": "tinggi (benda/angka)",
+  "example_en": "The mountain is high.",
+  "example_id": "Gunungnya tinggi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 180,
+  "word": "him",
+  "pos": "pronoun",
+  "meaning_id": "dia laki-laki (sebagai objek)",
+  "example_en": "I know him.",
+  "example_id": "Saya mengenalnya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 181,
+  "word": "his",
+  "pos": "determiner",
+  "meaning_id": "miliknya (laki-laki)",
+  "example_en": "His house is big.",
+  "example_id": "Rumahnya besar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 182,
+  "word": "home",
+  "pos": "noun",
+  "meaning_id": "rumah; kampung halaman",
+  "example_en": "I go home at five.",
+  "example_id": "Aku pulang jam lima.",
+  "cefr": "A1"
+ },
+ {
+  "no": 183,
+  "word": "homework",
+  "pos": "noun",
+  "meaning_id": "pekerjaan rumah",
+  "example_en": "I do my homework at night.",
+  "example_id": "Aku mengerjakan PR malam hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 184,
+  "word": "horse",
+  "pos": "noun",
+  "meaning_id": "kuda",
+  "example_en": "He rides a horse.",
+  "example_id": "Dia menunggang kuda.",
+  "cefr": "A1"
+ },
+ {
+  "no": 185,
+  "word": "hospital",
+  "pos": "noun",
+  "meaning_id": "rumah sakit",
+  "example_en": "The hospital is near here.",
+  "example_id": "Rumah sakit itu dekat sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 186,
+  "word": "hot",
+  "pos": "adjective",
+  "meaning_id": "panas; pedas",
+  "example_en": "The soup is hot.",
+  "example_id": "Supnya panas.",
+  "cefr": "A1"
+ },
+ {
+  "no": 187,
+  "word": "hour",
+  "pos": "noun",
+  "meaning_id": "jam (durasi)",
+  "example_en": "I wait for one hour.",
+  "example_id": "Saya menunggu satu jam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 188,
+  "word": "house",
+  "pos": "noun",
+  "meaning_id": "rumah",
+  "example_en": "Their house is near the park.",
+  "example_id": "Rumah mereka dekat taman.",
+  "cefr": "A1"
+ },
+ {
+  "no": 189,
+  "word": "how",
+  "pos": "adverb",
+  "meaning_id": "bagaimana; seberapa",
+  "example_en": "How are you?",
+  "example_id": "Apa kabar?",
+  "cefr": "A1"
+ },
+ {
+  "no": 190,
+  "word": "hundred",
+  "pos": "number",
+  "meaning_id": "seratus",
+  "example_en": "One hundred people are here.",
+  "example_id": "Seratus orang ada di sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 191,
+  "word": "hungry",
+  "pos": "adjective",
+  "meaning_id": "lapar",
+  "example_en": "I am very hungry.",
+  "example_id": "Aku sangat lapar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 192,
+  "word": "husband",
+  "pos": "noun",
+  "meaning_id": "suami",
+  "example_en": "Her husband is a driver.",
+  "example_id": "Suaminya seorang sopir.",
+  "cefr": "A1"
+ },
+ {
+  "no": 193,
+  "word": "I",
+  "pos": "pronoun",
+  "meaning_id": "saya; aku",
+  "example_en": "I am a student.",
+  "example_id": "Saya seorang siswa.",
+  "cefr": "A1"
+ },
+ {
+  "no": 194,
+  "word": "idea",
+  "pos": "noun",
+  "meaning_id": "ide",
+  "example_en": "That is a good idea.",
+  "example_id": "Itu ide yang bagus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 195,
+  "word": "if",
+  "pos": "conjunction",
+  "meaning_id": "jika; kalau",
+  "example_en": "Call me if you need help.",
+  "example_id": "Telepon saya kalau kamu butuh bantuan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 196,
+  "word": "important",
+  "pos": "adjective",
+  "meaning_id": "penting",
+  "example_en": "English is important.",
+  "example_id": "Bahasa Inggris itu penting.",
+  "cefr": "A1"
+ },
+ {
+  "no": 197,
+  "word": "in",
+  "pos": "preposition",
+  "meaning_id": "di dalam; pada (bulan, tahun)",
+  "example_en": "The cat is in the box.",
+  "example_id": "Kucing itu ada di dalam kotak.",
+  "cefr": "A1"
+ },
+ {
+  "no": 198,
+  "word": "it",
+  "pos": "pronoun",
+  "meaning_id": "itu; dia (untuk benda atau hewan)",
+  "example_en": "It is a small cat.",
+  "example_id": "Itu seekor kucing kecil.",
+  "cefr": "A1"
+ },
+ {
+  "no": 199,
+  "word": "job",
+  "pos": "noun",
+  "meaning_id": "pekerjaan",
+  "example_en": "He has a good job.",
+  "example_id": "Dia punya pekerjaan yang bagus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 200,
+  "word": "juice",
+  "pos": "noun",
+  "meaning_id": "jus",
+  "example_en": "A glass of juice, please.",
+  "example_id": "Segelas jus, tolong.",
+  "cefr": "A1"
+ },
+ {
+  "no": 201,
+  "word": "jump",
+  "pos": "verb",
+  "meaning_id": "melompat",
+  "example_en": "The cat jumps on the table.",
+  "example_id": "Kucing itu melompat ke meja.",
+  "cefr": "A1"
+ },
+ {
+  "no": 202,
+  "word": "keep",
+  "pos": "verb",
+  "meaning_id": "menyimpan; tetap",
+  "example_en": "Keep the change.",
+  "example_id": "Simpan kembaliannya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 203,
+  "word": "key",
+  "pos": "noun",
+  "meaning_id": "kunci",
+  "example_en": "I lost my key.",
+  "example_id": "Aku kehilangan kunciku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 204,
+  "word": "kind",
+  "pos": "adjective",
+  "meaning_id": "baik hati",
+  "example_en": "Her mother is kind.",
+  "example_id": "Ibunya baik hati.",
+  "cefr": "A1"
+ },
+ {
+  "no": 205,
+  "word": "kitchen",
+  "pos": "noun",
+  "meaning_id": "dapur",
+  "example_en": "Mom is in the kitchen.",
+  "example_id": "Ibu ada di dapur.",
+  "cefr": "A1"
+ },
+ {
+  "no": 206,
+  "word": "know",
+  "pos": "verb",
+  "meaning_id": "tahu; kenal",
+  "example_en": "I know him.",
+  "example_id": "Aku kenal dia.",
+  "cefr": "A1"
+ },
+ {
+  "no": 207,
+  "word": "language",
+  "pos": "noun",
+  "meaning_id": "bahasa",
+  "example_en": "English is a useful language.",
+  "example_id": "Bahasa Inggris adalah bahasa yang berguna.",
+  "cefr": "A1"
+ },
+ {
+  "no": 208,
+  "word": "last",
+  "pos": "adjective",
+  "meaning_id": "terakhir; lalu",
+  "example_en": "This is the last lesson.",
+  "example_id": "Ini pelajaran terakhir.",
+  "cefr": "A1"
+ },
+ {
+  "no": 209,
+  "word": "late",
+  "pos": "adverb",
+  "meaning_id": "terlambat; larut",
+  "example_en": "He comes late.",
+  "example_id": "Dia datang terlambat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 210,
+  "word": "laugh",
+  "pos": "verb",
+  "meaning_id": "tertawa",
+  "example_en": "We laugh together.",
+  "example_id": "Kami tertawa bersama.",
+  "cefr": "A1"
+ },
+ {
+  "no": 211,
+  "word": "learn",
+  "pos": "verb",
+  "meaning_id": "belajar",
+  "example_en": "I learn English.",
+  "example_id": "Aku belajar bahasa Inggris.",
+  "cefr": "A1"
+ },
+ {
+  "no": 212,
+  "word": "leave",
+  "pos": "verb",
+  "meaning_id": "pergi; meninggalkan",
+  "example_en": "I leave home at six.",
+  "example_id": "Aku berangkat dari rumah jam enam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 213,
+  "word": "leg",
+  "pos": "noun",
+  "meaning_id": "kaki (tungkai)",
+  "example_en": "My leg is tired.",
+  "example_id": "Kakiku capek.",
+  "cefr": "A1"
+ },
+ {
+  "no": 214,
+  "word": "lesson",
+  "pos": "noun",
+  "meaning_id": "pelajaran",
+  "example_en": "Today's lesson is easy.",
+  "example_id": "Pelajaran hari ini mudah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 215,
+  "word": "letter",
+  "pos": "noun",
+  "meaning_id": "surat; huruf",
+  "example_en": "I write a letter to my friend.",
+  "example_id": "Aku menulis surat untuk temanku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 216,
+  "word": "life",
+  "pos": "noun",
+  "meaning_id": "kehidupan",
+  "example_en": "Life is beautiful.",
+  "example_id": "Hidup itu indah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 217,
+  "word": "light",
+  "pos": "adjective",
+  "meaning_id": "ringan; terang",
+  "example_en": "The box is light.",
+  "example_id": "Kotaknya ringan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 218,
+  "word": "like",
+  "pos": "verb",
+  "meaning_id": "suka",
+  "example_en": "I like coffee.",
+  "example_id": "Aku suka kopi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 219,
+  "word": "listen",
+  "pos": "verb",
+  "meaning_id": "mendengarkan",
+  "example_en": "Listen to your teacher.",
+  "example_id": "Dengarkan gurumu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 220,
+  "word": "live",
+  "pos": "verb",
+  "meaning_id": "tinggal; hidup",
+  "example_en": "I live in Surabaya.",
+  "example_id": "Aku tinggal di Surabaya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 221,
+  "word": "long",
+  "pos": "adjective",
+  "meaning_id": "panjang; lama",
+  "example_en": "The river is long.",
+  "example_id": "Sungainya panjang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 222,
+  "word": "look",
+  "pos": "verb",
+  "meaning_id": "memandang; tampak",
+  "example_en": "Look at the sky.",
+  "example_id": "Lihatlah langit.",
+  "cefr": "A1"
+ },
+ {
+  "no": 223,
+  "word": "lose",
+  "pos": "verb",
+  "meaning_id": "kehilangan; kalah",
+  "example_en": "I lose my pen.",
+  "example_id": "Aku kehilangan pulpenku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 224,
+  "word": "loud",
+  "pos": "adjective",
+  "meaning_id": "keras (suara); berisik",
+  "example_en": "The music is loud.",
+  "example_id": "Musiknya keras.",
+  "cefr": "A1"
+ },
+ {
+  "no": 225,
+  "word": "love",
+  "pos": "verb",
+  "meaning_id": "mencintai",
+  "example_en": "I love my family.",
+  "example_id": "Aku mencintai keluargaku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 226,
+  "word": "lunch",
+  "pos": "noun",
+  "meaning_id": "makan siang",
+  "example_en": "Lunch is at noon.",
+  "example_id": "Makan siang jam dua belas.",
+  "cefr": "A1"
+ },
+ {
+  "no": 227,
+  "word": "make",
+  "pos": "verb",
+  "meaning_id": "membuat",
+  "example_en": "She makes a cake.",
+  "example_id": "Dia membuat kue.",
+  "cefr": "A1"
+ },
+ {
+  "no": 228,
+  "word": "man",
+  "pos": "noun",
+  "meaning_id": "laki-laki; pria",
+  "example_en": "The man is my teacher.",
+  "example_id": "Pria itu guruku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 229,
+  "word": "many",
+  "pos": "determiner",
+  "meaning_id": "banyak (benda yang bisa dihitung)",
+  "example_en": "There are many books.",
+  "example_id": "Ada banyak buku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 230,
+  "word": "market",
+  "pos": "noun",
+  "meaning_id": "pasar",
+  "example_en": "We buy fruit at the market.",
+  "example_id": "Kami membeli buah di pasar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 231,
+  "word": "maybe",
+  "pos": "adverb",
+  "meaning_id": "mungkin",
+  "example_en": "Maybe he is at home.",
+  "example_id": "Mungkin dia di rumah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 232,
+  "word": "me",
+  "pos": "pronoun",
+  "meaning_id": "saya (sebagai objek)",
+  "example_en": "Please help me.",
+  "example_id": "Tolong bantu saya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 233,
+  "word": "meal",
+  "pos": "noun",
+  "meaning_id": "hidangan; waktu makan",
+  "example_en": "This is a big meal.",
+  "example_id": "Ini hidangan yang besar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 234,
+  "word": "meat",
+  "pos": "noun",
+  "meaning_id": "daging",
+  "example_en": "He does not eat meat.",
+  "example_id": "Dia tidak makan daging.",
+  "cefr": "A1"
+ },
+ {
+  "no": 235,
+  "word": "meet",
+  "pos": "verb",
+  "meaning_id": "bertemu",
+  "example_en": "I meet my friend today.",
+  "example_id": "Aku bertemu temanku hari ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 236,
+  "word": "milk",
+  "pos": "noun",
+  "meaning_id": "susu",
+  "example_en": "The baby drinks milk.",
+  "example_id": "Bayi itu minum susu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 237,
+  "word": "minute",
+  "pos": "noun",
+  "meaning_id": "menit",
+  "example_en": "Wait a minute.",
+  "example_id": "Tunggu sebentar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 238,
+  "word": "Monday",
+  "pos": "noun",
+  "meaning_id": "hari Senin",
+  "example_en": "I have class on Monday.",
+  "example_id": "Saya ada kelas di hari Senin.",
+  "cefr": "A1"
+ },
+ {
+  "no": 239,
+  "word": "money",
+  "pos": "noun",
+  "meaning_id": "uang",
+  "example_en": "I do not have much money.",
+  "example_id": "Aku tidak punya banyak uang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 240,
+  "word": "month",
+  "pos": "noun",
+  "meaning_id": "bulan",
+  "example_en": "There are twelve months in a year.",
+  "example_id": "Ada dua belas bulan dalam setahun.",
+  "cefr": "A1"
+ },
+ {
+  "no": 241,
+  "word": "moon",
+  "pos": "noun",
+  "meaning_id": "bulan",
+  "example_en": "The moon is bright tonight.",
+  "example_id": "Bulannya terang malam ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 242,
+  "word": "more",
+  "pos": "determiner",
+  "meaning_id": "lebih banyak",
+  "example_en": "I need more water.",
+  "example_id": "Aku butuh lebih banyak air.",
+  "cefr": "A1"
+ },
+ {
+  "no": 243,
+  "word": "morning",
+  "pos": "noun",
+  "meaning_id": "pagi",
+  "example_en": "I drink tea in the morning.",
+  "example_id": "Saya minum teh di pagi hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 244,
+  "word": "mother",
+  "pos": "noun",
+  "meaning_id": "ibu",
+  "example_en": "My mother cooks every day.",
+  "example_id": "Ibuku memasak setiap hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 245,
+  "word": "mountain",
+  "pos": "noun",
+  "meaning_id": "gunung",
+  "example_en": "We climb the mountain.",
+  "example_id": "Kami mendaki gunung.",
+  "cefr": "A1"
+ },
+ {
+  "no": 246,
+  "word": "mouth",
+  "pos": "noun",
+  "meaning_id": "mulut",
+  "example_en": "Open your mouth, please.",
+  "example_id": "Tolong buka mulutmu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 247,
+  "word": "much",
+  "pos": "determiner",
+  "meaning_id": "banyak (benda yang tak bisa dihitung)",
+  "example_en": "I do not have much time.",
+  "example_id": "Saya tidak punya banyak waktu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 248,
+  "word": "music",
+  "pos": "noun",
+  "meaning_id": "musik",
+  "example_en": "I listen to music.",
+  "example_id": "Aku mendengarkan musik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 249,
+  "word": "must",
+  "pos": "modal verb",
+  "meaning_id": "harus",
+  "example_en": "You must go now.",
+  "example_id": "Kamu harus pergi sekarang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 250,
+  "word": "my",
+  "pos": "determiner",
+  "meaning_id": "milikku; -ku",
+  "example_en": "This is my bag.",
+  "example_id": "Ini tasku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 251,
+  "word": "name",
+  "pos": "noun",
+  "meaning_id": "nama",
+  "example_en": "My name is Dya.",
+  "example_id": "Namaku Dya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 252,
+  "word": "near",
+  "pos": "preposition",
+  "meaning_id": "dekat",
+  "example_en": "My school is near my house.",
+  "example_id": "Sekolahku dekat dengan rumahku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 253,
+  "word": "need",
+  "pos": "verb",
+  "meaning_id": "butuh",
+  "example_en": "I need your help.",
+  "example_id": "Aku butuh bantuanmu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 254,
+  "word": "neighbor",
+  "pos": "noun",
+  "meaning_id": "tetangga",
+  "example_en": "Our neighbor is very friendly.",
+  "example_id": "Tetangga kami sangat ramah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 255,
+  "word": "never",
+  "pos": "adverb",
+  "meaning_id": "tidak pernah",
+  "example_en": "I never drink coffee.",
+  "example_id": "Saya tidak pernah minum kopi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 256,
+  "word": "new",
+  "pos": "adjective",
+  "meaning_id": "baru",
+  "example_en": "I have a new phone.",
+  "example_id": "Aku punya ponsel baru.",
+  "cefr": "A1"
+ },
+ {
+  "no": 257,
+  "word": "next",
+  "pos": "adjective",
+  "meaning_id": "berikutnya",
+  "example_en": "See you next week.",
+  "example_id": "Sampai jumpa minggu depan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 258,
+  "word": "nice",
+  "pos": "adjective",
+  "meaning_id": "menyenangkan; bagus",
+  "example_en": "It is a nice day.",
+  "example_id": "Hari yang menyenangkan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 259,
+  "word": "night",
+  "pos": "noun",
+  "meaning_id": "malam",
+  "example_en": "Good night.",
+  "example_id": "Selamat malam (saat tidur).",
+  "cefr": "A1"
+ },
+ {
+  "no": 260,
+  "word": "nine",
+  "pos": "number",
+  "meaning_id": "sembilan",
+  "example_en": "He is nine years old.",
+  "example_id": "Dia berumur sembilan tahun.",
+  "cefr": "A1"
+ },
+ {
+  "no": 261,
+  "word": "no",
+  "pos": "determiner",
+  "meaning_id": "tidak ada; tidak",
+  "example_en": "There is no milk.",
+  "example_id": "Tidak ada susu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 262,
+  "word": "nose",
+  "pos": "noun",
+  "meaning_id": "hidung",
+  "example_en": "Her nose is small.",
+  "example_id": "Hidungnya kecil.",
+  "cefr": "A1"
+ },
+ {
+  "no": 263,
+  "word": "not",
+  "pos": "adverb",
+  "meaning_id": "tidak (untuk menyangkal)",
+  "example_en": "I am not hungry.",
+  "example_id": "Saya tidak lapar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 264,
+  "word": "now",
+  "pos": "adverb",
+  "meaning_id": "sekarang",
+  "example_en": "I am busy now.",
+  "example_id": "Saya sibuk sekarang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 265,
+  "word": "number",
+  "pos": "noun",
+  "meaning_id": "angka; nomor",
+  "example_en": "What is your phone number?",
+  "example_id": "Berapa nomor teleponmu?",
+  "cefr": "A1"
+ },
+ {
+  "no": 266,
+  "word": "nurse",
+  "pos": "noun",
+  "meaning_id": "perawat",
+  "example_en": "The nurse helps the patient.",
+  "example_id": "Perawat membantu pasien.",
+  "cefr": "A1"
+ },
+ {
+  "no": 267,
+  "word": "of",
+  "pos": "preposition",
+  "meaning_id": "dari; milik",
+  "example_en": "This is a photo of my mother.",
+  "example_id": "Ini foto ibuku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 268,
+  "word": "office",
+  "pos": "noun",
+  "meaning_id": "kantor",
+  "example_en": "My office is on the third floor.",
+  "example_id": "Kantorku di lantai tiga.",
+  "cefr": "A1"
+ },
+ {
+  "no": 269,
+  "word": "often",
+  "pos": "adverb",
+  "meaning_id": "sering",
+  "example_en": "I often read books.",
+  "example_id": "Saya sering membaca buku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 270,
+  "word": "oil",
+  "pos": "noun",
+  "meaning_id": "minyak",
+  "example_en": "Heat the oil first.",
+  "example_id": "Panaskan minyaknya dulu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 271,
+  "word": "old",
+  "pos": "adjective",
+  "meaning_id": "tua; lama",
+  "example_en": "This is an old book.",
+  "example_id": "Ini buku lama.",
+  "cefr": "A1"
+ },
+ {
+  "no": 272,
+  "word": "on",
+  "pos": "preposition",
+  "meaning_id": "di atas; pada (hari)",
+  "example_en": "The book is on the table.",
+  "example_id": "Buku itu ada di atas meja.",
+  "cefr": "A1"
+ },
+ {
+  "no": 273,
+  "word": "one",
+  "pos": "number",
+  "meaning_id": "satu",
+  "example_en": "I have one sister.",
+  "example_id": "Saya punya satu saudara perempuan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 274,
+  "word": "open",
+  "pos": "verb",
+  "meaning_id": "membuka",
+  "example_en": "Open the door.",
+  "example_id": "Buka pintunya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 275,
+  "word": "or",
+  "pos": "conjunction",
+  "meaning_id": "atau",
+  "example_en": "Do you want tea or coffee?",
+  "example_id": "Kamu mau teh atau kopi?",
+  "cefr": "A1"
+ },
+ {
+  "no": 276,
+  "word": "orange",
+  "pos": "noun",
+  "meaning_id": "jeruk",
+  "example_en": "I drink orange juice.",
+  "example_id": "Aku minum jus jeruk.",
+  "cefr": "A1"
+ },
+ {
+  "no": 277,
+  "word": "our",
+  "pos": "determiner",
+  "meaning_id": "milik kami atau kita",
+  "example_en": "Our teacher is kind.",
+  "example_id": "Guru kami baik hati.",
+  "cefr": "A1"
+ },
+ {
+  "no": 278,
+  "word": "pants",
+  "pos": "noun",
+  "meaning_id": "celana",
+  "example_en": "These pants are too long.",
+  "example_id": "Celana ini terlalu panjang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 279,
+  "word": "paper",
+  "pos": "noun",
+  "meaning_id": "kertas",
+  "example_en": "I need a piece of paper.",
+  "example_id": "Aku butuh selembar kertas.",
+  "cefr": "A1"
+ },
+ {
+  "no": 280,
+  "word": "parent",
+  "pos": "noun",
+  "meaning_id": "orang tua",
+  "example_en": "My parents live in Bandung.",
+  "example_id": "Orang tuaku tinggal di Bandung.",
+  "cefr": "A1"
+ },
+ {
+  "no": 281,
+  "word": "park",
+  "pos": "noun",
+  "meaning_id": "taman",
+  "example_en": "Children play in the park.",
+  "example_id": "Anak-anak bermain di taman.",
+  "cefr": "A1"
+ },
+ {
+  "no": 282,
+  "word": "part",
+  "pos": "noun",
+  "meaning_id": "bagian",
+  "example_en": "This is the best part.",
+  "example_id": "Ini bagian terbaik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 283,
+  "word": "pay",
+  "pos": "verb",
+  "meaning_id": "membayar",
+  "example_en": "I pay for the food.",
+  "example_id": "Aku membayar makanannya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 284,
+  "word": "pen",
+  "pos": "noun",
+  "meaning_id": "pulpen",
+  "example_en": "Do you have a pen?",
+  "example_id": "Kamu punya pulpen?",
+  "cefr": "A1"
+ },
+ {
+  "no": 285,
+  "word": "pencil",
+  "pos": "noun",
+  "meaning_id": "pensil",
+  "example_en": "Write with a pencil.",
+  "example_id": "Menulislah dengan pensil.",
+  "cefr": "A1"
+ },
+ {
+  "no": 286,
+  "word": "people",
+  "pos": "noun",
+  "meaning_id": "orang-orang",
+  "example_en": "Many people live here.",
+  "example_id": "Banyak orang tinggal di sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 287,
+  "word": "person",
+  "pos": "noun",
+  "meaning_id": "orang",
+  "example_en": "He is a kind person.",
+  "example_id": "Dia orang yang baik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 288,
+  "word": "phone",
+  "pos": "noun",
+  "meaning_id": "telepon; ponsel",
+  "example_en": "My phone is new.",
+  "example_id": "Ponselku baru.",
+  "cefr": "A1"
+ },
+ {
+  "no": 289,
+  "word": "picture",
+  "pos": "noun",
+  "meaning_id": "gambar; foto",
+  "example_en": "This is a nice picture.",
+  "example_id": "Ini gambar yang bagus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 290,
+  "word": "place",
+  "pos": "noun",
+  "meaning_id": "tempat",
+  "example_en": "This is a quiet place.",
+  "example_id": "Ini tempat yang tenang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 291,
+  "word": "plane",
+  "pos": "noun",
+  "meaning_id": "pesawat",
+  "example_en": "The plane is fast.",
+  "example_id": "Pesawatnya cepat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 292,
+  "word": "plate",
+  "pos": "noun",
+  "meaning_id": "piring",
+  "example_en": "Put the food on the plate.",
+  "example_id": "Taruh makanan di piring.",
+  "cefr": "A1"
+ },
+ {
+  "no": 293,
+  "word": "play",
+  "pos": "verb",
+  "meaning_id": "bermain",
+  "example_en": "The children play outside.",
+  "example_id": "Anak-anak bermain di luar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 294,
+  "word": "please",
+  "pos": "adverb",
+  "meaning_id": "tolong; silakan",
+  "example_en": "Please sit down.",
+  "example_id": "Silakan duduk.",
+  "cefr": "A1"
+ },
+ {
+  "no": 295,
+  "word": "polite",
+  "pos": "adjective",
+  "meaning_id": "sopan",
+  "example_en": "The boy is polite.",
+  "example_id": "Anak itu sopan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 296,
+  "word": "poor",
+  "pos": "adjective",
+  "meaning_id": "miskin",
+  "example_en": "The family is poor.",
+  "example_id": "Keluarga itu miskin.",
+  "cefr": "A1"
+ },
+ {
+  "no": 297,
+  "word": "potato",
+  "pos": "noun",
+  "meaning_id": "kentang",
+  "example_en": "She cooks potatoes.",
+  "example_id": "Dia memasak kentang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 298,
+  "word": "price",
+  "pos": "noun",
+  "meaning_id": "harga",
+  "example_en": "The price is low.",
+  "example_id": "Harganya murah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 299,
+  "word": "problem",
+  "pos": "noun",
+  "meaning_id": "masalah",
+  "example_en": "I have a small problem.",
+  "example_id": "Aku punya masalah kecil.",
+  "cefr": "A1"
+ },
+ {
+  "no": 300,
+  "word": "put",
+  "pos": "verb",
+  "meaning_id": "menaruh",
+  "example_en": "Put the book on the table.",
+  "example_id": "Taruh buku di meja.",
+  "cefr": "A1"
+ },
+ {
+  "no": 301,
+  "word": "question",
+  "pos": "noun",
+  "meaning_id": "pertanyaan",
+  "example_en": "I have a question.",
+  "example_id": "Aku punya pertanyaan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 302,
+  "word": "quickly",
+  "pos": "adverb",
+  "meaning_id": "dengan cepat",
+  "example_en": "He runs quickly.",
+  "example_id": "Dia berlari dengan cepat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 303,
+  "word": "quiet",
+  "pos": "adjective",
+  "meaning_id": "tenang; sepi",
+  "example_en": "The library is quiet.",
+  "example_id": "Perpustakaannya sepi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 304,
+  "word": "rain",
+  "pos": "noun",
+  "meaning_id": "hujan",
+  "example_en": "The rain is heavy.",
+  "example_id": "Hujannya deras.",
+  "cefr": "A1"
+ },
+ {
+  "no": 305,
+  "word": "read",
+  "pos": "verb",
+  "meaning_id": "membaca",
+  "example_en": "I read a book every night.",
+  "example_id": "Aku membaca buku setiap malam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 306,
+  "word": "ready",
+  "pos": "adjective",
+  "meaning_id": "siap",
+  "example_en": "Dinner is ready.",
+  "example_id": "Makan malam sudah siap.",
+  "cefr": "A1"
+ },
+ {
+  "no": 307,
+  "word": "red",
+  "pos": "adjective",
+  "meaning_id": "merah",
+  "example_en": "The car is red.",
+  "example_id": "Mobilnya merah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 308,
+  "word": "restaurant",
+  "pos": "noun",
+  "meaning_id": "restoran",
+  "example_en": "This restaurant is cheap.",
+  "example_id": "Restoran ini murah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 309,
+  "word": "rice",
+  "pos": "noun",
+  "meaning_id": "nasi; beras",
+  "example_en": "We eat rice every day.",
+  "example_id": "Kami makan nasi setiap hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 310,
+  "word": "rich",
+  "pos": "adjective",
+  "meaning_id": "kaya",
+  "example_en": "He is a rich man.",
+  "example_id": "Dia pria kaya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 311,
+  "word": "ride",
+  "pos": "verb",
+  "meaning_id": "mengendarai; menunggangi",
+  "example_en": "I ride a bike.",
+  "example_id": "Aku naik sepeda.",
+  "cefr": "A1"
+ },
+ {
+  "no": 312,
+  "word": "right",
+  "pos": "adjective",
+  "meaning_id": "benar; kanan",
+  "example_en": "That is the right answer.",
+  "example_id": "Itu jawaban yang benar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 313,
+  "word": "river",
+  "pos": "noun",
+  "meaning_id": "sungai",
+  "example_en": "The river is wide.",
+  "example_id": "Sungainya lebar.",
+  "cefr": "A1"
+ },
+ {
+  "no": 314,
+  "word": "road",
+  "pos": "noun",
+  "meaning_id": "jalan raya",
+  "example_en": "This road is long.",
+  "example_id": "Jalan raya ini panjang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 315,
+  "word": "roof",
+  "pos": "noun",
+  "meaning_id": "atap",
+  "example_en": "The roof is red.",
+  "example_id": "Atapnya merah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 316,
+  "word": "room",
+  "pos": "noun",
+  "meaning_id": "ruangan; kamar",
+  "example_en": "My room is clean.",
+  "example_id": "Kamarku bersih.",
+  "cefr": "A1"
+ },
+ {
+  "no": 317,
+  "word": "run",
+  "pos": "verb",
+  "meaning_id": "berlari",
+  "example_en": "He runs every morning.",
+  "example_id": "Dia berlari setiap pagi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 318,
+  "word": "sad",
+  "pos": "adjective",
+  "meaning_id": "sedih",
+  "example_en": "He looks sad.",
+  "example_id": "Dia tampak sedih.",
+  "cefr": "A1"
+ },
+ {
+  "no": 319,
+  "word": "safe",
+  "pos": "adjective",
+  "meaning_id": "aman",
+  "example_en": "This street is safe.",
+  "example_id": "Jalan ini aman.",
+  "cefr": "A1"
+ },
+ {
+  "no": 320,
+  "word": "salt",
+  "pos": "noun",
+  "meaning_id": "garam",
+  "example_en": "Pass me the salt.",
+  "example_id": "Tolong berikan garamnya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 321,
+  "word": "same",
+  "pos": "adjective",
+  "meaning_id": "sama",
+  "example_en": "We have the same bag.",
+  "example_id": "Kami punya tas yang sama.",
+  "cefr": "A1"
+ },
+ {
+  "no": 322,
+  "word": "Saturday",
+  "pos": "noun",
+  "meaning_id": "hari Sabtu",
+  "example_en": "I clean the house on Saturday.",
+  "example_id": "Saya membersihkan rumah pada hari Sabtu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 323,
+  "word": "say",
+  "pos": "verb",
+  "meaning_id": "mengatakan",
+  "example_en": "What do you say?",
+  "example_id": "Apa katamu?",
+  "cefr": "A1"
+ },
+ {
+  "no": 324,
+  "word": "school",
+  "pos": "noun",
+  "meaning_id": "sekolah",
+  "example_en": "I go to school by bus.",
+  "example_id": "Aku pergi ke sekolah naik bus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 325,
+  "word": "sea",
+  "pos": "noun",
+  "meaning_id": "laut",
+  "example_en": "The sea is calm.",
+  "example_id": "Lautnya tenang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 326,
+  "word": "see",
+  "pos": "verb",
+  "meaning_id": "melihat",
+  "example_en": "I see a bird.",
+  "example_id": "Aku melihat seekor burung.",
+  "cefr": "A1"
+ },
+ {
+  "no": 327,
+  "word": "sell",
+  "pos": "verb",
+  "meaning_id": "menjual",
+  "example_en": "They sell fruit.",
+  "example_id": "Mereka menjual buah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 328,
+  "word": "send",
+  "pos": "verb",
+  "meaning_id": "mengirim",
+  "example_en": "I send a message.",
+  "example_id": "Aku mengirim pesan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 329,
+  "word": "sentence",
+  "pos": "noun",
+  "meaning_id": "kalimat",
+  "example_en": "Write a short sentence.",
+  "example_id": "Tulislah kalimat pendek.",
+  "cefr": "A1"
+ },
+ {
+  "no": 330,
+  "word": "seven",
+  "pos": "number",
+  "meaning_id": "tujuh",
+  "example_en": "A week has seven days.",
+  "example_id": "Satu minggu punya tujuh hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 331,
+  "word": "she",
+  "pos": "pronoun",
+  "meaning_id": "dia (perempuan)",
+  "example_en": "She is a nurse.",
+  "example_id": "Dia seorang perawat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 332,
+  "word": "shirt",
+  "pos": "noun",
+  "meaning_id": "kemeja",
+  "example_en": "He wears a blue shirt.",
+  "example_id": "Dia memakai kemeja biru.",
+  "cefr": "A1"
+ },
+ {
+  "no": 333,
+  "word": "shoe",
+  "pos": "noun",
+  "meaning_id": "sepatu",
+  "example_en": "My shoes are new.",
+  "example_id": "Sepatuku baru.",
+  "cefr": "A1"
+ },
+ {
+  "no": 334,
+  "word": "shop",
+  "pos": "noun",
+  "meaning_id": "toko",
+  "example_en": "The shop opens at nine.",
+  "example_id": "Toko itu buka jam sembilan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 335,
+  "word": "short",
+  "pos": "adjective",
+  "meaning_id": "pendek",
+  "example_en": "He has short hair.",
+  "example_id": "Dia berambut pendek.",
+  "cefr": "A1"
+ },
+ {
+  "no": 336,
+  "word": "should",
+  "pos": "modal verb",
+  "meaning_id": "sebaiknya",
+  "example_en": "You should sleep early.",
+  "example_id": "Kamu sebaiknya tidur lebih awal.",
+  "cefr": "A1"
+ },
+ {
+  "no": 337,
+  "word": "show",
+  "pos": "verb",
+  "meaning_id": "menunjukkan",
+  "example_en": "Show me your ticket.",
+  "example_id": "Tunjukkan tiketmu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 338,
+  "word": "sick",
+  "pos": "adjective",
+  "meaning_id": "sakit",
+  "example_en": "My brother is sick.",
+  "example_id": "Adikku sakit.",
+  "cefr": "A1"
+ },
+ {
+  "no": 339,
+  "word": "side",
+  "pos": "noun",
+  "meaning_id": "sisi",
+  "example_en": "Stand on the left side.",
+  "example_id": "Berdirilah di sisi kiri.",
+  "cefr": "A1"
+ },
+ {
+  "no": 340,
+  "word": "sing",
+  "pos": "verb",
+  "meaning_id": "menyanyi",
+  "example_en": "He sings well.",
+  "example_id": "Dia menyanyi dengan bagus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 341,
+  "word": "sister",
+  "pos": "noun",
+  "meaning_id": "saudara perempuan",
+  "example_en": "My sister is ten years old.",
+  "example_id": "Saudara perempuanku berumur sepuluh tahun.",
+  "cefr": "A1"
+ },
+ {
+  "no": 342,
+  "word": "sit",
+  "pos": "verb",
+  "meaning_id": "duduk",
+  "example_en": "Please sit down.",
+  "example_id": "Silakan duduk.",
+  "cefr": "A1"
+ },
+ {
+  "no": 343,
+  "word": "six",
+  "pos": "number",
+  "meaning_id": "enam",
+  "example_en": "I get up at six.",
+  "example_id": "Saya bangun pukul enam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 344,
+  "word": "sky",
+  "pos": "noun",
+  "meaning_id": "langit",
+  "example_en": "The sky is clear.",
+  "example_id": "Langitnya cerah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 345,
+  "word": "sleep",
+  "pos": "verb",
+  "meaning_id": "tidur",
+  "example_en": "I sleep at ten.",
+  "example_id": "Aku tidur jam sepuluh.",
+  "cefr": "A1"
+ },
+ {
+  "no": 346,
+  "word": "slow",
+  "pos": "adjective",
+  "meaning_id": "lambat",
+  "example_en": "The bus is slow.",
+  "example_id": "Busnya lambat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 347,
+  "word": "slowly",
+  "pos": "adverb",
+  "meaning_id": "dengan pelan",
+  "example_en": "Please speak slowly.",
+  "example_id": "Tolong bicara pelan-pelan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 348,
+  "word": "small",
+  "pos": "adjective",
+  "meaning_id": "kecil",
+  "example_en": "I have a small bag.",
+  "example_id": "Aku punya tas kecil.",
+  "cefr": "A1"
+ },
+ {
+  "no": 349,
+  "word": "smile",
+  "pos": "verb",
+  "meaning_id": "tersenyum",
+  "example_en": "She smiles at me.",
+  "example_id": "Dia tersenyum padaku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 350,
+  "word": "so",
+  "pos": "conjunction",
+  "meaning_id": "jadi; maka",
+  "example_en": "It is hot, so I drink water.",
+  "example_id": "Cuacanya panas, jadi saya minum air.",
+  "cefr": "A1"
+ },
+ {
+  "no": 351,
+  "word": "soft",
+  "pos": "adjective",
+  "meaning_id": "lembut; empuk",
+  "example_en": "The bread is soft.",
+  "example_id": "Rotinya empuk.",
+  "cefr": "A1"
+ },
+ {
+  "no": 352,
+  "word": "some",
+  "pos": "determiner",
+  "meaning_id": "beberapa; sedikit",
+  "example_en": "I need some water.",
+  "example_id": "Saya butuh sedikit air.",
+  "cefr": "A1"
+ },
+ {
+  "no": 353,
+  "word": "sometimes",
+  "pos": "adverb",
+  "meaning_id": "kadang-kadang",
+  "example_en": "Sometimes I walk to school.",
+  "example_id": "Kadang-kadang saya berjalan kaki ke sekolah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 354,
+  "word": "son",
+  "pos": "noun",
+  "meaning_id": "anak laki-laki (kandung)",
+  "example_en": "Their son is a doctor.",
+  "example_id": "Anak laki-laki mereka seorang dokter.",
+  "cefr": "A1"
+ },
+ {
+  "no": 355,
+  "word": "song",
+  "pos": "noun",
+  "meaning_id": "lagu",
+  "example_en": "This song is nice.",
+  "example_id": "Lagu ini bagus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 356,
+  "word": "soup",
+  "pos": "noun",
+  "meaning_id": "sup",
+  "example_en": "The soup is hot.",
+  "example_id": "Supnya panas.",
+  "cefr": "A1"
+ },
+ {
+  "no": 357,
+  "word": "speak",
+  "pos": "verb",
+  "meaning_id": "berbicara",
+  "example_en": "She speaks English well.",
+  "example_id": "Dia berbicara bahasa Inggris dengan baik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 358,
+  "word": "sport",
+  "pos": "noun",
+  "meaning_id": "olahraga",
+  "example_en": "Football is a popular sport.",
+  "example_id": "Sepak bola adalah olahraga populer.",
+  "cefr": "A1"
+ },
+ {
+  "no": 359,
+  "word": "stand",
+  "pos": "verb",
+  "meaning_id": "berdiri",
+  "example_en": "Stand up, please.",
+  "example_id": "Silakan berdiri.",
+  "cefr": "A1"
+ },
+ {
+  "no": 360,
+  "word": "star",
+  "pos": "noun",
+  "meaning_id": "bintang",
+  "example_en": "I see many stars.",
+  "example_id": "Aku melihat banyak bintang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 361,
+  "word": "start",
+  "pos": "verb",
+  "meaning_id": "mulai",
+  "example_en": "The class starts at eight.",
+  "example_id": "Kelas mulai jam delapan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 362,
+  "word": "station",
+  "pos": "noun",
+  "meaning_id": "stasiun",
+  "example_en": "The station is far.",
+  "example_id": "Stasiunnya jauh.",
+  "cefr": "A1"
+ },
+ {
+  "no": 363,
+  "word": "stay",
+  "pos": "verb",
+  "meaning_id": "tinggal; menetap sementara",
+  "example_en": "Stay here.",
+  "example_id": "Tetaplah di sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 364,
+  "word": "still",
+  "pos": "adverb",
+  "meaning_id": "masih",
+  "example_en": "I still work here.",
+  "example_id": "Aku masih bekerja di sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 365,
+  "word": "stomach",
+  "pos": "noun",
+  "meaning_id": "perut",
+  "example_en": "My stomach is full.",
+  "example_id": "Perutku kenyang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 366,
+  "word": "stop",
+  "pos": "verb",
+  "meaning_id": "berhenti",
+  "example_en": "Stop here, please.",
+  "example_id": "Berhenti di sini, tolong.",
+  "cefr": "A1"
+ },
+ {
+  "no": 367,
+  "word": "story",
+  "pos": "noun",
+  "meaning_id": "cerita",
+  "example_en": "She tells a funny story.",
+  "example_id": "Dia menceritakan cerita lucu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 368,
+  "word": "street",
+  "pos": "noun",
+  "meaning_id": "jalan",
+  "example_en": "The street is busy.",
+  "example_id": "Jalannya ramai.",
+  "cefr": "A1"
+ },
+ {
+  "no": 369,
+  "word": "strong",
+  "pos": "adjective",
+  "meaning_id": "kuat",
+  "example_en": "He is a strong man.",
+  "example_id": "Dia pria kuat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 370,
+  "word": "student",
+  "pos": "noun",
+  "meaning_id": "siswa; mahasiswa",
+  "example_en": "The student asks a question.",
+  "example_id": "Siswa itu mengajukan pertanyaan.",
+  "cefr": "A1"
+ },
+ {
+  "no": 371,
+  "word": "study",
+  "pos": "verb",
+  "meaning_id": "mempelajari; belajar",
+  "example_en": "She studies at night.",
+  "example_id": "Dia belajar di malam hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 372,
+  "word": "sugar",
+  "pos": "noun",
+  "meaning_id": "gula",
+  "example_en": "I do not take sugar.",
+  "example_id": "Aku tidak pakai gula.",
+  "cefr": "A1"
+ },
+ {
+  "no": 373,
+  "word": "sun",
+  "pos": "noun",
+  "meaning_id": "matahari",
+  "example_en": "The sun is hot today.",
+  "example_id": "Matahari panas hari ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 374,
+  "word": "Sunday",
+  "pos": "noun",
+  "meaning_id": "hari Minggu",
+  "example_en": "We rest on Sunday.",
+  "example_id": "Kami beristirahat di hari Minggu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 375,
+  "word": "sweet",
+  "pos": "adjective",
+  "meaning_id": "manis",
+  "example_en": "The tea is sweet.",
+  "example_id": "Tehnya manis.",
+  "cefr": "A1"
+ },
+ {
+  "no": 376,
+  "word": "swim",
+  "pos": "verb",
+  "meaning_id": "berenang",
+  "example_en": "We swim in the sea.",
+  "example_id": "Kami berenang di laut.",
+  "cefr": "A1"
+ },
+ {
+  "no": 377,
+  "word": "table",
+  "pos": "noun",
+  "meaning_id": "meja",
+  "example_en": "The book is on the table.",
+  "example_id": "Bukunya di atas meja.",
+  "cefr": "A1"
+ },
+ {
+  "no": 378,
+  "word": "take",
+  "pos": "verb",
+  "meaning_id": "mengambil; membawa",
+  "example_en": "Take this book.",
+  "example_id": "Ambillah buku ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 379,
+  "word": "talk",
+  "pos": "verb",
+  "meaning_id": "bicara; mengobrol",
+  "example_en": "We talk every night.",
+  "example_id": "Kami mengobrol setiap malam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 380,
+  "word": "tall",
+  "pos": "adjective",
+  "meaning_id": "tinggi (orang/pohon)",
+  "example_en": "My brother is tall.",
+  "example_id": "Kakakku tinggi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 381,
+  "word": "tea",
+  "pos": "noun",
+  "meaning_id": "teh",
+  "example_en": "Would you like some tea?",
+  "example_id": "Mau teh?",
+  "cefr": "A1"
+ },
+ {
+  "no": 382,
+  "word": "teach",
+  "pos": "verb",
+  "meaning_id": "mengajar",
+  "example_en": "He teaches math.",
+  "example_id": "Dia mengajar matematika.",
+  "cefr": "A1"
+ },
+ {
+  "no": 383,
+  "word": "teacher",
+  "pos": "noun",
+  "meaning_id": "guru",
+  "example_en": "The teacher gives us homework.",
+  "example_id": "Guru memberi kami PR.",
+  "cefr": "A1"
+ },
+ {
+  "no": 384,
+  "word": "television",
+  "pos": "noun",
+  "meaning_id": "televisi",
+  "example_en": "We watch television at night.",
+  "example_id": "Kami menonton televisi malam hari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 385,
+  "word": "tell",
+  "pos": "verb",
+  "meaning_id": "memberi tahu; bercerita",
+  "example_en": "Tell me your name.",
+  "example_id": "Beri tahu aku namamu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 386,
+  "word": "ten",
+  "pos": "number",
+  "meaning_id": "sepuluh",
+  "example_en": "I have ten books.",
+  "example_id": "Saya punya sepuluh buku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 387,
+  "word": "thanks",
+  "pos": "interjection",
+  "meaning_id": "terima kasih",
+  "example_en": "Thanks for your help.",
+  "example_id": "Terima kasih atas bantuanmu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 388,
+  "word": "that",
+  "pos": "determiner",
+  "meaning_id": "itu",
+  "example_en": "That man is my uncle.",
+  "example_id": "Pria itu pamanku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 389,
+  "word": "the",
+  "pos": "determiner",
+  "meaning_id": "(penunjuk benda yang sudah jelas)",
+  "example_en": "The door is open.",
+  "example_id": "Pintunya terbuka.",
+  "cefr": "A1"
+ },
+ {
+  "no": 390,
+  "word": "their",
+  "pos": "determiner",
+  "meaning_id": "milik mereka",
+  "example_en": "Their car is new.",
+  "example_id": "Mobil mereka baru.",
+  "cefr": "A1"
+ },
+ {
+  "no": 391,
+  "word": "them",
+  "pos": "pronoun",
+  "meaning_id": "mereka (sebagai objek)",
+  "example_en": "I call them tonight.",
+  "example_id": "Saya menelepon mereka malam ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 392,
+  "word": "there",
+  "pos": "adverb",
+  "meaning_id": "di sana",
+  "example_en": "The book is there.",
+  "example_id": "Bukunya di sana.",
+  "cefr": "A1"
+ },
+ {
+  "no": 393,
+  "word": "these",
+  "pos": "determiner",
+  "meaning_id": "ini (jamak)",
+  "example_en": "These apples are sweet.",
+  "example_id": "Apel-apel ini manis.",
+  "cefr": "A1"
+ },
+ {
+  "no": 394,
+  "word": "they",
+  "pos": "pronoun",
+  "meaning_id": "mereka",
+  "example_en": "They play football.",
+  "example_id": "Mereka bermain sepak bola.",
+  "cefr": "A1"
+ },
+ {
+  "no": 395,
+  "word": "thing",
+  "pos": "noun",
+  "meaning_id": "benda; hal",
+  "example_en": "What is that thing?",
+  "example_id": "Benda apa itu?",
+  "cefr": "A1"
+ },
+ {
+  "no": 396,
+  "word": "think",
+  "pos": "verb",
+  "meaning_id": "berpikir; mengira",
+  "example_en": "I think it is good.",
+  "example_id": "Menurutku itu bagus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 397,
+  "word": "thirsty",
+  "pos": "adjective",
+  "meaning_id": "haus",
+  "example_en": "She is thirsty.",
+  "example_id": "Dia haus.",
+  "cefr": "A1"
+ },
+ {
+  "no": 398,
+  "word": "this",
+  "pos": "determiner",
+  "meaning_id": "ini",
+  "example_en": "This book is easy.",
+  "example_id": "Buku ini mudah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 399,
+  "word": "those",
+  "pos": "determiner",
+  "meaning_id": "itu (jamak)",
+  "example_en": "Those shoes are old.",
+  "example_id": "Sepatu-sepatu itu sudah tua.",
+  "cefr": "A1"
+ },
+ {
+  "no": 400,
+  "word": "thousand",
+  "pos": "number",
+  "meaning_id": "seribu",
+  "example_en": "It costs one thousand rupiah.",
+  "example_id": "Harganya seribu rupiah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 401,
+  "word": "three",
+  "pos": "number",
+  "meaning_id": "tiga",
+  "example_en": "There are three chairs.",
+  "example_id": "Ada tiga kursi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 402,
+  "word": "Thursday",
+  "pos": "noun",
+  "meaning_id": "hari Kamis",
+  "example_en": "I play football on Thursday.",
+  "example_id": "Saya bermain sepak bola di hari Kamis.",
+  "cefr": "A1"
+ },
+ {
+  "no": 403,
+  "word": "time",
+  "pos": "noun",
+  "meaning_id": "waktu; kali",
+  "example_en": "What time is it?",
+  "example_id": "Pukul berapa sekarang?",
+  "cefr": "A1"
+ },
+ {
+  "no": 404,
+  "word": "tired",
+  "pos": "adjective",
+  "meaning_id": "capek; lelah",
+  "example_en": "I am tired after work.",
+  "example_id": "Aku capek setelah kerja.",
+  "cefr": "A1"
+ },
+ {
+  "no": 405,
+  "word": "to",
+  "pos": "preposition",
+  "meaning_id": "ke; untuk",
+  "example_en": "I go to school.",
+  "example_id": "Saya pergi ke sekolah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 406,
+  "word": "today",
+  "pos": "adverb",
+  "meaning_id": "hari ini",
+  "example_en": "I work today.",
+  "example_id": "Saya bekerja hari ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 407,
+  "word": "together",
+  "pos": "adverb",
+  "meaning_id": "bersama",
+  "example_en": "We study together.",
+  "example_id": "Kami belajar bersama.",
+  "cefr": "A1"
+ },
+ {
+  "no": 408,
+  "word": "tomorrow",
+  "pos": "adverb",
+  "meaning_id": "besok",
+  "example_en": "I see you tomorrow.",
+  "example_id": "Sampai jumpa besok.",
+  "cefr": "A1"
+ },
+ {
+  "no": 409,
+  "word": "too",
+  "pos": "adverb",
+  "meaning_id": "terlalu; juga",
+  "example_en": "It is too expensive.",
+  "example_id": "Itu terlalu mahal.",
+  "cefr": "A1"
+ },
+ {
+  "no": 410,
+  "word": "tooth",
+  "pos": "noun",
+  "meaning_id": "gigi",
+  "example_en": "I brush my teeth twice a day.",
+  "example_id": "Aku menyikat gigi dua kali sehari.",
+  "cefr": "A1"
+ },
+ {
+  "no": 411,
+  "word": "town",
+  "pos": "noun",
+  "meaning_id": "kota kecil",
+  "example_en": "I live in a small town.",
+  "example_id": "Aku tinggal di kota kecil.",
+  "cefr": "A1"
+ },
+ {
+  "no": 412,
+  "word": "train",
+  "pos": "noun",
+  "meaning_id": "kereta api",
+  "example_en": "The train leaves at six.",
+  "example_id": "Kereta berangkat jam enam.",
+  "cefr": "A1"
+ },
+ {
+  "no": 413,
+  "word": "tree",
+  "pos": "noun",
+  "meaning_id": "pohon",
+  "example_en": "The tree is tall.",
+  "example_id": "Pohonnya tinggi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 414,
+  "word": "try",
+  "pos": "verb",
+  "meaning_id": "mencoba",
+  "example_en": "Try this cake.",
+  "example_id": "Cobalah kue ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 415,
+  "word": "Tuesday",
+  "pos": "noun",
+  "meaning_id": "hari Selasa",
+  "example_en": "Tuesday is a busy day.",
+  "example_id": "Selasa adalah hari yang sibuk.",
+  "cefr": "A1"
+ },
+ {
+  "no": 416,
+  "word": "twenty",
+  "pos": "number",
+  "meaning_id": "dua puluh",
+  "example_en": "There are twenty students.",
+  "example_id": "Ada dua puluh siswa.",
+  "cefr": "A1"
+ },
+ {
+  "no": 417,
+  "word": "two",
+  "pos": "number",
+  "meaning_id": "dua",
+  "example_en": "She has two cats.",
+  "example_id": "Dia punya dua kucing.",
+  "cefr": "A1"
+ },
+ {
+  "no": 418,
+  "word": "uncle",
+  "pos": "noun",
+  "meaning_id": "paman",
+  "example_en": "My uncle lives in Jakarta.",
+  "example_id": "Pamanku tinggal di Jakarta.",
+  "cefr": "A1"
+ },
+ {
+  "no": 419,
+  "word": "under",
+  "pos": "preposition",
+  "meaning_id": "di bawah",
+  "example_en": "The cat is under the chair.",
+  "example_id": "Kucing itu ada di bawah kursi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 420,
+  "word": "understand",
+  "pos": "verb",
+  "meaning_id": "mengerti",
+  "example_en": "I understand the lesson.",
+  "example_id": "Aku mengerti pelajarannya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 421,
+  "word": "us",
+  "pos": "pronoun",
+  "meaning_id": "kami; kita (sebagai objek)",
+  "example_en": "Come with us.",
+  "example_id": "Ikutlah dengan kami.",
+  "cefr": "A1"
+ },
+ {
+  "no": 422,
+  "word": "use",
+  "pos": "verb",
+  "meaning_id": "menggunakan",
+  "example_en": "I use a laptop.",
+  "example_id": "Aku menggunakan laptop.",
+  "cefr": "A1"
+ },
+ {
+  "no": 423,
+  "word": "usually",
+  "pos": "adverb",
+  "meaning_id": "biasanya",
+  "example_en": "I usually eat rice.",
+  "example_id": "Saya biasanya makan nasi.",
+  "cefr": "A1"
+ },
+ {
+  "no": 424,
+  "word": "vegetable",
+  "pos": "noun",
+  "meaning_id": "sayur",
+  "example_en": "Eat more vegetables.",
+  "example_id": "Makanlah lebih banyak sayur.",
+  "cefr": "A1"
+ },
+ {
+  "no": 425,
+  "word": "very",
+  "pos": "adverb",
+  "meaning_id": "sangat",
+  "example_en": "The soup is very hot.",
+  "example_id": "Supnya sangat panas.",
+  "cefr": "A1"
+ },
+ {
+  "no": 426,
+  "word": "village",
+  "pos": "noun",
+  "meaning_id": "desa",
+  "example_en": "My grandfather lives in a village.",
+  "example_id": "Kakekku tinggal di desa.",
+  "cefr": "A1"
+ },
+ {
+  "no": 427,
+  "word": "visit",
+  "pos": "verb",
+  "meaning_id": "mengunjungi",
+  "example_en": "We visit our grandmother.",
+  "example_id": "Kami mengunjungi nenek kami.",
+  "cefr": "A1"
+ },
+ {
+  "no": 428,
+  "word": "voice",
+  "pos": "noun",
+  "meaning_id": "suara",
+  "example_en": "She has a lovely voice.",
+  "example_id": "Dia punya suara yang indah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 429,
+  "word": "wait",
+  "pos": "verb",
+  "meaning_id": "menunggu",
+  "example_en": "Wait for me.",
+  "example_id": "Tunggu aku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 430,
+  "word": "wake",
+  "pos": "verb",
+  "meaning_id": "bangun",
+  "example_en": "I wake up at five.",
+  "example_id": "Aku bangun jam lima.",
+  "cefr": "A1"
+ },
+ {
+  "no": 431,
+  "word": "walk",
+  "pos": "verb",
+  "meaning_id": "berjalan",
+  "example_en": "I walk to school.",
+  "example_id": "Aku berjalan ke sekolah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 432,
+  "word": "wall",
+  "pos": "noun",
+  "meaning_id": "dinding",
+  "example_en": "The wall is white.",
+  "example_id": "Dindingnya putih.",
+  "cefr": "A1"
+ },
+ {
+  "no": 433,
+  "word": "want",
+  "pos": "verb",
+  "meaning_id": "ingin",
+  "example_en": "I want some water.",
+  "example_id": "Aku ingin air.",
+  "cefr": "A1"
+ },
+ {
+  "no": 434,
+  "word": "warm",
+  "pos": "adjective",
+  "meaning_id": "hangat",
+  "example_en": "The room is warm.",
+  "example_id": "Ruangannya hangat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 435,
+  "word": "wash",
+  "pos": "verb",
+  "meaning_id": "mencuci",
+  "example_en": "I wash my hands.",
+  "example_id": "Aku mencuci tanganku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 436,
+  "word": "watch",
+  "pos": "noun, verb",
+  "meaning_id": "jam tangan; menonton",
+  "example_en": "His watch is gold. / We watch a film.",
+  "example_id": "Jam tangannya emas. / Kami menonton film.",
+  "cefr": "A1"
+ },
+ {
+  "no": 437,
+  "word": "water",
+  "pos": "noun",
+  "meaning_id": "air",
+  "example_en": "Please drink more water.",
+  "example_id": "Tolong minum lebih banyak air.",
+  "cefr": "A1"
+ },
+ {
+  "no": 438,
+  "word": "way",
+  "pos": "noun",
+  "meaning_id": "cara; jalan",
+  "example_en": "This is the best way.",
+  "example_id": "Ini cara terbaik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 439,
+  "word": "we",
+  "pos": "pronoun",
+  "meaning_id": "kami; kita",
+  "example_en": "We live in Bandung.",
+  "example_id": "Kami tinggal di Bandung.",
+  "cefr": "A1"
+ },
+ {
+  "no": 440,
+  "word": "weak",
+  "pos": "adjective",
+  "meaning_id": "lemah",
+  "example_en": "I feel weak today.",
+  "example_id": "Aku merasa lemas hari ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 441,
+  "word": "wear",
+  "pos": "verb",
+  "meaning_id": "memakai (pakaian)",
+  "example_en": "She wears a red dress.",
+  "example_id": "Dia memakai gaun merah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 442,
+  "word": "weather",
+  "pos": "noun",
+  "meaning_id": "cuaca",
+  "example_en": "The weather is nice today.",
+  "example_id": "Cuacanya bagus hari ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 443,
+  "word": "Wednesday",
+  "pos": "noun",
+  "meaning_id": "hari Rabu",
+  "example_en": "We meet on Wednesday.",
+  "example_id": "Kami bertemu pada hari Rabu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 444,
+  "word": "week",
+  "pos": "noun",
+  "meaning_id": "minggu; pekan",
+  "example_en": "I study English every week.",
+  "example_id": "Saya belajar bahasa Inggris setiap minggu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 445,
+  "word": "well",
+  "pos": "adverb",
+  "meaning_id": "dengan baik",
+  "example_en": "She sings well.",
+  "example_id": "Dia menyanyi dengan baik.",
+  "cefr": "A1"
+ },
+ {
+  "no": 446,
+  "word": "what",
+  "pos": "pronoun",
+  "meaning_id": "apa",
+  "example_en": "What is your name?",
+  "example_id": "Siapa namamu?",
+  "cefr": "A1"
+ },
+ {
+  "no": 447,
+  "word": "when",
+  "pos": "adverb",
+  "meaning_id": "kapan",
+  "example_en": "When is the exam?",
+  "example_id": "Kapan ujiannya?",
+  "cefr": "A1"
+ },
+ {
+  "no": 448,
+  "word": "where",
+  "pos": "adverb",
+  "meaning_id": "di mana; ke mana",
+  "example_en": "Where do you live?",
+  "example_id": "Kamu tinggal di mana?",
+  "cefr": "A1"
+ },
+ {
+  "no": 449,
+  "word": "which",
+  "pos": "pronoun",
+  "meaning_id": "yang mana",
+  "example_en": "Which bag is yours?",
+  "example_id": "Tas yang mana milikmu?",
+  "cefr": "A1"
+ },
+ {
+  "no": 450,
+  "word": "white",
+  "pos": "adjective",
+  "meaning_id": "putih",
+  "example_en": "The wall is white.",
+  "example_id": "Dindingnya putih.",
+  "cefr": "A1"
+ },
+ {
+  "no": 451,
+  "word": "who",
+  "pos": "pronoun",
+  "meaning_id": "siapa",
+  "example_en": "Who is that girl?",
+  "example_id": "Siapa gadis itu?",
+  "cefr": "A1"
+ },
+ {
+  "no": 452,
+  "word": "why",
+  "pos": "adverb",
+  "meaning_id": "mengapa",
+  "example_en": "Why are you late?",
+  "example_id": "Mengapa kamu terlambat?",
+  "cefr": "A1"
+ },
+ {
+  "no": 453,
+  "word": "wife",
+  "pos": "noun",
+  "meaning_id": "istri",
+  "example_en": "His wife is a nurse.",
+  "example_id": "Istrinya seorang perawat.",
+  "cefr": "A1"
+ },
+ {
+  "no": 454,
+  "word": "will",
+  "pos": "modal verb",
+  "meaning_id": "akan",
+  "example_en": "I will call you.",
+  "example_id": "Aku akan meneleponmu.",
+  "cefr": "A1"
+ },
+ {
+  "no": 455,
+  "word": "wind",
+  "pos": "noun",
+  "meaning_id": "angin",
+  "example_en": "The wind is strong.",
+  "example_id": "Anginnya kencang.",
+  "cefr": "A1"
+ },
+ {
+  "no": 456,
+  "word": "window",
+  "pos": "noun",
+  "meaning_id": "jendela",
+  "example_en": "Open the window.",
+  "example_id": "Buka jendelanya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 457,
+  "word": "with",
+  "pos": "preposition",
+  "meaning_id": "dengan; bersama",
+  "example_en": "I live with my family.",
+  "example_id": "Saya tinggal bersama keluarga saya.",
+  "cefr": "A1"
+ },
+ {
+  "no": 458,
+  "word": "without",
+  "pos": "preposition",
+  "meaning_id": "tanpa",
+  "example_en": "I drink tea without sugar.",
+  "example_id": "Saya minum teh tanpa gula.",
+  "cefr": "A1"
+ },
+ {
+  "no": 459,
+  "word": "woman",
+  "pos": "noun",
+  "meaning_id": "perempuan; wanita",
+  "example_en": "The woman has a red bag.",
+  "example_id": "Wanita itu punya tas merah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 460,
+  "word": "word",
+  "pos": "noun",
+  "meaning_id": "kata",
+  "example_en": "I learn ten new words today.",
+  "example_id": "Aku belajar sepuluh kata baru hari ini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 461,
+  "word": "work",
+  "pos": "noun, verb",
+  "meaning_id": "pekerjaan; bekerja",
+  "example_en": "I go to work at seven. / He works in an office.",
+  "example_id": "Aku berangkat kerja jam tujuh. / Dia bekerja di kantor.",
+  "cefr": "A1"
+ },
+ {
+  "no": 462,
+  "word": "would",
+  "pos": "modal verb",
+  "meaning_id": "akan (sopan/lampau)",
+  "example_en": "Would you like tea?",
+  "example_id": "Maukah kamu teh?",
+  "cefr": "A1"
+ },
+ {
+  "no": 463,
+  "word": "write",
+  "pos": "verb",
+  "meaning_id": "menulis",
+  "example_en": "Write your name here.",
+  "example_id": "Tulis namamu di sini.",
+  "cefr": "A1"
+ },
+ {
+  "no": 464,
+  "word": "wrong",
+  "pos": "adjective",
+  "meaning_id": "salah",
+  "example_en": "This answer is wrong.",
+  "example_id": "Jawaban ini salah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 465,
+  "word": "year",
+  "pos": "noun",
+  "meaning_id": "tahun",
+  "example_en": "This year I am twenty.",
+  "example_id": "Tahun ini saya berumur dua puluh.",
+  "cefr": "A1"
+ },
+ {
+  "no": 466,
+  "word": "yellow",
+  "pos": "adjective",
+  "meaning_id": "kuning",
+  "example_en": "I like yellow flowers.",
+  "example_id": "Aku suka bunga kuning.",
+  "cefr": "A1"
+ },
+ {
+  "no": 467,
+  "word": "yes",
+  "pos": "interjection",
+  "meaning_id": "ya",
+  "example_en": "Yes, I can.",
+  "example_id": "Ya, saya bisa.",
+  "cefr": "A1"
+ },
+ {
+  "no": 468,
+  "word": "yesterday",
+  "pos": "adverb",
+  "meaning_id": "kemarin",
+  "example_en": "I was at home yesterday.",
+  "example_id": "Kemarin saya ada di rumah.",
+  "cefr": "A1"
+ },
+ {
+  "no": 469,
+  "word": "you",
+  "pos": "pronoun",
+  "meaning_id": "kamu; kalian",
+  "example_en": "You are my friend.",
+  "example_id": "Kamu adalah temanku.",
+  "cefr": "A1"
+ },
+ {
+  "no": 470,
+  "word": "young",
+  "pos": "adjective",
+  "meaning_id": "muda",
+  "example_en": "She is a young teacher.",
+  "example_id": "Dia guru muda.",
+  "cefr": "A1"
+ },
+ {
+  "no": 471,
+  "word": "your",
+  "pos": "determiner",
+  "meaning_id": "milikmu; -mu",
+  "example_en": "Where is your phone?",
+  "example_id": "Di mana ponselmu?",
+  "cefr": "A1"
+ },
+ {
+  "no": 472,
+  "word": "zero",
+  "pos": "number",
+  "meaning_id": "nol",
+  "example_en": "My score is zero.",
+  "example_id": "Nilaiku nol.",
+  "cefr": "A1"
+ },
+ {
+  "no": 473,
+  "word": "accident",
+  "pos": "noun",
+  "meaning_id": "kecelakaan",
+  "example_en": "He had an accident on the road.",
+  "example_id": "Dia mengalami kecelakaan di jalan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 474,
+  "word": "across",
+  "pos": "preposition",
+  "meaning_id": "menyeberang; di seberang",
+  "example_en": "Walk across the street.",
+  "example_id": "Berjalanlah menyeberangi jalan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 475,
+  "word": "address",
+  "pos": "noun",
+  "meaning_id": "alamat",
+  "example_en": "What is your address?",
+  "example_id": "Apa alamatmu?",
+  "cefr": "A2"
+ },
+ {
+  "no": 476,
+  "word": "afraid",
+  "pos": "adjective",
+  "meaning_id": "takut",
+  "example_en": "I am afraid of dogs.",
+  "example_id": "Aku takut anjing.",
+  "cefr": "A2"
+ },
+ {
+  "no": 477,
+  "word": "agree",
+  "pos": "verb",
+  "meaning_id": "setuju",
+  "example_en": "I agree with you.",
+  "example_id": "Aku setuju denganmu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 478,
+  "word": "airport",
+  "pos": "noun",
+  "meaning_id": "bandara",
+  "example_en": "We go to the airport.",
+  "example_id": "Kami pergi ke bandara.",
+  "cefr": "A2"
+ },
+ {
+  "no": 479,
+  "word": "allow",
+  "pos": "verb",
+  "meaning_id": "mengizinkan",
+  "example_en": "They do not allow dogs here.",
+  "example_id": "Mereka tidak mengizinkan anjing di sini.",
+  "cefr": "A2"
+ },
+ {
+  "no": 480,
+  "word": "almost",
+  "pos": "adverb",
+  "meaning_id": "hampir",
+  "example_en": "We are almost there.",
+  "example_id": "Kita hampir sampai.",
+  "cefr": "A2"
+ },
+ {
+  "no": 481,
+  "word": "alone",
+  "pos": "adjective",
+  "meaning_id": "sendirian",
+  "example_en": "She lives alone.",
+  "example_id": "Dia tinggal sendirian.",
+  "cefr": "A2"
+ },
+ {
+  "no": 482,
+  "word": "along",
+  "pos": "preposition",
+  "meaning_id": "sepanjang",
+  "example_en": "We walk along the river.",
+  "example_id": "Kami berjalan sepanjang sungai.",
+  "cefr": "A2"
+ },
+ {
+  "no": 483,
+  "word": "although",
+  "pos": "conjunction",
+  "meaning_id": "meskipun",
+  "example_en": "Although it rains, we go out.",
+  "example_id": "Meskipun hujan, kami keluar.",
+  "cefr": "A2"
+ },
+ {
+  "no": 484,
+  "word": "among",
+  "pos": "preposition",
+  "meaning_id": "di antara (banyak)",
+  "example_en": "He is among friends.",
+  "example_id": "Dia berada di antara teman-teman.",
+  "cefr": "A2"
+ },
+ {
+  "no": 485,
+  "word": "apartment",
+  "pos": "noun",
+  "meaning_id": "apartemen",
+  "example_en": "They live in a small apartment.",
+  "example_id": "Mereka tinggal di apartemen kecil.",
+  "cefr": "A2"
+ },
+ {
+  "no": 486,
+  "word": "arrive",
+  "pos": "verb",
+  "meaning_id": "tiba",
+  "example_en": "The train arrives at nine.",
+  "example_id": "Kereta tiba jam sembilan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 487,
+  "word": "asleep",
+  "pos": "adjective",
+  "meaning_id": "tertidur",
+  "example_en": "The baby is asleep.",
+  "example_id": "Bayinya tertidur.",
+  "cefr": "A2"
+ },
+ {
+  "no": 488,
+  "word": "ball",
+  "pos": "noun",
+  "meaning_id": "bola",
+  "example_en": "The boy kicks the ball.",
+  "example_id": "Anak itu menendang bola.",
+  "cefr": "A2"
+ },
+ {
+  "no": 489,
+  "word": "bath",
+  "pos": "noun",
+  "meaning_id": "mandi; bak mandi",
+  "example_en": "I take a bath every night.",
+  "example_id": "Aku mandi setiap malam.",
+  "cefr": "A2"
+ },
+ {
+  "no": 490,
+  "word": "beside",
+  "pos": "preposition",
+  "meaning_id": "di samping",
+  "example_en": "Sit beside me.",
+  "example_id": "Duduklah di sampingku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 491,
+  "word": "bill",
+  "pos": "noun",
+  "meaning_id": "tagihan",
+  "example_en": "Can I have the bill, please?",
+  "example_id": "Boleh minta tagihannya?",
+  "cefr": "A2"
+ },
+ {
+  "no": 492,
+  "word": "birthday",
+  "pos": "noun",
+  "meaning_id": "ulang tahun",
+  "example_en": "Today is my birthday.",
+  "example_id": "Hari ini ulang tahunku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 493,
+  "word": "boat",
+  "pos": "noun",
+  "meaning_id": "perahu; kapal",
+  "example_en": "The boat leaves at noon.",
+  "example_id": "Perahu berangkat siang hari.",
+  "cefr": "A2"
+ },
+ {
+  "no": 494,
+  "word": "boring",
+  "pos": "adjective",
+  "meaning_id": "membosankan",
+  "example_en": "The film is boring.",
+  "example_id": "Filmnya membosankan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 495,
+  "word": "borrow",
+  "pos": "verb",
+  "meaning_id": "meminjam",
+  "example_en": "Can I borrow your pen?",
+  "example_id": "Boleh aku pinjam pulpenmu?",
+  "cefr": "A2"
+ },
+ {
+  "no": 496,
+  "word": "bottle",
+  "pos": "noun",
+  "meaning_id": "botol",
+  "example_en": "He buys a bottle of water.",
+  "example_id": "Dia membeli sebotol air.",
+  "cefr": "A2"
+ },
+ {
+  "no": 497,
+  "word": "bowl",
+  "pos": "noun",
+  "meaning_id": "mangkuk",
+  "example_en": "I need a bowl.",
+  "example_id": "Aku butuh mangkuk.",
+  "cefr": "A2"
+ },
+ {
+  "no": 498,
+  "word": "bridge",
+  "pos": "noun",
+  "meaning_id": "jembatan",
+  "example_en": "We cross the bridge.",
+  "example_id": "Kami menyeberangi jembatan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 499,
+  "word": "building",
+  "pos": "noun",
+  "meaning_id": "gedung",
+  "example_en": "The building is very tall.",
+  "example_id": "Gedung itu sangat tinggi.",
+  "cefr": "A2"
+ },
+ {
+  "no": 500,
+  "word": "business",
+  "pos": "noun",
+  "meaning_id": "bisnis; usaha",
+  "example_en": "He has a small business.",
+  "example_id": "Dia punya usaha kecil.",
+  "cefr": "A2"
+ },
+ {
+  "no": 501,
+  "word": "camera",
+  "pos": "noun",
+  "meaning_id": "kamera",
+  "example_en": "I take photos with my camera.",
+  "example_id": "Aku memotret dengan kameraku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 502,
+  "word": "card",
+  "pos": "noun",
+  "meaning_id": "kartu",
+  "example_en": "She sends me a card.",
+  "example_id": "Dia mengirimiku kartu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 503,
+  "word": "careful",
+  "pos": "adjective",
+  "meaning_id": "hati-hati",
+  "example_en": "Be careful!",
+  "example_id": "Hati-hati!",
+  "cefr": "A2"
+ },
+ {
+  "no": 504,
+  "word": "carry",
+  "pos": "verb",
+  "meaning_id": "membawa; mengangkat",
+  "example_en": "He carries a heavy bag.",
+  "example_id": "Dia membawa tas berat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 505,
+  "word": "catch",
+  "pos": "verb",
+  "meaning_id": "menangkap; mengejar",
+  "example_en": "Catch the ball!",
+  "example_id": "Tangkap bolanya!",
+  "cefr": "A2"
+ },
+ {
+  "no": 506,
+  "word": "celebrate",
+  "pos": "verb",
+  "meaning_id": "merayakan",
+  "example_en": "We celebrate her birthday.",
+  "example_id": "Kami merayakan ulang tahunnya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 507,
+  "word": "centre",
+  "pos": "noun",
+  "meaning_id": "pusat",
+  "example_en": "The shop is in the city centre.",
+  "example_id": "Toko itu di pusat kota.",
+  "cefr": "A2"
+ },
+ {
+  "no": 508,
+  "word": "certain",
+  "pos": "adjective",
+  "meaning_id": "yakin; pasti",
+  "example_en": "I am certain about it.",
+  "example_id": "Aku yakin soal itu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 509,
+  "word": "chance",
+  "pos": "noun",
+  "meaning_id": "kesempatan",
+  "example_en": "This is your chance.",
+  "example_id": "Ini kesempatanmu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 510,
+  "word": "cheese",
+  "pos": "noun",
+  "meaning_id": "keju",
+  "example_en": "I like cheese on bread.",
+  "example_id": "Aku suka keju di atas roti.",
+  "cefr": "A2"
+ },
+ {
+  "no": 511,
+  "word": "chocolate",
+  "pos": "noun",
+  "meaning_id": "cokelat",
+  "example_en": "The child wants chocolate.",
+  "example_id": "Anak itu mau cokelat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 512,
+  "word": "choose",
+  "pos": "verb",
+  "meaning_id": "memilih",
+  "example_en": "Choose one color.",
+  "example_id": "Pilih satu warna.",
+  "cefr": "A2"
+ },
+ {
+  "no": 513,
+  "word": "cinema",
+  "pos": "noun",
+  "meaning_id": "bioskop",
+  "example_en": "We go to the cinema on Friday.",
+  "example_id": "Kami ke bioskop hari Jumat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 514,
+  "word": "clever",
+  "pos": "adjective",
+  "meaning_id": "pintar",
+  "example_en": "She is a clever girl.",
+  "example_id": "Dia anak yang pintar.",
+  "cefr": "A2"
+ },
+ {
+  "no": 515,
+  "word": "climb",
+  "pos": "verb",
+  "meaning_id": "memanjat; mendaki",
+  "example_en": "We climb the hill.",
+  "example_id": "Kami mendaki bukit.",
+  "cefr": "A2"
+ },
+ {
+  "no": 516,
+  "word": "collect",
+  "pos": "verb",
+  "meaning_id": "mengumpulkan",
+  "example_en": "He collects old coins.",
+  "example_id": "Dia mengumpulkan koin lama.",
+  "cefr": "A2"
+ },
+ {
+  "no": 517,
+  "word": "college",
+  "pos": "noun",
+  "meaning_id": "perguruan tinggi",
+  "example_en": "She studies at college.",
+  "example_id": "Dia kuliah di perguruan tinggi.",
+  "cefr": "A2"
+ },
+ {
+  "no": 518,
+  "word": "comfortable",
+  "pos": "adjective",
+  "meaning_id": "nyaman",
+  "example_en": "This chair is comfortable.",
+  "example_id": "Kursi ini nyaman.",
+  "cefr": "A2"
+ },
+ {
+  "no": 519,
+  "word": "company",
+  "pos": "noun",
+  "meaning_id": "perusahaan",
+  "example_en": "She works for a big company.",
+  "example_id": "Dia bekerja di perusahaan besar.",
+  "cefr": "A2"
+ },
+ {
+  "no": 520,
+  "word": "compare",
+  "pos": "verb",
+  "meaning_id": "membandingkan",
+  "example_en": "Compare the two prices.",
+  "example_id": "Bandingkan kedua harga itu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 521,
+  "word": "corner",
+  "pos": "noun",
+  "meaning_id": "sudut; pojok",
+  "example_en": "The shop is on the corner.",
+  "example_id": "Toko itu di pojok jalan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 522,
+  "word": "couple",
+  "pos": "noun",
+  "meaning_id": "pasangan",
+  "example_en": "The couple walks in the park.",
+  "example_id": "Pasangan itu berjalan di taman.",
+  "cefr": "A2"
+ },
+ {
+  "no": 523,
+  "word": "course",
+  "pos": "noun",
+  "meaning_id": "kursus; mata kuliah",
+  "example_en": "I take an English course.",
+  "example_id": "Aku mengikuti kursus bahasa Inggris.",
+  "cefr": "A2"
+ },
+ {
+  "no": 524,
+  "word": "crazy",
+  "pos": "adjective",
+  "meaning_id": "gila",
+  "example_en": "That idea is crazy.",
+  "example_id": "Ide itu gila.",
+  "cefr": "A2"
+ },
+ {
+  "no": 525,
+  "word": "danger",
+  "pos": "noun",
+  "meaning_id": "bahaya",
+  "example_en": "There is danger on the road.",
+  "example_id": "Ada bahaya di jalan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 526,
+  "word": "decide",
+  "pos": "verb",
+  "meaning_id": "memutuskan",
+  "example_en": "I decide to stay.",
+  "example_id": "Aku memutuskan untuk tinggal.",
+  "cefr": "A2"
+ },
+ {
+  "no": 527,
+  "word": "describe",
+  "pos": "verb",
+  "meaning_id": "menggambarkan",
+  "example_en": "Describe your room.",
+  "example_id": "Gambarkan kamarmu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 528,
+  "word": "dictionary",
+  "pos": "noun",
+  "meaning_id": "kamus",
+  "example_en": "I use a dictionary.",
+  "example_id": "Aku memakai kamus.",
+  "cefr": "A2"
+ },
+ {
+  "no": 529,
+  "word": "dish",
+  "pos": "noun",
+  "meaning_id": "hidangan; piring",
+  "example_en": "This dish is very spicy.",
+  "example_id": "Hidangan ini sangat pedas.",
+  "cefr": "A2"
+ },
+ {
+  "no": 530,
+  "word": "dream",
+  "pos": "noun",
+  "meaning_id": "mimpi",
+  "example_en": "I had a strange dream.",
+  "example_id": "Aku mimpi aneh.",
+  "cefr": "A2"
+ },
+ {
+  "no": 531,
+  "word": "dry",
+  "pos": "adjective",
+  "meaning_id": "kering",
+  "example_en": "The clothes are dry.",
+  "example_id": "Pakaiannya kering.",
+  "cefr": "A2"
+ },
+ {
+  "no": 532,
+  "word": "during",
+  "pos": "preposition",
+  "meaning_id": "selama",
+  "example_en": "I read during the trip.",
+  "example_id": "Aku membaca selama perjalanan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 533,
+  "word": "energy",
+  "pos": "noun",
+  "meaning_id": "energi",
+  "example_en": "Children have a lot of energy.",
+  "example_id": "Anak-anak punya banyak energi.",
+  "cefr": "A2"
+ },
+ {
+  "no": 534,
+  "word": "engine",
+  "pos": "noun",
+  "meaning_id": "mesin",
+  "example_en": "The car engine is loud.",
+  "example_id": "Mesin mobil itu berisik.",
+  "cefr": "A2"
+ },
+ {
+  "no": 535,
+  "word": "enjoy",
+  "pos": "verb",
+  "meaning_id": "menikmati",
+  "example_en": "I enjoy reading.",
+  "example_id": "Aku menikmati membaca.",
+  "cefr": "A2"
+ },
+ {
+  "no": 536,
+  "word": "enter",
+  "pos": "verb",
+  "meaning_id": "masuk",
+  "example_en": "Please enter the room.",
+  "example_id": "Silakan masuk ke ruangan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 537,
+  "word": "everything",
+  "pos": "pronoun",
+  "meaning_id": "segalanya",
+  "example_en": "Everything is ready.",
+  "example_id": "Semuanya siap.",
+  "cefr": "A2"
+ },
+ {
+  "no": 538,
+  "word": "everywhere",
+  "pos": "adverb",
+  "meaning_id": "di mana-mana",
+  "example_en": "There are flowers everywhere.",
+  "example_id": "Ada bunga di mana-mana.",
+  "cefr": "A2"
+ },
+ {
+  "no": 539,
+  "word": "exam",
+  "pos": "noun",
+  "meaning_id": "ujian",
+  "example_en": "I have an exam tomorrow.",
+  "example_id": "Aku ada ujian besok.",
+  "cefr": "A2"
+ },
+ {
+  "no": 540,
+  "word": "example",
+  "pos": "noun",
+  "meaning_id": "contoh",
+  "example_en": "Give me an example.",
+  "example_id": "Berikan aku contoh.",
+  "cefr": "A2"
+ },
+ {
+  "no": 541,
+  "word": "excited",
+  "pos": "adjective",
+  "meaning_id": "bersemangat",
+  "example_en": "I am excited about the trip.",
+  "example_id": "Aku bersemangat soal perjalanan itu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 542,
+  "word": "exercise",
+  "pos": "noun",
+  "meaning_id": "latihan; olahraga",
+  "example_en": "Exercise is good for you.",
+  "example_id": "Olahraga baik untukmu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 543,
+  "word": "explain",
+  "pos": "verb",
+  "meaning_id": "menjelaskan",
+  "example_en": "Can you explain this word?",
+  "example_id": "Bisakah kamu menjelaskan kata ini?",
+  "cefr": "A2"
+ },
+ {
+  "no": 544,
+  "word": "fall",
+  "pos": "verb",
+  "meaning_id": "jatuh",
+  "example_en": "Leaves fall in autumn.",
+  "example_id": "Daun jatuh di musim gugur.",
+  "cefr": "A2"
+ },
+ {
+  "no": 545,
+  "word": "farm",
+  "pos": "noun",
+  "meaning_id": "peternakan; ladang",
+  "example_en": "They work on a farm.",
+  "example_id": "Mereka bekerja di ladang.",
+  "cefr": "A2"
+ },
+ {
+  "no": 546,
+  "word": "fat",
+  "pos": "adjective",
+  "meaning_id": "gemuk",
+  "example_en": "The cat is fat.",
+  "example_id": "Kucing itu gemuk.",
+  "cefr": "A2"
+ },
+ {
+  "no": 547,
+  "word": "fear",
+  "pos": "noun",
+  "meaning_id": "ketakutan",
+  "example_en": "She has a fear of dogs.",
+  "example_id": "Dia takut anjing.",
+  "cefr": "A2"
+ },
+ {
+  "no": 548,
+  "word": "festival",
+  "pos": "noun",
+  "meaning_id": "festival",
+  "example_en": "The festival is in May.",
+  "example_id": "Festivalnya bulan Mei.",
+  "cefr": "A2"
+ },
+ {
+  "no": 549,
+  "word": "field",
+  "pos": "noun",
+  "meaning_id": "lapangan; ladang",
+  "example_en": "The children play in the field.",
+  "example_id": "Anak-anak bermain di lapangan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 550,
+  "word": "fill",
+  "pos": "verb",
+  "meaning_id": "mengisi",
+  "example_en": "Fill the glass with water.",
+  "example_id": "Isi gelas dengan air.",
+  "cefr": "A2"
+ },
+ {
+  "no": 551,
+  "word": "fix",
+  "pos": "verb",
+  "meaning_id": "memperbaiki",
+  "example_en": "He fixes the bike.",
+  "example_id": "Dia memperbaiki sepeda itu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 552,
+  "word": "flight",
+  "pos": "noun",
+  "meaning_id": "penerbangan",
+  "example_en": "The flight takes two hours.",
+  "example_id": "Penerbangannya dua jam.",
+  "cefr": "A2"
+ },
+ {
+  "no": 553,
+  "word": "follow",
+  "pos": "verb",
+  "meaning_id": "mengikuti",
+  "example_en": "Follow me, please.",
+  "example_id": "Ikuti aku, tolong.",
+  "cefr": "A2"
+ },
+ {
+  "no": 554,
+  "word": "forest",
+  "pos": "noun",
+  "meaning_id": "hutan",
+  "example_en": "There is a forest near the village.",
+  "example_id": "Ada hutan dekat desa.",
+  "cefr": "A2"
+ },
+ {
+  "no": 555,
+  "word": "forget",
+  "pos": "verb",
+  "meaning_id": "lupa",
+  "example_en": "Do not forget your key.",
+  "example_id": "Jangan lupa kuncimu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 556,
+  "word": "fork",
+  "pos": "noun",
+  "meaning_id": "garpu",
+  "example_en": "Use a fork for the pasta.",
+  "example_id": "Pakai garpu untuk pastanya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 557,
+  "word": "fresh",
+  "pos": "adjective",
+  "meaning_id": "segar",
+  "example_en": "The fish is fresh.",
+  "example_id": "Ikannya segar.",
+  "cefr": "A2"
+ },
+ {
+  "no": 558,
+  "word": "gate",
+  "pos": "noun",
+  "meaning_id": "gerbang",
+  "example_en": "Close the gate, please.",
+  "example_id": "Tolong tutup gerbangnya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 559,
+  "word": "gift",
+  "pos": "noun",
+  "meaning_id": "hadiah",
+  "example_en": "She gives me a gift.",
+  "example_id": "Dia memberiku hadiah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 560,
+  "word": "grass",
+  "pos": "noun",
+  "meaning_id": "rumput",
+  "example_en": "The cow eats grass.",
+  "example_id": "Sapi makan rumput.",
+  "cefr": "A2"
+ },
+ {
+  "no": 561,
+  "word": "ground",
+  "pos": "noun",
+  "meaning_id": "tanah",
+  "example_en": "The ground is wet.",
+  "example_id": "Tanahnya basah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 562,
+  "word": "guest",
+  "pos": "noun",
+  "meaning_id": "tamu",
+  "example_en": "We have a guest tonight.",
+  "example_id": "Kami punya tamu malam ini.",
+  "cefr": "A2"
+ },
+ {
+  "no": 563,
+  "word": "habit",
+  "pos": "noun",
+  "meaning_id": "kebiasaan",
+  "example_en": "Reading is a good habit.",
+  "example_id": "Membaca adalah kebiasaan baik.",
+  "cefr": "A2"
+ },
+ {
+  "no": 564,
+  "word": "hall",
+  "pos": "noun",
+  "meaning_id": "aula",
+  "example_en": "The hall is full of people.",
+  "example_id": "Aulanya penuh orang.",
+  "cefr": "A2"
+ },
+ {
+  "no": 565,
+  "word": "health",
+  "pos": "noun",
+  "meaning_id": "kesehatan",
+  "example_en": "Health is more important than money.",
+  "example_id": "Kesehatan lebih penting daripada uang.",
+  "cefr": "A2"
+ },
+ {
+  "no": 566,
+  "word": "hide",
+  "pos": "verb",
+  "meaning_id": "bersembunyi; menyembunyikan",
+  "example_en": "The cat hides under the bed.",
+  "example_id": "Kucing itu bersembunyi di bawah tempat tidur.",
+  "cefr": "A2"
+ },
+ {
+  "no": 567,
+  "word": "history",
+  "pos": "noun",
+  "meaning_id": "sejarah",
+  "example_en": "I like history lessons.",
+  "example_id": "Aku suka pelajaran sejarah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 568,
+  "word": "hobby",
+  "pos": "noun",
+  "meaning_id": "hobi",
+  "example_en": "My hobby is reading.",
+  "example_id": "Hobiku membaca.",
+  "cefr": "A2"
+ },
+ {
+  "no": 569,
+  "word": "hold",
+  "pos": "verb",
+  "meaning_id": "memegang",
+  "example_en": "Hold my bag, please.",
+  "example_id": "Tolong pegang tasku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 570,
+  "word": "honest",
+  "pos": "adjective",
+  "meaning_id": "jujur",
+  "example_en": "He is an honest man.",
+  "example_id": "Dia pria jujur.",
+  "cefr": "A2"
+ },
+ {
+  "no": 571,
+  "word": "hope",
+  "pos": "verb",
+  "meaning_id": "berharap",
+  "example_en": "I hope you are well.",
+  "example_id": "Aku berharap kamu baik-baik saja.",
+  "cefr": "A2"
+ },
+ {
+  "no": 572,
+  "word": "hotel",
+  "pos": "noun",
+  "meaning_id": "hotel",
+  "example_en": "The hotel is near the beach.",
+  "example_id": "Hotelnya dekat pantai.",
+  "cefr": "A2"
+ },
+ {
+  "no": 573,
+  "word": "however",
+  "pos": "adverb",
+  "meaning_id": "namun",
+  "example_en": "It is cheap. However, it is old.",
+  "example_id": "Itu murah. Namun, itu tua.",
+  "cefr": "A2"
+ },
+ {
+  "no": 574,
+  "word": "ice",
+  "pos": "noun",
+  "meaning_id": "es",
+  "example_en": "I want a glass of ice water.",
+  "example_id": "Aku mau segelas air es.",
+  "cefr": "A2"
+ },
+ {
+  "no": 575,
+  "word": "instead",
+  "pos": "adverb",
+  "meaning_id": "sebagai gantinya",
+  "example_en": "Take tea instead.",
+  "example_id": "Ambil teh saja sebagai gantinya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 576,
+  "word": "interesting",
+  "pos": "adjective",
+  "meaning_id": "menarik",
+  "example_en": "This is an interesting book.",
+  "example_id": "Ini buku yang menarik.",
+  "cefr": "A2"
+ },
+ {
+  "no": 577,
+  "word": "invite",
+  "pos": "verb",
+  "meaning_id": "mengundang",
+  "example_en": "I invite her to dinner.",
+  "example_id": "Aku mengundangnya makan malam.",
+  "cefr": "A2"
+ },
+ {
+  "no": 578,
+  "word": "island",
+  "pos": "noun",
+  "meaning_id": "pulau",
+  "example_en": "Bali is an island.",
+  "example_id": "Bali adalah pulau.",
+  "cefr": "A2"
+ },
+ {
+  "no": 579,
+  "word": "join",
+  "pos": "verb",
+  "meaning_id": "bergabung",
+  "example_en": "Join us for lunch.",
+  "example_id": "Bergabunglah makan siang bersama kami.",
+  "cefr": "A2"
+ },
+ {
+  "no": 580,
+  "word": "kick",
+  "pos": "verb",
+  "meaning_id": "menendang",
+  "example_en": "He kicks the ball.",
+  "example_id": "Dia menendang bola.",
+  "cefr": "A2"
+ },
+ {
+  "no": 581,
+  "word": "kid",
+  "pos": "noun",
+  "meaning_id": "anak (informal)",
+  "example_en": "The kids are in the garden.",
+  "example_id": "Anak-anak ada di kebun.",
+  "cefr": "A2"
+ },
+ {
+  "no": 582,
+  "word": "knife",
+  "pos": "noun",
+  "meaning_id": "pisau",
+  "example_en": "The knife is sharp.",
+  "example_id": "Pisaunya tajam.",
+  "cefr": "A2"
+ },
+ {
+  "no": 583,
+  "word": "lake",
+  "pos": "noun",
+  "meaning_id": "danau",
+  "example_en": "We swim in the lake.",
+  "example_id": "Kami berenang di danau.",
+  "cefr": "A2"
+ },
+ {
+  "no": 584,
+  "word": "lamp",
+  "pos": "noun",
+  "meaning_id": "lampu",
+  "example_en": "Turn on the lamp.",
+  "example_id": "Nyalakan lampunya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 585,
+  "word": "laptop",
+  "pos": "noun",
+  "meaning_id": "laptop",
+  "example_en": "She works on her laptop.",
+  "example_id": "Dia bekerja dengan laptopnya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 586,
+  "word": "lawyer",
+  "pos": "noun",
+  "meaning_id": "pengacara",
+  "example_en": "My uncle is a lawyer.",
+  "example_id": "Pamanku seorang pengacara.",
+  "cefr": "A2"
+ },
+ {
+  "no": 587,
+  "word": "lazy",
+  "pos": "adjective",
+  "meaning_id": "malas",
+  "example_en": "He is lazy today.",
+  "example_id": "Dia malas hari ini.",
+  "cefr": "A2"
+ },
+ {
+  "no": 588,
+  "word": "leaf",
+  "pos": "noun",
+  "meaning_id": "daun",
+  "example_en": "A leaf falls from the tree.",
+  "example_id": "Sehelai daun jatuh dari pohon.",
+  "cefr": "A2"
+ },
+ {
+  "no": 589,
+  "word": "lend",
+  "pos": "verb",
+  "meaning_id": "meminjamkan",
+  "example_en": "Can you lend me some money?",
+  "example_id": "Bisakah kamu meminjamkan uang?",
+  "cefr": "A2"
+ },
+ {
+  "no": 590,
+  "word": "library",
+  "pos": "noun",
+  "meaning_id": "perpustakaan",
+  "example_en": "I study in the library.",
+  "example_id": "Aku belajar di perpustakaan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 591,
+  "word": "lift",
+  "pos": "verb",
+  "meaning_id": "mengangkat",
+  "example_en": "He lifts the box.",
+  "example_id": "Dia mengangkat kotak itu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 592,
+  "word": "list",
+  "pos": "noun",
+  "meaning_id": "daftar",
+  "example_en": "Write a shopping list.",
+  "example_id": "Tulis daftar belanja.",
+  "cefr": "A2"
+ },
+ {
+  "no": 593,
+  "word": "lonely",
+  "pos": "adjective",
+  "meaning_id": "kesepian",
+  "example_en": "She feels lonely.",
+  "example_id": "Dia merasa kesepian.",
+  "cefr": "A2"
+ },
+ {
+  "no": 594,
+  "word": "luck",
+  "pos": "noun",
+  "meaning_id": "keberuntungan",
+  "example_en": "Good luck!",
+  "example_id": "Semoga beruntung!",
+  "cefr": "A2"
+ },
+ {
+  "no": 595,
+  "word": "lucky",
+  "pos": "adjective",
+  "meaning_id": "beruntung",
+  "example_en": "You are lucky.",
+  "example_id": "Kamu beruntung.",
+  "cefr": "A2"
+ },
+ {
+  "no": 596,
+  "word": "magazine",
+  "pos": "noun",
+  "meaning_id": "majalah",
+  "example_en": "She reads a magazine.",
+  "example_id": "Dia membaca majalah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 597,
+  "word": "manager",
+  "pos": "noun",
+  "meaning_id": "manajer",
+  "example_en": "The manager is in his office.",
+  "example_id": "Manajernya ada di kantornya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 598,
+  "word": "map",
+  "pos": "noun",
+  "meaning_id": "peta",
+  "example_en": "Look at the map.",
+  "example_id": "Lihat petanya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 599,
+  "word": "mean",
+  "pos": "verb",
+  "meaning_id": "berarti",
+  "example_en": "What does this word mean?",
+  "example_id": "Apa arti kata ini?",
+  "cefr": "A2"
+ },
+ {
+  "no": 600,
+  "word": "meeting",
+  "pos": "noun",
+  "meaning_id": "rapat",
+  "example_en": "The meeting is at ten.",
+  "example_id": "Rapatnya jam sepuluh.",
+  "cefr": "A2"
+ },
+ {
+  "no": 601,
+  "word": "member",
+  "pos": "noun",
+  "meaning_id": "anggota",
+  "example_en": "He is a member of the club.",
+  "example_id": "Dia anggota klub itu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 602,
+  "word": "memory",
+  "pos": "noun",
+  "meaning_id": "ingatan; kenangan",
+  "example_en": "I have a good memory.",
+  "example_id": "Ingatanku bagus.",
+  "cefr": "A2"
+ },
+ {
+  "no": 603,
+  "word": "menu",
+  "pos": "noun",
+  "meaning_id": "menu",
+  "example_en": "Can I see the menu?",
+  "example_id": "Boleh lihat menunya?",
+  "cefr": "A2"
+ },
+ {
+  "no": 604,
+  "word": "message",
+  "pos": "noun",
+  "meaning_id": "pesan",
+  "example_en": "I get a message from him.",
+  "example_id": "Aku menerima pesan darinya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 605,
+  "word": "mirror",
+  "pos": "noun",
+  "meaning_id": "cermin",
+  "example_en": "Look in the mirror.",
+  "example_id": "Lihat di cermin.",
+  "cefr": "A2"
+ },
+ {
+  "no": 606,
+  "word": "miss",
+  "pos": "verb",
+  "meaning_id": "merindukan; ketinggalan",
+  "example_en": "I miss my family.",
+  "example_id": "Aku merindukan keluargaku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 607,
+  "word": "mistake",
+  "pos": "noun",
+  "meaning_id": "kesalahan",
+  "example_en": "I make a mistake.",
+  "example_id": "Aku membuat kesalahan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 608,
+  "word": "modern",
+  "pos": "adjective",
+  "meaning_id": "modern",
+  "example_en": "The house is very modern.",
+  "example_id": "Rumah itu sangat modern.",
+  "cefr": "A2"
+ },
+ {
+  "no": 609,
+  "word": "moment",
+  "pos": "noun",
+  "meaning_id": "saat; sebentar",
+  "example_en": "Wait a moment, please.",
+  "example_id": "Tunggu sebentar.",
+  "cefr": "A2"
+ },
+ {
+  "no": 610,
+  "word": "mosque",
+  "pos": "noun",
+  "meaning_id": "masjid",
+  "example_en": "The mosque is next to the school.",
+  "example_id": "Masjid itu di sebelah sekolah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 611,
+  "word": "motorcycle",
+  "pos": "noun",
+  "meaning_id": "sepeda motor",
+  "example_en": "My father has a motorcycle.",
+  "example_id": "Ayahku punya sepeda motor.",
+  "cefr": "A2"
+ },
+ {
+  "no": 612,
+  "word": "movie",
+  "pos": "noun",
+  "meaning_id": "film",
+  "example_en": "The movie is very funny.",
+  "example_id": "Filmnya sangat lucu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 613,
+  "word": "museum",
+  "pos": "noun",
+  "meaning_id": "museum",
+  "example_en": "We visit the museum.",
+  "example_id": "Kami mengunjungi museum.",
+  "cefr": "A2"
+ },
+ {
+  "no": 614,
+  "word": "neck",
+  "pos": "noun",
+  "meaning_id": "leher",
+  "example_en": "My neck hurts.",
+  "example_id": "Leherku sakit.",
+  "cefr": "A2"
+ },
+ {
+  "no": 615,
+  "word": "news",
+  "pos": "noun",
+  "meaning_id": "berita",
+  "example_en": "I read the news every morning.",
+  "example_id": "Aku membaca berita setiap pagi.",
+  "cefr": "A2"
+ },
+ {
+  "no": 616,
+  "word": "nothing",
+  "pos": "pronoun",
+  "meaning_id": "tidak ada apa-apa",
+  "example_en": "There is nothing in the box.",
+  "example_id": "Tidak ada apa-apa di kotak.",
+  "cefr": "A2"
+ },
+ {
+  "no": 617,
+  "word": "ocean",
+  "pos": "noun",
+  "meaning_id": "samudra",
+  "example_en": "The ocean is deep.",
+  "example_id": "Samudra itu dalam.",
+  "cefr": "A2"
+ },
+ {
+  "no": 618,
+  "word": "offer",
+  "pos": "noun",
+  "meaning_id": "tawaran",
+  "example_en": "That is a good offer.",
+  "example_id": "Itu tawaran yang bagus.",
+  "cefr": "A2"
+ },
+ {
+  "no": 619,
+  "word": "onion",
+  "pos": "noun",
+  "meaning_id": "bawang",
+  "example_en": "Onions make me cry.",
+  "example_id": "Bawang membuatku menangis.",
+  "cefr": "A2"
+ },
+ {
+  "no": 620,
+  "word": "pair",
+  "pos": "noun",
+  "meaning_id": "pasang",
+  "example_en": "I need a pair of shoes.",
+  "example_id": "Aku butuh sepasang sepatu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 621,
+  "word": "party",
+  "pos": "noun",
+  "meaning_id": "pesta",
+  "example_en": "There is a party tonight.",
+  "example_id": "Ada pesta malam ini.",
+  "cefr": "A2"
+ },
+ {
+  "no": 622,
+  "word": "pass",
+  "pos": "verb",
+  "meaning_id": "melewati; menyerahkan",
+  "example_en": "Pass me the salt.",
+  "example_id": "Berikan garamnya padaku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 623,
+  "word": "passport",
+  "pos": "noun",
+  "meaning_id": "paspor",
+  "example_en": "Show your passport, please.",
+  "example_id": "Tolong tunjukkan paspormu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 624,
+  "word": "path",
+  "pos": "noun",
+  "meaning_id": "jalan setapak",
+  "example_en": "The path goes to the river.",
+  "example_id": "Jalan setapak itu menuju sungai.",
+  "cefr": "A2"
+ },
+ {
+  "no": 625,
+  "word": "perhaps",
+  "pos": "adverb",
+  "meaning_id": "barangkali",
+  "example_en": "Perhaps he is busy.",
+  "example_id": "Barangkali dia sibuk.",
+  "cefr": "A2"
+ },
+ {
+  "no": 626,
+  "word": "pet",
+  "pos": "noun",
+  "meaning_id": "hewan peliharaan",
+  "example_en": "I have a pet rabbit.",
+  "example_id": "Aku punya kelinci peliharaan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 627,
+  "word": "photo",
+  "pos": "noun",
+  "meaning_id": "foto",
+  "example_en": "This is a photo of my family.",
+  "example_id": "Ini foto keluargaku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 628,
+  "word": "pick",
+  "pos": "verb",
+  "meaning_id": "memilih; memetik",
+  "example_en": "Pick a card.",
+  "example_id": "Pilih satu kartu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 629,
+  "word": "pilot",
+  "pos": "noun",
+  "meaning_id": "pilot",
+  "example_en": "The pilot is very careful.",
+  "example_id": "Pilotnya sangat hati-hati.",
+  "cefr": "A2"
+ },
+ {
+  "no": 630,
+  "word": "plan",
+  "pos": "noun",
+  "meaning_id": "rencana",
+  "example_en": "What is your plan for Sunday?",
+  "example_id": "Apa rencanamu hari Minggu?",
+  "cefr": "A2"
+ },
+ {
+  "no": 631,
+  "word": "plant",
+  "pos": "noun",
+  "meaning_id": "tanaman",
+  "example_en": "Water the plant every day.",
+  "example_id": "Siram tanamannya setiap hari.",
+  "cefr": "A2"
+ },
+ {
+  "no": 632,
+  "word": "point",
+  "pos": "verb",
+  "meaning_id": "menunjuk",
+  "example_en": "He points at the map.",
+  "example_id": "Dia menunjuk peta.",
+  "cefr": "A2"
+ },
+ {
+  "no": 633,
+  "word": "police",
+  "pos": "noun",
+  "meaning_id": "polisi",
+  "example_en": "Call the police.",
+  "example_id": "Panggil polisi.",
+  "cefr": "A2"
+ },
+ {
+  "no": 634,
+  "word": "prefer",
+  "pos": "verb",
+  "meaning_id": "lebih suka",
+  "example_en": "I prefer tea to coffee.",
+  "example_id": "Aku lebih suka teh daripada kopi.",
+  "cefr": "A2"
+ },
+ {
+  "no": 635,
+  "word": "pretty",
+  "pos": "adjective",
+  "meaning_id": "cantik",
+  "example_en": "She has a pretty smile.",
+  "example_id": "Dia punya senyum yang cantik.",
+  "cefr": "A2"
+ },
+ {
+  "no": 636,
+  "word": "prize",
+  "pos": "noun",
+  "meaning_id": "hadiah (lomba)",
+  "example_en": "She wins a prize.",
+  "example_id": "Dia memenangkan hadiah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 637,
+  "word": "probably",
+  "pos": "adverb",
+  "meaning_id": "mungkin besar",
+  "example_en": "He will probably come.",
+  "example_id": "Dia kemungkinan besar datang.",
+  "cefr": "A2"
+ },
+ {
+  "no": 638,
+  "word": "program",
+  "pos": "noun",
+  "meaning_id": "program; acara",
+  "example_en": "I like this TV program.",
+  "example_id": "Aku suka acara TV ini.",
+  "cefr": "A2"
+ },
+ {
+  "no": 639,
+  "word": "promise",
+  "pos": "verb",
+  "meaning_id": "berjanji",
+  "example_en": "I promise to call you.",
+  "example_id": "Aku berjanji akan meneleponmu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 640,
+  "word": "proud",
+  "pos": "adjective",
+  "meaning_id": "bangga",
+  "example_en": "I am proud of you.",
+  "example_id": "Aku bangga padamu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 641,
+  "word": "public",
+  "pos": "adjective",
+  "meaning_id": "umum",
+  "example_en": "This is a public park.",
+  "example_id": "Ini taman umum.",
+  "cefr": "A2"
+ },
+ {
+  "no": 642,
+  "word": "pull",
+  "pos": "verb",
+  "meaning_id": "menarik",
+  "example_en": "Pull the door.",
+  "example_id": "Tarik pintunya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 643,
+  "word": "push",
+  "pos": "verb",
+  "meaning_id": "mendorong",
+  "example_en": "Push the door.",
+  "example_id": "Dorong pintunya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 644,
+  "word": "radio",
+  "pos": "noun",
+  "meaning_id": "radio",
+  "example_en": "I listen to the radio.",
+  "example_id": "Aku mendengarkan radio.",
+  "cefr": "A2"
+ },
+ {
+  "no": 645,
+  "word": "real",
+  "pos": "adjective",
+  "meaning_id": "nyata; asli",
+  "example_en": "Is this gold real?",
+  "example_id": "Apakah emas ini asli?",
+  "cefr": "A2"
+ },
+ {
+  "no": 646,
+  "word": "really",
+  "pos": "adverb",
+  "meaning_id": "sungguh",
+  "example_en": "I really like it.",
+  "example_id": "Aku sungguh menyukainya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 647,
+  "word": "reason",
+  "pos": "noun",
+  "meaning_id": "alasan",
+  "example_en": "What is the reason?",
+  "example_id": "Apa alasannya?",
+  "cefr": "A2"
+ },
+ {
+  "no": 648,
+  "word": "remember",
+  "pos": "verb",
+  "meaning_id": "ingat",
+  "example_en": "I remember her name.",
+  "example_id": "Aku ingat namanya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 649,
+  "word": "reply",
+  "pos": "verb",
+  "meaning_id": "membalas",
+  "example_en": "Please reply soon.",
+  "example_id": "Tolong balas segera.",
+  "cefr": "A2"
+ },
+ {
+  "no": 650,
+  "word": "rest",
+  "pos": "verb",
+  "meaning_id": "beristirahat",
+  "example_en": "You need to rest.",
+  "example_id": "Kamu perlu beristirahat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 651,
+  "word": "result",
+  "pos": "noun",
+  "meaning_id": "hasil",
+  "example_en": "The result is good.",
+  "example_id": "Hasilnya bagus.",
+  "cefr": "A2"
+ },
+ {
+  "no": 652,
+  "word": "return",
+  "pos": "verb",
+  "meaning_id": "kembali; mengembalikan",
+  "example_en": "I return home at night.",
+  "example_id": "Aku kembali ke rumah malam hari.",
+  "cefr": "A2"
+ },
+ {
+  "no": 653,
+  "word": "ring",
+  "pos": "noun",
+  "meaning_id": "cincin",
+  "example_en": "She wears a gold ring.",
+  "example_id": "Dia memakai cincin emas.",
+  "cefr": "A2"
+ },
+ {
+  "no": 654,
+  "word": "round",
+  "pos": "adjective",
+  "meaning_id": "bulat",
+  "example_en": "The table is round.",
+  "example_id": "Mejanya bulat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 655,
+  "word": "salad",
+  "pos": "noun",
+  "meaning_id": "salad",
+  "example_en": "I eat a salad for lunch.",
+  "example_id": "Aku makan salad untuk makan siang.",
+  "cefr": "A2"
+ },
+ {
+  "no": 656,
+  "word": "sand",
+  "pos": "noun",
+  "meaning_id": "pasir",
+  "example_en": "The sand is hot.",
+  "example_id": "Pasirnya panas.",
+  "cefr": "A2"
+ },
+ {
+  "no": 657,
+  "word": "save",
+  "pos": "verb",
+  "meaning_id": "menyimpan; menabung",
+  "example_en": "I save money every month.",
+  "example_id": "Aku menabung setiap bulan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 658,
+  "word": "season",
+  "pos": "noun",
+  "meaning_id": "musim",
+  "example_en": "The rainy season starts in November.",
+  "example_id": "Musim hujan dimulai bulan November.",
+  "cefr": "A2"
+ },
+ {
+  "no": 659,
+  "word": "seat",
+  "pos": "noun",
+  "meaning_id": "tempat duduk",
+  "example_en": "Is this seat free?",
+  "example_id": "Apakah tempat duduk ini kosong?",
+  "cefr": "A2"
+ },
+ {
+  "no": 660,
+  "word": "serious",
+  "pos": "adjective",
+  "meaning_id": "serius",
+  "example_en": "It is a serious problem.",
+  "example_id": "Itu masalah serius.",
+  "cefr": "A2"
+ },
+ {
+  "no": 661,
+  "word": "share",
+  "pos": "verb",
+  "meaning_id": "berbagi",
+  "example_en": "We share a room.",
+  "example_id": "Kami berbagi kamar.",
+  "cefr": "A2"
+ },
+ {
+  "no": 662,
+  "word": "sharp",
+  "pos": "adjective",
+  "meaning_id": "tajam",
+  "example_en": "The knife is sharp.",
+  "example_id": "Pisau itu tajam.",
+  "cefr": "A2"
+ },
+ {
+  "no": 663,
+  "word": "shout",
+  "pos": "verb",
+  "meaning_id": "berteriak",
+  "example_en": "Do not shout.",
+  "example_id": "Jangan berteriak.",
+  "cefr": "A2"
+ },
+ {
+  "no": 664,
+  "word": "shower",
+  "pos": "noun",
+  "meaning_id": "pancuran; mandi",
+  "example_en": "I take a shower every morning.",
+  "example_id": "Aku mandi setiap pagi.",
+  "cefr": "A2"
+ },
+ {
+  "no": 665,
+  "word": "shy",
+  "pos": "adjective",
+  "meaning_id": "pemalu",
+  "example_en": "The boy is shy.",
+  "example_id": "Anak itu pemalu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 666,
+  "word": "sign",
+  "pos": "noun",
+  "meaning_id": "tanda; rambu",
+  "example_en": "Read the sign.",
+  "example_id": "Baca rambunya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 667,
+  "word": "silly",
+  "pos": "adjective",
+  "meaning_id": "konyol",
+  "example_en": "That is a silly question.",
+  "example_id": "Itu pertanyaan konyol.",
+  "cefr": "A2"
+ },
+ {
+  "no": 668,
+  "word": "simple",
+  "pos": "adjective",
+  "meaning_id": "sederhana",
+  "example_en": "The test is simple.",
+  "example_id": "Tesnya sederhana.",
+  "cefr": "A2"
+ },
+ {
+  "no": 669,
+  "word": "smart",
+  "pos": "adjective",
+  "meaning_id": "cerdas",
+  "example_en": "He is a smart student.",
+  "example_id": "Dia siswa cerdas.",
+  "cefr": "A2"
+ },
+ {
+  "no": 670,
+  "word": "smell",
+  "pos": "verb",
+  "meaning_id": "mencium; berbau",
+  "example_en": "The soup smells good.",
+  "example_id": "Sup itu berbau enak.",
+  "cefr": "A2"
+ },
+ {
+  "no": 671,
+  "word": "snack",
+  "pos": "noun",
+  "meaning_id": "camilan",
+  "example_en": "I eat a snack at four.",
+  "example_id": "Aku makan camilan jam empat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 672,
+  "word": "snow",
+  "pos": "noun",
+  "meaning_id": "salju",
+  "example_en": "There is snow on the mountain.",
+  "example_id": "Ada salju di gunung.",
+  "cefr": "A2"
+ },
+ {
+  "no": 673,
+  "word": "soap",
+  "pos": "noun",
+  "meaning_id": "sabun",
+  "example_en": "Wash with soap.",
+  "example_id": "Cuci dengan sabun.",
+  "cefr": "A2"
+ },
+ {
+  "no": 674,
+  "word": "soldier",
+  "pos": "noun",
+  "meaning_id": "prajurit",
+  "example_en": "The soldier stands at the gate.",
+  "example_id": "Prajurit itu berdiri di gerbang.",
+  "cefr": "A2"
+ },
+ {
+  "no": 675,
+  "word": "someone",
+  "pos": "pronoun",
+  "meaning_id": "seseorang",
+  "example_en": "Someone is at the door.",
+  "example_id": "Seseorang ada di pintu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 676,
+  "word": "something",
+  "pos": "pronoun",
+  "meaning_id": "sesuatu",
+  "example_en": "I need something to drink.",
+  "example_id": "Aku butuh sesuatu untuk diminum.",
+  "cefr": "A2"
+ },
+ {
+  "no": 677,
+  "word": "somewhere",
+  "pos": "adverb",
+  "meaning_id": "di suatu tempat",
+  "example_en": "I left my key somewhere.",
+  "example_id": "Aku meninggalkan kunciku di suatu tempat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 678,
+  "word": "speed",
+  "pos": "noun",
+  "meaning_id": "kecepatan",
+  "example_en": "The car has high speed.",
+  "example_id": "Mobil itu berkecepatan tinggi.",
+  "cefr": "A2"
+ },
+ {
+  "no": 679,
+  "word": "spend",
+  "pos": "verb",
+  "meaning_id": "menghabiskan (uang/waktu)",
+  "example_en": "I spend a lot of time here.",
+  "example_id": "Aku menghabiskan banyak waktu di sini.",
+  "cefr": "A2"
+ },
+ {
+  "no": 680,
+  "word": "spicy",
+  "pos": "adjective",
+  "meaning_id": "pedas",
+  "example_en": "I like spicy food.",
+  "example_id": "Aku suka makanan pedas.",
+  "cefr": "A2"
+ },
+ {
+  "no": 681,
+  "word": "spoon",
+  "pos": "noun",
+  "meaning_id": "sendok",
+  "example_en": "Use a spoon for soup.",
+  "example_id": "Pakai sendok untuk sup.",
+  "cefr": "A2"
+ },
+ {
+  "no": 682,
+  "word": "storm",
+  "pos": "noun",
+  "meaning_id": "badai",
+  "example_en": "A storm is coming.",
+  "example_id": "Badai akan datang.",
+  "cefr": "A2"
+ },
+ {
+  "no": 683,
+  "word": "strange",
+  "pos": "adjective",
+  "meaning_id": "aneh",
+  "example_en": "I hear a strange noise.",
+  "example_id": "Aku mendengar suara aneh.",
+  "cefr": "A2"
+ },
+ {
+  "no": 684,
+  "word": "summer",
+  "pos": "noun",
+  "meaning_id": "musim panas",
+  "example_en": "It is hot in summer.",
+  "example_id": "Panas di musim panas.",
+  "cefr": "A2"
+ },
+ {
+  "no": 685,
+  "word": "sunny",
+  "pos": "adjective",
+  "meaning_id": "cerah",
+  "example_en": "It is a sunny day.",
+  "example_id": "Hari ini cerah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 686,
+  "word": "surprise",
+  "pos": "noun",
+  "meaning_id": "kejutan",
+  "example_en": "This is a nice surprise.",
+  "example_id": "Ini kejutan yang menyenangkan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 687,
+  "word": "throw",
+  "pos": "verb",
+  "meaning_id": "melempar",
+  "example_en": "Throw me the ball.",
+  "example_id": "Lempar bolanya padaku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 688,
+  "word": "ticket",
+  "pos": "noun",
+  "meaning_id": "tiket",
+  "example_en": "I buy a ticket.",
+  "example_id": "Aku membeli tiket.",
+  "cefr": "A2"
+ },
+ {
+  "no": 689,
+  "word": "tiny",
+  "pos": "adjective",
+  "meaning_id": "mungil",
+  "example_en": "The baby has tiny hands.",
+  "example_id": "Bayi itu bertangan mungil.",
+  "cefr": "A2"
+ },
+ {
+  "no": 690,
+  "word": "tomato",
+  "pos": "noun",
+  "meaning_id": "tomat",
+  "example_en": "Add one tomato to the salad.",
+  "example_id": "Tambahkan satu tomat ke salad.",
+  "cefr": "A2"
+ },
+ {
+  "no": 691,
+  "word": "touch",
+  "pos": "verb",
+  "meaning_id": "menyentuh",
+  "example_en": "Do not touch the wall.",
+  "example_id": "Jangan sentuh dindingnya.",
+  "cefr": "A2"
+ },
+ {
+  "no": 692,
+  "word": "toward",
+  "pos": "preposition",
+  "meaning_id": "menuju",
+  "example_en": "He walks toward the door.",
+  "example_id": "Dia berjalan menuju pintu.",
+  "cefr": "A2"
+ },
+ {
+  "no": 693,
+  "word": "towel",
+  "pos": "noun",
+  "meaning_id": "handuk",
+  "example_en": "I need a clean towel.",
+  "example_id": "Aku butuh handuk bersih.",
+  "cefr": "A2"
+ },
+ {
+  "no": 694,
+  "word": "toy",
+  "pos": "noun",
+  "meaning_id": "mainan",
+  "example_en": "The baby likes this toy.",
+  "example_id": "Bayi itu suka mainan ini.",
+  "cefr": "A2"
+ },
+ {
+  "no": 695,
+  "word": "traffic",
+  "pos": "noun",
+  "meaning_id": "lalu lintas",
+  "example_en": "The traffic is heavy.",
+  "example_id": "Lalu lintasnya padat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 696,
+  "word": "travel",
+  "pos": "verb",
+  "meaning_id": "bepergian",
+  "example_en": "They travel by train.",
+  "example_id": "Mereka bepergian naik kereta.",
+  "cefr": "A2"
+ },
+ {
+  "no": 697,
+  "word": "trip",
+  "pos": "noun",
+  "meaning_id": "perjalanan",
+  "example_en": "We have a trip next week.",
+  "example_id": "Kami punya perjalanan minggu depan.",
+  "cefr": "A2"
+ },
+ {
+  "no": 698,
+  "word": "turn",
+  "pos": "verb",
+  "meaning_id": "belok; berputar",
+  "example_en": "Turn left at the corner.",
+  "example_id": "Belok kiri di pojok.",
+  "cefr": "A2"
+ },
+ {
+  "no": 699,
+  "word": "useful",
+  "pos": "adjective",
+  "meaning_id": "berguna",
+  "example_en": "This app is useful.",
+  "example_id": "Aplikasi ini berguna.",
+  "cefr": "A2"
+ },
+ {
+  "no": 700,
+  "word": "wallet",
+  "pos": "noun",
+  "meaning_id": "dompet",
+  "example_en": "I lost my wallet.",
+  "example_id": "Aku kehilangan dompetku.",
+  "cefr": "A2"
+ },
+ {
+  "no": 701,
+  "word": "weekend",
+  "pos": "noun",
+  "meaning_id": "akhir pekan",
+  "example_en": "What do you do at the weekend?",
+  "example_id": "Apa yang kamu lakukan di akhir pekan?",
+  "cefr": "A2"
+ },
+ {
+  "no": 702,
+  "word": "wet",
+  "pos": "adjective",
+  "meaning_id": "basah",
+  "example_en": "My shoes are wet.",
+  "example_id": "Sepatuku basah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 703,
+  "word": "whether",
+  "pos": "conjunction",
+  "meaning_id": "apakah",
+  "example_en": "I do not know whether he is home.",
+  "example_id": "Aku tidak tahu apakah dia di rumah.",
+  "cefr": "A2"
+ },
+ {
+  "no": 704,
+  "word": "wild",
+  "pos": "adjective",
+  "meaning_id": "liar",
+  "example_en": "The wild horse runs fast.",
+  "example_id": "Kuda liar itu berlari cepat.",
+  "cefr": "A2"
+ },
+ {
+  "no": 705,
+  "word": "win",
+  "pos": "verb",
+  "meaning_id": "menang",
+  "example_en": "Our team wins today.",
+  "example_id": "Tim kami menang hari ini.",
+  "cefr": "A2"
+ },
+ {
+  "no": 706,
+  "word": "winter",
+  "pos": "noun",
+  "meaning_id": "musim dingin",
+  "example_en": "It is cold in winter.",
+  "example_id": "Dingin di musim dingin.",
+  "cefr": "A2"
+ },
+ {
+  "no": 707,
+  "word": "wish",
+  "pos": "verb",
+  "meaning_id": "berharap; menginginkan",
+  "example_en": "I wish you luck.",
+  "example_id": "Kudoakan kamu beruntung.",
+  "cefr": "A2"
+ },
+ {
+  "no": 708,
+  "word": "wonderful",
+  "pos": "adjective",
+  "meaning_id": "luar biasa",
+  "example_en": "What a wonderful day!",
+  "example_id": "Hari yang luar biasa!",
+  "cefr": "A2"
+ },
+ {
+  "no": 709,
+  "word": "worried",
+  "pos": "adjective",
+  "meaning_id": "cemas",
+  "example_en": "She is worried about the exam.",
+  "example_id": "Dia cemas soal ujian.",
+  "cefr": "A2"
+ },
+ {
+  "no": 710,
+  "word": "worry",
+  "pos": "verb",
+  "meaning_id": "khawatir",
+  "example_en": "Do not worry.",
+  "example_id": "Jangan khawatir.",
+  "cefr": "A2"
+ },
+ {
+  "no": 711,
+  "word": "ability",
+  "pos": "noun",
+  "meaning_id": "kemampuan",
+  "example_en": "She has the ability to learn fast.",
+  "example_id": "Dia punya kemampuan belajar cepat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 712,
+  "word": "actually",
+  "pos": "adverb",
+  "meaning_id": "sebenarnya",
+  "example_en": "Actually, I do not agree.",
+  "example_id": "Sebenarnya aku tidak setuju.",
+  "cefr": "B1"
+ },
+ {
+  "no": 713,
+  "word": "advise",
+  "pos": "verb",
+  "meaning_id": "menyarankan",
+  "example_en": "The doctor advises rest.",
+  "example_id": "Dokter menyarankan istirahat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 714,
+  "word": "apply",
+  "pos": "verb",
+  "meaning_id": "melamar; menerapkan",
+  "example_en": "I apply for a job.",
+  "example_id": "Aku melamar pekerjaan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 715,
+  "word": "arrange",
+  "pos": "verb",
+  "meaning_id": "mengatur",
+  "example_en": "We arrange a meeting.",
+  "example_id": "Kami mengatur pertemuan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 716,
+  "word": "attention",
+  "pos": "noun",
+  "meaning_id": "perhatian",
+  "example_en": "Pay attention to the teacher.",
+  "example_id": "Perhatikan gurumu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 717,
+  "word": "audience",
+  "pos": "noun",
+  "meaning_id": "penonton",
+  "example_en": "The audience clapped loudly.",
+  "example_id": "Penonton bertepuk tangan keras.",
+  "cefr": "B1"
+ },
+ {
+  "no": 718,
+  "word": "available",
+  "pos": "adjective",
+  "meaning_id": "tersedia",
+  "example_en": "Is this room available?",
+  "example_id": "Apakah kamar ini tersedia?",
+  "cefr": "B1"
+ },
+ {
+  "no": 719,
+  "word": "avoid",
+  "pos": "verb",
+  "meaning_id": "menghindari",
+  "example_en": "Avoid the traffic.",
+  "example_id": "Hindari kemacetan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 720,
+  "word": "background",
+  "pos": "noun",
+  "meaning_id": "latar belakang",
+  "example_en": "Her family background is simple.",
+  "example_id": "Latar belakang keluarganya sederhana.",
+  "cefr": "B1"
+ },
+ {
+  "no": 721,
+  "word": "basic",
+  "pos": "adjective",
+  "meaning_id": "dasar",
+  "example_en": "Learn the basic rules first.",
+  "example_id": "Pelajari aturan dasar dulu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 722,
+  "word": "behave",
+  "pos": "verb",
+  "meaning_id": "bersikap",
+  "example_en": "Behave yourself.",
+  "example_id": "Bersikaplah yang baik.",
+  "cefr": "B1"
+ },
+ {
+  "no": 723,
+  "word": "belong",
+  "pos": "verb",
+  "meaning_id": "menjadi milik",
+  "example_en": "This book belongs to me.",
+  "example_id": "Buku ini milikku.",
+  "cefr": "B1"
+ },
+ {
+  "no": 724,
+  "word": "benefit",
+  "pos": "noun",
+  "meaning_id": "manfaat",
+  "example_en": "Exercise has many benefits.",
+  "example_id": "Olahraga punya banyak manfaat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 725,
+  "word": "cancel",
+  "pos": "verb",
+  "meaning_id": "membatalkan",
+  "example_en": "They cancel the meeting.",
+  "example_id": "Mereka membatalkan rapat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 726,
+  "word": "carefully",
+  "pos": "adverb",
+  "meaning_id": "dengan hati-hati",
+  "example_en": "Drive carefully.",
+  "example_id": "Berkendaralah dengan hati-hati.",
+  "cefr": "B1"
+ },
+ {
+  "no": 727,
+  "word": "certainly",
+  "pos": "adverb",
+  "meaning_id": "tentu",
+  "example_en": "Certainly, I can help.",
+  "example_id": "Tentu, aku bisa membantu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 728,
+  "word": "common",
+  "pos": "adjective",
+  "meaning_id": "umum",
+  "example_en": "This is a common name.",
+  "example_id": "Ini nama yang umum.",
+  "cefr": "B1"
+ },
+ {
+  "no": 729,
+  "word": "communicate",
+  "pos": "verb",
+  "meaning_id": "berkomunikasi",
+  "example_en": "We communicate by email.",
+  "example_id": "Kami berkomunikasi lewat email.",
+  "cefr": "B1"
+ },
+ {
+  "no": 730,
+  "word": "complain",
+  "pos": "verb",
+  "meaning_id": "mengeluh",
+  "example_en": "He complains about the food.",
+  "example_id": "Dia mengeluh soal makanan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 731,
+  "word": "complete",
+  "pos": "adjective",
+  "meaning_id": "lengkap",
+  "example_en": "The list is complete.",
+  "example_id": "Daftarnya lengkap.",
+  "cefr": "B1"
+ },
+ {
+  "no": 732,
+  "word": "complex",
+  "pos": "adjective",
+  "meaning_id": "rumit",
+  "example_en": "The problem is complex.",
+  "example_id": "Masalahnya rumit.",
+  "cefr": "B1"
+ },
+ {
+  "no": 733,
+  "word": "confidence",
+  "pos": "noun",
+  "meaning_id": "kepercayaan diri",
+  "example_en": "She speaks with confidence.",
+  "example_id": "Dia berbicara dengan percaya diri.",
+  "cefr": "B1"
+ },
+ {
+  "no": 734,
+  "word": "confident",
+  "pos": "adjective",
+  "meaning_id": "percaya diri",
+  "example_en": "She feels confident.",
+  "example_id": "Dia merasa percaya diri.",
+  "cefr": "B1"
+ },
+ {
+  "no": 735,
+  "word": "connect",
+  "pos": "verb",
+  "meaning_id": "menghubungkan",
+  "example_en": "Connect the phone to the wifi.",
+  "example_id": "Hubungkan ponsel ke wifi.",
+  "cefr": "B1"
+ },
+ {
+  "no": 736,
+  "word": "consider",
+  "pos": "verb",
+  "meaning_id": "mempertimbangkan",
+  "example_en": "Consider my offer.",
+  "example_id": "Pertimbangkan tawaranku.",
+  "cefr": "B1"
+ },
+ {
+  "no": 737,
+  "word": "contact",
+  "pos": "noun",
+  "meaning_id": "kontak",
+  "example_en": "Keep in contact with me.",
+  "example_id": "Tetaplah berhubungan denganku.",
+  "cefr": "B1"
+ },
+ {
+  "no": 738,
+  "word": "contain",
+  "pos": "verb",
+  "meaning_id": "mengandung",
+  "example_en": "The box contains old books.",
+  "example_id": "Kotak itu berisi buku lama.",
+  "cefr": "B1"
+ },
+ {
+  "no": 739,
+  "word": "continue",
+  "pos": "verb",
+  "meaning_id": "melanjutkan",
+  "example_en": "Please continue.",
+  "example_id": "Silakan lanjutkan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 740,
+  "word": "control",
+  "pos": "noun",
+  "meaning_id": "kendali",
+  "example_en": "He has no control of the car.",
+  "example_id": "Dia kehilangan kendali atas mobil.",
+  "cefr": "B1"
+ },
+ {
+  "no": 741,
+  "word": "conversation",
+  "pos": "noun",
+  "meaning_id": "percakapan",
+  "example_en": "We have a long conversation.",
+  "example_id": "Kami bercakap-cakap panjang.",
+  "cefr": "B1"
+ },
+ {
+  "no": 742,
+  "word": "create",
+  "pos": "verb",
+  "meaning_id": "menciptakan",
+  "example_en": "He creates beautiful music.",
+  "example_id": "Dia menciptakan musik indah.",
+  "cefr": "B1"
+ },
+ {
+  "no": 743,
+  "word": "damage",
+  "pos": "noun",
+  "meaning_id": "kerusakan",
+  "example_en": "The storm causes damage.",
+  "example_id": "Badai menyebabkan kerusakan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 744,
+  "word": "decision",
+  "pos": "noun",
+  "meaning_id": "keputusan",
+  "example_en": "This is a hard decision.",
+  "example_id": "Ini keputusan yang sulit.",
+  "cefr": "B1"
+ },
+ {
+  "no": 745,
+  "word": "deliver",
+  "pos": "verb",
+  "meaning_id": "mengantar",
+  "example_en": "They deliver food to your home.",
+  "example_id": "Mereka mengantar makanan ke rumahmu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 746,
+  "word": "depend",
+  "pos": "verb",
+  "meaning_id": "bergantung",
+  "example_en": "It depends on the weather.",
+  "example_id": "Itu tergantung cuaca.",
+  "cefr": "B1"
+ },
+ {
+  "no": 747,
+  "word": "detail",
+  "pos": "noun",
+  "meaning_id": "detail",
+  "example_en": "Tell me every detail.",
+  "example_id": "Ceritakan setiap detailnya.",
+  "cefr": "B1"
+ },
+ {
+  "no": 748,
+  "word": "digital",
+  "pos": "adjective",
+  "meaning_id": "digital",
+  "example_en": "I have a digital camera.",
+  "example_id": "Aku punya kamera digital.",
+  "cefr": "B1"
+ },
+ {
+  "no": 749,
+  "word": "direct",
+  "pos": "adjective",
+  "meaning_id": "langsung",
+  "example_en": "There is a direct train.",
+  "example_id": "Ada kereta langsung.",
+  "cefr": "B1"
+ },
+ {
+  "no": 750,
+  "word": "direction",
+  "pos": "noun",
+  "meaning_id": "arah",
+  "example_en": "Which direction is the station?",
+  "example_id": "Stasiun ke arah mana?",
+  "cefr": "B1"
+ },
+ {
+  "no": 751,
+  "word": "discover",
+  "pos": "verb",
+  "meaning_id": "menemukan",
+  "example_en": "Scientists discover a new star.",
+  "example_id": "Ilmuwan menemukan bintang baru.",
+  "cefr": "B1"
+ },
+ {
+  "no": 752,
+  "word": "discuss",
+  "pos": "verb",
+  "meaning_id": "membahas",
+  "example_en": "We discuss the plan.",
+  "example_id": "Kami membahas rencananya.",
+  "cefr": "B1"
+ },
+ {
+  "no": 753,
+  "word": "discussion",
+  "pos": "noun",
+  "meaning_id": "diskusi",
+  "example_en": "We have a discussion in class.",
+  "example_id": "Kami berdiskusi di kelas.",
+  "cefr": "B1"
+ },
+ {
+  "no": 754,
+  "word": "distance",
+  "pos": "noun",
+  "meaning_id": "jarak",
+  "example_en": "The distance is five kilometres.",
+  "example_id": "Jaraknya lima kilometer.",
+  "cefr": "B1"
+ },
+ {
+  "no": 755,
+  "word": "divide",
+  "pos": "verb",
+  "meaning_id": "membagi",
+  "example_en": "Divide the cake into four.",
+  "example_id": "Bagi kuenya menjadi empat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 756,
+  "word": "education",
+  "pos": "noun",
+  "meaning_id": "pendidikan",
+  "example_en": "Education is very important.",
+  "example_id": "Pendidikan sangat penting.",
+  "cefr": "B1"
+ },
+ {
+  "no": 757,
+  "word": "effect",
+  "pos": "noun",
+  "meaning_id": "dampak",
+  "example_en": "The medicine has a good effect.",
+  "example_id": "Obat itu berdampak baik.",
+  "cefr": "B1"
+ },
+ {
+  "no": 758,
+  "word": "emergency",
+  "pos": "noun",
+  "meaning_id": "keadaan darurat",
+  "example_en": "Call 112 in an emergency.",
+  "example_id": "Hubungi 112 saat darurat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 759,
+  "word": "emotional",
+  "pos": "adjective",
+  "meaning_id": "emosional",
+  "example_en": "It was an emotional day.",
+  "example_id": "Itu hari yang emosional.",
+  "cefr": "B1"
+ },
+ {
+  "no": 760,
+  "word": "encourage",
+  "pos": "verb",
+  "meaning_id": "mendorong; menyemangati",
+  "example_en": "My parents encourage me.",
+  "example_id": "Orang tuaku menyemangatiku.",
+  "cefr": "B1"
+ },
+ {
+  "no": 761,
+  "word": "environment",
+  "pos": "noun",
+  "meaning_id": "lingkungan",
+  "example_en": "We must protect the environment.",
+  "example_id": "Kita harus melindungi lingkungan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 762,
+  "word": "equal",
+  "pos": "adjective",
+  "meaning_id": "sama; setara",
+  "example_en": "All people are equal.",
+  "example_id": "Semua orang setara.",
+  "cefr": "B1"
+ },
+ {
+  "no": 763,
+  "word": "equipment",
+  "pos": "noun",
+  "meaning_id": "peralatan",
+  "example_en": "The gym has new equipment.",
+  "example_id": "Pusat kebugaran itu punya peralatan baru.",
+  "cefr": "B1"
+ },
+ {
+  "no": 764,
+  "word": "escape",
+  "pos": "verb",
+  "meaning_id": "melarikan diri",
+  "example_en": "The cat escapes from the house.",
+  "example_id": "Kucing itu kabur dari rumah.",
+  "cefr": "B1"
+ },
+ {
+  "no": 765,
+  "word": "essential",
+  "pos": "adjective",
+  "meaning_id": "penting sekali",
+  "example_en": "Water is essential for life.",
+  "example_id": "Air sangat penting bagi kehidupan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 766,
+  "word": "event",
+  "pos": "noun",
+  "meaning_id": "acara; peristiwa",
+  "example_en": "The event starts at six.",
+  "example_id": "Acaranya mulai jam enam.",
+  "cefr": "B1"
+ },
+ {
+  "no": 767,
+  "word": "eventually",
+  "pos": "adverb",
+  "meaning_id": "akhirnya",
+  "example_en": "Eventually, he found a job.",
+  "example_id": "Akhirnya dia mendapat pekerjaan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 768,
+  "word": "evidence",
+  "pos": "noun",
+  "meaning_id": "bukti",
+  "example_en": "There is no evidence.",
+  "example_id": "Tidak ada bukti.",
+  "cefr": "B1"
+ },
+ {
+  "no": 769,
+  "word": "examine",
+  "pos": "verb",
+  "meaning_id": "memeriksa",
+  "example_en": "The doctor examines the patient.",
+  "example_id": "Dokter memeriksa pasien.",
+  "cefr": "B1"
+ },
+ {
+  "no": 770,
+  "word": "experience",
+  "pos": "noun",
+  "meaning_id": "pengalaman",
+  "example_en": "She has five years of experience.",
+  "example_id": "Dia punya pengalaman lima tahun.",
+  "cefr": "B1"
+ },
+ {
+  "no": 771,
+  "word": "expert",
+  "pos": "noun",
+  "meaning_id": "ahli",
+  "example_en": "He is an expert in computers.",
+  "example_id": "Dia ahli komputer.",
+  "cefr": "B1"
+ },
+ {
+  "no": 772,
+  "word": "familiar",
+  "pos": "adjective",
+  "meaning_id": "akrab; dikenal",
+  "example_en": "His face is familiar.",
+  "example_id": "Wajahnya terasa akrab.",
+  "cefr": "B1"
+ },
+ {
+  "no": 773,
+  "word": "fashion",
+  "pos": "noun",
+  "meaning_id": "mode",
+  "example_en": "She likes fashion.",
+  "example_id": "Dia suka mode.",
+  "cefr": "B1"
+ },
+ {
+  "no": 774,
+  "word": "feature",
+  "pos": "noun",
+  "meaning_id": "fitur",
+  "example_en": "This phone has a new feature.",
+  "example_id": "Ponsel ini punya fitur baru.",
+  "cefr": "B1"
+ },
+ {
+  "no": 775,
+  "word": "flexible",
+  "pos": "adjective",
+  "meaning_id": "fleksibel",
+  "example_en": "My schedule is flexible.",
+  "example_id": "Jadwalku fleksibel.",
+  "cefr": "B1"
+ },
+ {
+  "no": 776,
+  "word": "foreign",
+  "pos": "adjective",
+  "meaning_id": "asing",
+  "example_en": "She speaks a foreign language.",
+  "example_id": "Dia berbicara bahasa asing.",
+  "cefr": "B1"
+ },
+ {
+  "no": 777,
+  "word": "formal",
+  "pos": "adjective",
+  "meaning_id": "formal",
+  "example_en": "Wear formal clothes.",
+  "example_id": "Pakai pakaian formal.",
+  "cefr": "B1"
+ },
+ {
+  "no": 778,
+  "word": "freedom",
+  "pos": "noun",
+  "meaning_id": "kebebasan",
+  "example_en": "Freedom is important.",
+  "example_id": "Kebebasan itu penting.",
+  "cefr": "B1"
+ },
+ {
+  "no": 779,
+  "word": "generally",
+  "pos": "adverb",
+  "meaning_id": "pada umumnya",
+  "example_en": "Generally, I wake up early.",
+  "example_id": "Pada umumnya aku bangun pagi.",
+  "cefr": "B1"
+ },
+ {
+  "no": 780,
+  "word": "global",
+  "pos": "adjective",
+  "meaning_id": "global",
+  "example_en": "It is a global problem.",
+  "example_id": "Itu masalah global.",
+  "cefr": "B1"
+ },
+ {
+  "no": 781,
+  "word": "growth",
+  "pos": "noun",
+  "meaning_id": "pertumbuhan",
+  "example_en": "The growth of the company is fast.",
+  "example_id": "Pertumbuhan perusahaan itu cepat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 782,
+  "word": "handle",
+  "pos": "verb",
+  "meaning_id": "menangani",
+  "example_en": "She handles the problem well.",
+  "example_id": "Dia menangani masalah dengan baik.",
+  "cefr": "B1"
+ },
+ {
+  "no": 783,
+  "word": "improve",
+  "pos": "verb",
+  "meaning_id": "meningkatkan",
+  "example_en": "I want to improve my English.",
+  "example_id": "Aku ingin meningkatkan bahasa Inggrisku.",
+  "cefr": "B1"
+ },
+ {
+  "no": 784,
+  "word": "income",
+  "pos": "noun",
+  "meaning_id": "pendapatan",
+  "example_en": "His income is low.",
+  "example_id": "Pendapatannya rendah.",
+  "cefr": "B1"
+ },
+ {
+  "no": 785,
+  "word": "independent",
+  "pos": "adjective",
+  "meaning_id": "mandiri",
+  "example_en": "She is an independent woman.",
+  "example_id": "Dia perempuan mandiri.",
+  "cefr": "B1"
+ },
+ {
+  "no": 786,
+  "word": "individual",
+  "pos": "adjective",
+  "meaning_id": "perorangan",
+  "example_en": "Each student has an individual desk.",
+  "example_id": "Tiap siswa punya meja sendiri.",
+  "cefr": "B1"
+ },
+ {
+  "no": 787,
+  "word": "industry",
+  "pos": "noun",
+  "meaning_id": "industri",
+  "example_en": "The tourism industry is big.",
+  "example_id": "Industri pariwisata itu besar.",
+  "cefr": "B1"
+ },
+ {
+  "no": 788,
+  "word": "influence",
+  "pos": "noun",
+  "meaning_id": "pengaruh",
+  "example_en": "Friends have a strong influence.",
+  "example_id": "Teman punya pengaruh kuat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 789,
+  "word": "information",
+  "pos": "noun",
+  "meaning_id": "informasi",
+  "example_en": "I need more information.",
+  "example_id": "Aku butuh informasi lebih banyak.",
+  "cefr": "B1"
+ },
+ {
+  "no": 790,
+  "word": "instruction",
+  "pos": "noun",
+  "meaning_id": "petunjuk",
+  "example_en": "Read the instructions first.",
+  "example_id": "Baca petunjuknya dulu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 791,
+  "word": "issue",
+  "pos": "noun",
+  "meaning_id": "isu; masalah",
+  "example_en": "This is an important issue.",
+  "example_id": "Ini isu penting.",
+  "cefr": "B1"
+ },
+ {
+  "no": 792,
+  "word": "knowledge",
+  "pos": "noun",
+  "meaning_id": "pengetahuan",
+  "example_en": "Knowledge is power.",
+  "example_id": "Pengetahuan adalah kekuatan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 793,
+  "word": "law",
+  "pos": "noun",
+  "meaning_id": "hukum",
+  "example_en": "You must follow the law.",
+  "example_id": "Kamu harus mematuhi hukum.",
+  "cefr": "B1"
+ },
+ {
+  "no": 794,
+  "word": "local",
+  "pos": "adjective",
+  "meaning_id": "lokal",
+  "example_en": "We eat local food.",
+  "example_id": "Kami makan makanan lokal.",
+  "cefr": "B1"
+ },
+ {
+  "no": 795,
+  "word": "mainly",
+  "pos": "adverb",
+  "meaning_id": "terutama",
+  "example_en": "The class is mainly for beginners.",
+  "example_id": "Kelas itu terutama untuk pemula.",
+  "cefr": "B1"
+ },
+ {
+  "no": 796,
+  "word": "material",
+  "pos": "noun",
+  "meaning_id": "bahan",
+  "example_en": "What material is this made of?",
+  "example_id": "Ini terbuat dari bahan apa?",
+  "cefr": "B1"
+ },
+ {
+  "no": 797,
+  "word": "mention",
+  "pos": "verb",
+  "meaning_id": "menyebut",
+  "example_en": "She mentions your name.",
+  "example_id": "Dia menyebut namamu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 798,
+  "word": "nature",
+  "pos": "noun",
+  "meaning_id": "alam",
+  "example_en": "I love nature.",
+  "example_id": "Aku suka alam.",
+  "cefr": "B1"
+ },
+ {
+  "no": 799,
+  "word": "nervous",
+  "pos": "adjective",
+  "meaning_id": "gugup",
+  "example_en": "I am nervous before the exam.",
+  "example_id": "Aku gugup sebelum ujian.",
+  "cefr": "B1"
+ },
+ {
+  "no": 800,
+  "word": "obtain",
+  "pos": "verb",
+  "meaning_id": "memperoleh",
+  "example_en": "You can obtain a ticket online.",
+  "example_id": "Kamu bisa memperoleh tiket secara daring.",
+  "cefr": "B1"
+ },
+ {
+  "no": 801,
+  "word": "obviously",
+  "pos": "adverb",
+  "meaning_id": "jelas",
+  "example_en": "Obviously, she is tired.",
+  "example_id": "Jelas, dia lelah.",
+  "cefr": "B1"
+ },
+ {
+  "no": 802,
+  "word": "occur",
+  "pos": "verb",
+  "meaning_id": "terjadi",
+  "example_en": "Accidents occur every day.",
+  "example_id": "Kecelakaan terjadi setiap hari.",
+  "cefr": "B1"
+ },
+ {
+  "no": 803,
+  "word": "official",
+  "pos": "adjective",
+  "meaning_id": "resmi",
+  "example_en": "This is an official letter.",
+  "example_id": "Ini surat resmi.",
+  "cefr": "B1"
+ },
+ {
+  "no": 804,
+  "word": "opportunity",
+  "pos": "noun",
+  "meaning_id": "kesempatan",
+  "example_en": "This is a great opportunity.",
+  "example_id": "Ini kesempatan besar.",
+  "cefr": "B1"
+ },
+ {
+  "no": 805,
+  "word": "option",
+  "pos": "noun",
+  "meaning_id": "pilihan",
+  "example_en": "We have two options.",
+  "example_id": "Kami punya dua pilihan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 806,
+  "word": "organization",
+  "pos": "noun",
+  "meaning_id": "organisasi",
+  "example_en": "She works for a big organization.",
+  "example_id": "Dia bekerja di organisasi besar.",
+  "cefr": "B1"
+ },
+ {
+  "no": 807,
+  "word": "organize",
+  "pos": "verb",
+  "meaning_id": "menyelenggarakan",
+  "example_en": "We organize a party.",
+  "example_id": "Kami menyelenggarakan pesta.",
+  "cefr": "B1"
+ },
+ {
+  "no": 808,
+  "word": "original",
+  "pos": "adjective",
+  "meaning_id": "asli; orisinal",
+  "example_en": "This is the original photo.",
+  "example_id": "Ini foto aslinya.",
+  "cefr": "B1"
+ },
+ {
+  "no": 809,
+  "word": "particularly",
+  "pos": "adverb",
+  "meaning_id": "terutama",
+  "example_en": "I like fruit, particularly mangoes.",
+  "example_id": "Aku suka buah, terutama mangga.",
+  "cefr": "B1"
+ },
+ {
+  "no": 810,
+  "word": "pattern",
+  "pos": "noun",
+  "meaning_id": "pola",
+  "example_en": "The shirt has a flower pattern.",
+  "example_id": "Kemeja itu berpola bunga.",
+  "cefr": "B1"
+ },
+ {
+  "no": 811,
+  "word": "perform",
+  "pos": "verb",
+  "meaning_id": "tampil; melakukan",
+  "example_en": "The band performs tonight.",
+  "example_id": "Band itu tampil malam ini.",
+  "cefr": "B1"
+ },
+ {
+  "no": 812,
+  "word": "physical",
+  "pos": "adjective",
+  "meaning_id": "fisik",
+  "example_en": "Physical exercise is important.",
+  "example_id": "Olahraga fisik itu penting.",
+  "cefr": "B1"
+ },
+ {
+  "no": 813,
+  "word": "pollution",
+  "pos": "noun",
+  "meaning_id": "polusi",
+  "example_en": "Air pollution is a problem.",
+  "example_id": "Polusi udara adalah masalah.",
+  "cefr": "B1"
+ },
+ {
+  "no": 814,
+  "word": "possible",
+  "pos": "adjective",
+  "meaning_id": "mungkin",
+  "example_en": "Is it possible to change the time?",
+  "example_id": "Apakah mungkin mengubah waktunya?",
+  "cefr": "B1"
+ },
+ {
+  "no": 815,
+  "word": "powerful",
+  "pos": "adjective",
+  "meaning_id": "kuat; berpengaruh",
+  "example_en": "It is a powerful engine.",
+  "example_id": "Itu mesin yang kuat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 816,
+  "word": "pressure",
+  "pos": "noun",
+  "meaning_id": "tekanan",
+  "example_en": "He works under pressure.",
+  "example_id": "Dia bekerja di bawah tekanan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 817,
+  "word": "previous",
+  "pos": "adjective",
+  "meaning_id": "sebelumnya",
+  "example_en": "I know his previous job.",
+  "example_id": "Aku tahu pekerjaannya sebelumnya.",
+  "cefr": "B1"
+ },
+ {
+  "no": 818,
+  "word": "process",
+  "pos": "noun",
+  "meaning_id": "proses",
+  "example_en": "Learning is a slow process.",
+  "example_id": "Belajar adalah proses yang lambat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 819,
+  "word": "produce",
+  "pos": "verb",
+  "meaning_id": "menghasilkan",
+  "example_en": "The farm produces rice.",
+  "example_id": "Ladang itu menghasilkan padi.",
+  "cefr": "B1"
+ },
+ {
+  "no": 820,
+  "word": "product",
+  "pos": "noun",
+  "meaning_id": "produk",
+  "example_en": "The company sells new products.",
+  "example_id": "Perusahaan itu menjual produk baru.",
+  "cefr": "B1"
+ },
+ {
+  "no": 821,
+  "word": "provide",
+  "pos": "verb",
+  "meaning_id": "menyediakan",
+  "example_en": "The hotel provides breakfast.",
+  "example_id": "Hotel menyediakan sarapan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 822,
+  "word": "purpose",
+  "pos": "noun",
+  "meaning_id": "tujuan; maksud",
+  "example_en": "What is the purpose of this meeting?",
+  "example_id": "Apa tujuan rapat ini?",
+  "cefr": "B1"
+ },
+ {
+  "no": 823,
+  "word": "recently",
+  "pos": "adverb",
+  "meaning_id": "baru-baru ini",
+  "example_en": "I recently moved here.",
+  "example_id": "Aku baru-baru ini pindah ke sini.",
+  "cefr": "B1"
+ },
+ {
+  "no": 824,
+  "word": "recognize",
+  "pos": "verb",
+  "meaning_id": "mengenali",
+  "example_en": "I recognize his voice.",
+  "example_id": "Aku mengenali suaranya.",
+  "cefr": "B1"
+ },
+ {
+  "no": 825,
+  "word": "recommend",
+  "pos": "verb",
+  "meaning_id": "merekomendasikan",
+  "example_en": "I recommend this book.",
+  "example_id": "Aku merekomendasikan buku ini.",
+  "cefr": "B1"
+ },
+ {
+  "no": 826,
+  "word": "regularly",
+  "pos": "adverb",
+  "meaning_id": "secara teratur",
+  "example_en": "Exercise regularly.",
+  "example_id": "Berolahragalah secara teratur.",
+  "cefr": "B1"
+ },
+ {
+  "no": 827,
+  "word": "responsibility",
+  "pos": "noun",
+  "meaning_id": "tanggung jawab",
+  "example_en": "It is your responsibility.",
+  "example_id": "Itu tanggung jawabmu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 828,
+  "word": "review",
+  "pos": "verb",
+  "meaning_id": "meninjau; mengulang",
+  "example_en": "Review your notes.",
+  "example_id": "Ulangi catatanmu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 829,
+  "word": "risk",
+  "pos": "noun",
+  "meaning_id": "risiko",
+  "example_en": "There is a risk of rain.",
+  "example_id": "Ada risiko hujan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 830,
+  "word": "role",
+  "pos": "noun",
+  "meaning_id": "peran",
+  "example_en": "She plays an important role.",
+  "example_id": "Dia berperan penting.",
+  "cefr": "B1"
+ },
+ {
+  "no": 831,
+  "word": "salary",
+  "pos": "noun",
+  "meaning_id": "gaji",
+  "example_en": "His salary is good.",
+  "example_id": "Gajinya bagus.",
+  "cefr": "B1"
+ },
+ {
+  "no": 832,
+  "word": "schedule",
+  "pos": "noun",
+  "meaning_id": "jadwal",
+  "example_en": "What is your schedule today?",
+  "example_id": "Bagaimana jadwalmu hari ini?",
+  "cefr": "B1"
+ },
+ {
+  "no": 833,
+  "word": "science",
+  "pos": "noun",
+  "meaning_id": "ilmu pengetahuan",
+  "example_en": "I like science.",
+  "example_id": "Aku suka sains.",
+  "cefr": "B1"
+ },
+ {
+  "no": 834,
+  "word": "search",
+  "pos": "verb",
+  "meaning_id": "mencari",
+  "example_en": "I search for my key.",
+  "example_id": "Aku mencari kunciku.",
+  "cefr": "B1"
+ },
+ {
+  "no": 835,
+  "word": "security",
+  "pos": "noun",
+  "meaning_id": "keamanan",
+  "example_en": "Security is very strict.",
+  "example_id": "Keamanannya sangat ketat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 836,
+  "word": "separate",
+  "pos": "verb",
+  "meaning_id": "memisahkan",
+  "example_en": "Separate the white clothes.",
+  "example_id": "Pisahkan pakaian putihnya.",
+  "cefr": "B1"
+ },
+ {
+  "no": 837,
+  "word": "service",
+  "pos": "noun",
+  "meaning_id": "layanan",
+  "example_en": "The service is slow.",
+  "example_id": "Layanannya lambat.",
+  "cefr": "B1"
+ },
+ {
+  "no": 838,
+  "word": "significant",
+  "pos": "adjective",
+  "meaning_id": "signifikan",
+  "example_en": "There is a significant difference.",
+  "example_id": "Ada perbedaan signifikan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 839,
+  "word": "simply",
+  "pos": "adverb",
+  "meaning_id": "sekadar; dengan sederhana",
+  "example_en": "It is simply a mistake.",
+  "example_id": "Itu sekadar kesalahan.",
+  "cefr": "B1"
+ },
+ {
+  "no": 840,
+  "word": "situation",
+  "pos": "noun",
+  "meaning_id": "situasi",
+  "example_en": "The situation is difficult.",
+  "example_id": "Situasinya sulit.",
+  "cefr": "B1"
+ },
+ {
+  "no": 841,
+  "word": "skill",
+  "pos": "noun",
+  "meaning_id": "keterampilan",
+  "example_en": "Cooking is a useful skill.",
+  "example_id": "Memasak adalah keterampilan berguna.",
+  "cefr": "B1"
+ },
+ {
+  "no": 842,
+  "word": "social",
+  "pos": "adjective",
+  "meaning_id": "sosial",
+  "example_en": "He is a very social person.",
+  "example_id": "Dia orang yang sangat supel.",
+  "cefr": "B1"
+ },
+ {
+  "no": 843,
+  "word": "source",
+  "pos": "noun",
+  "meaning_id": "sumber",
+  "example_en": "What is the source of this news?",
+  "example_id": "Apa sumber berita ini?",
+  "cefr": "B1"
+ },
+ {
+  "no": 844,
+  "word": "structure",
+  "pos": "noun",
+  "meaning_id": "struktur",
+  "example_en": "The structure is simple.",
+  "example_id": "Strukturnya sederhana.",
+  "cefr": "B1"
+ },
+ {
+  "no": 845,
+  "word": "suffer",
+  "pos": "verb",
+  "meaning_id": "menderita",
+  "example_en": "He suffers from a cold.",
+  "example_id": "Dia menderita pilek.",
+  "cefr": "B1"
+ },
+ {
+  "no": 846,
+  "word": "suggest",
+  "pos": "verb",
+  "meaning_id": "menyarankan",
+  "example_en": "I suggest a short break.",
+  "example_id": "Aku menyarankan istirahat sebentar.",
+  "cefr": "B1"
+ },
+ {
+  "no": 847,
+  "word": "suitable",
+  "pos": "adjective",
+  "meaning_id": "cocok",
+  "example_en": "This room is suitable for two.",
+  "example_id": "Kamar ini cocok untuk dua orang.",
+  "cefr": "B1"
+ },
+ {
+  "no": 848,
+  "word": "support",
+  "pos": "noun",
+  "meaning_id": "dukungan",
+  "example_en": "Thank you for your support.",
+  "example_id": "Terima kasih atas dukunganmu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 849,
+  "word": "surface",
+  "pos": "noun",
+  "meaning_id": "permukaan",
+  "example_en": "The surface is smooth.",
+  "example_id": "Permukaannya halus.",
+  "cefr": "B1"
+ },
+ {
+  "no": 850,
+  "word": "survive",
+  "pos": "verb",
+  "meaning_id": "bertahan hidup",
+  "example_en": "They survive the storm.",
+  "example_id": "Mereka selamat dari badai.",
+  "cefr": "B1"
+ },
+ {
+  "no": 851,
+  "word": "talent",
+  "pos": "noun",
+  "meaning_id": "bakat",
+  "example_en": "She has a talent for music.",
+  "example_id": "Dia berbakat musik.",
+  "cefr": "B1"
+ },
+ {
+  "no": 852,
+  "word": "technology",
+  "pos": "noun",
+  "meaning_id": "teknologi",
+  "example_en": "Technology changes our lives.",
+  "example_id": "Teknologi mengubah hidup kita.",
+  "cefr": "B1"
+ },
+ {
+  "no": 853,
+  "word": "tradition",
+  "pos": "noun",
+  "meaning_id": "tradisi",
+  "example_en": "It is a family tradition.",
+  "example_id": "Itu tradisi keluarga.",
+  "cefr": "B1"
+ },
+ {
+  "no": 854,
+  "word": "traditional",
+  "pos": "adjective",
+  "meaning_id": "tradisional",
+  "example_en": "We eat traditional food.",
+  "example_id": "Kami makan makanan tradisional.",
+  "cefr": "B1"
+ },
+ {
+  "no": 855,
+  "word": "typical",
+  "pos": "adjective",
+  "meaning_id": "khas",
+  "example_en": "It is a typical Indonesian dish.",
+  "example_id": "Itu hidangan khas Indonesia.",
+  "cefr": "B1"
+ },
+ {
+  "no": 856,
+  "word": "unfortunately",
+  "pos": "adverb",
+  "meaning_id": "sayangnya",
+  "example_en": "Unfortunately, he is not here.",
+  "example_id": "Sayangnya dia tidak ada di sini.",
+  "cefr": "B1"
+ },
+ {
+  "no": 857,
+  "word": "unusual",
+  "pos": "adjective",
+  "meaning_id": "tidak biasa",
+  "example_en": "That is an unusual name.",
+  "example_id": "Itu nama yang tidak biasa.",
+  "cefr": "B1"
+ },
+ {
+  "no": 858,
+  "word": "valuable",
+  "pos": "adjective",
+  "meaning_id": "berharga",
+  "example_en": "The ring is very valuable.",
+  "example_id": "Cincin itu sangat berharga.",
+  "cefr": "B1"
+ },
+ {
+  "no": 859,
+  "word": "various",
+  "pos": "adjective",
+  "meaning_id": "beragam",
+  "example_en": "The shop sells various fruits.",
+  "example_id": "Toko itu menjual berbagai buah.",
+  "cefr": "B1"
+ },
+ {
+  "no": 860,
+  "word": "violent",
+  "pos": "adjective",
+  "meaning_id": "kasar; keras",
+  "example_en": "The film is too violent.",
+  "example_id": "Filmnya terlalu keras.",
+  "cefr": "B1"
+ },
+ {
+  "no": 861,
+  "word": "volunteer",
+  "pos": "noun",
+  "meaning_id": "relawan",
+  "example_en": "She is a volunteer at the hospital.",
+  "example_id": "Dia relawan di rumah sakit.",
+  "cefr": "B1"
+ },
+ {
+  "no": 862,
+  "word": "warn",
+  "pos": "verb",
+  "meaning_id": "memperingatkan",
+  "example_en": "I warn you about the danger.",
+  "example_id": "Aku memperingatkanmu soal bahayanya.",
+  "cefr": "B1"
+ },
+ {
+  "no": 863,
+  "word": "willing",
+  "pos": "adjective",
+  "meaning_id": "bersedia",
+  "example_en": "I am willing to help.",
+  "example_id": "Aku bersedia membantu.",
+  "cefr": "B1"
+ },
+ {
+  "no": 864,
+  "word": "accommodation",
+  "pos": "noun",
+  "meaning_id": "akomodasi",
+  "example_en": "We need accommodation for three nights.",
+  "example_id": "Kami butuh akomodasi untuk tiga malam.",
+  "cefr": "B2"
+ },
+ {
+  "no": 865,
+  "word": "accurate",
+  "pos": "adjective",
+  "meaning_id": "akurat",
+  "example_en": "The map is accurate.",
+  "example_id": "Petanya akurat.",
+  "cefr": "B2"
+ },
+ {
+  "no": 866,
+  "word": "adequate",
+  "pos": "adjective",
+  "meaning_id": "memadai",
+  "example_en": "The food is adequate.",
+  "example_id": "Makanannya memadai.",
+  "cefr": "B2"
+ },
+ {
+  "no": 867,
+  "word": "analyse",
+  "pos": "verb",
+  "meaning_id": "menganalisis",
+  "example_en": "Analyse the results carefully.",
+  "example_id": "Analisis hasilnya dengan saksama.",
+  "cefr": "B2"
+ },
+ {
+  "no": 868,
+  "word": "anticipate",
+  "pos": "verb",
+  "meaning_id": "mengantisipasi",
+  "example_en": "We anticipate heavy traffic.",
+  "example_id": "Kami mengantisipasi lalu lintas padat.",
+  "cefr": "B2"
+ },
+ {
+  "no": 869,
+  "word": "apparently",
+  "pos": "adverb",
+  "meaning_id": "rupanya",
+  "example_en": "Apparently, he left early.",
+  "example_id": "Rupanya dia pulang lebih awal.",
+  "cefr": "B2"
+ },
+ {
+  "no": 870,
+  "word": "approach",
+  "pos": "noun",
+  "meaning_id": "pendekatan",
+  "example_en": "She has a new approach to teaching.",
+  "example_id": "Dia punya pendekatan baru dalam mengajar.",
+  "cefr": "B2"
+ },
+ {
+  "no": 871,
+  "word": "approximately",
+  "pos": "adverb",
+  "meaning_id": "sekitar",
+  "example_en": "It costs approximately ten dollars.",
+  "example_id": "Harganya sekitar sepuluh dolar.",
+  "cefr": "B2"
+ },
+ {
+  "no": 872,
+  "word": "assess",
+  "pos": "verb",
+  "meaning_id": "menilai",
+  "example_en": "The teacher assesses our work.",
+  "example_id": "Guru menilai pekerjaan kami.",
+  "cefr": "B2"
+ },
+ {
+  "no": 873,
+  "word": "assume",
+  "pos": "verb",
+  "meaning_id": "mengira",
+  "example_en": "I assume you are ready.",
+  "example_id": "Aku mengira kamu sudah siap.",
+  "cefr": "B2"
+ },
+ {
+  "no": 874,
+  "word": "assumption",
+  "pos": "noun",
+  "meaning_id": "anggapan",
+  "example_en": "That is a wrong assumption.",
+  "example_id": "Itu anggapan yang keliru.",
+  "cefr": "B2"
+ },
+ {
+  "no": 875,
+  "word": "attract",
+  "pos": "verb",
+  "meaning_id": "menarik",
+  "example_en": "The festival attracts tourists.",
+  "example_id": "Festival itu menarik turis.",
+  "cefr": "B2"
+ },
+ {
+  "no": 876,
+  "word": "aware",
+  "pos": "adjective",
+  "meaning_id": "sadar",
+  "example_en": "I am aware of the risk.",
+  "example_id": "Aku sadar akan risikonya.",
+  "cefr": "B2"
+ },
+ {
+  "no": 877,
+  "word": "awareness",
+  "pos": "noun",
+  "meaning_id": "kesadaran",
+  "example_en": "There is more awareness of health.",
+  "example_id": "Kesadaran akan kesehatan makin tinggi.",
+  "cefr": "B2"
+ },
+ {
+  "no": 878,
+  "word": "barrier",
+  "pos": "noun",
+  "meaning_id": "hambatan",
+  "example_en": "Language is a barrier.",
+  "example_id": "Bahasa adalah hambatan.",
+  "cefr": "B2"
+ },
+ {
+  "no": 879,
+  "word": "brief",
+  "pos": "adjective",
+  "meaning_id": "singkat",
+  "example_en": "Give a brief answer.",
+  "example_id": "Berikan jawaban singkat.",
+  "cefr": "B2"
+ },
+ {
+  "no": 880,
+  "word": "broadcast",
+  "pos": "verb",
+  "meaning_id": "menyiarkan",
+  "example_en": "They broadcast the match live.",
+  "example_id": "Mereka menyiarkan pertandingan langsung.",
+  "cefr": "B2"
+ },
+ {
+  "no": 881,
+  "word": "campaign",
+  "pos": "noun",
+  "meaning_id": "kampanye",
+  "example_en": "They start a campaign against waste.",
+  "example_id": "Mereka memulai kampanye melawan sampah.",
+  "cefr": "B2"
+ },
+ {
+  "no": 882,
+  "word": "capacity",
+  "pos": "noun",
+  "meaning_id": "kapasitas",
+  "example_en": "The hall has a capacity of 500.",
+  "example_id": "Aula itu berkapasitas 500 orang.",
+  "cefr": "B2"
+ },
+ {
+  "no": 883,
+  "word": "circumstance",
+  "pos": "noun",
+  "meaning_id": "keadaan",
+  "example_en": "Under these circumstances, we wait.",
+  "example_id": "Dalam keadaan ini, kami menunggu.",
+  "cefr": "B2"
+ },
+ {
+  "no": 884,
+  "word": "clarify",
+  "pos": "verb",
+  "meaning_id": "memperjelas",
+  "example_en": "Can you clarify your point?",
+  "example_id": "Bisakah kamu memperjelas maksudmu?",
+  "cefr": "B2"
+ },
+ {
+  "no": 885,
+  "word": "commitment",
+  "pos": "noun",
+  "meaning_id": "komitmen",
+  "example_en": "She shows great commitment.",
+  "example_id": "Dia menunjukkan komitmen besar.",
+  "cefr": "B2"
+ },
+ {
+  "no": 886,
+  "word": "concept",
+  "pos": "noun",
+  "meaning_id": "konsep",
+  "example_en": "The concept is easy to understand.",
+  "example_id": "Konsepnya mudah dipahami.",
+  "cefr": "B2"
+ },
+ {
+  "no": 887,
+  "word": "conclusion",
+  "pos": "noun",
+  "meaning_id": "kesimpulan",
+  "example_en": "What is your conclusion?",
+  "example_id": "Apa kesimpulanmu?",
+  "cefr": "B2"
+ },
+ {
+  "no": 888,
+  "word": "confirm",
+  "pos": "verb",
+  "meaning_id": "mengonfirmasi",
+  "example_en": "Please confirm your booking.",
+  "example_id": "Tolong konfirmasi pesananmu.",
+  "cefr": "B2"
+ },
+ {
+  "no": 889,
+  "word": "consequently",
+  "pos": "adverb",
+  "meaning_id": "akibatnya",
+  "example_en": "It rained; consequently, we stayed home.",
+  "example_id": "Hujan; akibatnya kami di rumah.",
+  "cefr": "B2"
+ },
+ {
+  "no": 890,
+  "word": "consistent",
+  "pos": "adjective",
+  "meaning_id": "konsisten",
+  "example_en": "She is consistent in her work.",
+  "example_id": "Dia konsisten dalam bekerja.",
+  "cefr": "B2"
+ },
+ {
+  "no": 891,
+  "word": "contribute",
+  "pos": "verb",
+  "meaning_id": "berkontribusi",
+  "example_en": "Everyone contributes to the project.",
+  "example_id": "Semua orang berkontribusi pada proyek.",
+  "cefr": "B2"
+ },
+ {
+  "no": 892,
+  "word": "contribution",
+  "pos": "noun",
+  "meaning_id": "kontribusi",
+  "example_en": "Thank you for your contribution.",
+  "example_id": "Terima kasih atas kontribusimu.",
+  "cefr": "B2"
+ },
+ {
+  "no": 893,
+  "word": "convince",
+  "pos": "verb",
+  "meaning_id": "meyakinkan",
+  "example_en": "He convinces me to join.",
+  "example_id": "Dia meyakinkanku untuk bergabung.",
+  "cefr": "B2"
+ },
+ {
+  "no": 894,
+  "word": "crisis",
+  "pos": "noun",
+  "meaning_id": "krisis",
+  "example_en": "The country faces a crisis.",
+  "example_id": "Negara itu menghadapi krisis.",
+  "cefr": "B2"
+ },
+ {
+  "no": 895,
+  "word": "critical",
+  "pos": "adjective",
+  "meaning_id": "kritis; genting",
+  "example_en": "The situation is critical.",
+  "example_id": "Situasinya genting.",
+  "cefr": "B2"
+ },
+ {
+  "no": 896,
+  "word": "debate",
+  "pos": "noun",
+  "meaning_id": "debat",
+  "example_en": "There is a debate about prices.",
+  "example_id": "Ada debat soal harga.",
+  "cefr": "B2"
+ },
+ {
+  "no": 897,
+  "word": "demand",
+  "pos": "noun",
+  "meaning_id": "permintaan",
+  "example_en": "The demand for water is high.",
+  "example_id": "Permintaan akan air tinggi.",
+  "cefr": "B2"
+ },
+ {
+  "no": 898,
+  "word": "despite",
+  "pos": "preposition",
+  "meaning_id": "walaupun; meski",
+  "example_en": "We went out despite the rain.",
+  "example_id": "Kami keluar meski hujan.",
+  "cefr": "B2"
+ },
+ {
+  "no": 899,
+  "word": "determine",
+  "pos": "verb",
+  "meaning_id": "menentukan",
+  "example_en": "Price determines my choice.",
+  "example_id": "Harga menentukan pilihanku.",
+  "cefr": "B2"
+ },
+ {
+  "no": 900,
+  "word": "distinguish",
+  "pos": "verb",
+  "meaning_id": "membedakan",
+  "example_en": "It is hard to distinguish the twins.",
+  "example_id": "Sulit membedakan si kembar.",
+  "cefr": "B2"
+ },
+ {
+  "no": 901,
+  "word": "economy",
+  "pos": "noun",
+  "meaning_id": "ekonomi",
+  "example_en": "The economy is growing.",
+  "example_id": "Ekonominya bertumbuh.",
+  "cefr": "B2"
+ },
+ {
+  "no": 902,
+  "word": "efficiency",
+  "pos": "noun",
+  "meaning_id": "efisiensi",
+  "example_en": "We want more efficiency.",
+  "example_id": "Kami ingin efisiensi lebih tinggi.",
+  "cefr": "B2"
+ },
+ {
+  "no": 903,
+  "word": "efficient",
+  "pos": "adjective",
+  "meaning_id": "efisien",
+  "example_en": "The machine is very efficient.",
+  "example_id": "Mesin itu sangat efisien.",
+  "cefr": "B2"
+ },
+ {
+  "no": 904,
+  "word": "emphasize",
+  "pos": "verb",
+  "meaning_id": "menekankan",
+  "example_en": "The teacher emphasizes practice.",
+  "example_id": "Guru menekankan latihan.",
+  "cefr": "B2"
+ },
+ {
+  "no": 905,
+  "word": "establish",
+  "pos": "verb",
+  "meaning_id": "mendirikan",
+  "example_en": "They establish a small company.",
+  "example_id": "Mereka mendirikan perusahaan kecil.",
+  "cefr": "B2"
+ },
+ {
+  "no": 906,
+  "word": "estimate",
+  "pos": "verb",
+  "meaning_id": "memperkirakan",
+  "example_en": "I estimate the cost at ten million.",
+  "example_id": "Aku memperkirakan biayanya sepuluh juta.",
+  "cefr": "B2"
+ },
+ {
+  "no": 907,
+  "word": "evaluate",
+  "pos": "verb",
+  "meaning_id": "mengevaluasi",
+  "example_en": "We evaluate the course every year.",
+  "example_id": "Kami mengevaluasi kursus tiap tahun.",
+  "cefr": "B2"
+ },
+ {
+  "no": 908,
+  "word": "exceed",
+  "pos": "verb",
+  "meaning_id": "melebihi",
+  "example_en": "The cost exceeds our budget.",
+  "example_id": "Biayanya melebihi anggaran kami.",
+  "cefr": "B2"
+ },
+ {
+  "no": 909,
+  "word": "expense",
+  "pos": "noun",
+  "meaning_id": "pengeluaran",
+  "example_en": "Rent is a big expense.",
+  "example_id": "Sewa adalah pengeluaran besar.",
+  "cefr": "B2"
+ },
+ {
+  "no": 910,
+  "word": "extensive",
+  "pos": "adjective",
+  "meaning_id": "luas",
+  "example_en": "He has extensive experience.",
+  "example_id": "Dia punya pengalaman luas.",
+  "cefr": "B2"
+ },
+ {
+  "no": 911,
+  "word": "extremely",
+  "pos": "adverb",
+  "meaning_id": "sangat",
+  "example_en": "The exam was extremely difficult.",
+  "example_id": "Ujiannya sangat sulit.",
+  "cefr": "B2"
+ },
+ {
+  "no": 912,
+  "word": "factor",
+  "pos": "noun",
+  "meaning_id": "faktor",
+  "example_en": "Price is an important factor.",
+  "example_id": "Harga adalah faktor penting.",
+  "cefr": "B2"
+ },
+ {
+  "no": 913,
+  "word": "framework",
+  "pos": "noun",
+  "meaning_id": "kerangka",
+  "example_en": "We need a clear framework.",
+  "example_id": "Kita butuh kerangka yang jelas.",
+  "cefr": "B2"
+ },
+ {
+  "no": 914,
+  "word": "furthermore",
+  "pos": "adverb",
+  "meaning_id": "lagi pula",
+  "example_en": "Furthermore, it is cheap.",
+  "example_id": "Lagi pula, harganya murah.",
+  "cefr": "B2"
+ },
+ {
+  "no": 915,
+  "word": "genuine",
+  "pos": "adjective",
+  "meaning_id": "asli; tulus",
+  "example_en": "It is a genuine leather bag.",
+  "example_id": "Itu tas kulit asli.",
+  "cefr": "B2"
+ },
+ {
+  "no": 916,
+  "word": "identify",
+  "pos": "verb",
+  "meaning_id": "mengidentifikasi",
+  "example_en": "Can you identify the problem?",
+  "example_id": "Bisakah kamu mengidentifikasi masalahnya?",
+  "cefr": "B2"
+ },
+ {
+  "no": 917,
+  "word": "impact",
+  "pos": "noun",
+  "meaning_id": "dampak",
+  "example_en": "The news has a big impact.",
+  "example_id": "Berita itu berdampak besar.",
+  "cefr": "B2"
+ },
+ {
+  "no": 918,
+  "word": "implement",
+  "pos": "verb",
+  "meaning_id": "menerapkan",
+  "example_en": "They implement a new system.",
+  "example_id": "Mereka menerapkan sistem baru.",
+  "cefr": "B2"
+ },
+ {
+  "no": 919,
+  "word": "indicate",
+  "pos": "verb",
+  "meaning_id": "menunjukkan",
+  "example_en": "The sign indicates the exit.",
+  "example_id": "Rambu itu menunjukkan pintu keluar.",
+  "cefr": "B2"
+ },
+ {
+  "no": 920,
+  "word": "initiative",
+  "pos": "noun",
+  "meaning_id": "inisiatif",
+  "example_en": "She takes the initiative.",
+  "example_id": "Dia mengambil inisiatif.",
+  "cefr": "B2"
+ },
+ {
+  "no": 921,
+  "word": "interpret",
+  "pos": "verb",
+  "meaning_id": "menafsirkan",
+  "example_en": "How do you interpret this poem?",
+  "example_id": "Bagaimana kamu menafsirkan puisi ini?",
+  "cefr": "B2"
+ },
+ {
+  "no": 922,
+  "word": "investment",
+  "pos": "noun",
+  "meaning_id": "investasi",
+  "example_en": "Education is a good investment.",
+  "example_id": "Pendidikan adalah investasi yang baik.",
+  "cefr": "B2"
+ },
+ {
+  "no": 923,
+  "word": "journalist",
+  "pos": "noun",
+  "meaning_id": "jurnalis",
+  "example_en": "The journalist asks many questions.",
+  "example_id": "Jurnalis itu mengajukan banyak pertanyaan.",
+  "cefr": "B2"
+ },
+ {
+  "no": 924,
+  "word": "maintain",
+  "pos": "verb",
+  "meaning_id": "memelihara",
+  "example_en": "We maintain the garden.",
+  "example_id": "Kami memelihara kebun.",
+  "cefr": "B2"
+ },
+ {
+  "no": 925,
+  "word": "mostly",
+  "pos": "adverb",
+  "meaning_id": "sebagian besar",
+  "example_en": "The guests are mostly students.",
+  "example_id": "Tamunya sebagian besar mahasiswa.",
+  "cefr": "B2"
+ },
+ {
+  "no": 926,
+  "word": "nevertheless",
+  "pos": "adverb",
+  "meaning_id": "meskipun begitu",
+  "example_en": "It was hard; nevertheless, she won.",
+  "example_id": "Itu sulit; meskipun begitu dia menang.",
+  "cefr": "B2"
+ },
+ {
+  "no": 927,
+  "word": "otherwise",
+  "pos": "adverb",
+  "meaning_id": "kalau tidak",
+  "example_en": "Hurry, otherwise we miss the bus.",
+  "example_id": "Cepat, kalau tidak kita ketinggalan bus.",
+  "cefr": "B2"
+ },
+ {
+  "no": 928,
+  "word": "overcome",
+  "pos": "verb",
+  "meaning_id": "mengatasi",
+  "example_en": "She overcomes her fear.",
+  "example_id": "Dia mengatasi rasa takutnya.",
+  "cefr": "B2"
+ },
+ {
+  "no": 929,
+  "word": "participate",
+  "pos": "verb",
+  "meaning_id": "berpartisipasi",
+  "example_en": "Everyone can participate.",
+  "example_id": "Semua orang boleh berpartisipasi.",
+  "cefr": "B2"
+ },
+ {
+  "no": 930,
+  "word": "policy",
+  "pos": "noun",
+  "meaning_id": "kebijakan",
+  "example_en": "The company has a new policy.",
+  "example_id": "Perusahaan punya kebijakan baru.",
+  "cefr": "B2"
+ },
+ {
+  "no": 931,
+  "word": "presumably",
+  "pos": "adverb",
+  "meaning_id": "agaknya",
+  "example_en": "Presumably, he is at home.",
+  "example_id": "Agaknya dia di rumah.",
+  "cefr": "B2"
+ },
+ {
+  "no": 932,
+  "word": "priority",
+  "pos": "noun",
+  "meaning_id": "prioritas",
+  "example_en": "Safety is our priority.",
+  "example_id": "Keselamatan adalah prioritas kami.",
+  "cefr": "B2"
+ },
+ {
+  "no": 933,
+  "word": "proof",
+  "pos": "noun",
+  "meaning_id": "bukti",
+  "example_en": "I need proof.",
+  "example_id": "Aku butuh bukti.",
+  "cefr": "B2"
+ },
+ {
+  "no": 934,
+  "word": "pursue",
+  "pos": "verb",
+  "meaning_id": "mengejar",
+  "example_en": "He pursues his dream.",
+  "example_id": "Dia mengejar mimpinya.",
+  "cefr": "B2"
+ },
+ {
+  "no": 935,
+  "word": "reliable",
+  "pos": "adjective",
+  "meaning_id": "dapat diandalkan",
+  "example_en": "He is a reliable friend.",
+  "example_id": "Dia teman yang bisa diandalkan.",
+  "cefr": "B2"
+ },
+ {
+  "no": 936,
+  "word": "reluctant",
+  "pos": "adjective",
+  "meaning_id": "enggan",
+  "example_en": "She is reluctant to speak.",
+  "example_id": "Dia enggan berbicara.",
+  "cefr": "B2"
+ },
+ {
+  "no": 937,
+  "word": "rely",
+  "pos": "verb",
+  "meaning_id": "mengandalkan",
+  "example_en": "You can rely on me.",
+  "example_id": "Kamu bisa mengandalkanku.",
+  "cefr": "B2"
+ },
+ {
+  "no": 938,
+  "word": "reputation",
+  "pos": "noun",
+  "meaning_id": "reputasi",
+  "example_en": "The hotel has a good reputation.",
+  "example_id": "Hotel itu punya reputasi baik.",
+  "cefr": "B2"
+ },
+ {
+  "no": 939,
+  "word": "requirement",
+  "pos": "noun",
+  "meaning_id": "persyaratan",
+  "example_en": "What are the requirements?",
+  "example_id": "Apa saja persyaratannya?",
+  "cefr": "B2"
+ },
+ {
+  "no": 940,
+  "word": "resolve",
+  "pos": "verb",
+  "meaning_id": "menyelesaikan",
+  "example_en": "We resolve the problem quickly.",
+  "example_id": "Kami menyelesaikan masalah itu dengan cepat.",
+  "cefr": "B2"
+ },
+ {
+  "no": 941,
+  "word": "reveal",
+  "pos": "verb",
+  "meaning_id": "mengungkapkan",
+  "example_en": "The test reveals the truth.",
+  "example_id": "Tes itu mengungkapkan kebenaran.",
+  "cefr": "B2"
+ },
+ {
+  "no": 942,
+  "word": "severe",
+  "pos": "adjective",
+  "meaning_id": "parah",
+  "example_en": "There is a severe storm.",
+  "example_id": "Ada badai parah.",
+  "cefr": "B2"
+ },
+ {
+  "no": 943,
+  "word": "slightly",
+  "pos": "adverb",
+  "meaning_id": "sedikit",
+  "example_en": "The price is slightly higher.",
+  "example_id": "Harganya sedikit lebih tinggi.",
+  "cefr": "B2"
+ },
+ {
+  "no": 944,
+  "word": "strategy",
+  "pos": "noun",
+  "meaning_id": "strategi",
+  "example_en": "We need a new strategy.",
+  "example_id": "Kita butuh strategi baru.",
+  "cefr": "B2"
+ },
+ {
+  "no": 945,
+  "word": "sufficient",
+  "pos": "adjective",
+  "meaning_id": "cukup",
+  "example_en": "We have sufficient time.",
+  "example_id": "Kami punya waktu cukup.",
+  "cefr": "B2"
+ },
+ {
+  "no": 946,
+  "word": "temporary",
+  "pos": "adjective",
+  "meaning_id": "sementara",
+  "example_en": "It is a temporary job.",
+  "example_id": "Itu pekerjaan sementara.",
+  "cefr": "B2"
+ },
+ {
+  "no": 947,
+  "word": "tendency",
+  "pos": "noun",
+  "meaning_id": "kecenderungan",
+  "example_en": "He has a tendency to be late.",
+  "example_id": "Dia cenderung terlambat.",
+  "cefr": "B2"
+ },
+ {
+  "no": 948,
+  "word": "threaten",
+  "pos": "verb",
+  "meaning_id": "mengancam",
+  "example_en": "The storm threatens the village.",
+  "example_id": "Badai mengancam desa itu.",
+  "cefr": "B2"
+ },
+ {
+  "no": 949,
+  "word": "throughout",
+  "pos": "preposition",
+  "meaning_id": "sepanjang",
+  "example_en": "It rains throughout the year.",
+  "example_id": "Hujan turun sepanjang tahun.",
+  "cefr": "B2"
+ },
+ {
+  "no": 950,
+  "word": "vital",
+  "pos": "adjective",
+  "meaning_id": "sangat penting",
+  "example_en": "Water is vital for life.",
+  "example_id": "Air sangat penting bagi kehidupan.",
+  "cefr": "B2"
+ },
+ {
+  "no": 951,
+  "word": "whereas",
+  "pos": "conjunction",
+  "meaning_id": "sedangkan",
+  "example_en": "He likes tea, whereas I like coffee.",
+  "example_id": "Dia suka teh, sedangkan aku suka kopi.",
+  "cefr": "B2"
+ },
+ {
+  "no": 952,
+  "word": "advocate",
+  "pos": "verb",
+  "meaning_id": "menganjurkan",
+  "example_en": "She advocates healthy eating.",
+  "example_id": "Dia menganjurkan makan sehat.",
+  "cefr": "C1"
+ },
+ {
+  "no": 953,
+  "word": "albeit",
+  "pos": "conjunction",
+  "meaning_id": "walaupun",
+  "example_en": "He agreed, albeit reluctantly.",
+  "example_id": "Dia setuju, walaupun enggan.",
+  "cefr": "C1"
+ },
+ {
+  "no": 954,
+  "word": "allocate",
+  "pos": "verb",
+  "meaning_id": "mengalokasikan",
+  "example_en": "We allocate funds for the school.",
+  "example_id": "Kami mengalokasikan dana untuk sekolah.",
+  "cefr": "C1"
+ },
+ {
+  "no": 955,
+  "word": "ambiguity",
+  "pos": "noun",
+  "meaning_id": "ketaksaan",
+  "example_en": "The ambiguity confuses readers.",
+  "example_id": "Ketaksaan itu membingungkan pembaca.",
+  "cefr": "C1"
+ },
+ {
+  "no": 956,
+  "word": "ambitious",
+  "pos": "adjective",
+  "meaning_id": "ambisius",
+  "example_en": "She has an ambitious plan.",
+  "example_id": "Dia punya rencana ambisius.",
+  "cefr": "C1"
+ },
+ {
+  "no": 957,
+  "word": "amplify",
+  "pos": "verb",
+  "meaning_id": "memperkuat",
+  "example_en": "The speaker amplifies the sound.",
+  "example_id": "Pengeras suara memperkuat bunyinya.",
+  "cefr": "C1"
+ },
+ {
+  "no": 958,
+  "word": "analogy",
+  "pos": "noun",
+  "meaning_id": "analogi",
+  "example_en": "She explains it with an analogy.",
+  "example_id": "Dia menjelaskannya dengan analogi.",
+  "cefr": "C1"
+ },
+ {
+  "no": 959,
+  "word": "arbitrary",
+  "pos": "adjective",
+  "meaning_id": "sewenang-wenang",
+  "example_en": "The rule seems arbitrary.",
+  "example_id": "Aturan itu tampak sewenang-wenang.",
+  "cefr": "C1"
+ },
+ {
+  "no": 960,
+  "word": "bias",
+  "pos": "noun",
+  "meaning_id": "bias",
+  "example_en": "The report shows a clear bias.",
+  "example_id": "Laporan itu menunjukkan bias yang jelas.",
+  "cefr": "C1"
+ },
+ {
+  "no": 961,
+  "word": "coherent",
+  "pos": "adjective",
+  "meaning_id": "runtut",
+  "example_en": "Write a coherent essay.",
+  "example_id": "Tulislah esai yang runtut.",
+  "cefr": "C1"
+ },
+ {
+  "no": 962,
+  "word": "comprehensive",
+  "pos": "adjective",
+  "meaning_id": "menyeluruh",
+  "example_en": "It is a comprehensive guide.",
+  "example_id": "Itu panduan menyeluruh.",
+  "cefr": "C1"
+ },
+ {
+  "no": 963,
+  "word": "compromise",
+  "pos": "noun",
+  "meaning_id": "kompromi",
+  "example_en": "We reach a compromise.",
+  "example_id": "Kami mencapai kompromi.",
+  "cefr": "C1"
+ },
+ {
+  "no": 964,
+  "word": "conceive",
+  "pos": "verb",
+  "meaning_id": "membayangkan; mengandung ide",
+  "example_en": "I cannot conceive such a plan.",
+  "example_id": "Aku tak bisa membayangkan rencana seperti itu.",
+  "cefr": "C1"
+ },
+ {
+  "no": 965,
+  "word": "consensus",
+  "pos": "noun",
+  "meaning_id": "konsensus",
+  "example_en": "The group reaches a consensus.",
+  "example_id": "Kelompok itu mencapai konsensus.",
+  "cefr": "C1"
+ },
+ {
+  "no": 966,
+  "word": "controversial",
+  "pos": "adjective",
+  "meaning_id": "kontroversial",
+  "example_en": "It is a controversial decision.",
+  "example_id": "Itu keputusan kontroversial.",
+  "cefr": "C1"
+ },
+ {
+  "no": 967,
+  "word": "criterion",
+  "pos": "noun",
+  "meaning_id": "kriteria",
+  "example_en": "Price is one criterion.",
+  "example_id": "Harga adalah salah satu kriteria.",
+  "cefr": "C1"
+ },
+ {
+  "no": 968,
+  "word": "deteriorate",
+  "pos": "verb",
+  "meaning_id": "memburuk",
+  "example_en": "His health deteriorates.",
+  "example_id": "Kesehatannya memburuk.",
+  "cefr": "C1"
+ },
+ {
+  "no": 969,
+  "word": "dilemma",
+  "pos": "noun",
+  "meaning_id": "dilema",
+  "example_en": "I face a difficult dilemma.",
+  "example_id": "Aku menghadapi dilema sulit.",
+  "cefr": "C1"
+ },
+ {
+  "no": 970,
+  "word": "dimension",
+  "pos": "noun",
+  "meaning_id": "dimensi",
+  "example_en": "The problem has a social dimension.",
+  "example_id": "Masalah itu punya dimensi sosial.",
+  "cefr": "C1"
+ },
+ {
+  "no": 971,
+  "word": "discrimination",
+  "pos": "noun",
+  "meaning_id": "diskriminasi",
+  "example_en": "The law forbids discrimination.",
+  "example_id": "Hukum melarang diskriminasi.",
+  "cefr": "C1"
+ },
+ {
+  "no": 972,
+  "word": "elaborate",
+  "pos": "verb",
+  "meaning_id": "menjelaskan rinci",
+  "example_en": "Can you elaborate on that?",
+  "example_id": "Bisakah kamu menjelaskannya lebih rinci?",
+  "cefr": "C1"
+ },
+ {
+  "no": 973,
+  "word": "enhance",
+  "pos": "verb",
+  "meaning_id": "meningkatkan mutu",
+  "example_en": "Music enhances the mood.",
+  "example_id": "Musik meningkatkan suasana hati.",
+  "cefr": "C1"
+ },
+ {
+  "no": 974,
+  "word": "facilitate",
+  "pos": "verb",
+  "meaning_id": "memfasilitasi",
+  "example_en": "The app facilitates learning.",
+  "example_id": "Aplikasi itu memfasilitasi belajar.",
+  "cefr": "C1"
+ },
+ {
+  "no": 975,
+  "word": "fluctuate",
+  "pos": "verb",
+  "meaning_id": "berfluktuasi",
+  "example_en": "Prices fluctuate every week.",
+  "example_id": "Harga berfluktuasi tiap minggu.",
+  "cefr": "C1"
+ },
+ {
+  "no": 976,
+  "word": "hypothesis",
+  "pos": "noun",
+  "meaning_id": "hipotesis",
+  "example_en": "The test supports our hypothesis.",
+  "example_id": "Tes itu mendukung hipotesis kami.",
+  "cefr": "C1"
+ },
+ {
+  "no": 977,
+  "word": "implication",
+  "pos": "noun",
+  "meaning_id": "implikasi",
+  "example_en": "The decision has big implications.",
+  "example_id": "Keputusan itu berimplikasi besar.",
+  "cefr": "C1"
+ },
+ {
+  "no": 978,
+  "word": "incentive",
+  "pos": "noun",
+  "meaning_id": "insentif",
+  "example_en": "Bonuses are a good incentive.",
+  "example_id": "Bonus adalah insentif yang baik.",
+  "cefr": "C1"
+ },
+ {
+  "no": 979,
+  "word": "inevitable",
+  "pos": "adjective",
+  "meaning_id": "tak terelakkan",
+  "example_en": "Change is inevitable.",
+  "example_id": "Perubahan tak terelakkan.",
+  "cefr": "C1"
+ },
+ {
+  "no": 980,
+  "word": "inherently",
+  "pos": "adverb",
+  "meaning_id": "pada hakikatnya",
+  "example_en": "The task is inherently risky.",
+  "example_id": "Tugas itu pada hakikatnya berisiko.",
+  "cefr": "C1"
+ },
+ {
+  "no": 981,
+  "word": "mitigate",
+  "pos": "verb",
+  "meaning_id": "mengurangi dampak",
+  "example_en": "Trees mitigate the heat.",
+  "example_id": "Pohon mengurangi panas.",
+  "cefr": "C1"
+ },
+ {
+  "no": 982,
+  "word": "notwithstanding",
+  "pos": "preposition",
+  "meaning_id": "meskipun ada",
+  "example_en": "Notwithstanding the delay, we finish.",
+  "example_id": "Meskipun ada penundaan, kami selesai.",
+  "cefr": "C1"
+ },
+ {
+  "no": 983,
+  "word": "perspective",
+  "pos": "noun",
+  "meaning_id": "sudut pandang",
+  "example_en": "Try another perspective.",
+  "example_id": "Cobalah sudut pandang lain.",
+  "cefr": "C1"
+ },
+ {
+  "no": 984,
+  "word": "phenomenon",
+  "pos": "noun",
+  "meaning_id": "fenomena",
+  "example_en": "It is a natural phenomenon.",
+  "example_id": "Itu fenomena alam.",
+  "cefr": "C1"
+ },
+ {
+  "no": 985,
+  "word": "predominantly",
+  "pos": "adverb",
+  "meaning_id": "terutama",
+  "example_en": "The crowd is predominantly young.",
+  "example_id": "Penontonnya didominasi anak muda.",
+  "cefr": "C1"
+ },
+ {
+  "no": 986,
+  "word": "prejudice",
+  "pos": "noun",
+  "meaning_id": "prasangka",
+  "example_en": "We must fight prejudice.",
+  "example_id": "Kita harus melawan prasangka.",
+  "cefr": "C1"
+ },
+ {
+  "no": 987,
+  "word": "profound",
+  "pos": "adjective",
+  "meaning_id": "mendalam",
+  "example_en": "The book has a profound effect.",
+  "example_id": "Buku itu berdampak mendalam.",
+  "cefr": "C1"
+ },
+ {
+  "no": 988,
+  "word": "rationale",
+  "pos": "noun",
+  "meaning_id": "alasan mendasar",
+  "example_en": "What is the rationale behind this rule?",
+  "example_id": "Apa alasan mendasar aturan ini?",
+  "cefr": "C1"
+ },
+ {
+  "no": 989,
+  "word": "reinforce",
+  "pos": "verb",
+  "meaning_id": "memperkuat",
+  "example_en": "Practice reinforces learning.",
+  "example_id": "Latihan memperkuat pembelajaran.",
+  "cefr": "C1"
+ },
+ {
+  "no": 990,
+  "word": "scrutinize",
+  "pos": "verb",
+  "meaning_id": "menelaah",
+  "example_en": "The auditor scrutinizes the report.",
+  "example_id": "Auditor menelaah laporan itu.",
+  "cefr": "C1"
+ },
+ {
+  "no": 991,
+  "word": "scrutiny",
+  "pos": "noun",
+  "meaning_id": "pengamatan teliti",
+  "example_en": "The plan is under scrutiny.",
+  "example_id": "Rencana itu diamati dengan teliti.",
+  "cefr": "C1"
+ },
+ {
+  "no": 992,
+  "word": "stereotype",
+  "pos": "noun",
+  "meaning_id": "stereotip",
+  "example_en": "This is a common stereotype.",
+  "example_id": "Ini stereotip yang umum.",
+  "cefr": "C1"
+ },
+ {
+  "no": 993,
+  "word": "subsequently",
+  "pos": "adverb",
+  "meaning_id": "kemudian",
+  "example_en": "He subsequently moved to Bali.",
+  "example_id": "Dia kemudian pindah ke Bali.",
+  "cefr": "C1"
+ },
+ {
+  "no": 994,
+  "word": "substantiate",
+  "pos": "verb",
+  "meaning_id": "membuktikan",
+  "example_en": "Can you substantiate your claim?",
+  "example_id": "Bisakah kamu membuktikan klaimmu?",
+  "cefr": "C1"
+ },
+ {
+  "no": 995,
+  "word": "subtle",
+  "pos": "adjective",
+  "meaning_id": "halus",
+  "example_en": "There is a subtle difference.",
+  "example_id": "Ada perbedaan yang halus.",
+  "cefr": "C1"
+ },
+ {
+  "no": 996,
+  "word": "sustainability",
+  "pos": "noun",
+  "meaning_id": "keberlanjutan",
+  "example_en": "Sustainability is a key goal.",
+  "example_id": "Keberlanjutan adalah tujuan utama.",
+  "cefr": "C1"
+ },
+ {
+  "no": 997,
+  "word": "tangible",
+  "pos": "adjective",
+  "meaning_id": "nyata; berwujud",
+  "example_en": "We need tangible results.",
+  "example_id": "Kita butuh hasil nyata.",
+  "cefr": "C1"
+ },
+ {
+  "no": 998,
+  "word": "threshold",
+  "pos": "noun",
+  "meaning_id": "ambang batas",
+  "example_en": "The price reaches a new threshold.",
+  "example_id": "Harga mencapai ambang batas baru.",
+  "cefr": "C1"
+ },
+ {
+  "no": 999,
+  "word": "ubiquitous",
+  "pos": "adjective",
+  "meaning_id": "ada di mana-mana",
+  "example_en": "Phones are ubiquitous now.",
+  "example_id": "Ponsel ada di mana-mana sekarang.",
+  "cefr": "C1"
+ },
+ {
+  "no": 1000,
+  "word": "undermine",
+  "pos": "verb",
+  "meaning_id": "melemahkan",
+  "example_en": "Rumours undermine trust.",
+  "example_id": "Desas-desus melemahkan kepercayaan.",
+  "cefr": "C1"
+ }
+]

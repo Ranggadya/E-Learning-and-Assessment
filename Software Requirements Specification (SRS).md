@@ -1,212 +1,218 @@
 # Software Requirements Specification (SRS)
 
-**Aplikasi Latihan Psikotes** · Versi 1.0 · 19 November 2026 · Penyusun: Dya
+**Aplikasi Latihan Psikotes** · Versi 1.1 · 23 November 2026 · Penyusun: Dya
 
 ## 1. Pendahuluan
 
 ### 1.1 Tujuan dokumen
 
-Dokumen ini menjelaskan kebutuhan perangkat lunak untuk Aplikasi Latihan Psikotes, yaitu situs web untuk berlatih soal berbagai tes seleksi (psikotes perusahaan seperti Astra dan Paragon, serta tes seleksi lain seperti CPNS yang ditambahkan bertahap) dengan timer, penilaian otomatis, dan pembahasan. Dokumen dipakai sebagai acuan pengembangan, pengujian, dan pengelolaan konten soal.
+Dokumen ini menjelaskan kebutuhan perangkat lunak untuk Aplikasi Latihan Psikotes, yaitu platform web responsif untuk berlatih soal seleksi (psikotes perusahaan seperti Astra International dan Paragon Corp, serta seleksi BUMN dan CPNS yang dapat diperluas) dengan timer akurat, penilaian otomatis di server, analisis pengerjaan, pembahasan detail, dan sistem manajemen konten (CMS) yang aman. Dokumen ini menjadi acuan tunggal pengembangan sistem, audit keamanan, pengujian fungsional, dan pengelolaan bank soal.
 
 ### 1.2 Ruang lingkup
 
-Aplikasi terdiri dari dua bagian:
+Aplikasi terdiri dari dua subsistem utama:
 
-- **Situs latihan (publik):** pengguna memilih perusahaan, paket, dan subtes, mengerjakan soal dengan batas waktu, lalu melihat skor dan pembahasan.
-- **CMS admin (terlindungi password):** admin mengimpor paket soal dari file JSON, melihat isi database, mengekspor, dan menghapus paket atau subtes.
+1. **Situs Latihan Peserta (Learner Experience / Publik):**
+   - **Dashboard Beranda (`/`):** Tampilan bertema Solid Cobalt (Navy Slate profesional) dengan *Focus Hero Banner* 3-status dinamis (Fresh/Lanjut/Selesai), metrik ringkas latihan, dan kartu perusahaan 2-kolom responsif dengan preview 4 paket teratas.
+   - **Riwayat & Progres Latihan (`/riwayat`):** Halaman riwayat mandiri yang melacak progres latihan di browser peserta (Local Storage + verifikasi sesi), statistik per kategori tes (Quiz, Kepribadian, Pauli/Koran, Gambar), dan tautan langsung ke review hasil pengerjaan.
+   - **Katalog Perusahaan (`/c/[companySlug]`):** Menampilkan seluruh paket dan subtes milik perusahaan terpilih.
+   - **Sesi Tes Interaktif (`/test/[subtestId]`):** Menjalankan subtes dengan timer berbasis clock drift-resistant, navigasi butir soal cepat, keyboard shortcut (1-5 / A-E), dan engine khusus (soal pilihan ganda, visual SVG, memory countdown, speed jump, serta placeholder ramah untuk tes kepribadian, pauli, dan gambar).
+   - **Review Hasil & Pembahasan (`/result/[attemptId]`):** Menampilkan skor akhir, akurasi, waktu pengerjaan, status tiap nomor soal, dan pembahasan mendalam per butir soal.
 
-Soal tidak ditulis lewat formulir. Soal dibuat di luar aplikasi sebagai satu file JSON per paket, lalu diimpor lewat CMS tanpa perlu mengubah kode atau deploy ulang.
-
-**Aplikasi dirancang sebagai platform yang terus berkembang.** Astra dan Paragon adalah isi awal, bukan batas cakupan. Penyelenggara lain (perusahaan swasta, BUMN, instansi pemerintah, seleksi CPNS) dan jenis tes baru akan ditambahkan dari waktu ke waktu. Karena itu hierarki perusahaan, paket, subtes, dan soal bersifat generik, dan penambahan penyelenggara baru dilakukan lewat file paket tanpa mengubah kode. Rencana perluasan diuraikan pada bagian 9.
+2. **Command Center Admin / CMS (`/admin`):**
+   - **Navigasi Terpadu (`AdminShell`):** Desktop sidebar collapsible dengan active route highlight, badge real-time, status koneksi database, dan mobile drawer dengan overlay.
+   - **Ringkasan Konten & Metrik (`/admin`):** Statistik total perusahaan, paket, subtes, butir soal, serta rasio & persentase kelengkapan pembahasan khusus subtes bertipe QUIZ.
+   - **Pengelolaan Cepat (Inline Quick-Edit & Delete):** Mengubah nama/deskripsi paket dan subtes secara langsung (inline) tanpa mengganggu relasi soal, serta penghapusan atomik aman (`DELETE ... USING ... RETURNING`).
+   - **Sistem Proteksi Impor Pintar (`/admin/import`):**
+     - Menerima file `.json` paket soal lengkap (`pack`) maupun pembaruan pembahasan mandiri (`pembahasanSaja`).
+     - **Dry-Run 2-Fase (Read-Only Diff Analysis):** Analisis perbedaan tanpa mutasi database. Membandingkan canonical SHA-256 hash konten, mendeteksi subtes identik untuk dilewati (*skip rewrite*), mendeteksi risiko kehilangan riwayat attempt peserta, serta mendeteksi penurunan cakupan pembahasan.
+     - **Spot-Check Preview & Key Matching:** Menampilkan cuplikan soal database vs file baru, memverifikasi kecocokan nomor soal, teks prompt, dan kunci jawaban sebelum konfirmasi.
+     - **Server-Enforced 409 Conflict:** Menolak eksekusi impor berisiko kecuali admin secara eksplisit menyertakan parameter `?force=1` setelah menyetujui checkbox konfirmasi.
+     - **Batch UNNEST Database Writes:** Eksekusi penulisan batch PostgreSQL performa tinggi untuk ribuan soal sekaligus.
+   - **Audit Trail & Jejak Aktivitas (`/admin/audit`):**
+     - Pencatatan permanen pada tabel `import_audit_logs`.
+     - Melacak aktor, kategori aksi (`PACK_IMPORT`, `EXPLANATION_IMPORT`), status (`SUCCESS`, `FORCED`, `REJECTED`, `FAILED`), ringkasan diff, rincian subtes, dan pesan penolakan/kesalahan.
+     - Tampilan log interaktif dengan filter status, filter kategori, dan modal payload JSON rincian.
+     - Ketahanan fail-safe kode error PostgreSQL `42P01` (tabel belum termigrasi).
 
 ### 1.3 Definisi dan singkatan
 
 | Istilah | Arti |
 | --- | --- |
-| Perusahaan (company) | Penyelenggara tes, yaitu perusahaan atau instansi, misalnya Astra Group, Paragon, atau seleksi CPNS |
-| Paket (package) | Kumpulan subtes milik satu perusahaan, misalnya Paket 1, Paket 2 |
-| Subtes (subtest) | Satu jenis tes dengan batas waktu sendiri, misalnya QR atau Verbal |
-| Soal (question) | Satu butir pertanyaan pilihan ganda dalam suatu subtes |
-| Pengerjaan (attempt) | Satu kali sesi mengerjakan sebuah subtes |
-| Slug | Pengenal singkat huruf kecil, angka, dan tanda hubung, dipakai pada URL dan file paket |
-| QR, DR, RC, IR, VIZ, PS, WM | Quantitative, Deductive, Reading Comprehension, Inductive, Visualization, Perceptual Speed, Working Memory |
-| SVG | Format gambar vektor yang dipakai untuk soal bergambar |
-| CMS | Content Management System, di sini halaman admin |
+| Perusahaan (company) | Entitas penyelenggara tes (Astra, Paragon, BUMN, CPNS, dll.) |
+| Paket (package) | Kumpulan subtes latihan terstruktur milik satu perusahaan |
+| Subtes (subtest) | Satu unit tes dengan durasi, instruksi, dan tipe spesifik |
+| Subtest Kind | Ragam tes: `QUIZ` (pilihan ganda bernilai), `PERSONALITY` (skala psikologis), `PAULI` (hitung cepat konsentrasi), `DRAWING` (BAUM/Wartegg) |
+| Soal (question) | Satu butir pertanyaan dengan opsi jawaban dan kunci (khusus QUIZ) |
+| Pembahasan (explanation) | Penjelasan rasional di balik jawaban yang benar |
+| Pengerjaan (attempt) | Rekam jejak satu sesi pengerjaan subtes oleh peserta |
+| Jawaban (answer) | Rekaman pilihan peserta pada tiap nomor soal dalam satu attempt |
+| Canonical Content Hash | SHA-256 hash dari data normalisasi soal (mengabaikan urutan key JSON dan whitespace) untuk deteksi kebaruan konten |
+| Dry Run | Simulasi impor murni read-only untuk menghasilkan diff tanpa menyimpan ke database |
+| Force Overwrite | Penimpaan paket/subtes yang berisiko mereset riwayat jawaban peserta dengan konfirmasi wajib |
+| Audit Log | Catatan transaksi dan keamanan sistem yang tidak dapat diubah (append-only) |
 
 ### 1.4 Referensi
 
-- Deskripsi format tes Astra International dan Paragon dari pemilik proyek.
-- Dokumen pendamping: Functional Design Specification (FDS) Aplikasi Latihan Psikotes.
-- README proyek (cara menjalankan, format paket soal, panduan deploy).
+- Spesifikasi kebutuhan tes seleksi Astra International (Day 1 & Day 2) dan Paragon Technology & Innovation.
+- `db/schema.sql`: Skema relasional PostgreSQL terkini.
+- Modul inti sistem: `src/lib/pack-import.ts`, `src/lib/explanation-pack.ts`, `src/lib/import-analysis.ts`, `src/lib/audit-log.ts`, `src/lib/admin-auth.ts`.
+- Desain antarmuka: `LearnerShell.tsx`, `LearnerDashboard.tsx`, `HistoryProgressView.tsx`, `AdminShell.tsx`, `AdminDashboardClient.tsx`, `PackImporter.tsx`, `AuditLogView.tsx`.
 
-## 2. Deskripsi umum
+---
+
+## 2. Deskripsi Umum
 
 ### 2.1 Perspektif produk
 
-Aplikasi berdiri sendiri (stand-alone), dibangun sebagai satu aplikasi Next.js full-stack dengan basis data PostgreSQL. Tidak ada integrasi dengan sistem pihak ketiga selain layanan hosting dan basis data saat deploy. Aplikasi ini adalah alat latihan mandiri dan tidak berafiliasi dengan penyelenggara tes mana pun, termasuk Astra, Paragon, maupun instansi penyelenggara seleksi CPNS.
+Aplikasi Latihan Psikotes adalah platform mandiri berbasis Next.js (App Router) full-stack dengan basis data PostgreSQL (Neon Serverless). Aplikasi dirancang tanpa ketergantungan library eksternal berbobot besar (menggunakan pustaka native `pg` dengan pooling terkontrol, tanpa ORM bloat). Seluruh logic penilaian, sanitasi, dan verifikasi integritas data berjalan di server demi keamanan dan keandalan maksimal.
 
-### 2.2 Fungsi utama
+### 2.2 Karakteristik pengguna
 
-- Menampilkan hierarki perusahaan, paket, dan subtes.
-- Menjalankan subtes dengan timer hitung mundur dan pengiriman otomatis saat waktu habis.
-- Mendukung empat tipe soal: teks, gambar SVG, memori (gambar hilang setelah 5 detik), dan kecepatan persepsi (pindah otomatis setelah memilih).
-- Menilai jawaban di server dan menampilkan skor serta pembahasan.
-- Mengelola paket soal lewat CMS: impor dengan pratinjau, ekspor, hapus.
-
-### 2.3 Karakteristik pengguna
-
-| Pengguna | Deskripsi | Hak akses |
+| Pengguna | Deskripsi | Hak Akses |
 | --- | --- | --- |
-| Peserta latihan | Pencari kerja atau mahasiswa yang berlatih. Tidak perlu akun. | Halaman publik saja |
-| Admin | Pemilik situs, mengelola konten soal. | Halaman publik dan CMS (password) |
+| Peserta Latihan (Learner) | Siswa/pencari kerja yang berlatih. Bebas hambatan, tanpa registrasi akun wajib. Progres pengerjaan dicatat lokal dan divalidasi ke server. | Akses publik (`/`, `/riwayat`, `/c/*`, `/test/*`, `/result/*`) |
+| Administrator | Pengelola konten, kurator soal, dan pemantau sistem. | Akses penuh CMS (`/admin`, `/admin/import`, `/admin/audit`) terlindungi otentikasi aman |
 
-### 2.4 Batasan
+### 2.3 Batasan teknologi & lingkungan
 
-- Pilihan teknologi: Next.js (App Router), TypeScript, Tailwind CSS, PostgreSQL lewat library `pg` (tanpa ORM).
-- Hosting yang direncanakan: Vercel untuk aplikasi dan Neon untuk PostgreSQL.
-- Konten soal dibuat sendiri dan bukan salinan soal resmi. Durasi subtes adalah perkiraan untuk latihan.
-- Satu admin dengan satu password, tanpa manajemen pengguna.
+- Framework: Next.js (Node.js runtime, App Router).
+- Bahasa: TypeScript murni (*strict mode*).
+- Styling: Tailwind CSS dengan palet token warna Solid Cobalt terstandarisasi (WCAG AA compliant).
+- Basis Data: PostgreSQL (Neon Serverless Pooler) via driver `pg`.
+- Keamanan Auth: Session cookie HTTP-only berbasis password server-side timing-safe, rate-limiting in-memory per-IP.
+- Integritas Data: Transaksi atomik (`BEGIN`/`COMMIT`/`ROLLBACK`), deduplikasi canonical SHA-256 hash.
 
-### 2.5 Asumsi dan ketergantungan
+---
 
-- Variabel lingkungan `DATABASE_URL` dan `ADMIN_PASSWORD` diatur di server.
-- Skema basis data dibuat dengan `npm run db:migrate` sebelum pemakaian pertama.
-- Peserta memakai browser modern dengan JavaScript aktif.
+## 3. Kebutuhan Fungsional
 
-## 3. Kebutuhan fungsional
+Prioritas: **W** = Wajib, **S** = Sebaiknya ada.
 
-Prioritas: **W** = wajib, **S** = sebaiknya ada.
-
-### 3.1 Situs latihan (publik)
+### 3.1 Pengalaman Peserta (Learner Experience)
 
 | ID | Kebutuhan | Prioritas |
 | --- | --- | --- |
-| FR-01 | Sistem menampilkan daftar perusahaan pada halaman utama. | W |
-| FR-02 | Sistem menampilkan daftar paket milik perusahaan yang dipilih. | W |
-| FR-03 | Sistem menampilkan daftar subtes pada paket beserta jumlah soal dan durasinya, dengan tombol mulai. | W |
-| FR-04 | Sistem menampilkan satu soal per layar berisi teks soal, gambar (bila ada), dan pilihan jawaban. | W |
-| FR-05 | Sistem menampilkan timer hitung mundur dan mengirim jawaban otomatis saat waktu habis. | W |
-| FR-06 | Peserta dapat memilih jawaban, berpindah ke soal sebelumnya atau berikutnya, dan melompat ke nomor soal tertentu. | W |
-| FR-07 | Peserta dapat memilih jawaban dengan keyboard (tombol 1-5 atau huruf A-E). | S |
-| FR-08 | Pada soal bertipe MEMORY, gambar disembunyikan setelah 5 detik dan tidak tampil lagi. | W |
-| FR-09 | Pada soal bertipe SPEED, sistem langsung pindah ke soal berikutnya setelah peserta memilih jawaban. | W |
-| FR-10 | Peserta dapat mengakhiri subtes sebelum waktu habis dengan tombol Selesai. | W |
-| FR-11 | Sistem menilai jawaban di server: benar +1, salah atau kosong 0, tanpa pengurangan nilai. | W |
-| FR-12 | Sistem menampilkan halaman hasil berisi skor, jumlah soal, dan pembahasan per soal (jawaban peserta, jawaban benar, penjelasan). | W |
-| FR-13 | Halaman hasil menyediakan tautan kembali ke daftar subtes pada paket yang sama. | S |
-| FR-14 | Kunci jawaban dan pembahasan tidak boleh dikirim ke browser sebelum subtes dikumpulkan. | W |
+| FR-01 | Sistem menampilkan beranda berdesain Solid Cobalt dengan *Focus Hero Banner* dinamis (menampilkan status "Mulai Latihan Baru", "Lanjutkan Tes Terakhir", atau "Semua Subtes Tuntas"). | W |
+| FR-02 | Sistem menampilkan kartu ringkasan progres di beranda: total subtes dicoba, rata-rata skor, dan aktivitas terakhir. | W |
+| FR-03 | Sistem menampilkan katalog perusahaan dalam grid 2-kolom responsif dengan preview hingga 4 paket teratas per perusahaan dan tombol jelajah lengkap. | W |
+| FR-04 | Halaman `/riwayat` menampilkan daftar riwayat pengerjaan mandiri, filter kategori (Quiz, Kepribadian, Pauli, Gambar), serta tautan langsung ke review hasil. | W |
+| FR-05 | Sistem menyajikan halaman katalog perusahaan (`/c/[companySlug]`) berisi seluruh paket dan rincian subtes (jumlah soal, durasi, jenis subtes). | W |
+| FR-06 | Sistem mendukung 4 ragam subtes (`subtest_kind`): `QUIZ` (pilihan ganda terukur), `PERSONALITY` (tipe kepribadian), `PAULI` (hitung koran), dan `DRAWING` (gambar visual). | W |
+| FR-07 | Sesi tes interaktif (`/test/[subtestId]`) dilengkapi timer hitung mundur berbasis jam sistem (drift-proof) yang otomatis mengumpulkan jawaban saat waktu habis. | W |
+| FR-08 | Peserta dapat menavigasi soal: tombol Sebelumnya/Selanjutnya, daftar nomor soal (palette), dan tombol pintasan keyboard (1-5 atau A-E). | W |
+| FR-09 | Soal bertipe `MEMORY` menyembunyikan gambar stimulus otomatis setelah 5 detik pertama. | W |
+| FR-10 | Soal bertipe `SPEED` berpindah otomatis ke butir soal berikutnya seketika setelah pilihan jawaban diklik. | W |
+| FR-11 | Penilaian dihitung secara eksklusif di server saat peserta mengklik "Selesai" atau waktu habis: benar bernilai +1, salah atau kosong bernilai 0 (tanpa penalti). | W |
+| FR-12 | Kunci jawaban (`correct_index`) dan pembahasan (`explanation`) **dilarang keras** dikirimkan ke browser selama sesi tes berlangsung. | W |
+| FR-13 | Halaman `/result/[attemptId]` menampilkan skor numerik, persentase akurasi, waktu pengerjaan, status per nomor soal (benar, salah, terlewat), serta pembahasan komprehensif. | W |
 
-### 3.2 CMS admin
+### 3.2 Command Center Admin & CMS
 
 | ID | Kebutuhan | Prioritas |
 | --- | --- | --- |
-| FR-20 | Admin masuk dengan password yang diatur lewat variabel lingkungan. Bila belum diatur, halaman admin menampilkan pesan bahwa admin belum aktif. | W |
-| FR-21 | Sistem membuat sesi admin yang berlaku 7 hari dan admin dapat keluar (logout). | W |
-| FR-22 | Admin dapat memilih file `.json` atau menempelkan isi JSON paket soal. | W |
-| FR-23 | Tombol Periksa dulu memvalidasi file dan menampilkan pratinjau tanpa menyimpan: status perusahaan, paket, tiap subtes (baru atau soal lama diganti), jumlah soal, durasi. | W |
-| FR-24 | Bila validasi gagal, sistem menampilkan daftar kesalahan yang jelas (maksimal 30). | W |
-| FR-25 | Tombol Impor sekarang menyimpan paket. Perusahaan, paket, dan subtes dengan slug yang sama diperbarui, dan soal pada subtes yang sama diganti seluruhnya. | W |
-| FR-26 | Impor bersifat atomik: bila gagal di tengah jalan, tidak ada data yang berubah. | W |
-| FR-27 | Subtes lain pada paket yang sama tidak berubah saat impor, sehingga satu file dapat menambah subtes ke paket yang sudah ada. | W |
-| FR-28 | Pratinjau memperingatkan jumlah riwayat pengerjaan yang akan kehilangan detail jawaban karena soal diganti. | S |
-| FR-29 | Dashboard admin menampilkan seluruh perusahaan, paket, subtes, jumlah soal, dan durasi. | W |
-| FR-30 | Admin dapat mengekspor paket ke file JSON dengan format yang sama dengan format impor. | S |
-| FR-31 | Admin dapat menghapus satu paket atau satu subtes dengan konfirmasi. Bila paket terakhir sebuah perusahaan dihapus, perusahaan ikut terhapus. | W |
-| FR-32 | Admin dapat mengunduh contoh format paket. | S |
+| FR-20 | Admin melakukan login pada `/admin` dengan password terkonfigurasi. Percobaan login dibatasi maksimal 5 kali per menit per IP (rate limited, HTTP 429). | W |
+| FR-21 | Sesi admin diamankan dengan cookie `httpOnly`, `sameSite=lax`, `secure` (production), dengan validasi token berbasis timing-safe HMAC. | W |
+| FR-22 | Layout CMS (`AdminShell`) menyediakan sidebar desktop (collapsible), mobile drawer responsif dengan overlay, header dengan indikator status DB, dan navigasi tab aktif. | W |
+| FR-23 | Dashboard Admin (`/admin`) menampilkan metrik ringkas: Total Perusahaan, Total Paket, Total Subtes, Total Soal, serta Rasio & Persentase Kelengkapan Pembahasan (dihitung khusus subtes bertipe `QUIZ`). | W |
+| FR-24 | Admin dapat melakukan inline edit nama dan deskripsi paket soal secara langsung tanpa reload halaman. | W |
+| FR-25 | Admin dapat melakukan inline edit nama, durasi, deskripsi, urutan, dan jenis (`kind`) subtes secara langsung dengan locking transaksi `FOR UPDATE`. | W |
+| FR-26 | Admin dapat menghapus paket atau subtes secara aman dan atomik (`DELETE ... RETURNING`). Jika paket terakhir suatu perusahaan dihapus, record perusahaan ikut terhapus otomatis. | W |
+| FR-27 | Admin dapat mengekspor paket soal ke format file JSON standar yang kompatibel dengan format impor. | S |
 
-### 3.3 Aturan validasi paket soal
+### 3.3 Sistem Proteksi & Integritas Impor (`/admin/import`)
 
-| ID | Aturan |
-| --- | --- |
-| VR-01 | Slug perusahaan, paket, dan subtes hanya huruf kecil, angka, dan tanda hubung (contoh: `paket-2`). |
-| VR-02 | Durasi subtes antara 10 dan 10.800 detik. |
-| VR-03 | Setiap soal memiliki 2 sampai 5 pilihan yang unik, indeks jawaban benar yang valid, teks soal, dan penjelasan. |
-| VR-04 | Soal bertipe IMAGE dan MEMORY wajib memiliki `imageSvg`. |
-| VR-05 | SVG ditolak bila mengandung `script`, `foreignObject`, `iframe`, `embed`, `object`, atribut `on...=`, `javascript:`, atau `data:text/html`. |
-| VR-06 | Ukuran file maksimal 8 MB dan harus berupa JSON yang valid. |
+| ID | Kebutuhan | Prioritas |
+| --- | --- | --- |
+| FR-30 | Sistem menerima unggahan file `.json` atau input teks langsung untuk paket soal utuh (`pack`) maupun pembaruan pembahasan terpisah (`pembahasanSaja`). | W |
+| FR-31 | **Dry-Run 2-Fase (Read-Only Analysis):** Tombol "Periksa Dulu" menjalankan analisis murni query `SELECT` tanpa mutasi data sedikit pun, menghasilkan laporan perubahan terperinci. | W |
+| FR-32 | **Canonical SHA-256 Hashing:** Sistem menghitung hash kanonikal konten soal. Jika hash subtes pada file baru identik dengan database, sistem menandai `SKIP` (tidak menulis ulang soal demi menjaga integritas data riwayat). | W |
+| FR-33 | **Deteksi Risiko Riwayat (Attempt Guard):** Sistem mendeteksi jika subtes lama yang sudah memiliki riwayat pengerjaan (`attempts > 0`) mengalami perubahan soal. Sistem menandai status `DANGER` dan menghitung jumlah attempt yang terancam terpengaruh. | W |
+| FR-34 | **Deteksi Penurunan Pembahasan:** Sistem memperingatkan jika file impor memiliki jumlah pembahasan yang lebih sedikit daripada database saat ini (*coverage drop warning*). | W |
+| FR-35 | **Spot-Check Preview:** Sistem menampilkan pratinjau perbandingan butir soal (nomor soal, teks prompt database vs file baru, kunci jawaban, dan cuplikan pembahasan) untuk memvalidasi kesesuaian konten sebelum eksekusi. | W |
+| FR-36 | **Server-Enforced 409 Conflict:** Endpoint API wajib menolak impor berisiko tinggi dengan HTTP 409 Conflict kecuali permintaan menyertakan `?force=1` yang didorong oleh persetujuan eksplisit checkbox admin. | W |
+| FR-37 | **Pembaruan Pembahasan Delta:** Mode `pembahasanSaja` hanya memperbarui baris soal yang mengalami perubahan isi pembahasan tanpa memicu modifikasi nomor atau pilihan jawaban. | W |
+| FR-38 | **Batch UNNEST Performance:** Penyimpanan soal dalam jumlah besar dilakukan menggunakan teknik batch `UNNEST` array PostgreSQL untuk menjamin latensi rendah dan mencegah timeout serverless. | W |
 
-## 4. Kebutuhan antarmuka eksternal
+### 3.4 Audit Trail & Pemantauan Sistem (`/admin/audit`)
 
-### 4.1 Antarmuka pengguna
+| ID | Kebutuhan | Prioritas |
+| --- | --- | --- |
+| FR-40 | Sistem mencatat setiap operasi impor ke tabel `import_audit_logs` secara otomatis, mencakup aktor, kategori aksi, status (`SUCCESS`, `FORCED`, `REJECTED`, `FAILED`), ringkasan diff, rincian subtes, dan durasi eksekusi. | W |
+| FR-41 | Sistem mencatat upaya impor yang ditolak (*rejected*) atau dibatalkan karena konflik data untuk keperluan investigasi keamanan dan integritas. | W |
+| FR-42 | Halaman `/admin/audit` menyajikan antarmuka pemantauan log dengan filter status, filter kategori, kartu ringkasan metrik, dan modal inspeksi payload JSON rincian. | W |
+| FR-43 | Sistem memiliki mekanisme ketahanan fail-safe: jika tabel `import_audit_logs` belum ada (kode PostgreSQL `42P01`), sistem mengembalikan array kosong secara anggun tanpa menyebabkan crash aplikasi. | W |
 
-- Berbahasa Indonesia, responsif untuk layar ponsel sampai desktop, mendukung mode gelap mengikuti pengaturan perangkat.
-- Soal gambar ditampilkan dari SVG sebagai bagian halaman. Pilihan jawaban pada soal bergambar berlabel "Gambar A" sampai "Gambar E".
-- Timer selalu terlihat selama subtes berjalan.
+---
 
-### 4.2 Antarmuka perangkat lunak
+## 4. Kebutuhan Antarmuka Eksternal
 
-- PostgreSQL (disarankan Neon dengan `sslmode=require`) lewat koneksi `DATABASE_URL`.
-- Platform hosting Node.js (Vercel). Tidak ada API pihak ketiga.
+### 4.1 Antarmuka pengguna (UI/UX)
 
-### 4.3 Antarmuka data
+- **Desain & Tipografi:** Menggunakan tema Solid Cobalt (Slate & Cobalt) berstandar WCAG AA, tipografi sans-serif interaktif yang nyaman dibaca untuk durasi lama.
+- **Responsivitas:** Sepenuhnya adaptif untuk perangkat mobile (320px+), tablet, hingga layar desktop lebar (1440px+).
+- **Aksesibilitas & Keyboard Navigation:** Navigasi soal dapat dikendalikan penuh via tombol keyboard angka 1-5 atau huruf A-E; form kontrol dilengkapi label semantik dan status ARIA.
+- **Rendering Visual:** Soal bergambar disajikan dalam format SVG terinspeksi yang diskalakan secara proporsional dan bebas dari elemen berbahaya.
 
-File paket soal berformat JSON (lihat FDS bagian format paket) dengan satu file untuk satu paket milik satu perusahaan.
+### 4.2 Antarmuka perangkat lunak & basis data
 
-## 5. Kebutuhan nonfungsional
+- Database: PostgreSQL 15+ (kompatibel Neon Serverless) dengan connection pooling terkonfigurasi.
+- Runtime: Node.js 18+ pada Vercel / Linux Environment.
+
+---
+
+## 5. Kebutuhan Nonfungsional (NFR)
 
 | ID | Kategori | Kebutuhan |
 | --- | --- | --- |
-| NFR-01 | Keamanan | Penilaian dilakukan di server. Kunci jawaban tidak pernah dikirim ke klien sebelum pengumpulan. |
-| NFR-02 | Keamanan | Seluruh endpoint admin menolak permintaan tanpa sesi admin yang valid (HTTP 401). |
-| NFR-03 | Keamanan | Cookie sesi admin bersifat httpOnly, sameSite lax, dan secure pada produksi. Token diturunkan dari password sehingga mengganti password mengeluarkan semua sesi. |
-| NFR-04 | Keamanan | Perbandingan password berwaktu konstan dan login gagal ditunda sekitar 800 ms untuk memperlambat tebakan. |
-| NFR-05 | Keamanan | Query basis data memakai parameter (tanpa penyambungan string) untuk mencegah SQL injection. |
-| NFR-06 | Keamanan | SVG dari file impor disaring sesuai VR-05 untuk mencegah XSS. |
-| NFR-07 | Keandalan | Impor dan pengiriman jawaban berjalan dalam transaksi basis data. |
-| NFR-08 | Akurasi timer | Hitung mundur berbasis jam sistem, bukan jumlah tick, agar tidak melambat saat tab tidak aktif. |
-| NFR-09 | Kinerja | Halaman soal tampil kurang dari 2 detik pada koneksi normal. Pool koneksi basis data dibatasi 5 koneksi. |
-| NFR-10 | Portabilitas | Dapat dijalankan lokal dengan Node.js dan PostgreSQL, dan dideploy ke Vercel dengan Neon. |
-| NFR-11 | Pemeliharaan | Kode berbahasa TypeScript dengan lint yang lulus. Penambahan soal tidak memerlukan perubahan kode. |
-| NFR-12 | Kegunaan | Dapat dioperasikan dengan keyboard dan memiliki label aksesibilitas pada gambar soal. |
-| NFR-13 | Privasi | Aplikasi tidak meminta akun atau data pribadi peserta. |
+| NFR-01 | **Keamanan Data** | Kunci jawaban dan kalkulasi skor diisolasi murni di sisi server. Token otentikasi dienkripsi dengan timing-safe HMAC. |
+| NFR-02 | **Proteksi Brute-Force** | Endpoint login admin dibatasi rate limit 5 request per menit per alamat IP; percobaan gagal diberi penundaan respons acak ~800ms. |
+| NFR-03 | **Sanitasi Konten (XSS Prevention)** | File SVG yang diimpor disaring secara ketat: melarang tag `<script>`, `<foreignObject>`, `<iframe>`, `<embed>`, `<object>`, atribut event `on*`, serta skema URL `javascript:` dan `data:text/html`. |
+| NFR-04 | **Integritas Transaksional** | Operasi impor dan mutasi metadata berjalan dalam blok transaksi `BEGIN ... COMMIT`; rollback instan dieksekusi jika terjadi anomali di salah satu tahap. |
+| NFR-05 | **Performa Query** | Pemuatan halaman latihan merespons di bawah 1,5 detik pada koneksi standar. Batch insert/update memanfaatkan `UNNEST` array untuk meminimalkan round-trip basis data. |
+| NFR-06 | **Keandalan Koneksi** | Penggunaan koneksi database dibatasi pool maksimal 5-10 sambungan dengan penanganan penutupan koneksi otomatis pada lingkungan serverless. |
+| NFR-07 | **Akurasi Pewaktuan** | Timer subtes sinkron dengan jam epoch sistem (`Date.now()`), mencegah perlambatan timer saat tab browser di-minimize atau dalam kondisi low-power mode. |
+| NFR-08 | **Privasi Pengguna** | Tidak ada penyimpanan cookie pelacak pihak ketiga atau pengumpulan data pribadi tanpa izin (zero-PII requirement untuk peserta publik). |
 
-## 6. Model data tingkat tinggi
+---
 
-| Entitas | Hubungan | Keterangan |
-| --- | --- | --- |
-| companies | 1 perusahaan memiliki banyak paket | slug unik |
-| test\_packages | 1 paket memiliki banyak subtes | slug unik per perusahaan |
-| subtests | 1 subtes memiliki banyak soal dan pengerjaan | durasi dan urutan, slug unik per paket |
-| questions | milik satu subtes | tipe, teks, SVG, pilihan, kunci, penjelasan |
-| attempts | milik satu subtes | waktu mulai dan selesai, skor, total soal |
-| answers | milik satu pengerjaan dan satu soal | pilihan peserta dan status benar atau salah |
+## 6. Model Data Relasional
 
-Penghapusan bersifat berjenjang (cascade): menghapus paket menghapus subtes, soal, pengerjaan, dan jawabannya.
+```
+companies (1) ───< test_packages (N) ───< subtests (N) ───< questions (N)
+                                               │
+                                               └───< attempts (N) ───< answers (N)
 
-## 7. Di luar cakupan versi 1.0
+import_audit_logs (Tabel log independen untuk audit trail CMS)
+```
 
-- Tes kepribadian Astra.
-- Tes Koran atau Pauli dan tes menggambar Paragon (membutuhkan antarmuka khusus).
-- Akun peserta, riwayat lintas perangkat, papan peringkat.
-- Pembatasan percobaan login per alamat IP.
-- Editor soal lewat formulir di CMS.
+### 6.1 Rincian Entitas
 
-## 8. Kriteria penerimaan
+1. **`companies`**: `id` (PK), `name`, `slug` (Unique), `logo_svg`, `description`, `created_at`.
+2. **`test_packages`**: `id` (PK), `company_id` (FK), `name`, `slug` (Unique per company), `description`, `order_index`, `created_at`.
+3. **`subtests`**: `id` (PK), `package_id` (FK), `name`, `slug` (Unique per package), `description`, `duration_seconds`, `order_index`, `instructions`, `subtest_kind` (`QUIZ`, `PERSONALITY`, `PAULI`, `DRAWING`), `created_at`.
+4. **`questions`**: `id` (PK), `subtest_id` (FK), `question_number`, `question_type` (`TEXT`, `IMAGE`, `MEMORY`, `SPEED`), `prompt`, `image_svg`, `options` (JSON array text), `options_svg` (JSON array SVG), `correct_index`, `explanation`, `created_at`.
+5. **`attempts`**: `id` (PK), `subtest_id` (FK), `started_at`, `submitted_at`, `score`, `total_questions`, `duration_seconds`.
+6. **`answers`**: `id` (PK), `attempt_id` (FK), `question_id` (FK), `selected_index`, `is_correct`.
+7. **`import_audit_logs`**: `id` (PK), `actor`, `action`, `status` (`SUCCESS`, `FORCED`, `REJECTED`, `FAILED`), `company_slug`, `package_slug`, `details` (JSONB berisi subtest summary, diff stats, error message), `created_at`.
 
-- Peserta dapat menyelesaikan satu subtes dari pilih perusahaan sampai melihat skor dan pembahasan.
-- Skor sama dengan jumlah jawaban benar, dan jawaban kosong atau salah bernilai 0.
-- Halaman soal tidak memuat kunci jawaban pada HTML atau respons yang dikirim ke browser.
-- Admin dapat mengimpor, mengekspor, dan menghapus paket, dan impor yang gagal tidak mengubah data.
-- File paket yang diimpor dua kali tidak menggandakan data.
+---
 
-## 9. Rencana perluasan: penyelenggara dan jenis tes lain
+## 7. Batasan & Cakupan Luar (Out of Scope v1.1)
 
-Bagian ini menetapkan kebutuhan agar aplikasi dapat berkembang melampaui Astra dan Paragon, misalnya ke perusahaan lain dan seleksi CPNS. Struktur seleksi CPNS (misalnya subtes TWK, TIU, dan TKP) dipakai sebagai contoh arah pengembangan. Struktur, durasi, dan bobot nilai resminya harus diperiksa dari sumber resmi pada saat paketnya dibuat.
+- Sistem akun peserta berbasis email/password (tetap dipertahankan tanpa akun demi kemudahan akses instan).
+- Papan peringkat publik lintas pengguna (leaderboard).
+- Sinkronisasi riwayat pengerjaan cloud lintas perangkat (saat ini riwayat tersimpan lokal di perangkat peserta).
+- Simulasi pengerjaan interaktif spesifik untuk Pauli dinamis dan canvas interaktif tes menggambar (direncanakan pada v2.0).
 
-| ID | Kebutuhan | Status |
-| --- | --- | --- |
-| EX-01 | Penyelenggara baru (perusahaan, BUMN, instansi, CPNS) dapat ditambahkan hanya dengan mengimpor file paket baru. Perusahaan baru dibuat otomatis dari slug pada file dan langsung tampil di beranda. | Sudah didukung |
-| EX-02 | Beranda tetap mudah dipakai saat penyelenggara banyak: ada pencarian dan pengelompokan berdasarkan kategori (misalnya Swasta, BUMN, CPNS). | Direncanakan |
-| EX-03 | Metode penilaian dapat dipilih per subtes: biner (benar +1, salah 0, seperti sekarang) atau berbobot per pilihan (misalnya soal karakteristik pribadi yang tiap pilihannya bernilai 1 sampai 5). | Direncanakan |
-| EX-04 | Ambang batas kelulusan opsional per subtes atau paket, ditampilkan pada halaman hasil. | Direncanakan |
-| EX-05 | Satu wacana atau gambar dapat dipakai bersama oleh beberapa soal. | Direncanakan |
-| EX-06 | Tipe soal khusus: tes kepribadian berskala, Koran atau Pauli, dan menggambar. | Direncanakan |
-| EX-07 | Mode simulasi paket penuh: mengerjakan seluruh subtes berurutan dan melihat skor gabungan. | Direncanakan |
-| EX-08 | Setiap perubahan format file paket kompatibel mundur: bidang baru bersifat opsional sehingga file lama tetap dapat diimpor. | Wajib |
-| EX-09 | Setiap paket baru lolos verifikasi yang sama: kunci jawaban diperiksa, sebaran kunci seimbang, dan soal gambar dilihat sebelum dipublikasikan. | Wajib |
+---
 
-### 9.1 Dampak pada kebutuhan yang ada
+## 8. Kriteria Penerimaan Sistem (Acceptance Criteria)
 
-- Penilaian +1 benar, 0 salah atau kosong (FR-11) berlaku untuk semua subtes sampai EX-03 tersedia. Pada subtes berbobot, aturan nilainya ditampilkan pada halaman hasil sesuai metode subtes tersebut.
-- Nama aplikasi bersifat sementara. Bila cakupan melebar ke tes non-psikotes, nama dan teks antarmuka dapat disesuaikan tanpa mengubah struktur data.
-- Hak cipta: soal dibuat sendiri dan tidak menyalin soal resmi atau soal berbayar milik pihak lain.
+- Peserta dapat menyelesaikan simulasi tes secara lancar hingga halaman hasil dan pembahasan.
+- Kunci jawaban tidak pernah bocor di sisi client selama tes berjalan.
+- Dashboard Admin menampilkan metrik akurat, termasuk rasio kelengkapan pembahasan khusus `QUIZ`.
+- Impor paket dengan konten identik otomatis melewati rewrite (`SKIP`) dan tidak merusak data pengerjaan peserta.
+- Impor dengan potensi merusak riwayat wajib memicu penolakan HTTP 409 Conflict hingga checkbox konfirmasi ditandai oleh admin.
+- Setiap aktivitas impor tercatat dengan benar pada log audit dan dapat ditinjau melalui `/admin/audit`.
+- Seluruh suite automated unit tests (38+ test cases) lulus 100% dan build TypeScript berjalan tanpa error.

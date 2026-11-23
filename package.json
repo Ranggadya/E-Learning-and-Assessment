@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "node scripts/run-tests.mjs",
     "db:import": "tsx --env-file=.env.local scripts/import-packs.ts",
     "db:migrate": "tsx --env-file=.env.local scripts/migrate.ts",
     "db:seed-english": "tsx --env-file=.env.local scripts/seed-english.ts"

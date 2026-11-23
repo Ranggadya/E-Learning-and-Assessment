@@ -35,7 +35,7 @@ async function main(): Promise<void> {
       process.exitCode = 1;
       continue;
     }
-    const summary = await importPack(validation.pack, { dryRun: false });
+    const summary = await importPack(validation.pack, { dryRun: false, force: true });
     console.log(`${summary.companyName} / ${summary.packageName}: ${summary.subtests.length} subtes, ${summary.totalQuestions} soal diimpor`);
   }
 }

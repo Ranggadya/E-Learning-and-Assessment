@@ -1,9 +1,23 @@
-import { databasePool } from "./db";
-import type { ImportSummary } from "./pack-import";
+import { findPreviousSuccessfulUpload } from "./audit-log";
+import {
+  compareExplanationSubtest,
+  computeCanonicalHash,
+  hasDetailedExplanation,
+  type ExistingQuestionSnapshot,
+  type ExplanationSpotCheck,
+} from "./import-analysis";
+import {
+  formatUploadTimestamp,
+  ImportConfirmationRequiredError,
+  type ImportedSubtestSummary,
+  type ImportSummary,
+} from "./pack-import";
 import { validateExplanationExtras } from "./pack-schema";
+import type { QuestionOption, QuestionType } from "./types";
 
 const OPTION_KEYS = ["A", "B", "C", "D", "E"];
 const MAX_ERRORS = 30;
+const MAX_TOTAL_SPOT_CHECKS = 6;
 
 // File pembahasan: memperbarui pembahasan soal yang sudah ada tanpa mengganti soal atau menghapus riwayat.
 // Setiap butir dicocokkan lewat nomor soal, dan correctIndex wajib sama dengan kunci di database
@@ -11,6 +25,7 @@ const MAX_ERRORS = 30;
 export interface ExplanationEntry {
   number: number;
   correctIndex: number;
+  prompt?: string;
   explanation?: string;
   steps?: string[];
   wrongNotes?: string[];
@@ -68,6 +83,9 @@ export function validateExplanationPack(input: unknown): ExplanationValidation {
           errors.push(`${entryLabel}: nomor ${number} muncul dua kali`);
         }
         seen.add(number);
+        if (entry.prompt !== undefined && (typeof entry.prompt !== "string" || entry.prompt.trim() === "")) {
+          errors.push(`${entryLabel}: prompt opsional harus berupa teks tidak kosong`);
+        }
         if (entry.explanation !== undefined && (typeof entry.explanation !== "string" || entry.explanation.trim() === "")) {
           errors.push(`${entryLabel}: explanation tidak boleh kosong`);
         }
@@ -99,8 +117,23 @@ export class ExplanationImportError extends Error {
   }
 }
 
-export async function importExplanations(pack: ExplanationPackFile, options: { dryRun: boolean }): Promise<ImportSummary> {
+interface PendingExplanationUpdate {
+  questionId: number;
+  entry: ExplanationEntry;
+}
+
+export async function importExplanations(
+  pack: ExplanationPackFile,
+  options: { dryRun: boolean; force?: boolean; contentHash?: string },
+): Promise<ImportSummary> {
+  const contentHash = options.contentHash ?? computeCanonicalHash(pack);
+  // Jalankan di luar transaksi agar ketiadaan tabel import_audit_logs (42P01) tidak menggagalkan transaksi utama.
+  const previousUpload = await findPreviousSuccessfulUpload(contentHash);
+
+  const { databasePool } = await import("./db");
   const client = await databasePool.connect();
+  let transactionClosed = false;
+
   try {
     await client.query("BEGIN");
     const packageResult = await client.query<{ id: number; name: string; company_name: string }>(
@@ -115,8 +148,11 @@ export async function importExplanations(pack: ExplanationPackFile, options: { d
     }
 
     const problems: string[] = [];
-    const summaries: ImportSummary["subtests"] = [];
+    const summaries: ImportedSubtestSummary[] = [];
+    const allSpotChecks: ExplanationSpotCheck[] = [];
+    const pendingUpdates: PendingExplanationUpdate[] = [];
     let total = 0;
+
     for (const subtest of pack.subtests) {
       const subtestResult = await client.query<{ id: number; name: string; kind: string; duration_seconds: number }>(
         "SELECT id, name, kind, duration_seconds FROM subtests WHERE test_package_id = $1 AND slug = $2",
@@ -127,46 +163,87 @@ export async function importExplanations(pack: ExplanationPackFile, options: { d
         problems.push(`Subtes "${subtest.slug}" tidak ditemukan atau bukan subtes pilihan ganda`);
         continue;
       }
-      const questionResult = await client.query<{ id: number; order_index: number; correct_option: string; options: unknown[] }>(
-        "SELECT id, order_index, correct_option, options FROM questions WHERE subtest_id = $1",
+
+      const questionResult = await client.query<{
+        id: number;
+        order_index: number;
+        type: QuestionType;
+        prompt: string;
+        image_svg: string | null;
+        options: QuestionOption[];
+        correct_option: string;
+        explanation: string | null;
+        steps: string[] | null;
+        wrong_notes: string[] | null;
+        quick_tip: string | null;
+      }>(
+        `SELECT id, order_index, type, prompt, image_svg, options, correct_option, explanation, steps, wrong_notes, quick_tip
+         FROM questions
+         WHERE subtest_id = $1
+         ORDER BY order_index`,
         [subtestRow.id],
       );
-      const byNumber = new Map(questionResult.rows.map(function toPair(row) {
-        return [row.order_index, row] as const;
+
+      const byNumber = new Map(questionResult.rows.map((row) => [row.order_index, row] as const));
+      const existingSnapshots: ExistingQuestionSnapshot[] = questionResult.rows.map((row) => ({
+        orderIndex: row.order_index,
+        type: row.type ?? "TEXT",
+        prompt: row.prompt,
+        imageSvg: row.image_svg ?? null,
+        options: Array.isArray(row.options) ? row.options.map((opt) => opt.label) : [],
+        correctIndex: OPTION_KEYS.indexOf(row.correct_option),
+        explanation: row.explanation ?? "",
+        steps: row.steps ?? null,
+        wrongNotes: row.wrong_notes ?? null,
+        quickTip: row.quick_tip ?? null,
       }));
+
+      let subtestHasError = false;
+      const subtestUpdates: PendingExplanationUpdate[] = [];
 
       for (const entry of subtest.explanations) {
         const question = byNumber.get(entry.number);
         const label = `${subtest.slug} soal ${entry.number}`;
         if (!question) {
           problems.push(`${label}: nomor soal tidak ada di database`);
+          subtestHasError = true;
           continue;
         }
         if (OPTION_KEYS[entry.correctIndex] !== question.correct_option) {
           problems.push(`${label}: kunci di file (${OPTION_KEYS[entry.correctIndex] ?? "?"}) berbeda dengan database (${question.correct_option}); soal mungkin sudah berubah`);
+          subtestHasError = true;
           continue;
         }
         if (entry.wrongNotes && entry.wrongNotes.length !== question.options.length) {
           problems.push(`${label}: wrongNotes ${entry.wrongNotes.length} butir, opsi soal ${question.options.length}`);
+          subtestHasError = true;
           continue;
         }
-        await client.query(
-          `UPDATE questions SET
-             explanation = COALESCE($2, explanation),
-             steps = COALESCE($3::jsonb, steps),
-             wrong_notes = COALESCE($4::jsonb, wrong_notes),
-             quick_tip = COALESCE($5, quick_tip)
-           WHERE id = $1`,
-          [
-            question.id,
-            entry.explanation ?? null,
-            entry.steps ? JSON.stringify(entry.steps) : null,
-            entry.wrongNotes ? JSON.stringify(entry.wrongNotes) : null,
-            entry.quickTip ?? null,
-          ],
-        );
-        total += 1;
+        subtestUpdates.push({ questionId: question.id, entry });
       }
+
+      const comparison = compareExplanationSubtest(
+        subtest.slug,
+        subtestRow.name,
+        existingSnapshots,
+        subtest.explanations,
+      );
+      if (comparison.promptMismatchErrors.length > 0) {
+        problems.push(...comparison.promptMismatchErrors);
+        subtestHasError = true;
+      }
+
+      for (const spot of comparison.spotChecks) {
+        if (allSpotChecks.length < MAX_TOTAL_SPOT_CHECKS) {
+          allSpotChecks.push(spot);
+        }
+      }
+
+      if (!subtestHasError && comparison.changeType !== "identik") {
+        pendingUpdates.push(...subtestUpdates);
+      }
+
+      total += subtest.explanations.length;
       summaries.push({
         slug: subtest.slug,
         name: subtestRow.name,
@@ -175,25 +252,112 @@ export async function importExplanations(pack: ExplanationPackFile, options: { d
         durationSeconds: subtestRow.duration_seconds,
         status: "diganti",
         replacedAttemptCount: 0,
+        changeType: comparison.changeType,
+        existingQuestionCount: comparison.existingQuestionCount,
+        changedQuestionCount: comparison.changeType === "identik" ? 0 : subtest.explanations.length,
+        existingDetailedCount: existingSnapshots.filter(hasDetailedExplanation).length,
+        incomingDetailedCount: subtest.explanations.filter(hasDetailedExplanation).length,
+        losesDetailedExplanations: false,
+        coverageMismatch: comparison.coverageMismatch,
+        existingDetailedOverwriteCount: comparison.existingDetailedOverwriteCount,
       });
     }
+
     if (problems.length > 0) {
       throw new ExplanationImportError(problems.slice(0, MAX_ERRORS));
     }
 
-    await client.query(options.dryRun ? "ROLLBACK" : "COMMIT");
-    return {
+    const isDuplicateContent = summaries.length > 0 && summaries.every((s) => s.changeType === "identik");
+    const hasOverwrite = summaries.some((s) => (s.existingDetailedOverwriteCount ?? 0) > 0);
+    const hasCoverageMismatch = summaries.some((s) => s.coverageMismatch);
+    const requiresConfirmation = isDuplicateContent || hasOverwrite || hasCoverageMismatch;
+
+    const warnings: string[] = [];
+    if (isDuplicateContent) {
+      const prevLabel = previousUpload
+        ? ` (terakhir diunggah ${formatUploadTimestamp(previousUpload.createdAt)})`
+        : "";
+      warnings.push(
+        `Isi file pembahasan ini identik dengan pembahasan yang sudah ada di database${prevLabel}. Jika dilanjutkan, subtes identik dilewati tanpa mengubah soal.`,
+      );
+    }
+
+    const totalDetailedOverwrite = summaries.reduce(
+      (sum, s) => sum + (s.existingDetailedOverwriteCount ?? 0),
+      0,
+    );
+    if (totalDetailedOverwrite > 0) {
+      warnings.push(
+        `${totalDetailedOverwrite} soal sudah memiliki pembahasan rinci di database dan isinya akan ditimpa oleh file ini.`,
+      );
+    }
+
+    for (const sub of summaries) {
+      if (sub.coverageMismatch) {
+        warnings.push(
+          `Jumlah butir pembahasan subtes "${sub.name}" (${sub.questionCount}) tidak sama dengan jumlah soal di database (${sub.existingQuestionCount}).`,
+        );
+      }
+    }
+
+    const summary: ImportSummary = {
+      companySlug: pack.company.slug,
       companyName: packageRow.company_name,
       companyStatus: "diperbarui",
+      packageSlug: pack.package.slug,
       packageName: packageRow.name,
       packageStatus: "diperbarui",
       subtests: summaries,
       totalQuestions: total,
       dryRun: options.dryRun,
       mode: "pembahasan",
+      contentHash,
+      isDuplicateContent,
+      previousUploadAt: previousUpload?.createdAt ?? null,
+      hasOverwrite,
+      metadataChanged: false,
+      requiresConfirmation,
+      warnings,
+      spotChecks: allSpotChecks,
     };
+
+    if (options.dryRun) {
+      await client.query("ROLLBACK");
+      transactionClosed = true;
+      return summary;
+    }
+
+    if (requiresConfirmation && !options.force) {
+      await client.query("ROLLBACK");
+      transactionClosed = true;
+      throw new ImportConfirmationRequiredError(summary);
+    }
+
+    for (const { questionId, entry } of pendingUpdates) {
+      await client.query(
+        `UPDATE questions SET
+           explanation = COALESCE($2, explanation),
+           steps = COALESCE($3::jsonb, steps),
+           wrong_notes = COALESCE($4::jsonb, wrong_notes),
+           quick_tip = COALESCE($5, quick_tip)
+         WHERE id = $1`,
+        [
+          questionId,
+          entry.explanation ?? null,
+          entry.steps ? JSON.stringify(entry.steps) : null,
+          entry.wrongNotes ? JSON.stringify(entry.wrongNotes) : null,
+          entry.quickTip ?? null,
+        ],
+      );
+    }
+
+    await client.query("COMMIT");
+    transactionClosed = true;
+    return summary;
   } catch (error) {
-    await client.query("ROLLBACK");
+    if (!transactionClosed) {
+      await client.query("ROLLBACK");
+    }
     throw error;
   } finally {
     client.release();

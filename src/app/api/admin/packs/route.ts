@@ -1,21 +1,101 @@
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin-auth";
-import { ExplanationImportError, importExplanations, isExplanationPack, validateExplanationPack } from "@/lib/explanation-pack";
-import { importPack } from "@/lib/pack-import";
+import { recordAuditLog } from "@/lib/audit-log";
+import {
+  ExplanationImportError,
+  importExplanations,
+  isExplanationPack,
+  validateExplanationPack,
+} from "@/lib/explanation-pack";
+import { computeCanonicalHash, sanitizeImportFileName } from "@/lib/import-analysis";
+import {
+  ImportConfirmationRequiredError,
+  importPack,
+  type ImportSummary,
+} from "@/lib/pack-import";
 import { validatePack } from "@/lib/pack-schema";
+import type { AuditActionType } from "@/lib/types";
 
 const MAX_BODY_BYTES = 8 * 1024 * 1024;
+const CONFIRMATION_REQUIRED_MESSAGE = "Konfirmasi timpa paksa diperlukan sebelum menyimpan.";
 
-// POST /api/admin/packs?dryRun=1 memeriksa dan menampilkan ringkasan tanpa menyimpan apa pun.
+interface ParsedMeta {
+  companySlug: string | null;
+  packageSlug: string | null;
+  targetLabel: string | null;
+  contentHash: string;
+}
+
+function readTrimmedString(obj: Record<string, unknown> | null, key: string): string | null {
+  if (!obj) {
+    return null;
+  }
+  const value = obj[key];
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+function extractParsedMetadata(parsed: unknown): ParsedMeta {
+  const contentHash = computeCanonicalHash(parsed);
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    return { companySlug: null, packageSlug: null, targetLabel: null, contentHash };
+  }
+  const root = parsed as Record<string, unknown>;
+  const company =
+    typeof root.company === "object" && root.company !== null && !Array.isArray(root.company)
+      ? (root.company as Record<string, unknown>)
+      : null;
+  const pkg =
+    typeof root.package === "object" && root.package !== null && !Array.isArray(root.package)
+      ? (root.package as Record<string, unknown>)
+      : null;
+
+  const companySlug = readTrimmedString(company, "slug");
+  const packageSlug = readTrimmedString(pkg, "slug");
+  const companyName = readTrimmedString(company, "name") ?? companySlug;
+  const packageName = readTrimmedString(pkg, "name") ?? packageSlug;
+  const targetLabel =
+    companyName && packageName ? `${companyName} / ${packageName}` : companyName ?? packageName ?? null;
+
+  return { companySlug, packageSlug, targetLabel, contentHash };
+}
+
+function resolveAuditActionType(summary: ImportSummary): AuditActionType {
+  if (summary.mode === "pembahasan") {
+    if (summary.isDuplicateContent) {
+      return "EXPLANATION_DUPLICATE_FORCED";
+    }
+    return summary.hasOverwrite ? "EXPLANATION_OVERWRITE" : "EXPLANATION_NEW";
+  }
+  if (summary.isDuplicateContent) {
+    return "PACK_DUPLICATE_FORCED";
+  }
+  return summary.hasOverwrite ? "PACK_OVERWRITE" : "PACK_NEW";
+}
+
+// POST /api/admin/packs?dryRun=1&force=1 memeriksa atau menyimpan paket soal / pembahasan.
 export async function POST(request: Request) {
   const rejection = await rejectIfNotAdmin();
   if (rejection) {
     return rejection;
   }
 
+  const url = new URL(request.url);
+  const dryRun = url.searchParams.get("dryRun") === "1";
+  const force = url.searchParams.get("force") === "1";
+  const fileName = sanitizeImportFileName(request.headers.get("x-import-filename"));
+
   const rawBody = await request.text();
   if (rawBody.length > MAX_BODY_BYTES) {
-    return NextResponse.json({ errors: ["File terlalu besar (maksimal 8 MB)"] }, { status: 413 });
+    const errors = ["File terlalu besar (maksimal 8 MB)"];
+    if (!dryRun) {
+      await recordAuditLog({
+        actionType: "IMPORT_FAILED",
+        status: "FAILED",
+        fileName,
+        summary: { errors },
+      });
+    }
+    return NextResponse.json({ errors }, { status: 413 });
   }
 
   let parsed: unknown;
@@ -23,39 +103,113 @@ export async function POST(request: Request) {
     parsed = JSON.parse(rawBody);
   } catch (error) {
     const reason = error instanceof Error ? error.message : "format tidak dikenali";
-    return NextResponse.json({ errors: [`Bukan JSON yang valid: ${reason}`] }, { status: 400 });
+    const errors = [`Bukan JSON yang valid: ${reason}`];
+    if (!dryRun) {
+      await recordAuditLog({
+        actionType: "IMPORT_FAILED",
+        status: "FAILED",
+        fileName,
+        summary: { errors },
+      });
+    }
+    return NextResponse.json({ errors }, { status: 400 });
   }
 
-  const dryRun = new URL(request.url).searchParams.get("dryRun") === "1";
+  const meta = extractParsedMetadata(parsed);
+
+  async function logFailure(mode: "pack" | "pembahasan", errors: string[]) {
+    if (dryRun) {
+      return;
+    }
+    await recordAuditLog({
+      actionType: "IMPORT_FAILED",
+      status: "FAILED",
+      companySlug: meta.companySlug,
+      packageSlug: meta.packageSlug,
+      targetLabel: meta.targetLabel,
+      fileName,
+      contentHash: meta.contentHash,
+      summary: { mode, errors: errors.slice(0, 10) },
+    });
+  }
+
+  async function runAndRespond(mode: "pack" | "pembahasan", executor: () => Promise<ImportSummary>) {
+    try {
+      const summary = await executor();
+      if (!dryRun) {
+        const forcedOverwrite = summary.requiresConfirmation && force;
+        const replacedAttempts = summary.subtests.reduce(
+          (total, subtest) => total + subtest.replacedAttemptCount,
+          0,
+        );
+        await recordAuditLog({
+          actionType: resolveAuditActionType(summary),
+          status: forcedOverwrite ? "FORCED" : "SUCCESS",
+          companySlug: summary.companySlug,
+          packageSlug: summary.packageSlug,
+          targetLabel: `${summary.companyName} / ${summary.packageName}`,
+          fileName,
+          contentHash: summary.contentHash,
+          forcedOverwrite,
+          summary: {
+            mode: summary.mode ?? "pack",
+            subtestCount: summary.subtests.length,
+            totalQuestions: summary.totalQuestions,
+            replacedAttempts,
+            warnings: summary.warnings,
+          },
+        });
+      }
+      return NextResponse.json({ summary });
+    } catch (error) {
+      if (error instanceof ImportConfirmationRequiredError) {
+        return NextResponse.json(
+          {
+            requiresConfirmation: true,
+            summary: error.summary,
+            errors: [CONFIRMATION_REQUIRED_MESSAGE],
+          },
+          { status: 409 },
+        );
+      }
+      if (error instanceof ExplanationImportError) {
+        await logFailure(mode, error.problems);
+        return NextResponse.json({ errors: error.problems }, { status: 400 });
+      }
+      console.error(mode === "pembahasan" ? "Impor pembahasan gagal" : "Impor paket gagal", error);
+      const errors = ["Impor gagal di database. Tidak ada data yang berubah."];
+      await logFailure(mode, errors);
+      return NextResponse.json({ errors }, { status: 500 });
+    }
+  }
 
   // File pembahasan saja (pembahasanSaja: true) hanya memperbarui pembahasan soal yang sudah ada.
   if (isExplanationPack(parsed)) {
     const explanationValidation = validateExplanationPack(parsed);
     if (!explanationValidation.ok) {
+      await logFailure("pembahasan", explanationValidation.errors);
       return NextResponse.json({ errors: explanationValidation.errors }, { status: 400 });
     }
-    try {
-      const summary = await importExplanations(explanationValidation.pack, { dryRun });
-      return NextResponse.json({ summary });
-    } catch (error) {
-      if (error instanceof ExplanationImportError) {
-        return NextResponse.json({ errors: error.problems }, { status: 400 });
-      }
-      console.error("Impor pembahasan gagal", error);
-      return NextResponse.json({ errors: ["Impor gagal di database. Tidak ada data yang berubah."] }, { status: 500 });
-    }
+    return runAndRespond("pembahasan", () =>
+      importExplanations(explanationValidation.pack, {
+        dryRun,
+        force,
+        contentHash: meta.contentHash,
+      }),
+    );
   }
 
   const validation = validatePack(parsed);
   if (!validation.ok) {
+    await logFailure("pack", validation.errors);
     return NextResponse.json({ errors: validation.errors }, { status: 400 });
   }
 
-  try {
-    const summary = await importPack(validation.pack, { dryRun });
-    return NextResponse.json({ summary });
-  } catch (error) {
-    console.error("Impor paket gagal", error);
-    return NextResponse.json({ errors: ["Impor gagal di database. Tidak ada data yang berubah."] }, { status: 500 });
-  }
+  return runAndRespond("pack", () =>
+    importPack(validation.pack, {
+      dryRun,
+      force,
+      contentHash: meta.contentHash,
+    }),
+  );
 }

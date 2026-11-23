@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { rejectIfNotAdmin } from "@/lib/admin-auth";
-import { recordAuditLog } from "@/lib/audit-log";
-import { sanitizeImportFileName } from "@/lib/import-analysis";
+import { rejectIfNotAdmin } from "@/lib/admin/auth";
+import { recordAuditLog } from "@/lib/admin/audit-log";
+import { sanitizeImportFileName } from "@/lib/admin/import-analysis";
 
 function sanitizeNullableText(value: unknown, maxLength: number): string | null {
   if (typeof value !== "string") {

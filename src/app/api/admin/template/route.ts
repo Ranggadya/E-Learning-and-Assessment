@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rejectIfNotAdmin } from "@/lib/admin-auth";
+import { rejectIfNotAdmin } from "@/lib/admin/auth";
 
 // Contoh paket minimal agar format file mudah dipahami dan diedit.
 const TEMPLATE = {

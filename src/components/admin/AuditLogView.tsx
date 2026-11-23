@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { ADMIN_BADGE_TONES, formatDateTimeId } from "@/components/admin/admin-format";
+import { ADMIN_BADGE_TONES } from "@/components/admin/admin-format";
 import {
   IconAlertTriangle,
   IconArrowLeft,
@@ -10,13 +10,10 @@ import {
   IconSearch,
   IconUpload,
 } from "@/components/ui/Icons";
-import {
-  SUBTEST_KIND_LABEL,
-  type AuditActionType,
-  type AuditStatus,
-  type ImportAuditLogEntry,
-  type SubtestKind,
-} from "@/lib/types";
+import { SUBTEST_KIND_LABEL } from "@/lib/assessment/constants";
+import { formatDateTimeId } from "@/lib/format";
+import type { AuditActionType, AuditStatus, ImportAuditLogEntry } from "@/types/admin";
+import type { SubtestKind } from "@/types/assessment";
 
 interface AuditLogViewProps {
   logs: ImportAuditLogEntry[];

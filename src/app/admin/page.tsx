@@ -3,8 +3,8 @@ import { AdminDashboardClient } from "@/components/admin/AdminDashboardClient";
 import { AdminLoginForm } from "@/components/admin/AdminLoginForm";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { IconAlertTriangle, IconArrowLeft } from "@/components/ui/Icons";
-import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin-auth";
-import { getAdminOverview } from "@/lib/queries";
+import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin/auth";
+import { getAdminOverview } from "@/lib/admin/queries";
 
 export const dynamic = "force-dynamic";
 

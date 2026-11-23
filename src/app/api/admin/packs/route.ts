@@ -1,23 +1,20 @@
 import { NextResponse } from "next/server";
-import { rejectIfNotAdmin } from "@/lib/admin-auth";
-import { recordAuditLog } from "@/lib/audit-log";
+import { rejectIfNotAdmin } from "@/lib/admin/auth";
+import { recordAuditLog } from "@/lib/admin/audit-log";
 import {
   ExplanationImportError,
   importExplanations,
   isExplanationPack,
   validateExplanationPack,
-} from "@/lib/explanation-pack";
+} from "@/lib/admin/explanation-pack";
 import {
   extractParsedMetadata,
   resolveAuditActionType,
   sanitizeImportFileName,
-} from "@/lib/import-analysis";
-import {
-  ImportConfirmationRequiredError,
-  importPack,
-  type ImportSummary,
-} from "@/lib/pack-import";
-import { validatePack } from "@/lib/pack-schema";
+} from "@/lib/admin/import-analysis";
+import { ImportConfirmationRequiredError, importPack } from "@/lib/admin/pack-import";
+import { validatePack } from "@/lib/admin/pack-schema";
+import type { ImportSummary } from "@/types/admin";
 
 const MAX_BODY_BYTES = 8 * 1024 * 1024;
 const CONFIRMATION_REQUIRED_MESSAGE = "Konfirmasi timpa paksa diperlukan sebelum menyimpan.";

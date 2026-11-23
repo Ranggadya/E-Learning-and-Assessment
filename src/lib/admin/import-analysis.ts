@@ -1,7 +1,18 @@
 import { createHash } from "node:crypto";
-import type { AuditActionType, QuestionType, SubtestKind } from "./types";
+import { OPTION_KEYS } from "@/lib/assessment/constants";
+import type {
+  AuditActionType,
+  ExistingQuestionSnapshot,
+  ExplanationEntryInput,
+  ExplanationSpotCheck,
+  ExplanationSubtestComparison,
+  MetadataDiffResult,
+  SubtestChangeType,
+  SubtestComparisonResult,
+  SubtestSnapshot,
+} from "@/types/admin";
+import type { SubtestKind } from "@/types/assessment";
 
-const OPTION_KEYS = ["A", "B", "C", "D", "E"] as const;
 const MAX_SPOT_CHECKS = 3;
 const MAX_SNIPPET_LENGTH = 110;
 const MAX_FILE_NAME_LENGTH = 180;
@@ -10,76 +21,6 @@ const MAX_DESCRIPTION_LENGTH = 1000;
 const MIN_DURATION_SECONDS = 10;
 const MAX_DURATION_SECONDS = 10800;
 const MAX_PG_INT4 = 2_147_483_647;
-
-export type SubtestChangeType = "baru" | "identik" | "berubah";
-
-export interface ExistingQuestionSnapshot {
-  orderIndex: number;
-  type: QuestionType;
-  prompt: string;
-  imageSvg: string | null;
-  options: string[];
-  correctIndex: number;
-  explanation: string;
-  steps: string[] | null;
-  wrongNotes: string[] | null;
-  quickTip: string | null;
-}
-
-export interface SubtestSnapshot {
-  name: string;
-  description: string | null;
-  durationSeconds: number;
-  kind: SubtestKind;
-  config: unknown | null;
-  questions: ExistingQuestionSnapshot[];
-}
-
-export interface SubtestComparisonResult {
-  changeType: "identik" | "berubah";
-  existingQuestionCount: number;
-  incomingQuestionCount: number;
-  changedQuestionCount: number;
-  existingDetailedCount: number;
-  incomingDetailedCount: number;
-  losesDetailedExplanations: boolean;
-}
-
-export interface ExplanationSpotCheck {
-  subtestSlug: string;
-  subtestName: string;
-  number: number;
-  correctOption: string;
-  dbPromptSnippet: string;
-  incomingSnippet: string;
-  alreadyHasDetailed: boolean;
-}
-
-export interface ExplanationEntryInput {
-  number: number;
-  correctIndex: number;
-  prompt?: string;
-  explanation?: string;
-  steps?: string[];
-  wrongNotes?: string[];
-  quickTip?: string;
-}
-
-export interface ExplanationSubtestComparison {
-  changeType: SubtestChangeType;
-  existingQuestionCount: number;
-  incomingCount: number;
-  changedNumbers: number[];
-  coverageMismatch: boolean;
-  existingDetailedOverwriteCount: number;
-  spotChecks: ExplanationSpotCheck[];
-  promptMismatchErrors: string[];
-}
-
-export interface MetadataDiffResult {
-  changed: boolean;
-  warnings: string[];
-}
 
 function isPlainRecord(value: unknown): value is Record<string, unknown> {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {

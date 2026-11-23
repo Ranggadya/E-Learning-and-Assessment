@@ -1,47 +1,27 @@
+import { OPTION_KEYS } from "@/lib/assessment/constants";
+import type {
+  ExistingQuestionSnapshot,
+  ExplanationEntry,
+  ExplanationPackFile,
+  ExplanationSpotCheck,
+  ExplanationValidation,
+  ImportDbClient,
+  ImportExecutionOptions,
+  ImportedSubtestSummary,
+  ImportSummary,
+} from "@/types/admin";
+import type { QuestionOption, QuestionType } from "@/types/assessment";
 import { findPreviousSuccessfulUpload } from "./audit-log";
 import {
   compareExplanationSubtest,
   computeCanonicalHash,
   hasDetailedExplanation,
-  type ExistingQuestionSnapshot,
-  type ExplanationSpotCheck,
 } from "./import-analysis";
-import {
-  formatUploadTimestamp,
-  ImportConfirmationRequiredError,
-  type ImportDbClient,
-  type ImportExecutionOptions,
-  type ImportedSubtestSummary,
-  type ImportSummary,
-} from "./pack-import";
+import { formatUploadTimestamp, ImportConfirmationRequiredError } from "./pack-import";
 import { validateExplanationExtras } from "./pack-schema";
-import type { QuestionOption, QuestionType } from "./types";
 
-const OPTION_KEYS = ["A", "B", "C", "D", "E"];
 const MAX_ERRORS = 30;
 const MAX_TOTAL_SPOT_CHECKS = 6;
-
-// File pembahasan: memperbarui pembahasan soal yang sudah ada tanpa mengganti soal atau menghapus riwayat.
-// Setiap butir dicocokkan lewat nomor soal, dan correctIndex wajib sama dengan kunci di database
-// sehingga pembahasan tidak bisa tertukar ke soal lain.
-export interface ExplanationEntry {
-  number: number;
-  correctIndex: number;
-  prompt?: string;
-  explanation?: string;
-  steps?: string[];
-  wrongNotes?: string[];
-  quickTip?: string;
-}
-
-export interface ExplanationPackFile {
-  pembahasanSaja: true;
-  company: { slug: string };
-  package: { slug: string };
-  subtests: { slug: string; explanations: ExplanationEntry[] }[];
-}
-
-export type ExplanationValidation = { ok: true; pack: ExplanationPackFile } | { ok: false; errors: string[] };
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -140,7 +120,7 @@ export async function importExplanations(
 
   const client: ImportDbClient = options.connectClient
     ? await options.connectClient()
-    : await (await import("./db")).databasePool.connect();
+    : await (await import("@/lib/db/pool")).databasePool.connect();
   let inTransaction = false;
 
   try {
@@ -199,7 +179,7 @@ export async function importExplanations(
         prompt: row.prompt,
         imageSvg: row.image_svg ?? null,
         options: Array.isArray(row.options) ? row.options.map((opt) => opt.label) : [],
-        correctIndex: OPTION_KEYS.indexOf(row.correct_option),
+        correctIndex: (OPTION_KEYS as readonly string[]).indexOf(row.correct_option),
         explanation: row.explanation ?? "",
         steps: row.steps ?? null,
         wrongNotes: row.wrong_notes ?? null,

@@ -4,7 +4,7 @@ import { AdminShell } from "@/components/admin/AdminShell";
 import { EnglishWordsImporter } from "@/components/admin/EnglishWordsImporter";
 import { PackImporter } from "@/components/admin/PackImporter";
 import { IconArrowLeft, IconDownload } from "@/components/ui/Icons";
-import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin-auth";
+import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin/auth";
 
 export const dynamic = "force-dynamic";
 

@@ -1,36 +1,5 @@
-import type { QuestionType, SubtestKind } from "./types";
-
-// Format satu file paket soal. Satu file = satu paket milik satu perusahaan.
-export interface PackQuestion {
-  type?: QuestionType;
-  prompt: string;
-  imageSvg?: string;
-  options: string[];
-  correctIndex: number;
-  explanation: string;
-  // Pembahasan lengkap (opsional): langkah pengerjaan, alasan tiap opsi salah (sejajar dengan options), dan quick tip.
-  steps?: string[];
-  wrongNotes?: string[];
-  quickTip?: string;
-}
-
-export interface PackSubtest {
-  slug: string;
-  name: string;
-  description?: string;
-  kind?: SubtestKind;
-  durationSeconds?: number;
-  config?: unknown;
-  questions?: PackQuestion[];
-}
-
-export interface PackFile {
-  company: { slug: string; name: string; description?: string };
-  package: { slug: string; name: string; description?: string };
-  subtests: PackSubtest[];
-}
-
-export type PackValidation = { ok: true; pack: PackFile } | { ok: false; errors: string[] };
+import type { PackFile, PackValidation } from "@/types/admin";
+import type { QuestionType, SubtestKind } from "@/types/assessment";
 
 const SLUG_PATTERN = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const VALID_TYPES: QuestionType[] = ["TEXT", "IMAGE", "MEMORY", "SPEED"];

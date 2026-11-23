@@ -1,27 +1,17 @@
-import type { AuditActionType, AuditStatus, ImportAuditLogEntry } from "./types";
-
-export type QueryExecutor = (
-  text: string,
-  values?: unknown[],
-) => Promise<{ rows: Record<string, unknown>[] }>;
-
-export interface RecordAuditLogInput {
-  actionType: AuditActionType;
-  status: AuditStatus;
-  companySlug?: string | null;
-  packageSlug?: string | null;
-  targetLabel?: string | null;
-  fileName?: string | null;
-  contentHash?: string | null;
-  forcedOverwrite?: boolean;
-  summary?: Record<string, unknown>;
-}
+import type {
+  AuditActionType,
+  AuditStatus,
+  ImportAuditLogEntry,
+  PreviousUploadRecord,
+  QueryExecutor,
+  RecordAuditLogInput,
+} from "@/types/admin";
 
 async function executeDefaultQuery(
   text: string,
   values?: unknown[],
 ): Promise<{ rows: Record<string, unknown>[] }> {
-  const { databasePool } = await import("./db");
+  const { databasePool } = await import("@/lib/db/pool");
   const result = await databasePool.query<Record<string, unknown>>(text, values);
   return { rows: result.rows };
 }
@@ -79,7 +69,7 @@ export async function recordAuditLog(
 export async function findPreviousSuccessfulUpload(
   contentHash: string,
   queryFn: QueryExecutor = executeDefaultQuery,
-): Promise<{ createdAt: string; fileName: string | null } | null> {
+): Promise<PreviousUploadRecord | null> {
   try {
     const result = await queryFn(
       `SELECT created_at, file_name

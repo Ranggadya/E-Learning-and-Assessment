@@ -1,8 +1,8 @@
 import { redirect } from "next/navigation";
 import { AdminShell } from "@/components/admin/AdminShell";
 import { AuditLogView } from "@/components/admin/AuditLogView";
-import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin-auth";
-import { listAuditLogs } from "@/lib/audit-log";
+import { isAdminAuthenticated, isAdminConfigured } from "@/lib/admin/auth";
+import { listAuditLogs } from "@/lib/admin/audit-log";
 
 export const dynamic = "force-dynamic";
 

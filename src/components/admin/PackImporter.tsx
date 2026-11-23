@@ -2,11 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import {
-  ADMIN_BADGE_TONES,
-  formatDateTimeId,
-  formatDurationLabel,
-} from "@/components/admin/admin-format";
+import { ADMIN_BADGE_TONES } from "@/components/admin/admin-format";
 import {
   IconAlertTriangle,
   IconCheckCircle,
@@ -14,8 +10,9 @@ import {
   IconFileText,
   IconUpload,
 } from "@/components/ui/Icons";
-import type { ImportedSubtestSummary, ImportSummary } from "@/lib/pack-import";
-import { SUBTEST_KIND_LABEL, SUBTEST_UNIT } from "@/lib/types";
+import { SUBTEST_KIND_LABEL, SUBTEST_UNIT } from "@/lib/assessment/constants";
+import { formatDateTimeId, formatDurationLabel } from "@/lib/format";
+import type { ImportedSubtestSummary, ImportSummary } from "@/types/admin";
 
 type Stage = "idle" | "checking" | "previewed" | "importing" | "done";
 type FocusTarget = "confirmation" | "rejected" | "errors" | null;

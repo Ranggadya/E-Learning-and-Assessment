@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import type { ExistingQuestionSnapshot, SubtestSnapshot } from "@/types/admin";
 import {
   compareContainerMetadata,
   compareExplanationSubtest,
@@ -13,8 +14,6 @@ import {
   sanitizeImportFileName,
   validatePackageUpdateInput,
   validateSubtestUpdateInput,
-  type ExistingQuestionSnapshot,
-  type SubtestSnapshot,
 } from "./import-analysis";
 
 function makeQuestion(overrides: Partial<ExistingQuestionSnapshot> = {}): ExistingQuestionSnapshot {

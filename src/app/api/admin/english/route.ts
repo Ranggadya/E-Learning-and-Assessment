@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { rejectIfNotAdmin } from "@/lib/admin-auth";
+import { rejectIfNotAdmin } from "@/lib/admin/auth";
 import { validateEnglishWordsJson } from "@/lib/english/logic";
 import { upsertEnglishWords } from "@/lib/english/queries";
 

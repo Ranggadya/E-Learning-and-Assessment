@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { rejectIfNotAdmin } from "@/lib/admin-auth";
-import { recordAuditLog } from "@/lib/audit-log";
-import { parsePgInt4Id, validateSubtestUpdateInput } from "@/lib/import-analysis";
-import { deleteSubtest, updateSubtestMetadata } from "@/lib/queries";
+import { rejectIfNotAdmin } from "@/lib/admin/auth";
+import { recordAuditLog } from "@/lib/admin/audit-log";
+import { parsePgInt4Id, validateSubtestUpdateInput } from "@/lib/admin/import-analysis";
+import { deleteSubtest, updateSubtestMetadata } from "@/lib/admin/queries";
 
 interface RouteContext {
   params: Promise<{ subtestId: string }>;

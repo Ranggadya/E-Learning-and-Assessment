@@ -1,8 +1,8 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
-import { databasePool } from "../src/lib/db";
-import { importPack } from "../src/lib/pack-import";
-import { validatePack } from "../src/lib/pack-schema";
+import { importPack } from "../src/lib/admin/pack-import";
+import { validatePack } from "../src/lib/admin/pack-schema";
+import { databasePool } from "../src/lib/db/pool";
 
 // Mengimpor semua file paket di db/packs (atau satu file bila path diberikan sebagai argumen).
 // Untuk pemakaian sehari-hari, unggah file paket lewat halaman /admin/import.

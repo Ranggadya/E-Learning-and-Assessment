@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { rejectIfNotAdmin } from "@/lib/admin-auth";
-import { parsePgInt4Id } from "@/lib/import-analysis";
-import { exportPack } from "@/lib/queries";
+import { rejectIfNotAdmin } from "@/lib/admin/auth";
+import { parsePgInt4Id } from "@/lib/admin/import-analysis";
+import { exportPack } from "@/lib/admin/queries";
 
 interface RouteContext {
   params: Promise<{ packageId: string }>;

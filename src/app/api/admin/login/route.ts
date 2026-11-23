@@ -6,7 +6,7 @@ import {
   isAdminConfigured,
   recordLoginFailure,
   verifyPassword,
-} from "@/lib/admin-auth";
+} from "@/lib/admin/auth";
 
 const FAILED_LOGIN_DELAY_MILLISECONDS = 800;
 

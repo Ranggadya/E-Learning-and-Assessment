@@ -1,11 +1,11 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import type { QueryExecutor } from "@/types/admin";
 import {
   findPreviousSuccessfulUpload,
   isUndefinedTableError,
   listAuditLogs,
   recordAuditLog,
-  type QueryExecutor,
 } from "./audit-log";
 
 function makePgError(code: string, message = "pg error"): Error & { code: string } {

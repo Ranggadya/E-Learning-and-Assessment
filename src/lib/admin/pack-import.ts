@@ -1,79 +1,24 @@
-import { formatDateTimeId } from "../components/admin/admin-format";
+import { OPTION_KEYS } from "@/lib/assessment/constants";
+import { countSubtestItems, resolveSubtestDuration } from "@/lib/assessment/scoring";
+import { formatDateTimeId } from "@/lib/format";
+import type {
+  ExistingQuestionSnapshot,
+  ImportDbClient,
+  ImportExecutionOptions,
+  ImportedSubtestSummary,
+  ImportSummary,
+  PackFile,
+  SubtestChangeType,
+  SubtestSnapshot,
+} from "@/types/admin";
+import type { QuestionOption, QuestionType, SubtestKind } from "@/types/assessment";
 import { findPreviousSuccessfulUpload } from "./audit-log";
 import {
   compareContainerMetadata,
   compareSubtestContent,
   computeCanonicalHash,
   hasDetailedExplanation,
-  type ExistingQuestionSnapshot,
-  type ExplanationSpotCheck,
-  type SubtestChangeType,
-  type SubtestSnapshot,
 } from "./import-analysis";
-import type { PackFile } from "./pack-schema";
-import {
-  countSubtestItems,
-  resolveSubtestDuration,
-  type QuestionOption,
-  type QuestionType,
-  type SubtestKind,
-} from "./types";
-
-const OPTION_KEYS = ["A", "B", "C", "D", "E"];
-
-export interface ImportDbClient {
-  query<T = Record<string, unknown>>(text: string, values?: unknown[]): Promise<{ rows: T[] }>;
-  release(): void;
-}
-
-export interface ImportExecutionOptions {
-  dryRun: boolean;
-  force?: boolean;
-  contentHash?: string;
-  connectClient?: () => Promise<ImportDbClient>;
-  findPreviousUpload?: typeof findPreviousSuccessfulUpload;
-}
-
-export interface ImportedSubtestSummary {
-  slug: string;
-  name: string;
-  kind: SubtestKind;
-  questionCount: number;
-  durationSeconds: number;
-  status: "baru" | "diganti";
-  // Jumlah percobaan lama pada subtes ini yang detail jawabannya ikut terhapus saat soal diganti.
-  replacedAttemptCount: number;
-  changeType: SubtestChangeType;
-  existingQuestionCount: number;
-  changedQuestionCount: number;
-  existingDetailedCount: number;
-  incomingDetailedCount: number;
-  losesDetailedExplanations: boolean;
-  coverageMismatch?: boolean;
-  existingDetailedOverwriteCount?: number;
-}
-
-export interface ImportSummary {
-  companySlug: string;
-  companyName: string;
-  companyStatus: "baru" | "diperbarui";
-  packageSlug: string;
-  packageName: string;
-  packageStatus: "baru" | "diperbarui";
-  subtests: ImportedSubtestSummary[];
-  totalQuestions: number;
-  dryRun: boolean;
-  // "pembahasan" = file pembahasan saja: soal dan riwayat tidak disentuh.
-  mode?: "pembahasan";
-  contentHash: string;
-  isDuplicateContent: boolean;
-  previousUploadAt: string | null;
-  hasOverwrite: boolean;
-  metadataChanged: boolean;
-  requiresConfirmation: boolean;
-  warnings: string[];
-  spotChecks?: ExplanationSpotCheck[];
-}
 
 export class ImportConfirmationRequiredError extends Error {
   readonly summary: ImportSummary;
@@ -183,7 +128,7 @@ export async function importPack(
 
   const client: ImportDbClient = options.connectClient
     ? await options.connectClient()
-    : await (await import("./db")).databasePool.connect();
+    : await (await import("@/lib/db/pool")).databasePool.connect();
   let inTransaction = false;
 
   try {
@@ -293,7 +238,7 @@ export async function importPack(
           prompt: row.prompt,
           imageSvg: row.image_svg ?? null,
           options: Array.isArray(row.options) ? row.options.map((opt) => opt.label) : [],
-          correctIndex: OPTION_KEYS.indexOf(row.correct_option),
+          correctIndex: (OPTION_KEYS as readonly string[]).indexOf(row.correct_option),
           explanation: row.explanation ?? "",
           steps: row.steps ?? null,
           wrongNotes: row.wrong_notes ?? null,

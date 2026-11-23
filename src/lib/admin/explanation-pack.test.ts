@@ -1,7 +1,8 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import type { ImportSummary } from "@/types/admin";
 import { validateExplanationPack } from "./explanation-pack";
-import { formatUploadTimestamp, ImportConfirmationRequiredError, type ImportSummary } from "./pack-import";
+import { formatUploadTimestamp, ImportConfirmationRequiredError } from "./pack-import";
 
 function makeBaseExplanationPack(entryOverrides: Record<string, unknown> = {}) {
   return {

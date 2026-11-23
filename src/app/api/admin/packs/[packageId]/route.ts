@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { rejectIfNotAdmin } from "@/lib/admin-auth";
-import { recordAuditLog } from "@/lib/audit-log";
-import { parsePgInt4Id, validatePackageUpdateInput } from "@/lib/import-analysis";
-import { deletePackage, updatePackageMetadata } from "@/lib/queries";
+import { rejectIfNotAdmin } from "@/lib/admin/auth";
+import { recordAuditLog } from "@/lib/admin/audit-log";
+import { parsePgInt4Id, validatePackageUpdateInput } from "@/lib/admin/import-analysis";
+import { deletePackage, updatePackageMetadata } from "@/lib/admin/queries";
 
 interface RouteContext {
   params: Promise<{ packageId: string }>;

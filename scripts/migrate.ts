@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { databasePool } from "../src/lib/db";
+import { databasePool } from "../src/lib/db/pool";
 
 // Menerapkan db/schema.sql. Aman dijalankan berulang kali.
 async function main(): Promise<void> {

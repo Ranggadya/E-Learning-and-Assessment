@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ADMIN_BADGE_TONES, formatDurationLabel } from "@/components/admin/admin-format";
+import { ADMIN_BADGE_TONES } from "@/components/admin/admin-format";
 import { DeleteButton } from "@/components/admin/DeleteButton";
 import {
   IconAlertTriangle,
@@ -15,16 +15,12 @@ import {
   IconSearch,
   IconUpload,
 } from "@/components/ui/Icons";
+import { SUBTEST_KIND_LABEL, SUBTEST_UNIT } from "@/lib/assessment/constants";
 import { getCompanyMonogram } from "@/lib/assessment/dashboard";
-import {
-  resolveSubtestDuration,
-  SUBTEST_KIND_LABEL,
-  SUBTEST_UNIT,
-  type AdminCompany,
-  type AdminPackage,
-  type AdminSubtest,
-  type SubtestKind,
-} from "@/lib/types";
+import { resolveSubtestDuration } from "@/lib/assessment/scoring";
+import { formatDurationLabel } from "@/lib/format";
+import type { AdminCompany, AdminPackage, AdminSubtest } from "@/types/admin";
+import type { SubtestKind } from "@/types/assessment";
 
 interface AdminDashboardClientProps {
   companies: AdminCompany[];

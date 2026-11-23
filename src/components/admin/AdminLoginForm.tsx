@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import { IconAlertTriangle, IconArrowLeft, IconEye, IconEyeOff, IconShield } from "@/components/ui/Icons";
 
 export function AdminLoginForm() {

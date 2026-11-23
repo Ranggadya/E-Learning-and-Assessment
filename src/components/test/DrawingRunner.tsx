@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { RunnerHeader, formatClock } from "@/components/RunnerHeader";
+import { RunnerHeader, formatClock } from "./RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
 import { useCountdown } from "@/hooks/useCountdown";
 import type { DrawingConfig, DrawingSubmission, DrawingTaskConfig } from "@/types/assessment";

@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { ThemeToggle } from "./ThemeToggle";
 import {
   IconBuilding,
   IconClose,

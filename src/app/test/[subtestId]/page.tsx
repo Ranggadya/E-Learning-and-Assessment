@@ -1,8 +1,8 @@
 import { notFound } from "next/navigation";
-import { DrawingRunner } from "@/components/DrawingRunner";
-import { PauliRunner } from "@/components/PauliRunner";
-import { PersonalityRunner } from "@/components/PersonalityRunner";
-import { TestRunner } from "@/components/TestRunner";
+import { DrawingRunner } from "@/components/test/DrawingRunner";
+import { PauliRunner } from "@/components/test/PauliRunner";
+import { PersonalityRunner } from "@/components/test/PersonalityRunner";
+import { TestRunner } from "@/components/test/TestRunner";
 import { getPublicQuestions, getSubtestById } from "@/lib/assessment/catalog.queries";
 import type { DrawingConfig, PauliConfig, PersonalityConfig } from "@/types/assessment";
 

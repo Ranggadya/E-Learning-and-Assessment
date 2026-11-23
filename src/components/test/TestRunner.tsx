@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { QuestionImage } from "@/components/QuestionImage";
-import { ThemeToggle } from "@/components/ThemeToggle";
+import { QuestionImage } from "./QuestionImage";
+import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import {
   IconAlertTriangle,
   IconArrowLeft,

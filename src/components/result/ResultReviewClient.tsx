@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { QuestionImage } from "@/components/QuestionImage";
+import { QuestionImage } from "@/components/test/QuestionImage";
 import {
   IconArrowLeft,
   IconCheckCircle,

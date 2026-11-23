@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type MutableRefObject } from "react";
 import { useRouter } from "next/navigation";
-import { RunnerHeader } from "@/components/RunnerHeader";
+import { RunnerHeader } from "./RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
 import { useCountdown } from "@/hooks/useCountdown";
 import type { PauliColumnStat, PauliConfig } from "@/types/assessment";

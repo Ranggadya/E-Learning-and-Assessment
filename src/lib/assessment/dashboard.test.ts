@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import type { DashboardCompany, DashboardPackage, LocalProgressStore } from "@/types/assessment";
 import {
+  catalogToCompanies,
   computeDashboardStats,
   computeNextAction,
   countCompletedActiveSubtests,
@@ -277,4 +278,28 @@ test("countCompletedActiveSubtests mengabaikan ID basi di localStorage dan tidak
   assert.equal(countCompletedActiveSubtests([500, 501], progressWithStaleIds), 0);
   assert.equal(countCompletedActiveSubtests([], progressWithStaleIds), 0);
   assert.equal(countCompletedActiveSubtests([101, 102], EMPTY_PROGRESS), 0);
+});
+
+test("catalogToCompanies memetakan DashboardCompany ke Company untuk LearnerShell tanpa query ulang", () => {
+  const companies = catalogToCompanies(makeCatalog());
+  assert.deepEqual(companies, [
+    {
+      id: 1,
+      slug: "astra",
+      name: "PT Astra International",
+      description: null,
+      packageCount: 2,
+      subtestCount: 4,
+      subtestIds: [101, 102, 103, 104],
+    },
+    {
+      id: 2,
+      slug: "paragon",
+      name: "ParagonCorp",
+      description: null,
+      packageCount: 1,
+      subtestCount: 2,
+      subtestIds: [201, 202],
+    },
+  ]);
 });

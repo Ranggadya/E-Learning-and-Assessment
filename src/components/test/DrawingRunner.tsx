@@ -129,8 +129,9 @@ function DrawingCanvasStage({ task, taskIndex, totalTasks, onComplete }: Drawing
           <div className="flex items-center gap-2">
             <button
               type="button"
+              aria-pressed={tool === "pen"}
               onClick={() => setTool("pen")}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+              className={`min-h-[40px] rounded-lg px-3.5 py-2 text-xs font-semibold transition ${
                 tool === "pen"
                   ? "bg-brand text-white"
                   : "border border-line bg-canvas text-ink-secondary hover:bg-subtle"
@@ -140,8 +141,9 @@ function DrawingCanvasStage({ task, taskIndex, totalTasks, onComplete }: Drawing
             </button>
             <button
               type="button"
+              aria-pressed={tool === "eraser"}
               onClick={() => setTool("eraser")}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
+              className={`min-h-[40px] rounded-lg px-3.5 py-2 text-xs font-semibold transition ${
                 tool === "eraser"
                   ? "bg-brand text-white"
                   : "border border-line bg-canvas text-ink-secondary hover:bg-subtle"
@@ -152,7 +154,7 @@ function DrawingCanvasStage({ task, taskIndex, totalTasks, onComplete }: Drawing
             <button
               type="button"
               onClick={handleClear}
-              className="rounded-lg border border-line bg-canvas px-3 py-1.5 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
+              className="min-h-[40px] rounded-lg border border-line bg-canvas px-3.5 py-2 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
             >
               Bersihkan Kanvas
             </button>
@@ -161,7 +163,7 @@ function DrawingCanvasStage({ task, taskIndex, totalTasks, onComplete }: Drawing
           <button
             type="button"
             onClick={finishTask}
-            className="rounded-lg bg-brand px-4 py-1.5 text-sm font-semibold text-white transition hover:bg-brand-hover"
+            className="min-h-[40px] rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
           >
             {taskIndex + 1 < totalTasks ? "Simpan & Tugas Berikutnya" : "Selesai & Lihat Refleksi"}
           </button>
@@ -171,10 +173,13 @@ function DrawingCanvasStage({ task, taskIndex, totalTasks, onComplete }: Drawing
           ref={canvasRef}
           width={800}
           height={520}
+          role="img"
+          aria-label={`Kanvas menggambar untuk tugas ${task.title}`}
           onPointerDown={handlePointerDown}
           onPointerMove={handlePointerMove}
           onPointerUp={handlePointerUp}
           onPointerCancel={handlePointerUp}
+          onLostPointerCapture={handlePointerUp}
           className="w-full touch-none rounded-lg border border-line-strong bg-white cursor-crosshair"
         />
       </div>

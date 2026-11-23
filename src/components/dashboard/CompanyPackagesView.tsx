@@ -22,6 +22,15 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
       acc + pkg.subtests.reduce((subAcc, s) => subAcc + (s.kind === "QUIZ" ? s.questionCount : 0), 0),
     0,
   );
+  // Single Primary Action Rule: sorot hanya satu paket belum tuntas berikutnya sebagai CTA primer.
+  const primaryPackageId =
+    company.packages.find(
+      (pkg) =>
+        pkg.subtests.length > 0 &&
+        pkg.subtests.some((s) => s.questionCount > 0 && !progress.bySubtestId[String(s.id)]),
+    )?.id ??
+    company.packages[0]?.id ??
+    null;
 
   return (
     <div className="space-y-6">
@@ -59,12 +68,12 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
       </div>
 
       {company.packages.length === 0 ? (
-        <div className="rounded-[10px] border border-dashed border-line-strong bg-surface p-8 text-center">
+        <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center">
           <IconLayers className="mx-auto h-7 w-7 text-ink-muted" />
           <p className="mt-2 text-sm text-ink-secondary">Belum ada paket latihan untuk perusahaan ini.</p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-[10px] border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <div className="overflow-hidden rounded-xl border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
           <ul className="divide-y divide-line">
             {company.packages.map((pkg) => {
               const subtestCount = pkg.subtests.length;
@@ -78,6 +87,7 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
               );
               const doneCount = pkg.subtests.filter((s) => Boolean(progress.bySubtestId[String(s.id)])).length;
               const percent = subtestCount > 0 ? Math.round((doneCount / subtestCount) * 100) : 0;
+              const isPrimaryPackage = pkg.id === primaryPackageId;
 
               return (
                 <li key={pkg.id} className="p-5 transition hover:bg-subtle/50">
@@ -126,7 +136,11 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
                       </div>
                       <Link
                         href={`/c/${company.slug}/${pkg.slug}`}
-                        className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover sm:w-auto"
+                        className={
+                          isPrimaryPackage
+                            ? "inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover sm:w-auto"
+                            : "inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg border border-line-strong bg-surface px-4 py-2 text-sm font-semibold text-ink transition hover:bg-subtle sm:w-auto"
+                        }
                       >
                         <span>Lihat Subtes</span>
                         <IconArrowRight className="h-4 w-4" />

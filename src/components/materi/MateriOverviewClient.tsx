@@ -43,22 +43,25 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
 
   useEffect(() => {
     if (!userId) return;
-    let active = true;
-    fetch(`/api/materi/progress?userId=${encodeURIComponent(userId)}`)
+    const controller = new AbortController();
+    fetch(`/api/materi/progress?userId=${encodeURIComponent(userId)}`, {
+      signal: controller.signal,
+    })
       .then((res) => res.json())
       .then((data: { overview?: EnglishProgressOverview }) => {
-        if (active && data.overview) {
+        if (!controller.signal.aborted && data.overview) {
           setOverview(data.overview);
         }
       })
-      .catch(() => {
+      .catch((err: unknown) => {
+        if (err instanceof DOMException && err.name === "AbortError") return;
         // Gunakan initialOverview jika jaringan gagal.
       })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [userId]);
 
@@ -72,10 +75,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
       {/* Header */}
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <span className="inline-flex items-center gap-1.5 rounded-md border border-brand/30 bg-brand-soft px-2.5 py-0.5 text-xs font-bold text-brand-text">
-            Materi Bahasa Inggris
-          </span>
-          <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-ink sm:text-[26px]">
+          <h1 className="text-2xl font-extrabold tracking-tight text-ink sm:text-[28px]">
             Pusat Belajar Bahasa Inggris
           </h1>
           <p className="mt-1 text-sm text-ink-secondary">
@@ -86,7 +86,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
         <div className="flex flex-wrap items-center gap-2">
           <Link
             href="/materi/kamus/belajar"
-            className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-brand-hover"
+            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-brand-hover"
           >
             <IconZap className="h-4 w-4" />
             <span>Mulai Flashcard</span>
@@ -98,7 +98,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
           </Link>
           <Link
             href="/materi/kamus/kuis"
-            className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
+            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
           >
             <span>Mulai Kuis 10 Soal</span>
           </Link>
@@ -108,7 +108,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
       {/* Ringkasan Progres Kotak & Level */}
       <section
         aria-label="Ringkasan progres belajar"
-        className="rounded-[10px] border border-line-strong bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-none"
+        className="rounded-xl border border-line-strong bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-none"
       >
         <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-4">
           <div>
@@ -122,7 +122,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
           ) : overview.dueCount > 0 ? (
             <Link
               href="/materi/kamus/belajar"
-              className="inline-flex items-center gap-1 text-xs font-bold text-brand-text hover:underline"
+              className="inline-flex min-h-[40px] items-center gap-1 text-xs font-bold text-brand-text hover:underline"
             >
               <IconClock className="h-3.5 w-3.5" />
               <span>{overview.dueCount} kata siap diulang hari ini</span>
@@ -132,29 +132,29 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
 
         {/* 5 Kotak Leitner */}
         <div className="mt-4">
-          <p className="text-xs font-bold uppercase tracking-wider text-ink-muted">
+          <p className="text-xs font-semibold text-ink-secondary">
             Distribusi Sistem 5 Kotak (Spaced Repetition)
           </p>
           <div className="mt-2.5 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
-            <div className="rounded-lg border border-line bg-canvas p-3">
+            <div className="rounded-lg bg-canvas p-3">
               <span className="text-xs font-semibold text-ink-muted">Belum Dilihat</span>
               <p className="mt-1 text-xl font-extrabold tabular-nums text-ink">
                 {overview.unseenCount}
               </p>
-              <span className="text-[11px] text-ink-muted">Antrean baru</span>
+              <span className="text-xs text-ink-muted">Antrean baru</span>
             </div>
             {([1, 2, 3, 4, 5] as const).map((box) => (
-              <div key={box} className="rounded-lg border border-line bg-canvas p-3">
-                <div className="flex items-center justify-between">
+              <div key={box} className="rounded-lg bg-canvas p-3">
+                <div className="flex items-center justify-between gap-1">
                   <span className="text-xs font-bold text-ink">Kotak {box}</span>
-                  <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-[10px] font-semibold text-ink-secondary">
+                  <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-xs font-semibold text-ink-secondary">
                     {LEITNER_BOX_DAYS[box]} hr
                   </span>
                 </div>
                 <p className="mt-1 text-xl font-extrabold tabular-nums text-brand-text">
                   {overview.boxCounts[box]}
                 </p>
-                <span className="text-[11px] text-ink-muted">
+                <span className="text-xs text-ink-muted">
                   {box === 1
                     ? "Baru / perlu ulang"
                     : box <= 3
@@ -168,7 +168,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
 
         {/* Persentase Tiap Level CEFR */}
         <div className="mt-5 border-t border-line pt-4">
-          <p className="text-xs font-bold uppercase tracking-wider text-ink-muted">
+          <p className="text-xs font-semibold text-ink-secondary">
             Persentase Penguasaan per Level CEFR
           </p>
           <div className="mt-2.5 grid grid-cols-1 gap-2.5 sm:grid-cols-5">
@@ -176,7 +176,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
               <Link
                 key={lvl.cefr}
                 href={`/materi/kamus?cefr=${lvl.cefr}`}
-                className="group rounded-lg border border-line bg-canvas p-3 transition hover:border-brand"
+                className="group rounded-lg bg-canvas p-3 transition hover:bg-subtle"
               >
                 <div className="flex items-center justify-between">
                   <LevelBadge level={lvl.cefr} />
@@ -190,7 +190,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
                     style={{ width: `${lvl.percent}%` }}
                   />
                 </div>
-                <p className="mt-1.5 text-[11px] tabular-nums text-ink-muted">
+                <p className="mt-1.5 text-xs tabular-nums text-ink-muted">
                   {lvl.learned} / {lvl.total} kata
                 </p>
               </Link>
@@ -204,10 +204,10 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
         <h2 className="text-base font-bold text-ink">Topik Pembelajaran</h2>
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {/* Kartu Aktif: Kamus 1000 Kata */}
-          <div className="flex flex-col justify-between rounded-[10px] border-2 border-brand bg-surface p-5 shadow-xs">
+          <div className="flex flex-col justify-between rounded-xl border border-line-strong bg-surface p-5 shadow-xs">
             <div>
               <div className="flex items-center justify-between gap-2">
-                <span className="inline-flex items-center gap-1.5 rounded-md bg-brand px-2.5 py-0.5 text-xs font-bold text-white">
+                <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-soft px-2.5 py-0.5 text-xs font-bold text-brand-text">
                   <IconFileText className="h-3.5 w-3.5" />
                   <span>Tersedia · {overview.totalWords || 1000} Kata</span>
                 </span>
@@ -224,20 +224,20 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
             <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-line pt-4">
               <Link
                 href="/materi/kamus"
-                className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-brand/40 bg-brand-soft px-3.5 py-2 text-xs font-bold text-brand-text transition hover:bg-brand/15"
               >
                 <span>Buka Kamus</span>
                 <IconArrowRight className="h-3.5 w-3.5" />
               </Link>
               <Link
                 href="/materi/kamus/belajar"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
               >
                 <span>Mode Kartu (Flashcard)</span>
               </Link>
               <Link
                 href="/materi/kamus/kuis"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
               >
                 <span>Kuis Pilihan Ganda</span>
               </Link>
@@ -248,7 +248,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
           {UPCOMING_TOPICS.map((topic) => (
             <div
               key={topic.slug}
-              className="flex flex-col justify-between rounded-[10px] border border-dashed border-line-strong bg-surface/70 p-5 opacity-85"
+              className="flex flex-col justify-between rounded-xl border border-dashed border-line-strong bg-surface/70 p-5 opacity-85"
             >
               <div>
                 <div className="flex items-center justify-between gap-2">

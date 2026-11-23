@@ -116,7 +116,7 @@ function PauliColumnStage({
         </span>
       </div>
 
-      <div className="flex flex-col items-center rounded-2xl border border-line bg-surface px-6 py-8 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <div className="flex flex-col items-center rounded-xl border border-line bg-surface px-6 py-8 shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
         <p className="text-xs font-medium text-ink-muted">
           Jumlahkan kedua angka, ketik <strong className="text-ink">digit satuannya</strong> saja
         </p>

@@ -1,5 +1,6 @@
 import type {
   AttemptBadge,
+  Company,
   DashboardCompany,
   DashboardPackage,
   DashboardStats,
@@ -10,6 +11,21 @@ import type {
   SubtestKind,
   VisiblePackagesResult,
 } from "@/types/assessment";
+
+export function catalogToCompanies(catalog: DashboardCompany[]): Company[] {
+  return catalog.map((company) => {
+    const subtestIds = company.packages.flatMap((pkg) => pkg.subtests.map((s) => s.id));
+    return {
+      id: company.id,
+      slug: company.slug,
+      name: company.name,
+      description: company.description,
+      packageCount: company.packages.length,
+      subtestCount: subtestIds.length,
+      subtestIds,
+    };
+  });
+}
 import { SUBTEST_UNIT } from "./constants";
 
 const LEGAL_ENTITY_WORDS = new Set(["PT", "CV", "UD", "TBK", "PERSERO"]);

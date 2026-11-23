@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { RunnerHeader, formatClock } from "./RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
@@ -39,9 +39,25 @@ export function PersonalityRunner({
     Array.from({ length: config.statements.length }, () => null),
   );
   const [submitting, setSubmitting] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const submittedRef = useRef(false);
   const ratingsRef = useRef(ratings);
+  const cancelConfirmRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!confirmOpen) {
+      return;
+    }
+    cancelConfirmRef.current?.focus();
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setConfirmOpen(false);
+      }
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [confirmOpen]);
 
   const submit = useCallback(async () => {
     if (submittedRef.current) {
@@ -74,13 +90,11 @@ export function PersonalityRunner({
 
   const remaining = useCountdown(durationSeconds, submit);
   const answeredCount = ratings.filter((r) => r !== null).length;
+  const unansweredCount = config.statements.length - answeredCount;
 
   function handleManualSubmit() {
-    const unanswered = config.statements.length - answeredCount;
-    if (
-      unanswered > 0 &&
-      !window.confirm(`Masih ada ${unanswered} pernyataan yang belum dijawab. Kumpulkan sekarang?`)
-    ) {
+    if (unansweredCount > 0) {
+      setConfirmOpen(true);
       return;
     }
     void submit();
@@ -128,7 +142,10 @@ export function PersonalityRunner({
         </div>
 
         {error ? (
-          <div className="rounded-xl border border-red-300 bg-red-50 p-3.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200">
+          <div
+            role="alert"
+            className="rounded-xl border border-red-300 bg-red-50 p-3.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200"
+          >
             {error}
           </div>
         ) : null}
@@ -171,7 +188,7 @@ export function PersonalityRunner({
                         }`}
                       >
                         <span className="font-mono text-sm font-bold">{opt.short}</span>
-                        <span className="mt-0.5 hidden text-[11px] leading-tight sm:block">{opt.label}</span>
+                        <span className="mt-0.5 hidden text-xs leading-tight sm:block">{opt.label}</span>
                       </button>
                     );
                   })}
@@ -195,6 +212,49 @@ export function PersonalityRunner({
           </button>
         </div>
       </main>
+
+      {confirmOpen ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="personality-confirm-title"
+        >
+          <div
+            className="fixed inset-0 bg-slate-950/55 backdrop-blur-[1px]"
+            onClick={() => setConfirmOpen(false)}
+          />
+          <div className="animate-dialog relative w-full max-w-md rounded-xl border border-line-strong bg-surface p-5 shadow-xl sm:p-6">
+            <h2 id="personality-confirm-title" className="text-base font-bold text-ink">
+              Kumpulkan jawaban sekarang?
+            </h2>
+            <p className="mt-2 text-sm leading-relaxed text-ink-secondary">
+              Masih ada <strong className="text-ink tabular-nums">{unansweredCount}</strong> pernyataan yang belum dijawab. Pernyataan kosong tidak dihitung pada profil sifatmu.
+            </p>
+            <div className="mt-5 flex flex-wrap justify-end gap-2.5">
+              <button
+                ref={cancelConfirmRef}
+                type="button"
+                onClick={() => setConfirmOpen(false)}
+                className="min-h-[40px] rounded-lg border border-line-strong bg-surface px-4 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
+              >
+                Lanjutkan Mengisi
+              </button>
+              <button
+                type="button"
+                disabled={submitting}
+                onClick={() => {
+                  setConfirmOpen(false);
+                  void submit();
+                }}
+                className="min-h-[40px] rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover disabled:opacity-60"
+              >
+                Ya, Kumpulkan
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </div>
   );
 }

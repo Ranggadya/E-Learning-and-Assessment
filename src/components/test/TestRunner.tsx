@@ -400,7 +400,7 @@ export function TestRunner({
           ) : null}
 
           <div key={currentQuestion.id} className="animate-step mt-5">
-            <p className="max-w-[70ch] whitespace-pre-line text-base leading-relaxed text-ink sm:text-[17px]">
+            <p className="max-w-[70ch] whitespace-pre-line text-base leading-relaxed text-ink">
               {currentQuestion.prompt}
             </p>
 
@@ -439,7 +439,7 @@ export function TestRunner({
             ) : null}
 
             {/* Options */}
-            <ul className="mt-6 space-y-2.5" role="radiogroup" aria-label={`Pilihan jawaban soal ${currentIndex + 1}`}>
+            <ul className="mt-6 space-y-2.5" role="group" aria-label={`Pilihan jawaban soal ${currentIndex + 1}`}>
               {currentQuestion.options.map((option) => {
                 const isSelected = selectedByQuestionId[currentQuestion.id] === option.key;
                 return (
@@ -478,18 +478,18 @@ export function TestRunner({
               <IconKeyboard className="h-3.5 w-3.5 shrink-0" />
               <span className="flex flex-wrap items-center gap-1.5">
                 <span>Pintasan:</span>
-                <kbd className="rounded border border-line-strong bg-subtle px-1.5 py-0.5 font-mono text-[11px] font-medium text-ink">
+                <kbd className="rounded border border-line-strong bg-subtle px-1.5 py-0.5 font-mono text-xs font-medium text-ink">
                   1–{currentQuestion.options.length}
                 </kbd>
                 <span>atau</span>
-                <kbd className="rounded border border-line-strong bg-subtle px-1.5 py-0.5 font-mono text-[11px] font-medium text-ink">
+                <kbd className="rounded border border-line-strong bg-subtle px-1.5 py-0.5 font-mono text-xs font-medium text-ink">
                   A–{String.fromCharCode(64 + currentQuestion.options.length)}
                 </kbd>
                 <span>untuk memilih,</span>
-                <kbd className="rounded border border-line-strong bg-subtle px-1.5 py-0.5 font-mono text-[11px] font-medium text-ink">
+                <kbd className="rounded border border-line-strong bg-subtle px-1.5 py-0.5 font-mono text-xs font-medium text-ink">
                   ←
                 </kbd>
-                <kbd className="rounded border border-line-strong bg-subtle px-1.5 py-0.5 font-mono text-[11px] font-medium text-ink">
+                <kbd className="rounded border border-line-strong bg-subtle px-1.5 py-0.5 font-mono text-xs font-medium text-ink">
                   →
                 </kbd>
                 <span>untuk berpindah soal.</span>

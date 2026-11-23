@@ -33,7 +33,7 @@ export function RunnerHeader({
         <div className="flex min-w-0 items-center gap-3">
           <Link
             href={backHref}
-            className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-line bg-surface text-ink-secondary transition hover:bg-subtle hover:text-ink"
+            className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-line bg-surface text-ink-secondary transition hover:bg-subtle hover:text-ink"
             aria-label="Kembali ke paket"
           >
             <IconArrowLeft className="h-4 w-4" />

@@ -1,11 +1,13 @@
 import { LearnerDashboard } from "@/components/dashboard/LearnerDashboard";
 import { LearnerShell } from "@/components/layout/LearnerShell";
-import { getCompanies, getDashboardCatalog } from "@/lib/assessment/catalog.queries";
+import { getDashboardCatalog } from "@/lib/assessment/catalog.queries";
+import { catalogToCompanies } from "@/lib/assessment/dashboard";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [companies, catalog] = await Promise.all([getCompanies(), getDashboardCatalog()]);
+  const catalog = await getDashboardCatalog();
+  const companies = catalogToCompanies(catalog);
 
   return (
     <LearnerShell companies={companies}>

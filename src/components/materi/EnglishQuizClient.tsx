@@ -26,22 +26,25 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    let active = true;
+    const controller = new AbortController();
     const qs = cefr ? `?cefr=${cefr}` : "";
-    fetch(`/api/materi/quiz${qs}`)
+    fetch(`/api/materi/quiz${qs}`, { signal: controller.signal })
       .then((res) => res.json())
       .then((data: { questions?: EnglishQuizQuestion[] }) => {
-        if (!active) return;
+        if (controller.signal.aborted) return;
         setQuestions(data.questions ?? []);
         setAnswers({});
         setCurrentIdx(0);
         setSubmitted(false);
       })
+      .catch((err: unknown) => {
+        if (err instanceof DOMException && err.name === "AbortError") return;
+      })
       .finally(() => {
-        if (active) setLoading(false);
+        if (!controller.signal.aborted) setLoading(false);
       });
     return () => {
-      active = false;
+      controller.abort();
     };
   }, [cefr, reloadTick]);
 
@@ -91,14 +94,14 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
       <div className="flex flex-wrap items-center justify-between gap-2">
         <Link
           href="/materi/kamus"
-          className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-secondary transition hover:text-ink"
+          className="inline-flex min-h-[40px] items-center gap-1.5 text-xs font-semibold text-ink-secondary transition hover:text-ink"
         >
           <IconArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Kamus</span>
         </Link>
         <Link
           href="/materi/kamus/belajar"
-          className="text-xs font-semibold text-brand-text hover:underline"
+          className="inline-flex min-h-[40px] items-center text-xs font-semibold text-brand-text hover:underline"
         >
           Ke Mode Flashcard
         </Link>
@@ -115,11 +118,12 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
         </div>
 
         {/* Filter Level */}
-        <div className="flex flex-wrap items-center gap-1">
+        <div className="flex flex-wrap items-center gap-2">
           <button
             type="button"
+            aria-pressed={cefr === ""}
             onClick={() => handleSelectCefr("")}
-            className={`rounded-md border px-2.5 py-1 text-xs font-bold transition ${
+            className={`min-h-[40px] rounded-lg border px-3 py-2 text-xs font-bold transition ${
               cefr === ""
                 ? "border-brand bg-brand text-white"
                 : "border-line-strong bg-surface text-ink-secondary hover:bg-subtle"
@@ -131,8 +135,9 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
             <button
               key={lvl}
               type="button"
+              aria-pressed={cefr === lvl}
               onClick={() => handleSelectCefr(lvl)}
-              className={`rounded-md border px-2.5 py-1 text-xs font-bold transition ${
+              className={`min-h-[40px] rounded-lg border px-3 py-2 text-xs font-bold transition ${
                 cefr === lvl
                   ? "border-brand bg-brand text-white"
                   : "border-line-strong bg-surface text-ink-secondary hover:bg-subtle"
@@ -145,20 +150,20 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
       </div>
 
       {loading ? (
-        <div className="rounded-[10px] border border-line-strong bg-surface p-10 text-center text-sm text-ink-secondary">
+        <div className="rounded-xl border border-line-strong bg-surface p-10 text-center text-sm text-ink-secondary">
           Menyusun 10 soal kuis acak...
         </div>
       ) : questions.length === 0 ? (
-        <div className="rounded-[10px] border border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary">
+        <div className="rounded-xl border border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary">
           Belum cukup kata di database untuk membuat kuis.
         </div>
       ) : submitted ? (
         <div className="space-y-5">
           {/* Kartu Skor */}
-          <div className="rounded-[10px] border border-line-strong bg-surface p-6 text-center">
-            <span className="text-xs font-bold uppercase tracking-wider text-ink-muted">
+          <div className="rounded-xl border border-line-strong bg-surface p-6 text-center">
+            <h2 className="text-sm font-semibold text-ink-secondary">
               Hasil Kuis Kosakata
-            </span>
+            </h2>
             <p className="mt-2 text-4xl font-extrabold tabular-nums text-brand-text">
               {correctCount} / {questions.length}
             </p>
@@ -170,14 +175,14 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
               <button
                 type="button"
                 onClick={handleNewQuiz}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
               >
                 <IconRotateCcw className="h-3.5 w-3.5" />
                 <span>Mainkan Kuis Baru</span>
               </button>
               <Link
                 href="/materi/kamus"
-                className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
               >
                 <span>Buka Kamus</span>
               </Link>
@@ -186,7 +191,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
 
           {/* Daftar Jawaban yang Salah */}
           {wrongItems.length === 0 ? (
-            <div className="rounded-[10px] border border-emerald-200 bg-emerald-50 p-5 text-center text-sm font-bold text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200">
+            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-center text-sm font-bold text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200">
               <IconCheckCircle className="mx-auto mb-2 h-7 w-7 text-emerald-600" />
               Sempurna! Semua 10 soal dijawab dengan benar.
             </div>
@@ -198,7 +203,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
               {wrongItems.map(({ question, index, selected }) => (
                 <article
                   key={`${question.wordId}-${index}`}
-                  className="rounded-[10px] border border-line-strong bg-surface p-4 text-xs"
+                  className="rounded-xl border border-line-strong bg-surface p-4 text-xs"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-bold text-ink">
@@ -223,7 +228,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                       <span>Jawaban benar: {question.correctAnswer}</span>
                     </p>
                   </div>
-                  <div className="mt-2.5 rounded border border-line bg-canvas px-3 py-2 text-ink-secondary">
+                  <div className="mt-2.5 rounded-lg bg-canvas px-3 py-2 text-ink-secondary">
                     <p className="font-medium text-ink">&ldquo;{question.exampleEn}&rdquo;</p>
                     <p>{question.exampleId}</p>
                   </div>
@@ -235,7 +240,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
       ) : currentQ ? (
         <div className="space-y-4">
           {/* Palette Nomor 1..10 */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-2" role="navigation" aria-label="Navigasi nomor soal kuis">
             {questions.map((_, i) => {
               const isCurrent = i === currentIdx;
               const isAnswered = Boolean(answers[i]);
@@ -244,7 +249,9 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                   key={i}
                   type="button"
                   onClick={() => setCurrentIdx(i)}
-                  className={`h-8 w-8 rounded-lg text-xs font-bold tabular-nums transition ${
+                  aria-current={isCurrent ? "step" : undefined}
+                  aria-label={`Soal ${i + 1}${isAnswered ? " (sudah dijawab)" : ""}`}
+                  className={`h-10 w-10 rounded-lg text-xs font-bold tabular-nums transition ${
                     isCurrent
                       ? "bg-brand text-white"
                       : isAnswered
@@ -259,7 +266,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
           </div>
 
           {/* Kartu Soal */}
-          <div className="rounded-[10px] border border-line-strong bg-surface p-5">
+          <div className="rounded-xl border border-line-strong bg-surface p-5">
             <div className="flex items-center justify-between gap-2">
               <span className="text-xs font-bold text-ink-muted">
                 Soal {currentIdx + 1} / {questions.length} ·{" "}
@@ -271,21 +278,22 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
             </div>
 
             <div className="my-5">
-              <span className="rounded border border-line bg-subtle px-2 py-0.5 font-mono text-xs text-ink-secondary">
+              <span className="rounded bg-subtle px-2 py-0.5 font-mono text-xs text-ink-secondary">
                 {currentQ.pos}
               </span>
               <p className="mt-2 text-2xl font-extrabold text-ink">{currentQ.prompt}</p>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-2" role="group" aria-label="Pilihan jawaban">
               {currentQ.options.map((opt, optIdx) => {
                 const isSelected = answers[currentIdx] === opt;
                 return (
                   <button
                     key={opt}
                     type="button"
+                    aria-pressed={isSelected}
                     onClick={() => selectOption(opt)}
-                    className={`flex w-full items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition ${
+                    className={`flex min-h-[44px] w-full items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition ${
                       isSelected
                         ? "border-brand bg-brand-soft font-bold text-brand-text"
                         : "border-line-strong bg-canvas font-medium text-ink hover:bg-subtle"
@@ -305,7 +313,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                 type="button"
                 disabled={currentIdx === 0}
                 onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))}
-                className="rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink disabled:opacity-40"
+                className="min-h-[40px] rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink disabled:opacity-40"
               >
                 Sebelumnya
               </button>
@@ -314,7 +322,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                 <button
                   type="button"
                   onClick={() => setCurrentIdx((i) => Math.min(questions.length - 1, i + 1))}
-                  className="rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
+                  className="min-h-[40px] rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
                 >
                   Soal Berikutnya
                 </button>
@@ -322,7 +330,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                 <button
                   type="button"
                   onClick={() => setSubmitted(true)}
-                  className="rounded-lg bg-emerald-600 px-4 py-2 text-xs font-bold text-white transition hover:bg-emerald-700"
+                  className="min-h-[40px] rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
                 >
                   Selesai &amp; Lihat Hasil
                 </button>

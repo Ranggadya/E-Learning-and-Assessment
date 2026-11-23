@@ -8,6 +8,8 @@ interface QuestionImageProps {
 function QuestionImageComponent({ svgMarkup }: QuestionImageProps) {
   return (
     <div
+      role="img"
+      aria-label="Ilustrasi soal"
       className="my-3.5 overflow-hidden rounded-xl border border-line bg-subtle/40 p-3 text-slate-900 dark:bg-slate-900/70 dark:text-slate-100"
     >
       <div

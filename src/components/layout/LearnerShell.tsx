@@ -105,7 +105,7 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
                 type="button"
                 onClick={() => setMobileOpen(false)}
                 aria-label="Tutup menu navigasi"
-                className="inline-flex h-8 w-8 items-center justify-center rounded-lg text-ink-secondary hover:bg-subtle hover:text-ink lg:hidden"
+                className="inline-flex h-10 w-10 items-center justify-center rounded-lg text-ink-secondary hover:bg-subtle hover:text-ink lg:hidden"
               >
                 <IconClose className="h-4 w-4" />
               </button>
@@ -114,7 +114,7 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
 
         <nav aria-label="Navigasi utama" className="mt-5 space-y-6">
           <div>
-            <p className="px-2.5 text-[11px] font-bold uppercase tracking-wider text-ink-muted">
+            <p className="px-2.5 text-xs font-semibold text-ink-muted">
               Menu Utama
             </p>
             <ul className="mt-2 space-y-1">
@@ -165,7 +165,7 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
 
           <div>
             <div className="flex items-center justify-between px-2.5">
-              <p className="text-[11px] font-bold uppercase tracking-wider text-ink-muted">
+              <p className="text-xs font-semibold text-ink-muted">
                 Perusahaan
               </p>
               <span className="tabular-nums text-xs font-semibold text-ink-muted">
@@ -261,12 +261,12 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
             onClick={() => setMobileOpen(true)}
             aria-label="Buka menu navigasi"
             aria-expanded={mobileOpen}
-            className="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-line-strong bg-surface text-ink-secondary transition hover:bg-subtle hover:text-ink"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-lg border border-line-strong bg-surface text-ink-secondary transition hover:bg-subtle hover:text-ink"
           >
             <IconMenu className="h-4 w-4" />
           </button>
           <Link href="/" className="inline-flex items-center gap-2 text-sm font-extrabold tracking-tight text-ink">
-            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand text-[11px] font-extrabold text-white">
+            <span className="flex h-6 w-6 items-center justify-center rounded-md bg-brand text-xs font-extrabold text-white">
               eA
             </span>
             <span>e-assessment</span>

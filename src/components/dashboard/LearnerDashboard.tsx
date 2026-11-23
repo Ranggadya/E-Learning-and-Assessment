@@ -67,7 +67,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
       {/* Block 1: Top Header + Inline Search Row */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
-          <h1 className="text-2xl font-extrabold tracking-tight text-ink sm:text-[26px]">
+          <h1 className="text-2xl font-extrabold tracking-tight text-ink sm:text-[28px]">
             Dashboard Latihan
           </h1>
           <p className="mt-1 text-sm text-ink-secondary">
@@ -94,14 +94,11 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
       {nextAction !== null ? (
         <section
           aria-label="Fokus latihan berikutnya"
-          className="rounded-[10px] bg-brand p-5 text-white shadow-[0_6px_18px_rgba(29,78,216,0.22)] dark:shadow-none sm:p-6"
+          className="rounded-xl bg-brand p-5 text-white shadow-[0_6px_18px_rgba(29,78,216,0.22)] dark:shadow-none sm:p-6"
         >
           <div className="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
             <div className="min-w-0">
-              <span className="inline-flex rounded px-2 py-0.5 text-[11px] font-bold uppercase tracking-wider bg-blue-950/35 text-white">
-                {nextAction.tag}
-              </span>
-              <h2 className="mt-2 text-lg font-extrabold tracking-tight text-white sm:text-xl">
+              <h2 className="text-lg font-extrabold tracking-tight text-white sm:text-xl">
                 {nextAction.title}
               </h2>
               <p className="mt-1 text-sm text-blue-50">{nextAction.meta}</p>
@@ -109,7 +106,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
 
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:shrink-0 lg:justify-end">
               <div className="border-t border-white/25 pt-3.5 sm:border-t-0 sm:pt-0 lg:border-r lg:border-white/25 lg:pr-5 lg:text-right">
-                <p className="text-[11px] font-bold uppercase tracking-wider text-blue-50">
+                <p className="text-xs font-semibold text-blue-50">
                   Progres Lokal
                 </p>
                 <p className="mt-0.5 font-mono text-base font-extrabold tabular-nums text-white">
@@ -120,15 +117,16 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
                 </p>
                 <Link
                   href="/riwayat"
-                  className="mt-1 inline-flex items-center gap-1 text-xs font-bold text-white underline decoration-white/60 underline-offset-4 hover:decoration-white focus-visible:outline-white"
+                  className="mt-1 inline-flex items-center gap-1 py-1 text-xs font-bold text-white underline decoration-white/60 underline-offset-4 hover:decoration-white focus-visible:outline-white"
                 >
-                  Buka Riwayat →
+                  <span>Buka Riwayat</span>
+                  <IconArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
 
               <Link
                 href={nextAction.href}
-                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-bold text-brand-deep shadow-xs transition hover:bg-blue-50 focus-visible:outline-white"
+                className="inline-flex min-h-[44px] shrink-0 items-center justify-center gap-2 rounded-lg bg-white px-4 py-2.5 text-sm font-bold text-brand-deep shadow-xs transition hover:bg-blue-50 focus-visible:outline-white"
               >
                 <span>{nextAction.ctaLabel}</span>
                 <IconArrowRight className="h-4 w-4" />
@@ -145,7 +143,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
         </h2>
 
         {catalog.length === 0 ? (
-          <div className="rounded-[10px] border border-dashed border-line-strong bg-surface p-8 text-center">
+          <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center">
             <IconLayers className="mx-auto h-8 w-8 text-ink-muted" />
             <h3 className="mt-3 text-base font-bold text-ink">Belum ada paket soal</h3>
             <p className="mt-1 text-sm text-ink-secondary">
@@ -153,20 +151,20 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
             </p>
             <Link
               href="/admin"
-              className="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-hover"
+              className="mt-4 inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-hover"
             >
               Buka CMS Admin
             </Link>
           </div>
         ) : filteredCatalog.length === 0 ? (
-          <div className="rounded-[10px] border border-line-strong bg-surface p-8 text-center">
+          <div className="rounded-xl border border-line-strong bg-surface p-8 text-center">
             <p className="text-sm font-medium text-ink-secondary">
               Tidak ada perusahaan, paket, atau subtes yang cocok dengan kata kunci &ldquo;{trimmedQuery}&rdquo;.
             </p>
             <button
               type="button"
               onClick={() => setQuery("")}
-              className="mt-4 inline-flex items-center justify-center rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-bold text-ink transition hover:bg-subtle"
+              className="mt-4 inline-flex min-h-[40px] items-center justify-center rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-bold text-ink transition hover:bg-subtle"
             >
               Reset pencarian
             </button>
@@ -193,7 +191,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
               return (
                 <article
                   key={company.id}
-                  className="overflow-hidden rounded-[10px] border border-line-strong bg-surface shadow-[0_1px_3px_rgba(15,23,42,0.06)] dark:shadow-none"
+                  className="overflow-hidden rounded-xl border border-line-strong bg-surface shadow-[0_1px_3px_rgba(15,23,42,0.06)] dark:shadow-none"
                 >
                   <div className="flex items-center justify-between gap-3 border-b border-line bg-subtle/75 px-4 py-3.5">
                     <div className="flex min-w-0 items-center gap-3">
@@ -218,7 +216,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
 
                     <Link
                       href={`/c/${company.slug}`}
-                      className="inline-flex shrink-0 items-center gap-0.5 text-xs font-bold text-brand-text hover:underline"
+                      className="inline-flex min-h-[40px] shrink-0 items-center gap-0.5 rounded-md px-2 py-1.5 text-xs font-bold text-brand-text transition hover:bg-brand-soft hover:underline"
                     >
                       <span>Semua</span>
                       <IconChevronRight className="h-3.5 w-3.5" />
@@ -264,7 +262,7 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
                                       {pkg.name}
                                     </span>
                                     {doneSub === totalSub && totalSub > 0 ? (
-                                      <span className="shrink-0 rounded-md bg-emerald-50 px-2 py-0.5 text-[11px] font-bold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                      <span className="shrink-0 rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
                                         Lengkap
                                       </span>
                                     ) : null}
@@ -276,8 +274,8 @@ export function LearnerDashboard({ catalog }: LearnerDashboardProps) {
                                         key={chip}
                                         className={
                                           index === 0
-                                            ? "rounded border border-brand/30 bg-brand-soft px-1.5 py-0.5 text-[11px] font-semibold text-brand-text"
-                                            : "rounded border border-line bg-subtle px-1.5 py-0.5 text-[11px] font-medium text-ink-secondary"
+                                            ? "rounded border border-brand/30 bg-brand-soft px-1.5 py-0.5 text-xs font-semibold text-brand-text"
+                                            : "rounded border border-line bg-subtle px-1.5 py-0.5 text-xs font-medium text-ink-secondary"
                                         }
                                       >
                                         {chip}

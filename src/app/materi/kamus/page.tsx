@@ -71,12 +71,12 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
           <div>
             <Link
               href="/materi"
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink-secondary transition hover:text-ink"
+              className="inline-flex min-h-[40px] items-center gap-1.5 text-xs font-semibold text-ink-secondary transition hover:text-ink"
             >
               <IconArrowLeft className="h-3.5 w-3.5" />
               <span>Kembali ke Daftar Materi</span>
             </Link>
-            <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-ink sm:text-[26px]">
+            <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-ink sm:text-[28px]">
               Kamus 1.000 Kata Bahasa Inggris
             </h1>
             <p className="mt-1 text-sm text-ink-secondary">
@@ -87,14 +87,14 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
           <div className="flex flex-wrap items-center gap-2">
             <Link
               href={activeCefr ? `/materi/kamus/belajar?cefr=${activeCefr}` : "/materi/kamus/belajar"}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-brand-hover"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-brand-hover"
             >
               <IconZap className="h-3.5 w-3.5" />
               <span>Belajar Kartu{activeCefr ? ` (${activeCefr})` : ""}</span>
             </Link>
             <Link
               href={activeCefr ? `/materi/kamus/kuis?cefr=${activeCefr}` : "/materi/kamus/kuis"}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
             >
               <span>Kuis Pilihan Ganda{activeCefr ? ` (${activeCefr})` : ""}</span>
             </Link>
@@ -104,14 +104,15 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
         {/* Panel Filter: Chip CEFR, Jenis Kata (POS), dan Kotak Cari */}
         <section
           aria-label="Filter kamus"
-          className="space-y-4 rounded-[10px] border border-line-strong bg-surface p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-none"
+          className="space-y-4 rounded-xl border border-line-strong bg-surface p-4 shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:shadow-none"
         >
           {/* Chip Level CEFR */}
-          <div className="flex flex-wrap items-center gap-1.5">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="mr-1 text-xs font-bold text-ink-muted">Level CEFR:</span>
             <Link
               href={buildKamusUrl({ pos: activePos, q: activeQ })}
-              className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition ${
+              aria-current={activeCefr === "" ? "true" : undefined}
+              className={`inline-flex min-h-[40px] items-center rounded-lg border px-3 py-2 text-xs font-bold transition ${
                 activeCefr === ""
                   ? "border-brand bg-brand text-white"
                   : "border-line-strong bg-canvas text-ink-secondary hover:bg-subtle hover:text-ink"
@@ -125,7 +126,8 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                 <Link
                   key={lvl}
                   href={buildKamusUrl({ cefr: lvl, pos: activePos, q: activeQ })}
-                  className={`rounded-lg border px-2.5 py-1 text-xs font-bold transition ${
+                  aria-current={isSelected ? "true" : undefined}
+                  className={`inline-flex min-h-[40px] items-center rounded-lg border px-3 py-2 text-xs font-bold transition ${
                     isSelected
                       ? "border-brand bg-brand text-white"
                       : "border-line-strong bg-canvas text-ink-secondary hover:bg-subtle hover:text-ink"
@@ -148,7 +150,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                 defaultValue={activeQ}
                 placeholder="Cari kata bahasa Inggris atau arti Indonesia..."
                 aria-label="Cari kata atau arti"
-                className="w-full rounded-lg border border-line-strong bg-canvas py-2 pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
+                className="min-h-[40px] w-full rounded-lg border border-line-strong bg-canvas py-2 pl-9 pr-3 text-sm text-ink placeholder:text-ink-muted focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
               />
             </div>
 
@@ -157,7 +159,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                 name="pos"
                 defaultValue={activePos}
                 aria-label="Filter jenis kata"
-                className="w-full rounded-lg border border-line-strong bg-canvas px-3 py-2 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
+                className="min-h-[40px] w-full rounded-lg border border-line-strong bg-canvas px-3 py-2 text-sm text-ink focus:border-brand focus:ring-2 focus:ring-brand/15 focus:outline-none"
               >
                 <option value="">Semua jenis kata</option>
                 {dict.posList.map((pos) => (
@@ -171,14 +173,14 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
             <div className="flex items-center gap-2">
               <button
                 type="submit"
-                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 dark:bg-slate-100 dark:text-slate-900"
+                className="inline-flex min-h-[40px] items-center rounded-lg border border-line-strong bg-subtle px-4 py-2 text-sm font-semibold text-ink transition hover:bg-line/60"
               >
                 Terapkan
               </button>
               {activeCefr || activePos || activeQ ? (
                 <Link
                   href="/materi/kamus"
-                  className="rounded-lg border border-line-strong bg-surface px-3 py-2 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
+                  className="inline-flex min-h-[40px] items-center rounded-lg border border-line-strong bg-surface px-3 py-2 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
                 >
                   Reset
                 </Link>
@@ -197,7 +199,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
 
         {/* Daftar Kata */}
         {dict.items.length === 0 ? (
-          <div className="rounded-[10px] border border-dashed border-line-strong bg-surface p-8 text-center">
+          <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center">
             <p className="text-sm font-semibold text-ink">
               {dict.posList.length === 0
                 ? "Database kamus masih kosong."
@@ -214,7 +216,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
             {dict.items.map((item) => (
               <article
                 key={item.id}
-                className="flex flex-col justify-between rounded-[10px] border border-line-strong bg-surface p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)] dark:shadow-none"
+                className="flex flex-col justify-between rounded-xl border border-line-strong bg-surface p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)] dark:shadow-none"
               >
                 <div>
                   <div className="flex items-start justify-between gap-2">
@@ -225,7 +227,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                       <h2 className="text-lg font-extrabold tracking-tight text-ink">
                         {item.word}
                       </h2>
-                      <span className="rounded border border-line bg-subtle px-1.5 py-0.5 font-mono text-[11px] font-medium text-ink-secondary">
+                      <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-xs font-medium text-ink-secondary">
                         {item.pos}
                       </span>
                     </div>
@@ -237,7 +239,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                   </p>
                 </div>
 
-                <div className="mt-3 rounded-lg border border-line bg-canvas px-3 py-2 text-xs leading-relaxed">
+                <div className="mt-3 rounded-lg bg-canvas px-3 py-2 text-xs leading-relaxed">
                   <p className="font-medium text-ink">&ldquo;{item.example_en}&rdquo;</p>
                   <p className="mt-0.5 text-ink-secondary">{item.example_id}</p>
                 </div>
@@ -250,7 +252,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
         {totalPages > 1 ? (
           <nav
             aria-label="Paginasi kamus"
-            className="flex flex-wrap items-center justify-between gap-3 rounded-[10px] border border-line-strong bg-surface px-4 py-3"
+            className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line-strong bg-surface px-4 py-3"
           >
             <div>
               {dict.page > 1 ? (
@@ -261,27 +263,27 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                     q: activeQ,
                     page: dict.page - 1,
                   })}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-1.5 text-xs font-bold text-ink transition hover:bg-subtle"
+                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-2 text-xs font-bold text-ink transition hover:bg-subtle"
                 >
                   <IconArrowLeft className="h-3.5 w-3.5" />
                   <span>Sebelumnya</span>
                 </Link>
               ) : (
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-subtle/50 px-3 py-1.5 text-xs font-semibold text-ink-muted opacity-50">
+                <span className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line bg-subtle/50 px-3 py-2 text-xs font-semibold text-ink-muted opacity-50">
                   <IconArrowLeft className="h-3.5 w-3.5" />
                   <span>Sebelumnya</span>
                 </span>
               )}
             </div>
 
-            <div className="flex flex-wrap items-center gap-1">
+            <div className="flex flex-wrap items-center gap-1.5">
               {Array.from({ length: totalPages }, (_, i) => i + 1)
                 .filter((p) => p === 1 || p === totalPages || Math.abs(p - dict.page) <= 2)
                 .map((p, idx, arr) => {
                   const prev = arr[idx - 1];
                   const showEllipsis = prev !== undefined && p - prev > 1;
                   return (
-                    <span key={p} className="inline-flex items-center gap-1">
+                    <span key={p} className="inline-flex items-center gap-1.5">
                       {showEllipsis ? (
                         <span className="px-1 text-xs text-ink-muted">…</span>
                       ) : null}
@@ -293,7 +295,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                           page: p,
                         })}
                         aria-current={p === dict.page ? "page" : undefined}
-                        className={`inline-flex h-8 min-w-8 items-center justify-center rounded-lg px-2 text-xs font-bold tabular-nums transition ${
+                        className={`inline-flex h-10 min-w-10 items-center justify-center rounded-lg px-2 text-xs font-bold tabular-nums transition ${
                           p === dict.page
                             ? "bg-brand text-white"
                             : "border border-line-strong bg-canvas text-ink-secondary hover:bg-subtle hover:text-ink"
@@ -315,13 +317,13 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                     q: activeQ,
                     page: dict.page + 1,
                   })}
-                  className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-1.5 text-xs font-bold text-ink transition hover:bg-subtle"
+                  className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-3 py-2 text-xs font-bold text-ink transition hover:bg-subtle"
                 >
                   <span>Berikutnya</span>
                   <IconArrowRight className="h-3.5 w-3.5" />
                 </Link>
               ) : (
-                <span className="inline-flex items-center gap-1.5 rounded-lg border border-line bg-subtle/50 px-3 py-1.5 text-xs font-semibold text-ink-muted opacity-50">
+                <span className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line bg-subtle/50 px-3 py-2 text-xs font-semibold text-ink-muted opacity-50">
                   <span>Berikutnya</span>
                   <IconArrowRight className="h-3.5 w-3.5" />
                 </span>

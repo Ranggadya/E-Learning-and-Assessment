@@ -83,7 +83,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
       {/* Header Row */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
         <div className="min-w-0">
-          <h1 className="text-2xl font-extrabold tracking-tight text-ink sm:text-[26px]">
+          <h1 className="text-2xl font-extrabold tracking-tight text-ink sm:text-[28px]">
             Riwayat &amp; Progres Latihan
           </h1>
           <p className="mt-1 text-sm text-ink-secondary">
@@ -128,7 +128,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
 
       {/* 3 Crisp Summary Cards */}
       <section aria-label="Ringkasan progres lokal" className="grid gap-3.5 sm:grid-cols-3">
-        <div className="rounded-[10px] border border-line-strong bg-surface p-4 sm:p-5">
+        <div className="rounded-xl border border-line-strong bg-surface p-4 sm:p-5">
           <p className="text-xs font-semibold text-ink-secondary">Subtes Selesai</p>
           <p className="mt-1.5 font-mono text-2xl font-extrabold tabular-nums text-brand-text">
             {stats.completedSubtests} / {stats.totalSubtests}
@@ -148,7 +148,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
           </div>
         </div>
 
-        <div className="rounded-[10px] border border-line-strong bg-surface p-4 sm:p-5">
+        <div className="rounded-xl border border-line-strong bg-surface p-4 sm:p-5">
           <p className="text-xs font-semibold text-ink-secondary">Rata-rata Skor Kuis</p>
           <p className="mt-1.5 font-mono text-2xl font-extrabold tabular-nums text-ink">
             {stats.avgAccuracy !== null ? `${stats.avgAccuracy}%` : "—"}
@@ -156,7 +156,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
           <p className="mt-2 text-xs text-ink-muted">Khusus subtes pilihan ganda</p>
         </div>
 
-        <div className="rounded-[10px] border border-line-strong bg-surface p-4 sm:p-5">
+        <div className="rounded-xl border border-line-strong bg-surface p-4 sm:p-5">
           <p className="text-xs font-semibold text-ink-secondary">Sesi Tersimpan</p>
           <p className="mt-1.5 font-mono text-2xl font-extrabold tabular-nums text-ink">
             {progress.recentAttempts.length} sesi
@@ -167,7 +167,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
 
       {/* Full Attempt History List */}
       {progress.recentAttempts.length === 0 ? (
-        <div className="rounded-[10px] border border-dashed border-line-strong bg-surface p-8 text-center">
+        <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center">
           <IconHistory className="mx-auto h-8 w-8 text-ink-muted" />
           <h2 className="mt-3 text-base font-bold text-ink">Belum ada riwayat pengerjaan</h2>
           <p className="mx-auto mt-1 max-w-md text-sm text-ink-secondary">
@@ -175,7 +175,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
           </p>
           <Link
             href="/"
-            className="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-hover"
+            className="mt-4 inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-hover"
           >
             <span>Mulai Latihan</span>
             <IconArrowRight className="h-4 w-4" />
@@ -186,7 +186,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
           <h2 id="attempts-heading" className="text-base font-bold tracking-tight text-ink">
             Daftar Riwayat Sesi
           </h2>
-          <ul className="divide-y divide-line overflow-hidden rounded-[10px] border border-line-strong bg-surface">
+          <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line-strong bg-surface">
             {progress.recentAttempts.map((item) => {
               const kind = subtestKindById.get(item.subtestId)?.kind ?? "QUIZ";
               const badge = formatAttemptBadge(item, kind);
@@ -204,7 +204,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
                           {item.subtestName}
                         </span>
                         {kind !== "QUIZ" ? (
-                          <span className="inline-flex items-center rounded border border-brand/30 bg-brand-soft px-1.5 py-0.5 text-[11px] font-semibold text-brand-text">
+                          <span className="inline-flex items-center rounded border border-brand/30 bg-brand-soft px-1.5 py-0.5 text-xs font-semibold text-brand-text">
                             {SUBTEST_KIND_LABEL[kind]}
                           </span>
                         ) : null}

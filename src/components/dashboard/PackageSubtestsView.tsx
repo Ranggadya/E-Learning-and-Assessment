@@ -46,7 +46,7 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
       </nav>
 
       {/* Package Header & Progress Bar */}
-      <section className="rounded-[10px] border border-line-strong bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
+      <section className="rounded-xl border border-line-strong bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h1 className="text-2xl font-extrabold tracking-tight text-ink">
@@ -89,11 +89,11 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
         </h2>
 
         {subtests.length === 0 ? (
-          <div className="rounded-[10px] border border-dashed border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary">
+          <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary">
             Paket ini belum memiliki subtes.
           </div>
         ) : (
-          <div className="overflow-hidden rounded-[10px] border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="overflow-hidden rounded-xl border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
             <ol className="divide-y divide-line">
               {subtests.map((subtest, index) => {
                 const durationMinutes = Math.max(1, Math.round(subtest.durationSeconds / 60));
@@ -125,7 +125,7 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
                         <div className="flex flex-wrap items-center gap-2">
                           <h3 className="text-base font-semibold text-ink">{subtest.name}</h3>
                           {subtest.kind !== "QUIZ" ? (
-                            <span className="inline-flex items-center rounded-md border border-brand/30 bg-brand-soft px-2 py-0.5 text-[11px] font-semibold text-brand-text">
+                            <span className="inline-flex items-center rounded-md border border-brand/30 bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand-text">
                               {SUBTEST_KIND_LABEL[subtest.kind]}
                             </span>
                           ) : (

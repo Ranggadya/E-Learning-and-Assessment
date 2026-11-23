@@ -544,6 +544,7 @@ export async function getAdminOverview(): Promise<AdminCompany[]> {
     package_id: number | null;
     package_slug: string | null;
     package_name: string | null;
+    package_description: string | null;
     subtest_id: number | null;
     subtest_slug: string | null;
     subtest_name: string | null;
@@ -551,12 +552,24 @@ export async function getAdminOverview(): Promise<AdminCompany[]> {
     subtest_kind: string | null;
     subtest_config: unknown | null;
     question_count: string | null;
+    detailed_explanation_count: string | null;
   }>(
     `SELECT c.id AS company_id, c.slug AS company_slug, c.name AS company_name,
-            p.id AS package_id, p.slug AS package_slug, p.name AS package_name,
+            p.id AS package_id, p.slug AS package_slug, p.name AS package_name, p.description AS package_description,
             s.id AS subtest_id, s.slug AS subtest_slug, s.name AS subtest_name, s.duration_seconds,
             s.kind AS subtest_kind, s.config AS subtest_config,
-            (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count
+            (SELECT COUNT(*) FROM questions q WHERE q.subtest_id = s.id) AS question_count,
+            CASE WHEN s.kind = 'QUIZ' THEN (
+              SELECT COUNT(*) FROM questions q
+              WHERE q.subtest_id = s.id
+                AND (
+                  (jsonb_typeof(q.steps) = 'array' AND jsonb_array_length(q.steps) > 0)
+                  OR (jsonb_typeof(q.wrong_notes) = 'array' AND EXISTS (
+                    SELECT 1 FROM jsonb_array_elements_text(q.wrong_notes) AS note WHERE btrim(note) <> ''
+                  ))
+                  OR (q.quick_tip IS NOT NULL AND btrim(q.quick_tip) <> '')
+                )
+            ) ELSE 0 END AS detailed_explanation_count
      FROM companies c
      LEFT JOIN test_packages p ON p.company_id = c.id
      LEFT JOIN subtests s ON s.test_package_id = p.id
@@ -580,7 +593,13 @@ export async function getAdminOverview(): Promise<AdminCompany[]> {
       return candidate.id === packageId;
     });
     if (!testPackage) {
-      testPackage = { id: packageId, slug: row.package_slug, name: row.package_name, subtests: [] };
+      testPackage = {
+        id: packageId,
+        slug: row.package_slug,
+        name: row.package_name,
+        description: row.package_description ?? null,
+        subtests: [],
+      };
       company.packages.push(testPackage);
     }
     if (row.subtest_id !== null && row.subtest_slug !== null && row.subtest_name !== null) {
@@ -591,6 +610,7 @@ export async function getAdminOverview(): Promise<AdminCompany[]> {
         name: row.subtest_name,
         durationSeconds: row.duration_seconds ?? 0,
         questionCount: countSubtestItems(kind, Number(row.question_count ?? 0), row.subtest_config),
+        detailedExplanationCount: kind === "QUIZ" ? Number(row.detailed_explanation_count ?? 0) : 0,
         kind,
         config: row.subtest_config ?? null,
       });
@@ -599,26 +619,49 @@ export async function getAdminOverview(): Promise<AdminCompany[]> {
   return companies;
 }
 
-// Menghapus paket; perusahaan yang tidak punya paket lagi ikut dihapus agar tidak jadi kosong di beranda.
-export async function deletePackage(packageId: number): Promise<boolean> {
+export interface UpdatedPackageResult {
+  companySlug: string;
+  packageSlug: string;
+  before: { name: string; description: string | null };
+  after: { name: string; description: string | null };
+}
+
+export async function updatePackageMetadata(
+  packageId: number,
+  input: { name: string; description: string | null },
+): Promise<UpdatedPackageResult | null> {
   const client = await databasePool.connect();
   try {
     await client.query("BEGIN");
-    const deleted = await client.query<{ company_id: number }>(
-      "DELETE FROM test_packages WHERE id = $1 RETURNING company_id",
+    const existing = await client.query<{
+      company_slug: string;
+      package_slug: string;
+      name: string;
+      description: string | null;
+    }>(
+      `SELECT c.slug AS company_slug, p.slug AS package_slug, p.name, p.description
+       FROM test_packages p
+       JOIN companies c ON c.id = p.company_id
+       WHERE p.id = $1
+       FOR UPDATE`,
       [packageId],
     );
-    if (deleted.rows.length === 0) {
+    if (existing.rows.length === 0) {
       await client.query("ROLLBACK");
-      return false;
+      return null;
     }
+    const prev = existing.rows[0];
     await client.query(
-      `DELETE FROM companies c WHERE c.id = $1
-       AND NOT EXISTS (SELECT 1 FROM test_packages p WHERE p.company_id = c.id)`,
-      [deleted.rows[0].company_id],
+      "UPDATE test_packages SET name = $2, description = $3 WHERE id = $1",
+      [packageId, input.name, input.description],
     );
     await client.query("COMMIT");
-    return true;
+    return {
+      companySlug: prev.company_slug,
+      packageSlug: prev.package_slug,
+      before: { name: prev.name, description: prev.description ?? null },
+      after: { name: input.name, description: input.description ?? null },
+    };
   } catch (error) {
     await client.query("ROLLBACK");
     throw error;
@@ -627,9 +670,149 @@ export async function deletePackage(packageId: number): Promise<boolean> {
   }
 }
 
-export async function deleteSubtest(subtestId: number): Promise<boolean> {
-  const result = await databasePool.query("DELETE FROM subtests WHERE id = $1", [subtestId]);
+export interface SubtestEditTarget {
+  id: number;
+  slug: string;
+  name: string;
+  durationSeconds: number;
+  kind: SubtestKind;
+  companySlug: string;
+  packageSlug: string;
+  packageName: string;
+}
+
+export async function getSubtestForEdit(subtestId: number): Promise<SubtestEditTarget | null> {
+  const result = await databasePool.query<{
+    id: number;
+    slug: string;
+    name: string;
+    duration_seconds: number;
+    kind: string;
+    company_slug: string;
+    package_slug: string;
+    package_name: string;
+  }>(
+    `SELECT s.id, s.slug, s.name, s.duration_seconds, s.kind,
+            c.slug AS company_slug, p.slug AS package_slug, p.name AS package_name
+     FROM subtests s
+     JOIN test_packages p ON p.id = s.test_package_id
+     JOIN companies c ON c.id = p.company_id
+     WHERE s.id = $1`,
+    [subtestId],
+  );
+  if (result.rows.length === 0) {
+    return null;
+  }
+  const row = result.rows[0];
+  return {
+    id: row.id,
+    slug: row.slug,
+    name: row.name,
+    durationSeconds: row.duration_seconds,
+    kind: (row.kind as SubtestKind) ?? "QUIZ",
+    companySlug: row.company_slug,
+    packageSlug: row.package_slug,
+    packageName: row.package_name,
+  };
+}
+
+export async function updateSubtestMetadata(
+  subtestId: number,
+  input: { name: string; durationSeconds: number },
+): Promise<boolean> {
+  const result = await databasePool.query(
+    "UPDATE subtests SET name = $2, duration_seconds = $3 WHERE id = $1",
+    [subtestId, input.name, input.durationSeconds],
+  );
   return (result.rowCount ?? 0) > 0;
+}
+
+export interface DeletedPackageMeta {
+  companySlug: string;
+  companyName: string;
+  packageSlug: string;
+  packageName: string;
+}
+
+// Menghapus paket; perusahaan yang tidak punya paket lagi ikut dihapus agar tidak jadi kosong di beranda.
+export async function deletePackage(packageId: number): Promise<DeletedPackageMeta | null> {
+  const client = await databasePool.connect();
+  try {
+    await client.query("BEGIN");
+    const existing = await client.query<{
+      company_id: number;
+      company_slug: string;
+      company_name: string;
+      package_slug: string;
+      package_name: string;
+    }>(
+      `SELECT p.company_id, c.slug AS company_slug, c.name AS company_name,
+              p.slug AS package_slug, p.name AS package_name
+       FROM test_packages p
+       JOIN companies c ON c.id = p.company_id
+       WHERE p.id = $1`,
+      [packageId],
+    );
+    if (existing.rows.length === 0) {
+      await client.query("ROLLBACK");
+      return null;
+    }
+    const meta = existing.rows[0];
+    await client.query("DELETE FROM test_packages WHERE id = $1", [packageId]);
+    await client.query(
+      `DELETE FROM companies c WHERE c.id = $1
+       AND NOT EXISTS (SELECT 1 FROM test_packages p WHERE p.company_id = c.id)`,
+      [meta.company_id],
+    );
+    await client.query("COMMIT");
+    return {
+      companySlug: meta.company_slug,
+      companyName: meta.company_name,
+      packageSlug: meta.package_slug,
+      packageName: meta.package_name,
+    };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
+export interface DeletedSubtestMeta {
+  companySlug: string;
+  packageSlug: string;
+  packageName: string;
+  subtestSlug: string;
+  subtestName: string;
+}
+
+export async function deleteSubtest(subtestId: number): Promise<DeletedSubtestMeta | null> {
+  const result = await databasePool.query<{
+    company_slug: string;
+    package_slug: string;
+    package_name: string;
+    subtest_slug: string;
+    subtest_name: string;
+  }>(
+    `DELETE FROM subtests s
+     USING test_packages p, companies c
+     WHERE s.id = $1 AND p.id = s.test_package_id AND c.id = p.company_id
+     RETURNING c.slug AS company_slug, p.slug AS package_slug, p.name AS package_name,
+               s.slug AS subtest_slug, s.name AS subtest_name`,
+    [subtestId],
+  );
+  if (result.rows.length === 0) {
+    return null;
+  }
+  const row = result.rows[0];
+  return {
+    companySlug: row.company_slug,
+    packageSlug: row.package_slug,
+    packageName: row.package_name,
+    subtestSlug: row.subtest_slug,
+    subtestName: row.subtest_name,
+  };
 }
 
 export interface ExportedPack {

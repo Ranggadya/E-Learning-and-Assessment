@@ -333,6 +333,7 @@ export interface AdminSubtest {
   name: string;
   durationSeconds: number;
   questionCount: number;
+  detailedExplanationCount: number;
   kind?: SubtestKind;
   config?: unknown | null;
 }
@@ -341,6 +342,7 @@ export interface AdminPackage {
   id: number;
   slug: string;
   name: string;
+  description: string | null;
   subtests: AdminSubtest[];
 }
 
@@ -349,4 +351,34 @@ export interface AdminCompany {
   slug: string;
   name: string;
   packages: AdminPackage[];
+}
+
+export type AuditActionType =
+  | "PACK_NEW"
+  | "PACK_OVERWRITE"
+  | "PACK_DUPLICATE_FORCED"
+  | "EXPLANATION_NEW"
+  | "EXPLANATION_OVERWRITE"
+  | "EXPLANATION_DUPLICATE_FORCED"
+  | "IMPORT_REJECTED"
+  | "IMPORT_FAILED"
+  | "PACKAGE_UPDATED"
+  | "SUBTEST_UPDATED"
+  | "PACKAGE_DELETED"
+  | "SUBTEST_DELETED";
+
+export type AuditStatus = "SUCCESS" | "FORCED" | "REJECTED" | "FAILED";
+
+export interface ImportAuditLogEntry {
+  id: number;
+  createdAt: string;
+  actionType: AuditActionType;
+  status: AuditStatus;
+  companySlug: string | null;
+  packageSlug: string | null;
+  targetLabel: string | null;
+  fileName: string | null;
+  contentHash: string | null;
+  forcedOverwrite: boolean;
+  summary: Record<string, unknown>;
 }

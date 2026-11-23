@@ -110,3 +110,38 @@ ALTER TABLE questions ADD COLUMN IF NOT EXISTS steps JSONB;
 ALTER TABLE questions ADD COLUMN IF NOT EXISTS wrong_notes JSONB;
 ALTER TABLE questions ADD COLUMN IF NOT EXISTS quick_tip TEXT;
 
+-- Log audit impor dan perubahan paket/subtes untuk panel admin.
+CREATE TABLE IF NOT EXISTS import_audit_logs (
+  id                SERIAL PRIMARY KEY,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT now(),
+  action_type       TEXT NOT NULL CHECK (action_type IN (
+                      'PACK_NEW',
+                      'PACK_OVERWRITE',
+                      'PACK_DUPLICATE_FORCED',
+                      'EXPLANATION_NEW',
+                      'EXPLANATION_OVERWRITE',
+                      'EXPLANATION_DUPLICATE_FORCED',
+                      'IMPORT_REJECTED',
+                      'IMPORT_FAILED',
+                      'PACKAGE_UPDATED',
+                      'SUBTEST_UPDATED',
+                      'PACKAGE_DELETED',
+                      'SUBTEST_DELETED'
+                    )),
+  status            TEXT NOT NULL CHECK (status IN ('SUCCESS', 'FORCED', 'REJECTED', 'FAILED')),
+  company_slug      TEXT,
+  package_slug      TEXT,
+  target_label      TEXT,
+  file_name         TEXT,
+  content_hash      TEXT,
+  forced_overwrite  BOOLEAN NOT NULL DEFAULT false,
+  summary           JSONB NOT NULL DEFAULT '{}'::jsonb
+);
+
+CREATE INDEX IF NOT EXISTS import_audit_logs_created_at_idx
+  ON import_audit_logs (created_at DESC);
+
+CREATE INDEX IF NOT EXISTS import_audit_logs_hash_status_idx
+  ON import_audit_logs (content_hash, status)
+  WHERE content_hash IS NOT NULL;
+

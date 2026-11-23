@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import type { QuestionType, SubtestKind } from "./types";
+import type { AuditActionType, QuestionType, SubtestKind } from "./types";
 
 const OPTION_KEYS = ["A", "B", "C", "D", "E"] as const;
 const MAX_SPOT_CHECKS = 3;
@@ -9,6 +9,7 @@ const MAX_NAME_LENGTH = 160;
 const MAX_DESCRIPTION_LENGTH = 1000;
 const MIN_DURATION_SECONDS = 10;
 const MAX_DURATION_SECONDS = 10800;
+const MAX_PG_INT4 = 2_147_483_647;
 
 export type SubtestChangeType = "baru" | "identik" | "berubah";
 
@@ -68,6 +69,7 @@ export interface ExplanationSubtestComparison {
   changeType: SubtestChangeType;
   existingQuestionCount: number;
   incomingCount: number;
+  changedNumbers: number[];
   coverageMismatch: boolean;
   existingDetailedOverwriteCount: number;
   spotChecks: ExplanationSpotCheck[];
@@ -239,8 +241,8 @@ export function compareExplanationSubtest(
   const byNumber = new Map(existingQuestions.map((q) => [q.orderIndex, q] as const));
   const promptMismatchErrors: string[] = [];
   const spotChecks: ExplanationSpotCheck[] = [];
+  const changedNumbers: number[] = [];
 
-  let anyChanged = false;
   let existingDetailedOverwriteCount = 0;
 
   for (const entry of incomingEntries) {
@@ -270,7 +272,7 @@ export function compareExplanationSubtest(
 
     const alreadyHasDetailed = hasDetailedExplanation(question);
     if (beforeHash !== afterHash) {
-      anyChanged = true;
+      changedNumbers.push(entry.number);
       if (alreadyHasDetailed) {
         existingDetailedOverwriteCount += 1;
       }
@@ -290,7 +292,7 @@ export function compareExplanationSubtest(
   }
 
   let changeType: SubtestChangeType = "identik";
-  if (anyChanged) {
+  if (changedNumbers.length > 0) {
     const subtestHadDetailed = existingQuestions.some(hasDetailedExplanation);
     changeType = existingDetailedOverwriteCount > 0 || subtestHadDetailed ? "berubah" : "baru";
   }
@@ -299,6 +301,7 @@ export function compareExplanationSubtest(
     changeType,
     existingQuestionCount: existingQuestions.length,
     incomingCount: incomingEntries.length,
+    changedNumbers,
     coverageMismatch: incomingEntries.length !== existingQuestions.length,
     existingDetailedOverwriteCount,
     spotChecks,
@@ -408,4 +411,62 @@ export function validateSubtestUpdateInput(
   }
 
   return { ok: true, data: { name: nameResult.name, durationSeconds: duration } };
+}
+
+/** Memvalidasi ID parameter rute PostgreSQL SERIAL (INT4 positif 1..2147483647). */
+export function parsePgInt4Id(raw: string): number | null {
+  const id = Number(raw);
+  return Number.isInteger(id) && id > 0 && id <= MAX_PG_INT4 ? id : null;
+}
+
+export interface ParsedPackMetadata {
+  companySlug: string | null;
+  packageSlug: string | null;
+  targetLabel: string | null;
+  contentHash: string;
+}
+
+function readTrimmedField(obj: Record<string, unknown> | null, key: string): string | null {
+  if (!obj) {
+    return null;
+  }
+  const value = obj[key];
+  return typeof value === "string" && value.trim() ? value.trim() : null;
+}
+
+/** Mengekstrak identitas company/package dan hash kanonikal dari payload JSON mentah untuk audit log. */
+export function extractParsedMetadata(parsed: unknown): ParsedPackMetadata {
+  const contentHash = computeCanonicalHash(parsed);
+  if (!isPlainRecord(parsed)) {
+    return { companySlug: null, packageSlug: null, targetLabel: null, contentHash };
+  }
+  const company = isPlainRecord(parsed.company) ? parsed.company : null;
+  const pkg = isPlainRecord(parsed.package) ? parsed.package : null;
+
+  const companySlug = readTrimmedField(company, "slug");
+  const packageSlug = readTrimmedField(pkg, "slug");
+  const companyName = readTrimmedField(company, "name") ?? companySlug;
+  const packageName = readTrimmedField(pkg, "name") ?? packageSlug;
+  const targetLabel =
+    companyName && packageName ? `${companyName} / ${packageName}` : companyName ?? packageName ?? null;
+
+  return { companySlug, packageSlug, targetLabel, contentHash };
+}
+
+/** Menentukan tipe aksi audit berdasarkan mode impor serta status duplikat/overwrite. */
+export function resolveAuditActionType(summary: {
+  mode?: "pembahasan";
+  isDuplicateContent: boolean;
+  hasOverwrite: boolean;
+}): AuditActionType {
+  if (summary.mode === "pembahasan") {
+    if (summary.isDuplicateContent) {
+      return "EXPLANATION_DUPLICATE_FORCED";
+    }
+    return summary.hasOverwrite ? "EXPLANATION_OVERWRITE" : "EXPLANATION_NEW";
+  }
+  if (summary.isDuplicateContent) {
+    return "PACK_DUPLICATE_FORCED";
+  }
+  return summary.hasOverwrite ? "PACK_OVERWRITE" : "PACK_NEW";
 }

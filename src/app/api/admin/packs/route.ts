@@ -7,70 +7,20 @@ import {
   isExplanationPack,
   validateExplanationPack,
 } from "@/lib/explanation-pack";
-import { computeCanonicalHash, sanitizeImportFileName } from "@/lib/import-analysis";
+import {
+  extractParsedMetadata,
+  resolveAuditActionType,
+  sanitizeImportFileName,
+} from "@/lib/import-analysis";
 import {
   ImportConfirmationRequiredError,
   importPack,
   type ImportSummary,
 } from "@/lib/pack-import";
 import { validatePack } from "@/lib/pack-schema";
-import type { AuditActionType } from "@/lib/types";
 
 const MAX_BODY_BYTES = 8 * 1024 * 1024;
 const CONFIRMATION_REQUIRED_MESSAGE = "Konfirmasi timpa paksa diperlukan sebelum menyimpan.";
-
-interface ParsedMeta {
-  companySlug: string | null;
-  packageSlug: string | null;
-  targetLabel: string | null;
-  contentHash: string;
-}
-
-function readTrimmedString(obj: Record<string, unknown> | null, key: string): string | null {
-  if (!obj) {
-    return null;
-  }
-  const value = obj[key];
-  return typeof value === "string" && value.trim() ? value.trim() : null;
-}
-
-function extractParsedMetadata(parsed: unknown): ParsedMeta {
-  const contentHash = computeCanonicalHash(parsed);
-  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
-    return { companySlug: null, packageSlug: null, targetLabel: null, contentHash };
-  }
-  const root = parsed as Record<string, unknown>;
-  const company =
-    typeof root.company === "object" && root.company !== null && !Array.isArray(root.company)
-      ? (root.company as Record<string, unknown>)
-      : null;
-  const pkg =
-    typeof root.package === "object" && root.package !== null && !Array.isArray(root.package)
-      ? (root.package as Record<string, unknown>)
-      : null;
-
-  const companySlug = readTrimmedString(company, "slug");
-  const packageSlug = readTrimmedString(pkg, "slug");
-  const companyName = readTrimmedString(company, "name") ?? companySlug;
-  const packageName = readTrimmedString(pkg, "name") ?? packageSlug;
-  const targetLabel =
-    companyName && packageName ? `${companyName} / ${packageName}` : companyName ?? packageName ?? null;
-
-  return { companySlug, packageSlug, targetLabel, contentHash };
-}
-
-function resolveAuditActionType(summary: ImportSummary): AuditActionType {
-  if (summary.mode === "pembahasan") {
-    if (summary.isDuplicateContent) {
-      return "EXPLANATION_DUPLICATE_FORCED";
-    }
-    return summary.hasOverwrite ? "EXPLANATION_OVERWRITE" : "EXPLANATION_NEW";
-  }
-  if (summary.isDuplicateContent) {
-    return "PACK_DUPLICATE_FORCED";
-  }
-  return summary.hasOverwrite ? "PACK_OVERWRITE" : "PACK_NEW";
-}
 
 // POST /api/admin/packs?dryRun=1&force=1 memeriksa atau menyimpan paket soal / pembahasan.
 export async function POST(request: Request) {

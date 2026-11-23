@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { checkLoginRateLimit, clearLoginFailures, recordLoginFailure } from "./admin-auth";
 import { importExplanations, type ExplanationPackFile } from "./explanation-pack";
 import {
   ImportConfirmationRequiredError,
@@ -295,4 +296,103 @@ test("importExplanations menolak 409 tanpa tulis dan melakukan 1 batch UNNEST UP
   assert.deepEqual(updates[0].values?.[0], [1002]);
   assert.ok(forced.queries.some((q) => q.text === "COMMIT"));
   assert.equal(forced.released(), true);
+});
+
+test("importExplanations hanya meng-update butir soal yang berubah dalam subtes yang sama dan menghitung changedQuestionCount akurat", async () => {
+  const explanationPack: ExplanationPackFile = {
+    pembahasanSaja: true,
+    company: { slug: "paragon" },
+    package: { slug: "paket-1" },
+    subtests: [
+      {
+        slug: "numerik",
+        explanations: [
+          { number: 1, correctIndex: 0, explanation: "1 + 1 = 2." },
+          { number: 2, correctIndex: 1, explanation: "2 + 3 = 5.", quickTip: "Tip baru soal 2." },
+        ],
+      },
+    ],
+  };
+
+  const handler = (sql: string) => {
+    if (sql.includes("FROM test_packages p JOIN companies c")) {
+      return [{ id: 10, name: "Paket 1", company_name: "Paragon" }];
+    }
+    if (sql.includes("FROM subtests WHERE test_package_id")) {
+      return [{ id: 102, name: "Numerik", description: null, duration_seconds: 900, kind: "QUIZ", config: null }];
+    }
+    if (sql.includes("FROM questions")) {
+      return [
+        {
+          id: 2001,
+          order_index: 1,
+          type: "TEXT",
+          prompt: "1 + 1 = ?",
+          image_svg: null,
+          options: [{ key: "A", label: "2" }, { key: "B", label: "3" }],
+          correct_option: "A",
+          explanation: "1 + 1 = 2.",
+          steps: null,
+          wrong_notes: null,
+          quick_tip: null,
+        },
+        {
+          id: 2002,
+          order_index: 2,
+          type: "TEXT",
+          prompt: "2 + 3 = ?",
+          image_svg: null,
+          options: [{ key: "A", label: "4" }, { key: "B", label: "5" }],
+          correct_option: "B",
+          explanation: "2 + 3 = 5.",
+          steps: null,
+          wrong_notes: null,
+          quick_tip: null,
+        },
+      ];
+    }
+    return [];
+  };
+
+  const fake = makeFakeClient(handler);
+  const summary = await importExplanations(explanationPack, {
+    dryRun: false,
+    force: false,
+    connectClient: async () => fake.client,
+    findPreviousUpload: async () => null,
+  });
+
+  // Soal #1 identik, hanya Soal #2 (id 2002) yang berubah
+  assert.equal(summary.subtests[0].changedQuestionCount, 1);
+  const updates = fake.queries.filter((q) => q.text.startsWith("UPDATE questions"));
+  assert.equal(updates.length, 1);
+  assert.deepEqual(updates[0].values?.[0], [2002]);
+});
+
+test("rate limit login admin memblokir setelah 5 percobaan gagal per IP dan terbuka kembali setelah reset/window habis", () => {
+  const ip = "203.0.113.42";
+  clearLoginFailures(ip);
+  const t0 = 1_700_000_000_000;
+
+  for (let i = 0; i < 4; i += 1) {
+    recordLoginFailure(ip, t0 + i * 100);
+    assert.equal(checkLoginRateLimit(ip, t0 + 500).allowed, true);
+  }
+  recordLoginFailure(ip, t0 + 600);
+  const blocked = checkLoginRateLimit(ip, t0 + 1000);
+  assert.equal(blocked.allowed, false);
+  if (!blocked.allowed) {
+    assert.equal(blocked.retryAfterSeconds, 59);
+  }
+
+  // Setelah 60 detik berlalu, otomatis diizinkan kembali
+  assert.equal(checkLoginRateLimit(ip, t0 + 60_001).allowed, true);
+
+  // clearLoginFailures langsung membuka blokir
+  for (let i = 0; i < 5; i += 1) {
+    recordLoginFailure(ip, t0 + 70_000);
+  }
+  assert.equal(checkLoginRateLimit(ip, t0 + 70_100).allowed, false);
+  clearLoginFailures(ip);
+  assert.equal(checkLoginRateLimit(ip, t0 + 70_100).allowed, true);
 });

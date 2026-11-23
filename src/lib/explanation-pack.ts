@@ -248,7 +248,12 @@ export async function importExplanations(
       }
 
       if (!subtestHasError && comparison.changeType !== "identik") {
-        pendingUpdates.push(...subtestUpdates);
+        const changedSet = new Set(comparison.changedNumbers);
+        for (const item of subtestUpdates) {
+          if (changedSet.has(item.entry.number)) {
+            pendingUpdates.push(item);
+          }
+        }
       }
 
       total += subtest.explanations.length;
@@ -262,7 +267,7 @@ export async function importExplanations(
         replacedAttemptCount: 0,
         changeType: comparison.changeType,
         existingQuestionCount: comparison.existingQuestionCount,
-        changedQuestionCount: comparison.changeType === "identik" ? 0 : subtest.explanations.length,
+        changedQuestionCount: comparison.changedNumbers.length,
         existingDetailedCount: existingSnapshots.filter(hasDetailedExplanation).length,
         incomingDetailedCount: subtest.explanations.filter(hasDetailedExplanation).length,
         losesDetailedExplanations: false,

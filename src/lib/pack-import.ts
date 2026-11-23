@@ -1,3 +1,4 @@
+import { formatDateTimeId } from "../components/admin/admin-format";
 import { findPreviousSuccessfulUpload } from "./audit-log";
 import {
   compareContainerMetadata,
@@ -84,18 +85,7 @@ export class ImportConfirmationRequiredError extends Error {
   }
 }
 
-export function formatUploadTimestamp(iso: string): string {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) {
-    return iso;
-  }
-  const formatted = new Intl.DateTimeFormat("id-ID", {
-    dateStyle: "medium",
-    timeStyle: "short",
-    timeZone: "Asia/Jakarta",
-  }).format(date);
-  return `${formatted} WIB`;
-}
+export const formatUploadTimestamp = formatDateTimeId;
 
 function normalizeOptionalDescription(raw: string | undefined): string | null {
   if (raw === undefined) {

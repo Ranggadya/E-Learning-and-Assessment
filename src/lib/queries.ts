@@ -890,9 +890,25 @@ export async function exportPack(packageId: number): Promise<ExportedPack | null
     [packageId],
   );
 
-  const subtests: ExportedPack["subtests"] = [];
-  for (const subtestRow of subtestResult.rows) {
+  const subtestIds = subtestResult.rows.map((row) => row.id);
+  const questionsBySubtestId = new Map<
+    number,
+    Array<{
+      type: QuestionType;
+      prompt: string;
+      image_svg: string | null;
+      options: QuestionOption[];
+      correct_option: string;
+      explanation: string | null;
+      steps: string[] | null;
+      wrong_notes: string[] | null;
+      quick_tip: string | null;
+    }>
+  >();
+
+  if (subtestIds.length > 0) {
     const questionResult = await databasePool.query<{
+      subtest_id: number;
       type: QuestionType;
       prompt: string;
       image_svg: string | null;
@@ -903,38 +919,52 @@ export async function exportPack(packageId: number): Promise<ExportedPack | null
       wrong_notes: string[] | null;
       quick_tip: string | null;
     }>(
-      `SELECT type, prompt, image_svg, options, correct_option, explanation, steps, wrong_notes, quick_tip
-       FROM questions WHERE subtest_id = $1 ORDER BY order_index`,
-      [subtestRow.id],
+      `SELECT subtest_id, type, prompt, image_svg, options, correct_option, explanation, steps, wrong_notes, quick_tip
+       FROM questions
+       WHERE subtest_id = ANY($1::int[])
+       ORDER BY subtest_id, order_index`,
+      [subtestIds],
     );
-    subtests.push({
+    for (const row of questionResult.rows) {
+      const list = questionsBySubtestId.get(row.subtest_id);
+      if (list) {
+        list.push(row);
+      } else {
+        questionsBySubtestId.set(row.subtest_id, [row]);
+      }
+    }
+  }
+
+  const subtests: ExportedPack["subtests"] = subtestResult.rows.map((subtestRow) => {
+    const questions = questionsBySubtestId.get(subtestRow.id) ?? [];
+    return {
       slug: subtestRow.slug,
       name: subtestRow.name,
       ...(subtestRow.description ? { description: subtestRow.description } : {}),
       durationSeconds: subtestRow.duration_seconds,
       ...(subtestRow.kind && subtestRow.kind !== "QUIZ" ? { kind: subtestRow.kind as SubtestKind } : {}),
       ...(subtestRow.config ? { config: subtestRow.config } : {}),
-      ...(questionResult.rows.length > 0
+      ...(questions.length > 0
         ? {
-          questions: questionResult.rows.map(function mapExportedQuestion(row) {
-            return {
-              type: row.type,
-              prompt: row.prompt,
-              ...(row.image_svg ? { imageSvg: row.image_svg } : {}),
-              options: row.options.map(function toLabel(option) {
-                return option.label;
-              }),
-              correctIndex: OPTION_KEYS.indexOf(row.correct_option),
-              explanation: row.explanation ?? "",
-              ...(row.steps ? { steps: row.steps } : {}),
-              ...(row.wrong_notes ? { wrongNotes: row.wrong_notes } : {}),
-              ...(row.quick_tip ? { quickTip: row.quick_tip } : {}),
-            };
-          }),
-        }
+            questions: questions.map(function mapExportedQuestion(row) {
+              return {
+                type: row.type,
+                prompt: row.prompt,
+                ...(row.image_svg ? { imageSvg: row.image_svg } : {}),
+                options: row.options.map(function toLabel(option) {
+                  return option.label;
+                }),
+                correctIndex: OPTION_KEYS.indexOf(row.correct_option),
+                explanation: row.explanation ?? "",
+                ...(row.steps ? { steps: row.steps } : {}),
+                ...(row.wrong_notes ? { wrongNotes: row.wrong_notes } : {}),
+                ...(row.quick_tip ? { quickTip: row.quick_tip } : {}),
+              };
+            }),
+          }
         : {}),
-    });
-  }
+    };
+  });
 
   return {
     company: {

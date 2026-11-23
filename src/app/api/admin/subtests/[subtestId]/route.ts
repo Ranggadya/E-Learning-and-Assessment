@@ -1,18 +1,11 @@
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin-auth";
 import { recordAuditLog } from "@/lib/audit-log";
-import { validateSubtestUpdateInput } from "@/lib/import-analysis";
+import { parsePgInt4Id, validateSubtestUpdateInput } from "@/lib/import-analysis";
 import { deleteSubtest, updateSubtestMetadata } from "@/lib/queries";
 
 interface RouteContext {
   params: Promise<{ subtestId: string }>;
-}
-
-const MAX_PG_INT4 = 2_147_483_647;
-
-function parseSubtestId(raw: string): number | null {
-  const id = Number(raw);
-  return Number.isInteger(id) && id > 0 && id <= MAX_PG_INT4 ? id : null;
 }
 
 export async function PATCH(request: Request, context: RouteContext) {
@@ -21,7 +14,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     return rejection;
   }
 
-  const subtestId = parseSubtestId((await context.params).subtestId);
+  const subtestId = parsePgInt4Id((await context.params).subtestId);
   if (subtestId === null) {
     return NextResponse.json({ error: "ID subtes tidak valid" }, { status: 400 });
   }
@@ -64,7 +57,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return rejection;
   }
 
-  const subtestId = parseSubtestId((await context.params).subtestId);
+  const subtestId = parsePgInt4Id((await context.params).subtestId);
   if (subtestId === null) {
     return NextResponse.json({ error: "ID subtes tidak valid" }, { status: 400 });
   }

@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin-auth";
+import { parsePgInt4Id } from "@/lib/import-analysis";
 import { exportPack } from "@/lib/queries";
 
 interface RouteContext {
@@ -11,8 +12,8 @@ export async function GET(_request: Request, context: RouteContext) {
   if (rejection) {
     return rejection;
   }
-  const packageId = Number((await context.params).packageId);
-  if (!Number.isInteger(packageId) || packageId <= 0 || packageId > 2_147_483_647) {
+  const packageId = parsePgInt4Id((await context.params).packageId);
+  if (packageId === null) {
     return NextResponse.json({ error: "ID paket tidak valid" }, { status: 400 });
   }
   const pack = await exportPack(packageId);

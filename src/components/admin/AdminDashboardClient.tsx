@@ -37,6 +37,7 @@ type EditingTarget =
   | { type: "subtest"; id: number; durationUnit: "minutes" | "seconds"; isConfigLocked: boolean };
 
 interface PackageExplanationSummary {
+  subtestCount: number;
   totalItems: number;
   quizQuestions: number;
   detailedQuizQuestions: number;
@@ -54,7 +55,7 @@ function summarizePackage(pkg: AdminPackage): PackageExplanationSummary {
   let totalItems = 0;
   let quizQuestions = 0;
   let detailedQuizQuestions = 0;
-  let needsExplanation = false;
+  let needsExplanation = pkg.subtests.length === 0;
 
   for (const subtest of pkg.subtests) {
     totalItems += subtest.questionCount;
@@ -71,6 +72,7 @@ function summarizePackage(pkg: AdminPackage): PackageExplanationSummary {
   }
 
   return {
+    subtestCount: pkg.subtests.length,
     totalItems,
     quizQuestions,
     detailedQuizQuestions,
@@ -93,6 +95,9 @@ function getPackageStatusBadge(summary: PackageExplanationSummary): {
   label: string;
   className: string;
 } {
+  if (summary.subtestCount === 0) {
+    return { label: "Paket Kosong (0 subtes)", className: ADMIN_BADGE_TONES.amber };
+  }
   if (summary.quizQuestions === 0) {
     return { label: "Non-Kuis", className: ADMIN_BADGE_TONES.neutral };
   }
@@ -638,6 +643,7 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
                                 url={`/api/admin/packs/${testPackage.id}`}
                                 label="Hapus paket"
                                 confirmLabel="Hapus paket?"
+                                disabled={isSaving}
                               />
                             </div>
                           </div>
@@ -774,6 +780,7 @@ export function AdminDashboardClient({ companies }: AdminDashboardClientProps) {
                                       url={`/api/admin/subtests/${subtest.id}`}
                                       label="Hapus"
                                       confirmLabel="Hapus?"
+                                      disabled={isSaving}
                                     />
                                   </div>
                                 </div>

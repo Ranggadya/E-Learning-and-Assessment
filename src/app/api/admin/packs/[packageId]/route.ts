@@ -1,18 +1,11 @@
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin-auth";
 import { recordAuditLog } from "@/lib/audit-log";
-import { validatePackageUpdateInput } from "@/lib/import-analysis";
+import { parsePgInt4Id, validatePackageUpdateInput } from "@/lib/import-analysis";
 import { deletePackage, updatePackageMetadata } from "@/lib/queries";
 
 interface RouteContext {
   params: Promise<{ packageId: string }>;
-}
-
-const MAX_PG_INT4 = 2_147_483_647;
-
-function parsePackageId(raw: string): number | null {
-  const id = Number(raw);
-  return Number.isInteger(id) && id > 0 && id <= MAX_PG_INT4 ? id : null;
 }
 
 export async function PATCH(request: Request, context: RouteContext) {
@@ -21,7 +14,7 @@ export async function PATCH(request: Request, context: RouteContext) {
     return rejection;
   }
 
-  const packageId = parsePackageId((await context.params).packageId);
+  const packageId = parsePgInt4Id((await context.params).packageId);
   if (packageId === null) {
     return NextResponse.json({ error: "ID paket tidak valid" }, { status: 400 });
   }
@@ -61,7 +54,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return rejection;
   }
 
-  const packageId = parsePackageId((await context.params).packageId);
+  const packageId = parsePgInt4Id((await context.params).packageId);
   if (packageId === null) {
     return NextResponse.json({ error: "ID paket tidak valid" }, { status: 400 });
   }

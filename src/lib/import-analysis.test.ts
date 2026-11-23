@@ -5,8 +5,11 @@ import {
   compareExplanationSubtest,
   compareSubtestContent,
   computeCanonicalHash,
+  extractParsedMetadata,
   hasDetailedExplanation,
   normalizePromptText,
+  parsePgInt4Id,
+  resolveAuditActionType,
   sanitizeImportFileName,
   validatePackageUpdateInput,
   validateSubtestUpdateInput,
@@ -269,4 +272,38 @@ test("sanitizeImportFileName membersihkan separator path, karakter kontrol, koso
   assert.equal(sanitizeImportFileName("folder/sub\\paket\x00-1.json"), "foldersubpaket-1.json");
   const longName = "a".repeat(200) + ".json";
   assert.equal(sanitizeImportFileName(longName)?.length, 180);
+});
+
+test("parsePgInt4Id, extractParsedMetadata, dan resolveAuditActionType memvalidasi batas ID dan klasifikasi log", () => {
+  assert.equal(parsePgInt4Id("1"), 1);
+  assert.equal(parsePgInt4Id("2147483647"), 2_147_483_647);
+  assert.equal(parsePgInt4Id("0"), null);
+  assert.equal(parsePgInt4Id("-5"), null);
+  assert.equal(parsePgInt4Id("2147483648"), null);
+  assert.equal(parsePgInt4Id("abc"), null);
+
+  const meta = extractParsedMetadata({
+    company: { slug: " astra ", name: " PT Astra " },
+    package: { slug: " paket-1 ", name: " Paket 1 " },
+  });
+  assert.equal(meta.companySlug, "astra");
+  assert.equal(meta.packageSlug, "paket-1");
+  assert.equal(meta.targetLabel, "PT Astra / Paket 1");
+  assert.equal(meta.contentHash.length, 64);
+
+  assert.equal(resolveAuditActionType({ isDuplicateContent: false, hasOverwrite: false }), "PACK_NEW");
+  assert.equal(resolveAuditActionType({ isDuplicateContent: false, hasOverwrite: true }), "PACK_OVERWRITE");
+  assert.equal(resolveAuditActionType({ isDuplicateContent: true, hasOverwrite: false }), "PACK_DUPLICATE_FORCED");
+  assert.equal(
+    resolveAuditActionType({ mode: "pembahasan", isDuplicateContent: false, hasOverwrite: false }),
+    "EXPLANATION_NEW",
+  );
+  assert.equal(
+    resolveAuditActionType({ mode: "pembahasan", isDuplicateContent: false, hasOverwrite: true }),
+    "EXPLANATION_OVERWRITE",
+  );
+  assert.equal(
+    resolveAuditActionType({ mode: "pembahasan", isDuplicateContent: true, hasOverwrite: true }),
+    "EXPLANATION_DUPLICATE_FORCED",
+  );
 });

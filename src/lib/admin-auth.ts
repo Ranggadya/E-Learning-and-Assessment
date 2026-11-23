@@ -71,3 +71,41 @@ export async function rejectIfNotAdmin(): Promise<NextResponse | null> {
   }
   return NextResponse.json({ error: "Belum login sebagai admin" }, { status: 401 });
 }
+
+const LOGIN_WINDOW_MS = 60_000;
+const MAX_FAILED_LOGIN_ATTEMPTS = 5;
+
+// shortcut: in-memory per-instance rate limit for single-admin CMS, upgrade to shared store if multi-instance brute force becomes an issue
+const failedLoginByIp = new Map<string, { count: number; resetAt: number }>();
+
+export function checkLoginRateLimit(
+  ip: string,
+  now = Date.now(),
+): { allowed: true } | { allowed: false; retryAfterSeconds: number } {
+  for (const [key, entry] of failedLoginByIp) {
+    if (entry.resetAt <= now) {
+      failedLoginByIp.delete(key);
+    }
+  }
+  const entry = failedLoginByIp.get(ip);
+  if (!entry || entry.count < MAX_FAILED_LOGIN_ATTEMPTS) {
+    return { allowed: true };
+  }
+  return {
+    allowed: false,
+    retryAfterSeconds: Math.max(1, Math.ceil((entry.resetAt - now) / 1000)),
+  };
+}
+
+export function recordLoginFailure(ip: string, now = Date.now()): void {
+  const existing = failedLoginByIp.get(ip);
+  if (!existing || existing.resetAt <= now) {
+    failedLoginByIp.set(ip, { count: 1, resetAt: now + LOGIN_WINDOW_MS });
+    return;
+  }
+  existing.count += 1;
+}
+
+export function clearLoginFailures(ip: string): void {
+  failedLoginByIp.delete(ip);
+}

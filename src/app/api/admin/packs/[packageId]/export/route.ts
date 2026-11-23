@@ -12,7 +12,7 @@ export async function GET(_request: Request, context: RouteContext) {
     return rejection;
   }
   const packageId = Number((await context.params).packageId);
-  if (!Number.isInteger(packageId)) {
+  if (!Number.isInteger(packageId) || packageId <= 0 || packageId > 2_147_483_647) {
     return NextResponse.json({ error: "ID paket tidak valid" }, { status: 400 });
   }
   const pack = await exportPack(packageId);

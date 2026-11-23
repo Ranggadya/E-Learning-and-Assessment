@@ -84,8 +84,9 @@ export async function POST(request: Request) {
   const force = url.searchParams.get("force") === "1";
   const fileName = sanitizeImportFileName(request.headers.get("x-import-filename"));
 
-  const rawBody = await request.text();
-  if (rawBody.length > MAX_BODY_BYTES) {
+  const contentLength = Number(request.headers.get("content-length") ?? 0);
+  const rawBody = contentLength > MAX_BODY_BYTES ? null : await request.text();
+  if (rawBody === null || Buffer.byteLength(rawBody, "utf8") > MAX_BODY_BYTES) {
     const errors = ["File terlalu besar (maksimal 8 MB)"];
     if (!dryRun) {
       await recordAuditLog({

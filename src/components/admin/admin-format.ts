@@ -29,8 +29,10 @@ export function formatDateTimeId(iso: string): string {
   if (Number.isNaN(date.getTime())) {
     return iso;
   }
-  return new Intl.DateTimeFormat("id-ID", {
+  const formatted = new Intl.DateTimeFormat("id-ID", {
     dateStyle: "medium",
     timeStyle: "short",
+    timeZone: "Asia/Jakarta",
   }).format(date);
+  return `${formatted} WIB`;
 }

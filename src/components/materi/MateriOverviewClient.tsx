@@ -14,7 +14,7 @@ import { useAnonUserId } from "@/lib/anon-user";
 import {
   LEITNER_BOX_DAYS,
   type EnglishProgressOverview,
-} from "@/lib/english";
+} from "@/lib/english-types";
 
 interface MateriOverviewClientProps {
   initialOverview: EnglishProgressOverview;

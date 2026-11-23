@@ -13,7 +13,7 @@ import {
   CEFR_LEVELS,
   type CefrLevel,
   type EnglishQuizQuestion,
-} from "@/lib/english";
+} from "@/lib/english-types";
 
 interface EnglishQuizClientProps {
   initialCefr: CefrLevel | "";

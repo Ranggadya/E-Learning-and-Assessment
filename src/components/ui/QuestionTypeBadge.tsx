@@ -1,5 +1,5 @@
 import { IconEyeOff, IconFileText, IconImage, IconZap } from "@/components/ui/Icons";
-import type { CefrLevel } from "@/lib/english";
+import type { CefrLevel } from "@/lib/english-types";
 import type { QuestionType } from "@/lib/types";
 
 interface QuestionTypeBadgeProps {

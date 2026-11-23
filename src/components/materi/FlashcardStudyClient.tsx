@@ -16,7 +16,7 @@ import {
   LEITNER_BOX_DAYS,
   type CefrLevel,
   type EnglishWordWithProgress,
-} from "@/lib/english";
+} from "@/lib/english-types";
 
 const NEW_LIMIT_KEY = "e-assessment:english-new-limit:v1";
 

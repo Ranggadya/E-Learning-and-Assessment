@@ -55,7 +55,9 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
   const [draftName, setDraftName] = useState(profile.displayName);
   const [draftRole, setDraftRole] = useState(profile.roleTitle);
   const [weekOffset, setWeekOffset] = useState(0);
+  const editButtonRef = useRef<HTMLButtonElement>(null);
   const nameInputRef = useRef<HTMLInputElement>(null);
+  const wasEditingRef = useRef(false);
 
   const referenceDate = useMemo(() => new Date(initialNowIso), [initialNowIso]);
   const calendar = useMemo(
@@ -64,7 +66,10 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
   );
   const upcoming = useMemo(() => getUpcomingSubtests(catalog, progress, 4), [catalog, progress]);
   const hasAnySubtests = useMemo(
-    () => catalog.some((company) => company.packages.some((pkg) => pkg.subtests.length > 0)),
+    () =>
+      catalog.some((company) =>
+        company.packages.some((pkg) => pkg.subtests.some((subtest) => subtest.questionCount > 0)),
+      ),
     [catalog],
   );
   const avatarMonogram = useMemo(
@@ -73,8 +78,13 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
   );
 
   useEffect(() => {
-    if (editing) {
+    const wasEditing = wasEditingRef.current;
+    wasEditingRef.current = editing;
+
+    if (!wasEditing && editing) {
       nameInputRef.current?.focus();
+    } else if (wasEditing && !editing) {
+      editButtonRef.current?.focus();
     }
   }, [editing]);
 
@@ -105,7 +115,7 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
   }
 
   return (
-    <div className="flex h-full flex-col justify-between gap-6">
+    <div className="flex min-h-full flex-col justify-between gap-6">
       <div className="space-y-6">
         {/* Blok 1: Profil Peserta Lokal */}
         <section aria-labelledby="local-profile-heading">
@@ -114,6 +124,7 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
               Profil
             </h2>
             <button
+              ref={editButtonRef}
               type="button"
               onClick={handleToggleEdit}
               aria-label="Edit profil lokal"
@@ -250,14 +261,14 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
                 <div
                   key={day.dateKey}
                   title={summaryLabel}
-                  aria-label={summaryLabel}
                   className={`flex flex-col items-center justify-center rounded-lg py-1.5 text-xs tabular-nums ${
                     day.isToday
                       ? "border border-brand/30 bg-brand-soft font-bold text-brand-text"
                       : "font-semibold text-ink-secondary"
                   }`}
                 >
-                  <span>{day.dayNumber}</span>
+                  <span aria-hidden="true">{day.dayNumber}</span>
+                  <span className="sr-only">{summaryLabel}</span>
                   <span
                     aria-hidden="true"
                     className={`mt-1 h-1.5 w-1.5 rounded-full ${

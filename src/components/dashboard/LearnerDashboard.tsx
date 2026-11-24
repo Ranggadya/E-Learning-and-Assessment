@@ -218,7 +218,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
       </header>
 
       {/* Blok 2: 3 Kartu KPI Pastel */}
-      <section aria-label="Ringkasan statistik latihan" className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <section aria-label="Ringkasan statistik latihan" className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <div className={`${cardSurfaceClass} flex items-center gap-4 p-4`}>
           <div
             aria-hidden="true"
@@ -227,10 +227,10 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
             <IconRotateCcw className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <p className="truncate text-xs font-medium text-ink-muted">
+            <p className="text-xs font-medium leading-tight text-ink-muted">
               {inProgressCount > 0 ? "Sedang Berjalan" : "Paket Tersedia"}
             </p>
-            <p className="mt-0.5 truncate text-lg font-extrabold tracking-tight tabular-nums text-ink">
+            <p className="mt-0.5 text-lg font-extrabold leading-tight tracking-tight tabular-nums text-ink">
               {inProgressCount > 0 ? `${inProgressCount} Paket` : `${stats.totalPackages} Paket`}
             </p>
           </div>
@@ -244,8 +244,8 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
             <IconCheckCircle className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <p className="truncate text-xs font-medium text-ink-muted">Subtes Selesai</p>
-            <p className="mt-0.5 truncate font-mono text-lg font-extrabold tracking-tight tabular-nums text-ink">
+            <p className="text-xs font-medium leading-tight text-ink-muted">Subtes Selesai</p>
+            <p className="mt-0.5 font-mono text-lg font-extrabold leading-tight tracking-tight tabular-nums text-ink">
               {stats.completedSubtests} / {stats.totalSubtests}
             </p>
           </div>
@@ -259,11 +259,11 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
             <IconAward className="h-5 w-5" />
           </div>
           <div className="min-w-0">
-            <p className="truncate text-xs font-medium text-ink-muted">
+            <p className="text-xs font-medium leading-tight text-ink-muted">
               {stats.avgAccuracy !== null ? "Rata-rata Akurasi" : "Total Bank Soal"}
             </p>
             <p
-              className={`mt-0.5 truncate text-lg font-extrabold tracking-tight tabular-nums text-ink ${
+              className={`mt-0.5 text-lg font-extrabold leading-tight tracking-tight tabular-nums text-ink ${
                 stats.avgAccuracy !== null ? "font-mono" : ""
               }`}
             >
@@ -499,7 +499,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
           <h2 id="next-action-heading" className="mb-3 text-base font-bold text-ink">
             Fokus Latihan Berikutnya
           </h2>
-          <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-blue-100/90 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 p-4 dark:border-blue-900/50 dark:from-blue-950/40 dark:to-indigo-950/30 lg:flex-nowrap">
+          <div className="flex flex-col items-stretch gap-4 rounded-2xl border border-blue-100/90 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 p-4 dark:border-blue-900/50 dark:from-blue-950/40 dark:to-indigo-950/30 lg:flex-row lg:items-center lg:justify-between">
             <div className="flex min-w-0 flex-1 items-center gap-3.5">
               <div
                 aria-hidden="true"
@@ -508,12 +508,14 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
                 <IconClipboardList className="h-6 w-6" />
               </div>
               <div className="min-w-0">
-                <h3 className="truncate text-sm font-bold text-ink">{nextAction.title}</h3>
+                <h3 className="text-sm font-bold leading-snug text-ink lg:truncate">
+                  {nextAction.title}
+                </h3>
                 <p className="mt-0.5 text-xs text-ink-secondary">{nextAction.meta}</p>
               </div>
             </div>
 
-            <div className="flex shrink-0 flex-wrap items-center gap-4 sm:gap-5">
+            <div className="flex shrink-0 flex-wrap items-center justify-between gap-4 sm:gap-5 lg:justify-end">
               <div className="text-left lg:text-right">
                 <p className="text-xs font-semibold text-ink">Estimasi</p>
                 <p className="mt-0.5 font-mono text-xs tabular-nums text-ink-secondary">
@@ -548,7 +550,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
             <h2 id="packages-heading" className="text-base font-bold text-ink">
               Paket Tes
             </h2>
-            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-600 px-1.5 text-xs font-bold tabular-nums text-white">
+            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-700 px-1.5 text-xs font-bold tabular-nums text-white">
               {totalFilteredPackages}
             </span>
           </div>
@@ -565,7 +567,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
                 aria-pressed={selectedCompanySlug === ""}
                 className={`inline-flex min-h-[36px] items-center justify-center rounded-full border px-3.5 py-1.5 text-xs font-semibold transition ${
                   selectedCompanySlug === ""
-                    ? "border-brand bg-brand text-white"
+                    ? "border-brand/40 bg-brand-soft text-brand-text"
                     : "border-line bg-surface text-ink-secondary hover:bg-subtle hover:text-ink"
                 }`}
               >
@@ -581,7 +583,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
                     aria-pressed={isSelected}
                     className={`inline-flex min-h-[36px] items-center justify-center rounded-full border px-3.5 py-1.5 text-xs font-semibold transition ${
                       isSelected
-                        ? "border-brand bg-brand text-white"
+                        ? "border-brand/40 bg-brand-soft text-brand-text"
                         : "border-line bg-surface text-ink-secondary hover:bg-subtle hover:text-ink"
                     }`}
                   >

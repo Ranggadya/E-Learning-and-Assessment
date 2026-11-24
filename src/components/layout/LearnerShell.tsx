@@ -23,6 +23,9 @@ interface LearnerShellProps {
   rightRail?: React.ReactNode;
 }
 
+const FOOTER_DISCLAIMER =
+  "e-assessment adalah alat latihan psikotes mandiri dan tidak berafiliasi resmi dengan perusahaan penyelenggara tes.";
+
 function navItemClassName(isActive: boolean): string {
   return `group flex min-h-[42px] items-center justify-between gap-2 rounded-xl px-3 py-2 text-sm transition ${
     isActive
@@ -315,31 +318,25 @@ export function LearnerShell({ companies, children, rightRail }: LearnerShellPro
 
       {/* Main Content */}
       {rightRail ? (
-        <div className="lg:pl-64 xl:flex xl:min-h-screen xl:items-stretch">
-          <div className="flex min-w-0 flex-1 flex-col">
-            <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-7">{children}</main>
-            <footer className="w-full border-t border-line px-4 py-5 text-xs text-ink-muted sm:px-6 lg:px-8">
-              <p>
-                e-assessment adalah alat latihan psikotes mandiri dan tidak berafiliasi resmi
-                dengan perusahaan penyelenggara tes.
-              </p>
-            </footer>
-          </div>
+        <div className="flex min-h-screen flex-col lg:pl-64 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:grid-rows-[1fr_auto]">
+          <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-7 xl:col-start-1 xl:row-start-1">
+            {children}
+          </main>
           <aside
             aria-label="Ringkasan peserta"
-            className="w-full border-t border-line bg-surface px-4 py-6 sm:px-6 xl:sticky xl:top-0 xl:flex xl:h-screen xl:w-80 xl:shrink-0 xl:flex-col xl:justify-between xl:overflow-y-auto xl:border-t-0 xl:border-l xl:px-6 xl:py-7"
+            className="w-full border-t border-line bg-surface px-4 py-6 sm:px-6 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:sticky xl:top-0 xl:flex xl:h-screen xl:flex-col xl:justify-between xl:overflow-y-auto xl:border-t-0 xl:border-l xl:px-6 xl:py-7"
           >
             {rightRail}
           </aside>
+          <footer className="w-full border-t border-line px-4 py-5 text-xs text-ink-muted sm:px-6 lg:px-8 xl:col-start-1 xl:row-start-2">
+            <p>{FOOTER_DISCLAIMER}</p>
+          </footer>
         </div>
       ) : (
         <div className="flex min-h-screen flex-col lg:pl-64">
           <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:px-7 lg:py-7">{children}</main>
           <footer className="w-full border-t border-line px-4 py-5 text-xs text-ink-muted sm:px-6 lg:px-7">
-            <p>
-              e-assessment adalah alat latihan psikotes mandiri dan tidak berafiliasi resmi dengan
-              perusahaan penyelenggara tes.
-            </p>
+            <p>{FOOTER_DISCLAIMER}</p>
           </footer>
         </div>
       )}

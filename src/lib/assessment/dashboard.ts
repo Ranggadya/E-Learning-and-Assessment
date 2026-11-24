@@ -375,6 +375,8 @@ export function formatShortDate(iso: string): string {
 
 const FALLBACK_ATTEMPT_MINUTES = 10;
 
+export const WIB_UTC_OFFSET_MINUTES = 420;
+
 const WEEKDAY_SHORT_ID = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"] as const;
 const MONTH_SHORT_ID = [
   "Jan",
@@ -412,6 +414,14 @@ function resolveReferenceDate(referenceDate?: Date): Date {
   return new Date();
 }
 
+function resolveUtcOffsetMinutes(utcOffsetMinutes: number): number {
+  return Number.isFinite(utcOffsetMinutes) ? utcOffsetMinutes : WIB_UTC_OFFSET_MINUTES;
+}
+
+function shiftByUtcOffset(date: Date, utcOffsetMinutes: number): Date {
+  return new Date(date.getTime() + utcOffsetMinutes * 60_000);
+}
+
 function toUtcDayStart(date: Date): Date {
   return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
 }
@@ -433,7 +443,10 @@ function toUtcDateKey(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-function parseIsoToUtcDateKey(iso: string | null | undefined): string | null {
+function parseIsoToOffsetDateKey(
+  iso: string | null | undefined,
+  utcOffsetMinutes: number,
+): string | null {
   if (!iso) {
     return null;
   }
@@ -441,7 +454,7 @@ function parseIsoToUtcDateKey(iso: string | null | undefined): string | null {
   if (Number.isNaN(parsed.getTime())) {
     return null;
   }
-  return toUtcDateKey(parsed);
+  return toUtcDateKey(shiftByUtcOffset(parsed, utcOffsetMinutes));
 }
 
 function formatMonthRangeLabel(start: Date, end: Date): string {
@@ -485,13 +498,15 @@ export function computeInProgressPackageCount(
 }
 
 /**
- * Membangun seri aktivitas 7 hari terakhir (berakhir di `referenceDate`, berbasis tanggal UTC).
+ * Membangun seri aktivitas 7 hari terakhir (berakhir di `referenceDate`, default zona waktu WIB UTC+7).
  */
 export function buildWeeklyActivitySeries(
   catalog: DashboardCompany[],
   progress: LocalProgressStore,
   referenceDate?: Date,
+  utcOffsetMinutes = WIB_UTC_OFFSET_MINUTES,
 ): WeeklyActivitySeries {
+  const safeOffsetMinutes = resolveUtcOffsetMinutes(utcOffsetMinutes);
   const durationMinutesBySubtestId = new Map<number, number>();
   for (const company of catalog) {
     for (const pkg of company.packages) {
@@ -504,7 +519,9 @@ export function buildWeeklyActivitySeries(
     }
   }
 
-  const refDay = toUtcDayStart(resolveReferenceDate(referenceDate));
+  const refDay = toUtcDayStart(
+    shiftByUtcOffset(resolveReferenceDate(referenceDate), safeOffsetMinutes),
+  );
   const days: WeeklyActivityDay[] = [];
   const dayByKey = new Map<string, WeeklyActivityDay>();
 
@@ -524,7 +541,7 @@ export function buildWeeklyActivitySeries(
   }
 
   for (const attempt of progress.recentAttempts) {
-    const dateKey = parseIsoToUtcDateKey(attempt.completedAt);
+    const dateKey = parseIsoToOffsetDateKey(attempt.completedAt, safeOffsetMinutes);
     if (!dateKey) {
       continue;
     }
@@ -561,14 +578,18 @@ export function buildWeeklyActivitySeries(
 }
 
 /**
- * Membangun model kalender mingguan (Min..Sab, berbasis tanggal UTC) dengan dukungan `weekOffset`.
+ * Membangun model kalender mingguan (Min..Sab, default zona waktu WIB UTC+7) dengan dukungan `weekOffset`.
  */
 export function buildWeekCalendarDays(
   progress: LocalProgressStore,
   referenceDate?: Date,
   weekOffset = 0,
+  utcOffsetMinutes = WIB_UTC_OFFSET_MINUTES,
 ): WeekCalendarModel {
-  const refDay = toUtcDayStart(resolveReferenceDate(referenceDate));
+  const safeOffsetMinutes = resolveUtcOffsetMinutes(utcOffsetMinutes);
+  const refDay = toUtcDayStart(
+    shiftByUtcOffset(resolveReferenceDate(referenceDate), safeOffsetMinutes),
+  );
   const todayKey = toUtcDateKey(refDay);
   const safeOffset = Number.isFinite(weekOffset) ? Math.trunc(weekOffset) : 0;
   const weekStart = addUtcDays(refDay, -refDay.getUTCDay() + safeOffset * 7);
@@ -576,13 +597,13 @@ export function buildWeekCalendarDays(
 
   const activeDateKeys = new Set<string>();
   for (const attempt of progress.recentAttempts) {
-    const key = parseIsoToUtcDateKey(attempt.completedAt);
+    const key = parseIsoToOffsetDateKey(attempt.completedAt, safeOffsetMinutes);
     if (key) {
       activeDateKeys.add(key);
     }
   }
   for (const entry of Object.values(progress.bySubtestId)) {
-    const key = parseIsoToUtcDateKey(entry.lastCompletedAt);
+    const key = parseIsoToOffsetDateKey(entry.lastCompletedAt, safeOffsetMinutes);
     if (key) {
       activeDateKeys.add(key);
     }

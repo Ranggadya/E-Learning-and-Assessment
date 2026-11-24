@@ -15,6 +15,7 @@ import {
   getPackageKindChips,
   getUpcomingSubtests,
   selectCompanyPackages,
+  WIB_UTC_OFFSET_MINUTES,
 } from "./dashboard";
 import { DEFAULT_LOCAL_PROFILE, sanitizeLocalProfile } from "@/lib/client/local-profile";
 
@@ -347,7 +348,7 @@ test("buildWeeklyActivitySeries membangun 7 hari UTC, fallback 10 menit, dan tie
   const catalog = makeCatalog();
   const refDate = new Date("2026-11-24T15:30:00Z"); // Selasa
 
-  const empty = buildWeeklyActivitySeries(catalog, EMPTY_PROGRESS, refDate);
+  const empty = buildWeeklyActivitySeries(catalog, EMPTY_PROGRESS, refDate, 0);
   assert.equal(empty.days.length, 7);
   assert.equal(empty.days[0].dateKey, "2026-11-18");
   assert.equal(empty.days[0].dayLabel, "Rab");
@@ -381,7 +382,7 @@ test("buildWeeklyActivitySeries membangun 7 hari UTC, fallback 10 menit, dan tie
     ],
   };
 
-  const series = buildWeeklyActivitySeries(catalog, progress, refDate);
+  const series = buildWeeklyActivitySeries(catalog, progress, refDate, 0);
   assert.equal(series.totalAttempts, 3);
   assert.equal(series.totalMinutes, 25);
   assert.equal(series.days[2].dateKey, "2026-11-20");
@@ -453,6 +454,62 @@ test("buildWeekCalendarDays menghasilkan Min..Sab, menandai isToday & hasActivit
   assert.equal(nextWeek.days[0].dateKey, "2026-11-29");
   assert.equal(nextWeek.days[6].dateKey, "2026-12-05");
   assert.equal(nextWeek.days.some((d) => d.isToday), false);
+});
+
+test("buildWeeklyActivitySeries dan buildWeekCalendarDays default memakai zona waktu WIB (UTC+7)", () => {
+  assert.equal(WIB_UTC_OFFSET_MINUTES, 420);
+  const catalog = makeCatalog();
+  // 2026-11-23T18:30:00Z === 2026-11-24 01:30 WIB (Selasa, 24 Nov 2026)
+  const refDate = new Date("2026-11-23T18:30:00Z");
+  const attemptBase = {
+    companySlug: "astra",
+    companyName: "PT Astra International",
+    packageSlug: "paket-1",
+    packageName: "Paket 1",
+    score: 12,
+    totalQuestions: 15,
+  };
+  const progress: LocalProgressStore = {
+    bySubtestId: {
+      "101": {
+        bestScore: 12,
+        lastScore: 12,
+        totalQuestions: 15,
+        lastAttemptId: 10,
+        attemptsCount: 1,
+        // 2026-11-23T17:15:00Z === 2026-11-24 00:15 WIB
+        lastCompletedAt: "2026-11-23T17:15:00Z",
+      },
+    },
+    recentAttempts: [
+      // 2026-11-23T17:15:00Z === 2026-11-24 00:15 WIB -> harus masuk bucket 2026-11-24
+      { ...attemptBase, attemptId: 10, subtestId: 101, subtestName: "Verbal", completedAt: "2026-11-23T17:15:00Z" },
+      // 2026-11-23T16:59:59Z === 2026-11-23 23:59:59 WIB -> harus masuk bucket 2026-11-23
+      { ...attemptBase, attemptId: 11, subtestId: 201, subtestName: "Pauli", completedAt: "2026-11-23T16:59:59Z" },
+    ],
+  };
+
+  const series = buildWeeklyActivitySeries(catalog, progress, refDate);
+  assert.equal(series.days[6].dateKey, "2026-11-24");
+  assert.equal(series.days[6].dayLabel, "Sel");
+  assert.equal(series.days[6].fullDateLabel, "24 Nov 2026");
+  assert.equal(series.days[6].isToday, true);
+  assert.equal(series.days[6].attempts, 1);
+  assert.equal(series.days[6].estimatedMinutes, 10);
+  assert.equal(series.days[5].dateKey, "2026-11-23");
+  assert.equal(series.days[5].attempts, 1);
+  assert.equal(series.days[5].estimatedMinutes, 5);
+
+  const calendar = buildWeekCalendarDays(progress, refDate, 0);
+  const nov24 = calendar.days.find((d) => d.dateKey === "2026-11-24");
+  const nov23 = calendar.days.find((d) => d.dateKey === "2026-11-23");
+  assert.ok(nov24);
+  assert.equal(nov24.dayNumber, 24);
+  assert.equal(nov24.isToday, true);
+  assert.equal(nov24.hasActivity, true);
+  assert.ok(nov23);
+  assert.equal(nov23.isToday, false);
+  assert.equal(nov23.hasActivity, true);
 });
 
 test("getUpcomingSubtests memprioritaskan paket sedang dikerjakan, melewati 0 soal, dan menghormati limit", () => {

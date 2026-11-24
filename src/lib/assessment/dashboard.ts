@@ -1,5 +1,6 @@
 import type {
   AttemptBadge,
+  CalendarDayCell,
   Company,
   DashboardCompany,
   DashboardPackage,
@@ -9,7 +10,11 @@ import type {
   LocalProgressStore,
   NextAction,
   SubtestKind,
+  UpcomingSubtestItem,
   VisiblePackagesResult,
+  WeekCalendarModel,
+  WeeklyActivityDay,
+  WeeklyActivitySeries,
 } from "@/types/assessment";
 
 export function catalogToCompanies(catalog: DashboardCompany[]): Company[] {
@@ -65,6 +70,8 @@ function makeResumeAction(
   return {
     mode: "resume",
     href: `/test/${subtest.id}`,
+    packageHref: `/c/${company.slug}/${pkg.slug}`,
+    estimatedMinutes: mins,
     tag: "LANJUTKAN LATIHAN",
     title: `${company.name} · ${pkg.name} — ${subtest.name}`,
     meta: `${subtest.questionCount} ${SUBTEST_UNIT[subtest.kind]} · ${mins} menit · Timer otomatis`,
@@ -170,12 +177,15 @@ export function computeNextAction(
 
   if (progress.recentAttempts.length === 0) {
     const { company, pkg } = firstPlayable;
+    const estimatedMinutes = estimatePackageMinutes(pkg);
     return {
       mode: "start",
       href: `/c/${company.slug}/${pkg.slug}`,
+      packageHref: `/c/${company.slug}/${pkg.slug}`,
+      estimatedMinutes,
       tag: "MULAI LATIHAN",
       title: `${company.name} · ${pkg.name}`,
-      meta: `${pkg.subtests.length} subtes · estimasi ~${estimatePackageMinutes(pkg)} menit · Timer otomatis`,
+      meta: `${pkg.subtests.length} subtes · estimasi ~${estimatedMinutes} menit · Timer otomatis`,
       ctaLabel: "Mulai",
     };
   }
@@ -223,12 +233,15 @@ export function computeNextAction(
       ? { company: latestCompany, pkg: latestPkg }
       : firstPlayable;
 
+  const fallbackMinutes = estimatePackageMinutes(fallback.pkg);
   return {
     mode: "completed",
     href: `/c/${fallback.company.slug}/${fallback.pkg.slug}`,
+    packageHref: `/c/${fallback.company.slug}/${fallback.pkg.slug}`,
+    estimatedMinutes: fallbackMinutes,
     tag: "SEMUA LATIHAN SELESAI",
     title: `${fallback.company.name} · ${fallback.pkg.name}`,
-    meta: `${fallback.pkg.subtests.length} subtes · estimasi ~${estimatePackageMinutes(fallback.pkg)} menit · Tinjau atau ulangi latihan`,
+    meta: `${fallback.pkg.subtests.length} subtes · estimasi ~${fallbackMinutes} menit · Tinjau atau ulangi latihan`,
     ctaLabel: "Buka Paket",
   };
 }
@@ -358,4 +371,284 @@ export function formatShortDate(iso: string): string {
   } catch {
     return "";
   }
+}
+
+const FALLBACK_ATTEMPT_MINUTES = 10;
+
+const WEEKDAY_SHORT_ID = ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"] as const;
+const MONTH_SHORT_ID = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "Mei",
+  "Jun",
+  "Jul",
+  "Agu",
+  "Sep",
+  "Okt",
+  "Nov",
+  "Des",
+] as const;
+const MONTH_LONG_ID = [
+  "Januari",
+  "Februari",
+  "Maret",
+  "April",
+  "Mei",
+  "Juni",
+  "Juli",
+  "Agustus",
+  "September",
+  "Oktober",
+  "November",
+  "Desember",
+] as const;
+
+function resolveReferenceDate(referenceDate?: Date): Date {
+  if (referenceDate && !Number.isNaN(referenceDate.getTime())) {
+    return referenceDate;
+  }
+  return new Date();
+}
+
+function toUtcDayStart(date: Date): Date {
+  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
+}
+
+function addUtcDays(utcDayStart: Date, offsetDays: number): Date {
+  return new Date(
+    Date.UTC(
+      utcDayStart.getUTCFullYear(),
+      utcDayStart.getUTCMonth(),
+      utcDayStart.getUTCDate() + offsetDays,
+    ),
+  );
+}
+
+function toUtcDateKey(date: Date): string {
+  const year = date.getUTCFullYear();
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function parseIsoToUtcDateKey(iso: string | null | undefined): string | null {
+  if (!iso) {
+    return null;
+  }
+  const parsed = new Date(iso);
+  if (Number.isNaN(parsed.getTime())) {
+    return null;
+  }
+  return toUtcDateKey(parsed);
+}
+
+function formatMonthRangeLabel(start: Date, end: Date): string {
+  const startMonth = start.getUTCMonth();
+  const endMonth = end.getUTCMonth();
+  const startYear = start.getUTCFullYear();
+  const endYear = end.getUTCFullYear();
+
+  if (startYear === endYear && startMonth === endMonth) {
+    return `${MONTH_LONG_ID[startMonth]} ${startYear}`;
+  }
+  if (startYear === endYear) {
+    return `${MONTH_SHORT_ID[startMonth]} – ${MONTH_SHORT_ID[endMonth]} ${endYear}`;
+  }
+  return `${MONTH_SHORT_ID[startMonth]} ${startYear} – ${MONTH_SHORT_ID[endMonth]} ${endYear}`;
+}
+
+/**
+ * Menghitung jumlah paket yang sedang dikerjakan (0 < subtes selesai < total subtes).
+ */
+export function computeInProgressPackageCount(
+  catalog: DashboardCompany[],
+  progress: LocalProgressStore,
+): number {
+  let count = 0;
+
+  for (const company of catalog) {
+    for (const pkg of company.packages) {
+      const total = pkg.subtests.length;
+      if (total === 0) {
+        continue;
+      }
+      const done = pkg.subtests.filter((s) => Boolean(progress.bySubtestId[String(s.id)])).length;
+      if (done > 0 && done < total) {
+        count += 1;
+      }
+    }
+  }
+
+  return count;
+}
+
+/**
+ * Membangun seri aktivitas 7 hari terakhir (berakhir di `referenceDate`, berbasis tanggal UTC).
+ */
+export function buildWeeklyActivitySeries(
+  catalog: DashboardCompany[],
+  progress: LocalProgressStore,
+  referenceDate?: Date,
+): WeeklyActivitySeries {
+  const durationMinutesBySubtestId = new Map<number, number>();
+  for (const company of catalog) {
+    for (const pkg of company.packages) {
+      for (const subtest of pkg.subtests) {
+        durationMinutesBySubtestId.set(
+          subtest.id,
+          Math.max(1, Math.round(subtest.durationSeconds / 60)),
+        );
+      }
+    }
+  }
+
+  const refDay = toUtcDayStart(resolveReferenceDate(referenceDate));
+  const days: WeeklyActivityDay[] = [];
+  const dayByKey = new Map<string, WeeklyActivityDay>();
+
+  for (let offset = -6; offset <= 0; offset += 1) {
+    const dayDate = addUtcDays(refDay, offset);
+    const dateKey = toUtcDateKey(dayDate);
+    const day: WeeklyActivityDay = {
+      dateKey,
+      dayLabel: WEEKDAY_SHORT_ID[dayDate.getUTCDay()],
+      fullDateLabel: `${dayDate.getUTCDate()} ${MONTH_SHORT_ID[dayDate.getUTCMonth()]} ${dayDate.getUTCFullYear()}`,
+      attempts: 0,
+      estimatedMinutes: 0,
+      isToday: offset === 0,
+    };
+    days.push(day);
+    dayByKey.set(dateKey, day);
+  }
+
+  for (const attempt of progress.recentAttempts) {
+    const dateKey = parseIsoToUtcDateKey(attempt.completedAt);
+    if (!dateKey) {
+      continue;
+    }
+    const bucket = dayByKey.get(dateKey);
+    if (!bucket) {
+      continue;
+    }
+    bucket.attempts += 1;
+    bucket.estimatedMinutes +=
+      durationMinutesBySubtestId.get(attempt.subtestId) ?? FALLBACK_ATTEMPT_MINUTES;
+  }
+
+  let totalAttempts = 0;
+  let totalMinutes = 0;
+  let peakIndex = 6;
+  let maxMinutes = 0;
+
+  for (let i = 0; i < days.length; i += 1) {
+    const day = days[i];
+    totalAttempts += day.attempts;
+    totalMinutes += day.estimatedMinutes;
+    if (day.estimatedMinutes > 0 && day.estimatedMinutes >= maxMinutes) {
+      maxMinutes = day.estimatedMinutes;
+      peakIndex = i;
+    }
+  }
+
+  return {
+    days,
+    totalAttempts,
+    totalMinutes,
+    peakIndex,
+  };
+}
+
+/**
+ * Membangun model kalender mingguan (Min..Sab, berbasis tanggal UTC) dengan dukungan `weekOffset`.
+ */
+export function buildWeekCalendarDays(
+  progress: LocalProgressStore,
+  referenceDate?: Date,
+  weekOffset = 0,
+): WeekCalendarModel {
+  const refDay = toUtcDayStart(resolveReferenceDate(referenceDate));
+  const todayKey = toUtcDateKey(refDay);
+  const safeOffset = Number.isFinite(weekOffset) ? Math.trunc(weekOffset) : 0;
+  const weekStart = addUtcDays(refDay, -refDay.getUTCDay() + safeOffset * 7);
+  const weekEnd = addUtcDays(weekStart, 6);
+
+  const activeDateKeys = new Set<string>();
+  for (const attempt of progress.recentAttempts) {
+    const key = parseIsoToUtcDateKey(attempt.completedAt);
+    if (key) {
+      activeDateKeys.add(key);
+    }
+  }
+  for (const entry of Object.values(progress.bySubtestId)) {
+    const key = parseIsoToUtcDateKey(entry.lastCompletedAt);
+    if (key) {
+      activeDateKeys.add(key);
+    }
+  }
+
+  const days: CalendarDayCell[] = [];
+  for (let i = 0; i < 7; i += 1) {
+    const dayDate = addUtcDays(weekStart, i);
+    const dateKey = toUtcDateKey(dayDate);
+    days.push({
+      dateKey,
+      weekdayShort: WEEKDAY_SHORT_ID[dayDate.getUTCDay()],
+      dayNumber: dayDate.getUTCDate(),
+      isToday: dateKey === todayKey,
+      hasActivity: activeDateKeys.has(dateKey),
+    });
+  }
+
+  return {
+    monthLabel: formatMonthRangeLabel(weekStart, weekEnd),
+    days,
+  };
+}
+
+/**
+ * Mengambil antrean subtes berikutnya yang belum selesai:
+ * memprioritaskan paket sedang dikerjakan lalu paket lainnya, serta melewati subtes 0 soal.
+ */
+export function getUpcomingSubtests(
+  catalog: DashboardCompany[],
+  progress: LocalProgressStore,
+  limit = 5,
+): UpcomingSubtestItem[] {
+  const cap = Math.max(0, limit);
+  if (cap === 0) {
+    return [];
+  }
+
+  const fromInProgress: UpcomingSubtestItem[] = [];
+  const fromOther: UpcomingSubtestItem[] = [];
+
+  for (const company of catalog) {
+    for (const pkg of company.packages) {
+      const total = pkg.subtests.length;
+      const done = pkg.subtests.filter((s) => Boolean(progress.bySubtestId[String(s.id)])).length;
+      const isInProgress = done > 0 && done < total;
+      const target = isInProgress ? fromInProgress : fromOther;
+
+      for (const subtest of pkg.subtests) {
+        if (subtest.questionCount <= 0 || progress.bySubtestId[String(subtest.id)]) {
+          continue;
+        }
+        target.push({
+          subtestId: subtest.id,
+          subtestName: subtest.name,
+          companySlug: company.slug,
+          companyName: company.name,
+          packageSlug: pkg.slug,
+          packageName: pkg.name,
+          durationMinutes: Math.max(1, Math.round(subtest.durationSeconds / 60)),
+          kind: subtest.kind,
+          questionCount: subtest.questionCount,
+        });
+      }
+    }
+  }
+
+  return [...fromInProgress, ...fromOther].slice(0, cap);
 }

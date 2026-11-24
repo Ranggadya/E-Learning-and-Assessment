@@ -2,16 +2,21 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import type { DashboardCompany, DashboardPackage, LocalProgressStore } from "@/types/assessment";
 import {
+  buildWeekCalendarDays,
+  buildWeeklyActivitySeries,
   catalogToCompanies,
   computeDashboardStats,
+  computeInProgressPackageCount,
   computeNextAction,
   countCompletedActiveSubtests,
   formatAttemptBadge,
   formatShortDate,
   getCompanyMonogram,
   getPackageKindChips,
+  getUpcomingSubtests,
   selectCompanyPackages,
 } from "./dashboard";
+import { DEFAULT_LOCAL_PROFILE, sanitizeLocalProfile } from "@/lib/client/local-profile";
 
 const EMPTY_PROGRESS: LocalProgressStore = { bySubtestId: {}, recentAttempts: [] };
 
@@ -95,6 +100,8 @@ test("computeNextAction: pengguna baru mengarah ke paket pertama (mode start) da
   assert.ok(action);
   assert.equal(action.mode, "start");
   assert.equal(action.href, "/c/astra/paket-1");
+  assert.equal(action.packageHref, "/c/astra/paket-1");
+  assert.equal(action.estimatedMinutes, 30);
   assert.equal(action.tag, "MULAI LATIHAN");
   assert.equal(action.ctaLabel, "Mulai");
 });
@@ -123,6 +130,8 @@ test("computeNextAction: maju lintas paket di perusahaan sama, lalu perusahaan l
   });
   assert.equal(sameCompany?.mode, "resume");
   assert.equal(sameCompany?.href, "/test/104");
+  assert.equal(sameCompany?.packageHref, "/c/astra/paket-2");
+  assert.equal(sameCompany?.estimatedMinutes, 12);
 
   const crossCompany = computeNextAction(catalog, {
     bySubtestId: {
@@ -134,6 +143,8 @@ test("computeNextAction: maju lintas paket di perusahaan sama, lalu perusahaan l
   });
   assert.equal(crossCompany?.mode, "resume");
   assert.equal(crossCompany?.href, "/test/201");
+  assert.equal(crossCompany?.packageHref, "/c/paragon/paket-1");
+  assert.equal(crossCompany?.estimatedMinutes, 5);
 
   const allDone = computeNextAction(catalog, {
     bySubtestId: {
@@ -148,6 +159,8 @@ test("computeNextAction: maju lintas paket di perusahaan sama, lalu perusahaan l
   assert.equal(allDone?.mode, "completed");
   assert.equal(allDone?.tag, "SEMUA LATIHAN SELESAI");
   assert.equal(allDone?.href, "/c/paragon/paket-1");
+  assert.equal(allDone?.packageHref, "/c/paragon/paket-1");
+  assert.equal(allDone?.estimatedMinutes, 15);
 });
 
 test("computeNextAction menangani riwayat lokal basi (perusahaan/paket terhapus) tanpa rusak", () => {
@@ -302,4 +315,206 @@ test("catalogToCompanies memetakan DashboardCompany ke Company untuk LearnerShel
       subtestIds: [201, 202],
     },
   ]);
+});
+
+test("computeInProgressPackageCount hanya menghitung paket dengan 0 < done < total", () => {
+  const catalog = makeCatalog();
+  assert.equal(computeInProgressPackageCount(catalog, EMPTY_PROGRESS), 0);
+
+  const entry = {
+    bestScore: 10,
+    lastScore: 10,
+    totalQuestions: 10,
+    lastAttemptId: 1,
+    attemptsCount: 1,
+    lastCompletedAt: "2026-11-24T10:00:00Z",
+  };
+  const progress: LocalProgressStore = {
+    bySubtestId: {
+      // paket-1 astra: 1 dari 3 -> in progress
+      "101": entry,
+      // paket-2 astra: 1 dari 1 -> completed (tidak dihitung)
+      "104": entry,
+      // paket-1 paragon: 1 dari 2 -> in progress
+      "201": entry,
+    },
+    recentAttempts: [],
+  };
+  assert.equal(computeInProgressPackageCount(catalog, progress), 2);
+});
+
+test("buildWeeklyActivitySeries membangun 7 hari UTC, fallback 10 menit, dan tie-break peakIndex ke hari terbaru", () => {
+  const catalog = makeCatalog();
+  const refDate = new Date("2026-11-24T15:30:00Z"); // Selasa
+
+  const empty = buildWeeklyActivitySeries(catalog, EMPTY_PROGRESS, refDate);
+  assert.equal(empty.days.length, 7);
+  assert.equal(empty.days[0].dateKey, "2026-11-18");
+  assert.equal(empty.days[0].dayLabel, "Rab");
+  assert.equal(empty.days[0].isToday, false);
+  assert.equal(empty.days[6].dateKey, "2026-11-24");
+  assert.equal(empty.days[6].dayLabel, "Sel");
+  assert.equal(empty.days[6].isToday, true);
+  assert.equal(empty.totalAttempts, 0);
+  assert.equal(empty.totalMinutes, 0);
+  assert.equal(empty.peakIndex, 6);
+
+  const attemptBase = {
+    companySlug: "astra",
+    companyName: "PT Astra International",
+    packageSlug: "paket-1",
+    packageName: "Paket 1",
+    score: 10,
+    totalQuestions: 15,
+  };
+  const progress: LocalProgressStore = {
+    bySubtestId: {},
+    recentAttempts: [
+      // Hari ke-2 (2026-11-20): subtes 101 (600s = 10 menit)
+      { ...attemptBase, attemptId: 1, subtestId: 101, subtestName: "Verbal", completedAt: "2026-11-20T08:00:00Z" },
+      // Hari ke-5 (2026-11-23): subtes tidak ada di katalog -> fallback 10 menit (seri dengan 2026-11-20 -> tie-break ke 2026-11-23)
+      { ...attemptBase, attemptId: 2, subtestId: 999, subtestName: "Lama", completedAt: "2026-11-23T22:00:00Z" },
+      // Hari ke-6 (2026-11-24): subtes 201 (300s = 5 menit)
+      { ...attemptBase, attemptId: 3, subtestId: 201, subtestName: "Pauli", completedAt: "2026-11-24T01:00:00Z" },
+      // Di luar rentang 7 hari (2026-11-17): harus diabaikan
+      { ...attemptBase, attemptId: 4, subtestId: 102, subtestName: "Kepribadian", completedAt: "2026-11-17T23:59:59Z" },
+    ],
+  };
+
+  const series = buildWeeklyActivitySeries(catalog, progress, refDate);
+  assert.equal(series.totalAttempts, 3);
+  assert.equal(series.totalMinutes, 25);
+  assert.equal(series.days[2].dateKey, "2026-11-20");
+  assert.equal(series.days[2].attempts, 1);
+  assert.equal(series.days[2].estimatedMinutes, 10);
+  assert.equal(series.days[5].dateKey, "2026-11-23");
+  assert.equal(series.days[5].attempts, 1);
+  assert.equal(series.days[5].estimatedMinutes, 10);
+  assert.equal(series.days[6].dateKey, "2026-11-24");
+  assert.equal(series.days[6].attempts, 1);
+  assert.equal(series.days[6].estimatedMinutes, 5);
+  // Tie-break antara index 2 (10 mnt) dan index 5 (10 mnt) -> index 5 (hari terbaru)
+  assert.equal(series.peakIndex, 5);
+  assert.ok(series.days[6].fullDateLabel.includes("24"));
+});
+
+test("buildWeekCalendarDays menghasilkan Min..Sab, menandai isToday & hasActivity dari recentAttempts maupun bySubtestId, dan mendukung weekOffset", () => {
+  const refDate = new Date("2026-11-24T12:00:00Z"); // Selasa -> minggu 2026-11-22 (Min) s/d 2026-11-28 (Sab)
+  const progress: LocalProgressStore = {
+    bySubtestId: {
+      // Aktivitas hanya tercatat di bySubtestId pada minggu lalu (2026-11-18)
+      "101": {
+        bestScore: 12,
+        lastScore: 12,
+        totalQuestions: 15,
+        lastAttemptId: 1,
+        attemptsCount: 1,
+        lastCompletedAt: "2026-11-18T09:00:00Z",
+      },
+    },
+    recentAttempts: [
+      {
+        attemptId: 2,
+        subtestId: 102,
+        subtestName: "Kepribadian",
+        companySlug: "astra",
+        companyName: "PT Astra International",
+        packageSlug: "paket-1",
+        packageName: "Paket 1",
+        score: 45,
+        totalQuestions: 45,
+        completedAt: "2026-11-24T10:00:00Z",
+      },
+    ],
+  };
+
+  const currentWeek = buildWeekCalendarDays(progress, refDate, 0);
+  assert.equal(currentWeek.days.length, 7);
+  assert.deepEqual(
+    currentWeek.days.map((d) => d.weekdayShort),
+    ["Min", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"],
+  );
+  assert.equal(currentWeek.days[0].dateKey, "2026-11-22");
+  assert.equal(currentWeek.days[0].dayNumber, 22);
+  assert.equal(currentWeek.days[2].dateKey, "2026-11-24");
+  assert.equal(currentWeek.days[2].isToday, true);
+  assert.equal(currentWeek.days[2].hasActivity, true);
+  assert.equal(currentWeek.days[0].isToday, false);
+  assert.equal(currentWeek.days[0].hasActivity, false);
+  assert.ok(currentWeek.monthLabel.includes("2026"));
+
+  const prevWeek = buildWeekCalendarDays(progress, refDate, -1);
+  assert.equal(prevWeek.days[0].dateKey, "2026-11-15");
+  assert.equal(prevWeek.days[3].dateKey, "2026-11-18");
+  assert.equal(prevWeek.days[3].hasActivity, true);
+  assert.equal(prevWeek.days.some((d) => d.isToday), false);
+
+  const nextWeek = buildWeekCalendarDays(progress, refDate, 1);
+  assert.equal(nextWeek.days[0].dateKey, "2026-11-29");
+  assert.equal(nextWeek.days[6].dateKey, "2026-12-05");
+  assert.equal(nextWeek.days.some((d) => d.isToday), false);
+});
+
+test("getUpcomingSubtests memprioritaskan paket sedang dikerjakan, melewati 0 soal, dan menghormati limit", () => {
+  const catalog = makeCatalog();
+  const progress: LocalProgressStore = {
+    bySubtestId: {
+      // Paragon paket-1 sedang dikerjakan (201 selesai, 202 belum) -> harus diprioritaskan di atas Astra yang belum dimulai
+      "201": {
+        bestScore: 10,
+        lastScore: 10,
+        totalQuestions: 10,
+        lastAttemptId: 1,
+        attemptsCount: 1,
+        lastCompletedAt: "2026-11-24T09:00:00Z",
+      },
+    },
+    recentAttempts: [],
+  };
+
+  const allUpcoming = getUpcomingSubtests(catalog, progress, 10);
+  // Subtes 103 (questionCount === 0) dan 201 (sudah selesai) harus dilewati
+  assert.deepEqual(
+    allUpcoming.map((item) => item.subtestId),
+    [202, 101, 102, 104],
+  );
+  assert.deepEqual(allUpcoming[0], {
+    subtestId: 202,
+    subtestName: "Menggambar",
+    companySlug: "paragon",
+    companyName: "ParagonCorp",
+    packageSlug: "paket-1",
+    packageName: "Paket 1",
+    durationMinutes: 10,
+    kind: "DRAWING",
+    questionCount: 2,
+  });
+
+  const limited = getUpcomingSubtests(catalog, progress, 2);
+  assert.deepEqual(
+    limited.map((item) => item.subtestId),
+    [202, 101],
+  );
+});
+
+test("sanitizeLocalProfile memangkas spasi, membatasi 40/50 karakter, dan fallback ke default saat kosong", () => {
+  assert.deepEqual(sanitizeLocalProfile(null), DEFAULT_LOCAL_PROFILE);
+  assert.deepEqual(sanitizeLocalProfile(undefined), DEFAULT_LOCAL_PROFILE);
+  assert.deepEqual(sanitizeLocalProfile({ displayName: "   ", roleTitle: "" }), DEFAULT_LOCAL_PROFILE);
+
+  const trimmed = sanitizeLocalProfile({
+    displayName: "  Karis Pratama  ",
+    roleTitle: "  Kandidat Management Trainee  ",
+  });
+  assert.deepEqual(trimmed, {
+    displayName: "Karis Pratama",
+    roleTitle: "Kandidat Management Trainee",
+  });
+
+  const longInput = sanitizeLocalProfile({
+    displayName: "A".repeat(60),
+    roleTitle: "B".repeat(70),
+  });
+  assert.equal(longInput.displayName.length, 40);
+  assert.equal(longInput.roleTitle.length, 50);
 });

@@ -230,10 +230,58 @@ export type NextActionMode = "resume" | "completed" | "start";
 export interface NextAction {
   mode: NextActionMode;
   href: string;
+  packageHref: string;
+  estimatedMinutes: number;
   tag: string;
   title: string;
   meta: string;
   ctaLabel: string;
+}
+
+export interface WeeklyActivityDay {
+  dateKey: string;
+  dayLabel: string;
+  fullDateLabel: string;
+  attempts: number;
+  estimatedMinutes: number;
+  isToday: boolean;
+}
+
+export interface WeeklyActivitySeries {
+  days: WeeklyActivityDay[];
+  totalAttempts: number;
+  totalMinutes: number;
+  peakIndex: number;
+}
+
+export interface CalendarDayCell {
+  dateKey: string;
+  weekdayShort: string;
+  dayNumber: number;
+  isToday: boolean;
+  hasActivity: boolean;
+}
+
+export interface WeekCalendarModel {
+  monthLabel: string;
+  days: CalendarDayCell[];
+}
+
+export interface UpcomingSubtestItem {
+  subtestId: number;
+  subtestName: string;
+  companySlug: string;
+  companyName: string;
+  packageSlug: string;
+  packageName: string;
+  durationMinutes: number;
+  kind: SubtestKind;
+  questionCount: number;
+}
+
+export interface LocalProfile {
+  displayName: string;
+  roleTitle: string;
 }
 
 export interface VisiblePackagesResult {

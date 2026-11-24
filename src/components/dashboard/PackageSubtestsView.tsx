@@ -46,7 +46,7 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
       </nav>
 
       {/* Package Header & Progress Bar */}
-      <section className="rounded-xl border border-line-strong bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
+      <section className="rounded-2xl border border-line bg-surface p-5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none sm:p-6">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h1 className="text-2xl font-extrabold tracking-tight text-ink">
@@ -72,9 +72,16 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
                 {completedCount}/{subtests.length} ({percent}%)
               </span>
             </div>
-            <div className="mt-2 h-2 w-full overflow-hidden rounded-[3px] bg-subtle">
+            <div
+              className="mt-2 h-2 w-full overflow-hidden rounded-full bg-subtle"
+              role="progressbar"
+              aria-valuenow={percent}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label={`Progres paket ${testPackage.name}`}
+            >
               <div
-                className="h-full rounded-[3px] bg-brand transition-all duration-200"
+                className="h-full rounded-full bg-brand transition-all duration-200"
                 style={{ width: `${percent}%` }}
               />
             </div>
@@ -89,11 +96,11 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
         </h2>
 
         {subtests.length === 0 ? (
-          <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary">
+          <div className="rounded-2xl border border-line bg-surface p-8 text-center text-sm text-ink-secondary shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
             Paket ini belum memiliki subtes.
           </div>
         ) : (
-          <div className="overflow-hidden rounded-xl border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+          <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
             <ol className="divide-y divide-line">
               {subtests.map((subtest, index) => {
                 const durationMinutes = Math.max(1, Math.round(subtest.durationSeconds / 60));
@@ -110,7 +117,7 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
                   >
                     <div className="flex min-w-0 items-start gap-3.5">
                       <span
-                        className={`mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg text-xs font-semibold tabular-nums ${
+                        className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl text-xs font-semibold tabular-nums ${
                           isDone
                             ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
                             : isNextRecommended
@@ -172,8 +179,8 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
                           href={`/test/${subtest.id}`}
                           className={
                             isNextRecommended
-                              ? "inline-flex w-full items-center justify-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover sm:w-auto"
-                              : "inline-flex w-full items-center justify-center gap-1.5 rounded-lg border border-line-strong bg-surface px-4 py-2 text-sm font-semibold text-ink transition hover:bg-subtle sm:w-auto"
+                              ? "inline-flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover sm:w-auto"
+                              : "inline-flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-xl border border-line-strong bg-surface px-4 py-2 text-sm font-semibold text-ink transition hover:bg-subtle sm:w-auto"
                           }
                         >
                           {isDone ? (

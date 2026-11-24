@@ -51,14 +51,14 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
             <p className="mt-1.5 max-w-[65ch] text-sm text-ink-secondary">{company.description}</p>
           ) : null}
         </div>
-        <div className="flex flex-wrap items-center gap-2 text-xs text-ink-secondary">
-          <span className="rounded-lg border border-line bg-surface px-3 py-1.5 font-medium tabular-nums">
+        <div className="flex flex-wrap items-center gap-2 text-ink-secondary">
+          <span className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-xs font-medium tabular-nums">
             {company.packages.length} paket
           </span>
-          <span className="rounded-lg border border-line bg-surface px-3 py-1.5 font-medium tabular-nums">
+          <span className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-xs font-medium tabular-nums">
             {totalQuestions} soal
           </span>
-          <span className="rounded-lg border border-line bg-surface px-3 py-1.5 font-medium text-brand-text">
+          <span className="rounded-full border border-line bg-surface px-3.5 py-1.5 text-xs font-medium text-brand-text">
             <span className="font-mono tabular-nums">
               {completedSubtests}/{totalSubtests}
             </span>{" "}
@@ -68,12 +68,12 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
       </div>
 
       {company.packages.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-line bg-surface p-8 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           <IconLayers className="mx-auto h-7 w-7 text-ink-muted" />
           <p className="mt-2 text-sm text-ink-secondary">Belum ada paket latihan untuk perusahaan ini.</p>
         </div>
       ) : (
-        <div className="overflow-hidden rounded-xl border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+        <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           <ul className="divide-y divide-line">
             {company.packages.map((pkg) => {
               const subtestCount = pkg.subtests.length;
@@ -101,7 +101,7 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
                           {pkg.name}
                         </Link>
                         {doneCount === subtestCount && subtestCount > 0 ? (
-                          <span className="rounded-md bg-emerald-50 px-2 py-0.5 text-xs font-medium text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
+                          <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-semibold text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300">
                             Semua subtes selesai
                           </span>
                         ) : null}
@@ -127,9 +127,16 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
                             {doneCount}/{subtestCount} ({percent}%)
                           </span>
                         </div>
-                        <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-[3px] bg-subtle">
+                        <div
+                          className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-subtle"
+                          role="progressbar"
+                          aria-valuenow={percent}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          aria-label={`Progres lokal ${pkg.name}`}
+                        >
                           <div
-                            className="h-full rounded-[3px] bg-brand transition-all duration-200"
+                            className="h-full rounded-full bg-brand transition-all duration-200"
                             style={{ width: `${percent}%` }}
                           />
                         </div>
@@ -138,8 +145,8 @@ export function CompanyPackagesView({ company }: CompanyPackagesViewProps) {
                         href={`/c/${company.slug}/${pkg.slug}`}
                         className={
                           isPrimaryPackage
-                            ? "inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover sm:w-auto"
-                            : "inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-lg border border-line-strong bg-surface px-4 py-2 text-sm font-semibold text-ink transition hover:bg-subtle sm:w-auto"
+                            ? "inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover sm:w-auto"
+                            : "inline-flex min-h-[40px] items-center justify-center gap-1.5 rounded-xl border border-line-strong bg-surface px-4 py-2 text-sm font-semibold text-ink transition hover:bg-subtle sm:w-auto"
                         }
                       >
                         <span>Lihat Subtes</span>

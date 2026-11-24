@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import {
   IconArrowRight,
+  IconAward,
+  IconCheckCircle,
   IconChevronRight,
   IconHistory,
   IconTrash,
@@ -98,7 +100,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
                 <button
                   type="button"
                   onClick={handleConfirmReset}
-                  className="inline-flex items-center justify-center rounded-lg bg-red-700 px-3 py-2 text-xs font-bold text-white transition hover:bg-red-800"
+                  className="inline-flex min-h-[40px] items-center justify-center rounded-xl bg-red-700 px-3.5 py-2 text-xs font-bold text-white transition hover:bg-red-800"
                 >
                   Hapus
                 </button>
@@ -106,7 +108,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
                   ref={cancelResetRef}
                   type="button"
                   onClick={() => setConfirmingReset(false)}
-                  className="inline-flex items-center justify-center rounded-lg border border-line-strong bg-surface px-3 py-2 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
+                  className="inline-flex min-h-[40px] items-center justify-center rounded-xl border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
                 >
                   Batal
                 </button>
@@ -116,7 +118,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
                 ref={resetTriggerRef}
                 type="button"
                 onClick={() => setConfirmingReset(true)}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3 py-2 text-xs font-bold text-red-700 transition hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-950/60"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl border border-line-strong bg-surface px-3.5 py-2 text-xs font-bold text-red-700 transition hover:bg-red-50 dark:text-red-300 dark:hover:bg-red-950/60"
               >
                 <IconTrash className="h-3.5 w-3.5" />
                 <span>Reset Riwayat Lokal</span>
@@ -126,15 +128,25 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
         ) : null}
       </div>
 
-      {/* 3 Crisp Summary Cards */}
-      <section aria-label="Ringkasan progres lokal" className="grid gap-3.5 sm:grid-cols-3">
-        <div className="rounded-xl border border-line-strong bg-surface p-4 sm:p-5">
-          <p className="text-xs font-semibold text-ink-secondary">Subtes Selesai</p>
-          <p className="mt-1.5 font-mono text-2xl font-extrabold tabular-nums text-brand-text">
-            {stats.completedSubtests} / {stats.totalSubtests}
-          </p>
+      {/* 3 Pastel KPI Summary Cards */}
+      <section aria-label="Ringkasan progres lokal" className="grid gap-4 sm:grid-cols-3">
+        <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none sm:p-5">
+          <div className="flex items-center gap-3.5">
+            <div
+              aria-hidden="true"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300"
+            >
+              <IconCheckCircle className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-xs font-medium text-ink-muted">Subtes Selesai</p>
+              <p className="mt-0.5 truncate font-mono text-2xl font-extrabold tabular-nums text-ink">
+                {stats.completedSubtests} / {stats.totalSubtests}
+              </p>
+            </div>
+          </div>
           <div
-            className="mt-3 h-1.5 w-full overflow-hidden rounded-[3px] bg-subtle"
+            className="mt-3.5 h-1.5 w-full overflow-hidden rounded-full bg-subtle"
             role="progressbar"
             aria-valuenow={completionPct}
             aria-valuemin={0}
@@ -142,32 +154,52 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
             aria-label="Persentase subtes selesai"
           >
             <div
-              className="h-full rounded-[3px] bg-brand transition-all duration-200"
+              className="h-full rounded-full bg-brand transition-all duration-200"
               style={{ width: `${completionPct}%` }}
             />
           </div>
         </div>
 
-        <div className="rounded-xl border border-line-strong bg-surface p-4 sm:p-5">
-          <p className="text-xs font-semibold text-ink-secondary">Rata-rata Skor Kuis</p>
-          <p className="mt-1.5 font-mono text-2xl font-extrabold tabular-nums text-ink">
-            {stats.avgAccuracy !== null ? `${stats.avgAccuracy}%` : "—"}
-          </p>
-          <p className="mt-2 text-xs text-ink-muted">Khusus subtes pilihan ganda</p>
+        <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none sm:p-5">
+          <div className="flex items-center gap-3.5">
+            <div
+              aria-hidden="true"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-pink-50 text-pink-600 dark:bg-pink-950/60 dark:text-pink-300"
+            >
+              <IconAward className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-xs font-medium text-ink-muted">Rata-rata Skor Kuis</p>
+              <p className="mt-0.5 truncate font-mono text-2xl font-extrabold tabular-nums text-ink">
+                {stats.avgAccuracy !== null ? `${stats.avgAccuracy}%` : "—"}
+              </p>
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-ink-muted">Khusus subtes pilihan ganda</p>
         </div>
 
-        <div className="rounded-xl border border-line-strong bg-surface p-4 sm:p-5">
-          <p className="text-xs font-semibold text-ink-secondary">Sesi Tersimpan</p>
-          <p className="mt-1.5 font-mono text-2xl font-extrabold tabular-nums text-ink">
-            {progress.recentAttempts.length} sesi
-          </p>
-          <p className="mt-2 text-xs text-ink-muted">Hingga 24 sesi terakhir di browser ini</p>
+        <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none sm:p-5">
+          <div className="flex items-center gap-3.5">
+            <div
+              aria-hidden="true"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300"
+            >
+              <IconHistory className="h-5 w-5" />
+            </div>
+            <div className="min-w-0">
+              <p className="truncate text-xs font-medium text-ink-muted">Sesi Tersimpan</p>
+              <p className="mt-0.5 truncate font-mono text-2xl font-extrabold tabular-nums text-ink">
+                {progress.recentAttempts.length} sesi
+              </p>
+            </div>
+          </div>
+          <p className="mt-3 text-xs text-ink-muted">Hingga 24 sesi terakhir di browser ini</p>
         </div>
       </section>
 
       {/* Full Attempt History List */}
       {progress.recentAttempts.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-line-strong bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-line bg-surface p-8 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           <IconHistory className="mx-auto h-8 w-8 text-ink-muted" />
           <h2 className="mt-3 text-base font-bold text-ink">Belum ada riwayat pengerjaan</h2>
           <p className="mx-auto mt-1 max-w-md text-sm text-ink-secondary">
@@ -175,7 +207,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
           </p>
           <Link
             href="/"
-            className="mt-4 inline-flex min-h-[40px] items-center gap-2 rounded-lg bg-brand px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-hover"
+            className="mt-4 inline-flex min-h-[40px] items-center gap-2 rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white transition hover:bg-brand-hover"
           >
             <span>Mulai Latihan</span>
             <IconArrowRight className="h-4 w-4" />
@@ -186,7 +218,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
           <h2 id="attempts-heading" className="text-base font-bold tracking-tight text-ink">
             Daftar Riwayat Sesi
           </h2>
-          <ul className="divide-y divide-line overflow-hidden rounded-xl border border-line-strong bg-surface">
+          <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
             {progress.recentAttempts.map((item) => {
               const kind = subtestKindById.get(item.subtestId)?.kind ?? "QUIZ";
               const badge = formatAttemptBadge(item, kind);

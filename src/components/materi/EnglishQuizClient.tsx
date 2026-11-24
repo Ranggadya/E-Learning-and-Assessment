@@ -123,9 +123,9 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
             type="button"
             aria-pressed={cefr === ""}
             onClick={() => handleSelectCefr("")}
-            className={`min-h-[40px] rounded-lg border px-3 py-2 text-xs font-bold transition ${
+            className={`min-h-[40px] rounded-xl border px-3 py-2 text-xs font-bold transition ${
               cefr === ""
-                ? "border-brand bg-brand text-white"
+                ? "border-brand/40 bg-brand-soft text-brand-text"
                 : "border-line-strong bg-surface text-ink-secondary hover:bg-subtle"
             }`}
           >
@@ -137,9 +137,9 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
               type="button"
               aria-pressed={cefr === lvl}
               onClick={() => handleSelectCefr(lvl)}
-              className={`min-h-[40px] rounded-lg border px-3 py-2 text-xs font-bold transition ${
+              className={`min-h-[40px] rounded-xl border px-3 py-2 text-xs font-bold transition ${
                 cefr === lvl
-                  ? "border-brand bg-brand text-white"
+                  ? "border-brand/40 bg-brand-soft text-brand-text"
                   : "border-line-strong bg-surface text-ink-secondary hover:bg-subtle"
               }`}
             >
@@ -150,17 +150,17 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
       </div>
 
       {loading ? (
-        <div className="rounded-xl border border-line-strong bg-surface p-10 text-center text-sm text-ink-secondary">
+        <div className="rounded-2xl border border-line bg-surface p-10 text-center text-sm text-ink-secondary shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           Menyusun 10 soal kuis acak...
         </div>
       ) : questions.length === 0 ? (
-        <div className="rounded-xl border border-line-strong bg-surface p-8 text-center text-sm text-ink-secondary">
+        <div className="rounded-2xl border border-line bg-surface p-8 text-center text-sm text-ink-secondary shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           Belum cukup kata di database untuk membuat kuis.
         </div>
       ) : submitted ? (
         <div className="space-y-5">
           {/* Kartu Skor */}
-          <div className="rounded-xl border border-line-strong bg-surface p-6 text-center">
+          <div className="rounded-2xl border border-line bg-surface p-6 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
             <h2 className="text-sm font-semibold text-ink-secondary">
               Hasil Kuis Kosakata
             </h2>
@@ -175,14 +175,14 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
               <button
                 type="button"
                 onClick={handleNewQuiz}
-                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
               >
                 <IconRotateCcw className="h-3.5 w-3.5" />
                 <span>Mainkan Kuis Baru</span>
               </button>
               <Link
                 href="/materi/kamus"
-                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl border border-line-strong bg-canvas px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
               >
                 <span>Buka Kamus</span>
               </Link>
@@ -191,7 +191,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
 
           {/* Daftar Jawaban yang Salah */}
           {wrongItems.length === 0 ? (
-            <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 text-center text-sm font-bold text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200">
+            <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-5 text-center text-sm font-bold text-emerald-900 dark:border-emerald-800 dark:bg-emerald-950/60 dark:text-emerald-200">
               <IconCheckCircle className="mx-auto mb-2 h-7 w-7 text-emerald-600" />
               Sempurna! Semua 10 soal dijawab dengan benar.
             </div>
@@ -203,7 +203,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
               {wrongItems.map(({ question, index, selected }) => (
                 <article
                   key={`${question.wordId}-${index}`}
-                  className="rounded-xl border border-line-strong bg-surface p-4 text-xs"
+                  className="rounded-2xl border border-line bg-surface p-4 text-xs shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none"
                 >
                   <div className="flex items-center justify-between gap-2">
                     <span className="font-bold text-ink">
@@ -228,7 +228,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                       <span>Jawaban benar: {question.correctAnswer}</span>
                     </p>
                   </div>
-                  <div className="mt-2.5 rounded-lg bg-canvas px-3 py-2 text-ink-secondary">
+                  <div className="mt-2.5 rounded-xl bg-canvas px-3 py-2 text-ink-secondary">
                     <p className="font-medium text-ink">&ldquo;{question.exampleEn}&rdquo;</p>
                     <p>{question.exampleId}</p>
                   </div>
@@ -251,7 +251,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                   onClick={() => setCurrentIdx(i)}
                   aria-current={isCurrent ? "step" : undefined}
                   aria-label={`Soal ${i + 1}${isAnswered ? " (sudah dijawab)" : ""}`}
-                  className={`h-10 w-10 rounded-lg text-xs font-bold tabular-nums transition ${
+                  className={`h-10 w-10 rounded-xl text-xs font-bold tabular-nums transition ${
                     isCurrent
                       ? "bg-brand text-white"
                       : isAnswered
@@ -266,7 +266,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
           </div>
 
           {/* Kartu Soal */}
-          <div className="rounded-xl border border-line-strong bg-surface p-5">
+          <div className="rounded-2xl border border-line bg-surface p-5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
             <div className="flex items-center justify-between gap-2">
               <span className="text-xs font-bold text-ink-muted">
                 Soal {currentIdx + 1} / {questions.length} ·{" "}
@@ -293,7 +293,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                     type="button"
                     aria-pressed={isSelected}
                     onClick={() => selectOption(opt)}
-                    className={`flex min-h-[44px] w-full items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm transition ${
+                    className={`flex min-h-[44px] w-full items-center gap-3 rounded-xl border px-4 py-3 text-left text-sm transition ${
                       isSelected
                         ? "border-brand bg-brand-soft font-bold text-brand-text"
                         : "border-line-strong bg-canvas font-medium text-ink hover:bg-subtle"
@@ -313,7 +313,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                 type="button"
                 disabled={currentIdx === 0}
                 onClick={() => setCurrentIdx((i) => Math.max(0, i - 1))}
-                className="min-h-[40px] rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink disabled:opacity-40"
+                className="min-h-[40px] rounded-xl border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink disabled:opacity-40"
               >
                 Sebelumnya
               </button>
@@ -322,7 +322,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                 <button
                   type="button"
                   onClick={() => setCurrentIdx((i) => Math.min(questions.length - 1, i + 1))}
-                  className="min-h-[40px] rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
+                  className="min-h-[40px] rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
                 >
                   Soal Berikutnya
                 </button>
@@ -330,7 +330,7 @@ export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
                 <button
                   type="button"
                   onClick={() => setSubmitted(true)}
-                  className="min-h-[40px] rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
+                  className="min-h-[40px] rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
                 >
                   Selesai &amp; Lihat Hasil
                 </button>

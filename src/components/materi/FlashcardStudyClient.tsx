@@ -196,7 +196,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
       {/* Pengaturan Level & Batas Kata Baru */}
       <section
         aria-label="Pengaturan sesi belajar"
-        className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-line-strong bg-surface p-3.5"
+        className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line bg-surface p-3.5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none"
       >
         <div className="flex flex-wrap items-center gap-2">
           <span className="mr-1 text-xs font-bold text-ink-muted">Level:</span>
@@ -204,9 +204,9 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
             type="button"
             aria-pressed={cefr === ""}
             onClick={() => handleSelectCefr("")}
-            className={`min-h-[40px] rounded-lg border px-3 py-2 text-xs font-bold transition ${
+            className={`min-h-[40px] rounded-xl border px-3 py-2 text-xs font-bold transition ${
               cefr === ""
-                ? "border-brand bg-brand text-white"
+                ? "border-brand/40 bg-brand-soft text-brand-text"
                 : "border-line-strong bg-canvas text-ink-secondary hover:bg-subtle"
             }`}
           >
@@ -218,9 +218,9 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
               type="button"
               aria-pressed={cefr === lvl}
               onClick={() => handleSelectCefr(lvl)}
-              className={`min-h-[40px] rounded-lg border px-3 py-2 text-xs font-bold transition ${
+              className={`min-h-[40px] rounded-xl border px-3 py-2 text-xs font-bold transition ${
                 cefr === lvl
-                  ? "border-brand bg-brand text-white"
+                  ? "border-brand/40 bg-brand-soft text-brand-text"
                   : "border-line-strong bg-canvas text-ink-secondary hover:bg-subtle"
               }`}
             >
@@ -237,7 +237,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
             id="new-limit-select"
             value={newLimit}
             onChange={(e) => handleChangeNewLimit(Number(e.target.value))}
-            className="min-h-[40px] rounded-lg border border-line-strong bg-canvas px-2.5 py-2 font-bold text-ink"
+            className="min-h-[40px] rounded-xl border border-line-strong bg-canvas px-2.5 py-2 font-bold text-ink"
           >
             {[5, 10, 15, 20, 30, 50].map((n) => (
               <option key={n} value={n}>
@@ -250,11 +250,11 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
 
       {/* Isi Sesi */}
       {loading ? (
-        <div className="rounded-xl border border-line-strong bg-surface p-10 text-center text-sm text-ink-secondary">
+        <div className="rounded-2xl border border-line bg-surface p-10 text-center text-sm text-ink-secondary shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           Menyiapkan antrean kartu...
         </div>
       ) : queue.length === 0 ? (
-        <div className="rounded-xl border border-line-strong bg-surface p-8 text-center">
+        <div className="rounded-2xl border border-line bg-surface p-8 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           <IconCheckCircle className="mx-auto h-10 w-10 text-emerald-600" />
           <h2 className="mt-3 text-base font-bold text-ink">
             Tidak ada kartu jatuh tempo atau kata baru pada filter ini
@@ -264,7 +264,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
           </p>
         </div>
       ) : isFinished ? (
-        <div className="space-y-4 rounded-xl border border-line-strong bg-surface p-6 text-center">
+        <div className="space-y-4 rounded-2xl border border-line bg-surface p-6 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           <IconCheckCircle className="mx-auto h-10 w-10 text-emerald-600" />
           <h2 className="text-lg font-extrabold text-ink">Sesi Belajar Selesai!</h2>
           <p className="text-sm text-ink-secondary">
@@ -272,7 +272,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
           </p>
 
           <div className="mx-auto grid max-w-xs grid-cols-2 gap-3 pt-2">
-            <div className="rounded-lg bg-emerald-50 p-3 dark:bg-emerald-950/60">
+            <div className="rounded-xl bg-emerald-50 p-3 dark:bg-emerald-950/60">
               <span className="text-xs font-semibold text-emerald-800 dark:text-emerald-300">
                 Tahu (Naik Kotak)
               </span>
@@ -280,7 +280,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
                 {sessionStats.known}
               </p>
             </div>
-            <div className="rounded-lg bg-rose-50 p-3 dark:bg-rose-950/60">
+            <div className="rounded-xl bg-rose-50 p-3 dark:bg-rose-950/60">
               <span className="text-xs font-semibold text-rose-800 dark:text-rose-300">
                 Belum (Kotak 1)
               </span>
@@ -294,14 +294,14 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
             <button
               type="button"
               onClick={handleReloadNextSession}
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
             >
               <IconRotateCcw className="h-3.5 w-3.5" />
               <span>Ambil Sesi Berikutnya</span>
             </button>
             <Link
               href="/materi"
-              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-lg border border-line-strong bg-canvas px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl border border-line-strong bg-canvas px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
             >
               <span>Kembali ke Ringkasan Materi</span>
             </Link>
@@ -322,7 +322,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
           </div>
 
           {/* Kartu Utama */}
-          <div className="flex min-h-[300px] flex-col justify-between rounded-xl border border-line-strong bg-surface p-6 shadow-sm">
+          <div className="flex min-h-[300px] flex-col justify-between rounded-2xl border border-line bg-surface p-6 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
             <div className="flex items-center justify-between gap-2">
               <div className="flex items-center gap-2">
                 <span className="font-mono text-xs font-bold text-ink-muted">
@@ -361,7 +361,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
                         {currentCard.meaning_id}
                       </p>
                     </div>
-                    <div className="rounded-lg bg-canvas p-3 text-xs leading-relaxed">
+                    <div className="rounded-xl bg-canvas p-3 text-xs leading-relaxed">
                       <p className="font-semibold text-ink">&ldquo;{currentCard.example_en}&rdquo;</p>
                       <p className="mt-1 text-ink-secondary">{currentCard.example_id}</p>
                     </div>
@@ -380,7 +380,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
                 <button
                   type="button"
                   onClick={() => setFlipped(true)}
-                  className="min-h-[44px] w-full rounded-lg bg-brand py-3 text-sm font-bold text-white shadow-xs transition hover:bg-brand-hover"
+                  className="min-h-[44px] w-full rounded-xl bg-brand py-3 text-sm font-bold text-white shadow-xs transition hover:bg-brand-hover"
                 >
                   Balik Kartu (Spasi)
                 </button>
@@ -390,7 +390,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
                     type="button"
                     disabled={submitting}
                     onClick={() => handleAnswer(false)}
-                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg border border-rose-300 bg-rose-50 py-3 text-sm font-bold text-rose-900 transition hover:bg-rose-100 disabled:opacity-50 dark:border-rose-800 dark:bg-rose-950/70 dark:text-rose-200"
+                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-rose-300 bg-rose-50 py-3 text-sm font-bold text-rose-900 transition hover:bg-rose-100 disabled:opacity-50 dark:border-rose-800 dark:bg-rose-950/70 dark:text-rose-200"
                   >
                     <IconXCircle className="h-4 w-4" />
                     <span>Belum (2) · Kotak 1</span>
@@ -399,7 +399,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
                     type="button"
                     disabled={submitting}
                     onClick={() => handleAnswer(true)}
-                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-lg bg-brand py-3 text-sm font-bold text-white transition hover:bg-brand-hover disabled:opacity-50"
+                    className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl bg-brand py-3 text-sm font-bold text-white transition hover:bg-brand-hover disabled:opacity-50"
                   >
                     <IconCheckCircle className="h-4 w-4" />
                     <span>

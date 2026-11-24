@@ -290,10 +290,10 @@ export function LearnerShell({ companies, children }: LearnerShellProps) {
 
       {/* Main Content */}
       <div className="lg:pl-[248px]">
-        <main className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+        <main className="w-full px-4 py-6 sm:px-6 lg:py-8">
           {children}
         </main>
-        <footer className="mx-auto w-full max-w-6xl border-t border-line px-4 py-5 text-xs text-ink-muted sm:px-6 lg:px-8">
+        <footer className="w-full border-t border-line px-4 py-5 text-xs text-ink-muted sm:px-6">
           <p>e-assessment adalah alat latihan psikotes mandiri dan tidak berafiliasi resmi dengan perusahaan penyelenggara tes.</p>
         </footer>
       </div>

@@ -212,39 +212,102 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
             ) : null}
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            {dict.items.map((item) => (
-              <article
-                key={item.id}
-                className="flex flex-col justify-between rounded-xl border border-line-strong bg-surface p-4 shadow-[0_1px_2px_rgba(15,23,42,0.03)] dark:shadow-none"
-              >
-                <div>
+          <div className="overflow-hidden rounded-xl border border-line-strong bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.03)] dark:shadow-none">
+            {/* Tabel Desktop */}
+            <div className="hidden overflow-x-auto md:block">
+              <table className="w-full border-collapse text-left">
+                <caption className="sr-only">
+                  Daftar kosakata kamus bahasa Inggris
+                </caption>
+                <thead>
+                  <tr className="border-b border-line bg-canvas text-xs font-semibold text-ink-secondary">
+                    <th scope="col" className="w-[72px] whitespace-nowrap px-4 py-3">
+                      #
+                    </th>
+                    <th scope="col" className="w-[22%] min-w-[160px] px-4 py-3">
+                      Kata
+                    </th>
+                    <th scope="col" className="w-20 px-4 py-3">
+                      Level
+                    </th>
+                    <th scope="col" className="w-[24%] min-w-[180px] px-4 py-3">
+                      Arti Indonesia
+                    </th>
+                    <th scope="col" className="px-4 py-3">
+                      Contoh Kalimat
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line">
+                  {dict.items.map((item) => (
+                    <tr key={item.id} className="transition hover:bg-canvas/70">
+                      <td className="whitespace-nowrap px-4 py-3 align-top font-mono text-xs font-semibold tabular-nums text-ink-muted">
+                        #{item.no}
+                      </td>
+                      <td className="px-4 py-3 align-top">
+                        <div className="flex flex-wrap items-baseline gap-2">
+                          <span className="text-sm font-bold tracking-tight text-ink">
+                            {item.word}
+                          </span>
+                          <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-xs font-medium text-ink-secondary">
+                            {item.pos}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="px-4 py-3 align-top">
+                        <LevelBadge level={item.cefr} />
+                      </td>
+                      <td className="px-4 py-3 align-top text-sm font-semibold text-brand-text">
+                        {item.meaning_id}
+                      </td>
+                      <td className="px-4 py-3 align-top text-xs leading-relaxed">
+                        <p className="font-medium text-ink">
+                          &ldquo;{item.example_en}&rdquo;
+                        </p>
+                        <p className="mt-0.5 text-ink-secondary">
+                          {item.example_id}
+                        </p>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Daftar Ringkas Mobile */}
+            <ul className="divide-y divide-line md:hidden">
+              {dict.items.map((item) => (
+                <li key={item.id} className="px-4 py-3.5">
                   <div className="flex items-start justify-between gap-2">
-                    <div className="flex flex-wrap items-baseline gap-2">
+                    <div className="flex min-w-0 flex-wrap items-baseline gap-2">
                       <span className="font-mono text-xs font-semibold tabular-nums text-ink-muted">
                         #{item.no}
                       </span>
-                      <h2 className="text-lg font-extrabold tracking-tight text-ink">
+                      <span className="break-words text-sm font-bold tracking-tight text-ink">
                         {item.word}
-                      </h2>
+                      </span>
                       <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-xs font-medium text-ink-secondary">
                         {item.pos}
                       </span>
                     </div>
-                    <LevelBadge level={item.cefr} />
+                    <span className="shrink-0">
+                      <LevelBadge level={item.cefr} />
+                    </span>
                   </div>
-
-                  <p className="mt-1.5 text-sm font-semibold text-brand-text">
+                  <p className="mt-1 text-sm font-semibold text-brand-text">
                     {item.meaning_id}
                   </p>
-                </div>
-
-                <div className="mt-3 rounded-lg bg-canvas px-3 py-2 text-xs leading-relaxed">
-                  <p className="font-medium text-ink">&ldquo;{item.example_en}&rdquo;</p>
-                  <p className="mt-0.5 text-ink-secondary">{item.example_id}</p>
-                </div>
-              </article>
-            ))}
+                  <div className="mt-2 text-xs leading-relaxed">
+                    <p className="font-medium text-ink">
+                      &ldquo;{item.example_en}&rdquo;
+                    </p>
+                    <p className="mt-0.5 text-ink-secondary">
+                      {item.example_id}
+                    </p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
         )}
 

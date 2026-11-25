@@ -18,7 +18,7 @@ export default async function AdminPage() {
             <h1 className="text-lg font-bold text-ink">Admin belum aktif</h1>
           </div>
           <p className="mt-3 text-sm leading-relaxed text-ink-secondary">
-            Atur variabel lingkungan{" "}
+            Atur variabel enviroment{" "}
             <code className="rounded bg-subtle px-1.5 py-0.5 font-mono text-xs text-ink">
               ADMIN_PASSWORD
             </code>{" "}

@@ -23,20 +23,28 @@ function createPool(): Pool {
       parsedUrl.hostname.includes("supabase.com") ||
       parsedUrl.hostname.includes("supabase.co");
 
+    // shortcut: max: 2 + idle 5 dtk agar aman terhadap batas Supabase Session Mode (pool_size: 15) di serverless; naikkan jika DATABASE_URL memakai Transaction Mode port 6543
     return new Pool({
       connectionString: parsedUrl.toString(),
-      max: 5,
+      max: 2,
+      keepAlive: true,
+      idleTimeoutMillis: 5_000,
+      connectionTimeoutMillis: 10_000,
+      allowExitOnIdle: true,
       ssl: disableVerify ? { rejectUnauthorized: false } : true,
     });
   }
 
   // Batas koneksi kecil agar aman di hosting serverless (Vercel + Neon/Supabase).
-  return new Pool({ connectionString, max: 5 });
+  return new Pool({
+    connectionString,
+    max: 5,
+    keepAlive: true,
+    idleTimeoutMillis: 20_000,
+    connectionTimeoutMillis: 10_000,
+  });
 }
 
-// Satu pool dipakai ulang agar hot reload di mode dev tidak membuka koneksi baru terus-menerus.
+// Satu pool dipakai ulang lintas request pada instance yang hangat maupun saat hot reload di dev.
 export const databasePool: Pool = globalThis.databasePool ?? createPool();
-
-if (process.env.NODE_ENV !== "production") {
-  globalThis.databasePool = databasePool;
-}
+globalThis.databasePool = databasePool;

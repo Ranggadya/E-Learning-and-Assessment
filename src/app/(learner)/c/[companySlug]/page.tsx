@@ -1,9 +1,12 @@
 import { notFound } from "next/navigation";
 import { CompanyPackagesView } from "@/components/dashboard/CompanyPackagesView";
-import { LearnerShell } from "@/components/layout/LearnerShell";
-import { getCompanies, getDashboardCatalog } from "@/lib/assessment/catalog.queries";
+import { getDashboardCatalog } from "@/lib/assessment/catalog.queries";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
+export function generateStaticParams() {
+  return [];
+}
 
 interface CompanyPageProps {
   params: Promise<{ companySlug: string }>;
@@ -11,15 +14,11 @@ interface CompanyPageProps {
 
 export default async function CompanyPage({ params }: CompanyPageProps) {
   const { companySlug } = await params;
-  const [companies, catalog] = await Promise.all([getCompanies(), getDashboardCatalog()]);
+  const catalog = await getDashboardCatalog();
   const company = catalog.find((item) => item.slug === companySlug);
   if (!company) {
     notFound();
   }
 
-  return (
-    <LearnerShell companies={companies}>
-      <CompanyPackagesView company={company} />
-    </LearnerShell>
-  );
+  return <CompanyPackagesView company={company} />;
 }

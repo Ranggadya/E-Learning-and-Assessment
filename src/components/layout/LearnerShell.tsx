@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "./ThemeToggle";
+import { DashboardRightPanel } from "@/components/dashboard/DashboardRightPanel";
 import {
   IconBookOpen,
   IconBuilding,
@@ -13,14 +14,14 @@ import {
   IconMenu,
   IconShield,
 } from "@/components/ui/Icons";
-import { countCompletedActiveSubtests } from "@/lib/assessment/dashboard";
+import { catalogToCompanies, countCompletedActiveSubtests } from "@/lib/assessment/dashboard";
 import { useLocalProgress } from "@/lib/client/local-progress";
-import type { Company } from "@/types/assessment";
+import type { DashboardCompany } from "@/types/assessment";
 
 interface LearnerShellProps {
-  companies: Company[];
+  catalog: DashboardCompany[];
+  initialNowIso: string;
   children: React.ReactNode;
-  rightRail?: React.ReactNode;
 }
 
 const FOOTER_DISCLAIMER =
@@ -46,8 +47,9 @@ function navBadgeClassName(isActive: boolean): string {
   }`;
 }
 
-export function LearnerShell({ companies, children, rightRail }: LearnerShellProps) {
+export function LearnerShell({ catalog, initialNowIso, children }: LearnerShellProps) {
   const pathname = usePathname();
+  const companies = useMemo(() => catalogToCompanies(catalog), [catalog]);
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const closeDrawerButtonRef = useRef<HTMLButtonElement>(null);
@@ -317,7 +319,7 @@ export function LearnerShell({ companies, children, rightRail }: LearnerShellPro
       ) : null}
 
       {/* Main Content */}
-      {rightRail ? (
+      {isDashboardActive ? (
         <div className="flex min-h-screen flex-col lg:pl-64 xl:grid xl:grid-cols-[minmax(0,1fr)_20rem] xl:grid-rows-[1fr_auto]">
           <main className="w-full flex-1 px-4 py-6 sm:px-6 lg:px-8 lg:py-7 xl:col-start-1 xl:row-start-1">
             {children}
@@ -326,7 +328,7 @@ export function LearnerShell({ companies, children, rightRail }: LearnerShellPro
             aria-label="Ringkasan peserta"
             className="w-full border-t border-line bg-surface px-4 py-6 sm:px-6 xl:col-start-2 xl:row-span-2 xl:row-start-1 xl:sticky xl:top-0 xl:flex xl:h-screen xl:flex-col xl:justify-between xl:overflow-y-auto xl:border-t-0 xl:border-l xl:px-6 xl:py-7"
           >
-            {rightRail}
+            <DashboardRightPanel catalog={catalog} initialNowIso={initialNowIso} />
           </aside>
           <footer className="w-full border-t border-line px-4 py-5 text-xs text-ink-muted sm:px-6 lg:px-8 xl:col-start-1 xl:row-start-2">
             <p>{FOOTER_DISCLAIMER}</p>

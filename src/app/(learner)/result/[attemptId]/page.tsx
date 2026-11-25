@@ -1,8 +1,6 @@
 import { notFound } from "next/navigation";
-import { LearnerShell } from "@/components/layout/LearnerShell";
 import { ResultReviewClient } from "@/components/result/ResultReviewClient";
 import { getAttemptResult } from "@/lib/assessment/attempt.queries";
-import { getCompanies } from "@/lib/assessment/catalog.queries";
 
 export const dynamic = "force-dynamic";
 
@@ -17,14 +15,10 @@ export default async function ResultPage({ params }: ResultPageProps) {
     notFound();
   }
 
-  const [companies, result] = await Promise.all([getCompanies(), getAttemptResult(attemptId)]);
+  const result = await getAttemptResult(attemptId);
   if (!result) {
     notFound();
   }
 
-  return (
-    <LearnerShell companies={companies}>
-      <ResultReviewClient result={result} />
-    </LearnerShell>
-  );
+  return <ResultReviewClient result={result} />;
 }

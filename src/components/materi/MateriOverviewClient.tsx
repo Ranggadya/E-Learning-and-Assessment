@@ -16,6 +16,7 @@ import type { EnglishProgressOverview } from "@/types/english";
 
 interface MateriOverviewClientProps {
   initialOverview: EnglishProgressOverview;
+  initialUserId?: string | null;
 }
 
 const UPCOMING_TOPICS = [
@@ -36,13 +37,16 @@ const UPCOMING_TOPICS = [
   },
 ];
 
-export function MateriOverviewClient({ initialOverview }: MateriOverviewClientProps) {
+export function MateriOverviewClient({
+  initialOverview,
+  initialUserId = null,
+}: MateriOverviewClientProps) {
   const userId = useAnonUserId();
   const [overview, setOverview] = useState<EnglishProgressOverview>(initialOverview);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    if (!userId) return;
+    if (!userId || userId === initialUserId) return;
     const controller = new AbortController();
     fetch(`/api/materi/progress?userId=${encodeURIComponent(userId)}`, {
       signal: controller.signal,
@@ -63,7 +67,7 @@ export function MateriOverviewClient({ initialOverview }: MateriOverviewClientPr
     return () => {
       controller.abort();
     };
-  }, [userId]);
+  }, [userId, initialUserId]);
 
   const learnedPercent =
     overview.totalWords > 0

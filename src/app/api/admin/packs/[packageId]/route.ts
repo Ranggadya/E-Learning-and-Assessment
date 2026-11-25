@@ -1,8 +1,10 @@
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin/auth";
 import { recordAuditLog } from "@/lib/admin/audit-log";
 import { parsePgInt4Id, validatePackageUpdateInput } from "@/lib/admin/import-analysis";
 import { deletePackage, updatePackageMetadata } from "@/lib/admin/queries";
+import { CATALOG_CACHE_TAG } from "@/lib/assessment/catalog.queries";
 
 interface RouteContext {
   params: Promise<{ packageId: string }>;
@@ -44,6 +46,8 @@ export async function PATCH(request: Request, context: RouteContext) {
     targetLabel: updated.after.name,
     summary: { before: updated.before, after: updated.after },
   });
+  revalidateTag(CATALOG_CACHE_TAG, { expire: 0 });
+  revalidatePath("/", "layout");
 
   return NextResponse.json({ ok: true, package: { id: packageId, ...updated.after } });
 }
@@ -72,6 +76,8 @@ export async function DELETE(_request: Request, context: RouteContext) {
     targetLabel: `${deleted.companyName} / ${deleted.packageName}`,
     summary: { companyName: deleted.companyName, packageName: deleted.packageName },
   });
+  revalidateTag(CATALOG_CACHE_TAG, { expire: 0 });
+  revalidatePath("/", "layout");
 
   return NextResponse.json({ ok: true });
 }

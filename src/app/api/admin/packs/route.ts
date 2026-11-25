@@ -1,3 +1,4 @@
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin/auth";
 import { recordAuditLog } from "@/lib/admin/audit-log";
@@ -14,6 +15,7 @@ import {
 } from "@/lib/admin/import-analysis";
 import { ImportConfirmationRequiredError, importPack } from "@/lib/admin/pack-import";
 import { validatePack } from "@/lib/admin/pack-schema";
+import { CATALOG_CACHE_TAG } from "@/lib/assessment/catalog.queries";
 import type { ImportSummary } from "@/types/admin";
 
 const MAX_BODY_BYTES = 8 * 1024 * 1024;
@@ -107,6 +109,8 @@ export async function POST(request: Request) {
             warnings: summary.warnings,
           },
         });
+        revalidateTag(CATALOG_CACHE_TAG, { expire: 0 });
+        revalidatePath("/", "layout");
       }
       return NextResponse.json({ summary });
     } catch (error) {

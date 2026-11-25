@@ -1,9 +1,18 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { ANON_USER_COOKIE } from "@/lib/english/constants";
 
 const USER_ID_KEY = "e-assessment:anon-user-id:v1";
 let cachedUserId: string | null = null;
+
+function syncAnonCookie(id: string): void {
+  try {
+    document.cookie = `${ANON_USER_COOKIE}=${encodeURIComponent(id)}; path=/; max-age=31536000; SameSite=Lax`;
+  } catch {
+    // Abaikan jika cookie dibatasi browser.
+  }
+}
 
 export function getOrCreateAnonUserId(): string {
   if (typeof window === "undefined") {
@@ -16,6 +25,7 @@ export function getOrCreateAnonUserId(): string {
     const existing = window.localStorage.getItem(USER_ID_KEY);
     if (existing && /^[a-zA-Z0-9_-]{8,64}$/.test(existing)) {
       cachedUserId = existing;
+      syncAnonCookie(existing);
       return existing;
     }
     const generated =
@@ -24,6 +34,7 @@ export function getOrCreateAnonUserId(): string {
         : `anon_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 12)}`;
     window.localStorage.setItem(USER_ID_KEY, generated);
     cachedUserId = generated;
+    syncAnonCookie(generated);
     return generated;
   } catch {
     cachedUserId = "anon_fallback_local_user";

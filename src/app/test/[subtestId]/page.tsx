@@ -6,7 +6,11 @@ import { TestRunner } from "@/components/test/TestRunner";
 import { getPublicQuestions, getSubtestById } from "@/lib/assessment/catalog.queries";
 import type { DrawingConfig, PauliConfig, PersonalityConfig } from "@/types/assessment";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
+export function generateStaticParams() {
+  return [];
+}
 
 interface TestPageProps {
   params: Promise<{ subtestId: string }>;
@@ -19,7 +23,10 @@ export default async function TestPage({ params }: TestPageProps) {
     notFound();
   }
 
-  const subtest = await getSubtestById(subtestId);
+  const [subtest, questions] = await Promise.all([
+    getSubtestById(subtestId),
+    getPublicQuestions(subtestId),
+  ]);
   if (!subtest) {
     notFound();
   }
@@ -64,8 +71,6 @@ export default async function TestPage({ params }: TestPageProps) {
       />
     );
   }
-
-  const questions = await getPublicQuestions(subtestId);
 
   return (
     <TestRunner

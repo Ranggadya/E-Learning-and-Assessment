@@ -70,6 +70,8 @@ CREATE TABLE IF NOT EXISTS attempts (
   result          JSONB
 );
 
+CREATE INDEX IF NOT EXISTS attempts_subtest_id_idx ON attempts (subtest_id);
+
 CREATE TABLE IF NOT EXISTS answers (
   id              SERIAL PRIMARY KEY,
   attempt_id      INTEGER NOT NULL REFERENCES attempts(id) ON DELETE CASCADE,

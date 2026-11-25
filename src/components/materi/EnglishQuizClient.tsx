@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   IconArrowLeft,
@@ -14,18 +14,27 @@ import type { CefrLevel, EnglishQuizQuestion } from "@/types/english";
 
 interface EnglishQuizClientProps {
   initialCefr: CefrLevel | "";
+  initialQuestions: EnglishQuizQuestion[];
 }
 
-export function EnglishQuizClient({ initialCefr }: EnglishQuizClientProps) {
+export function EnglishQuizClient({
+  initialCefr,
+  initialQuestions,
+}: EnglishQuizClientProps) {
   const [cefr, setCefr] = useState<CefrLevel | "">(initialCefr);
   const [reloadTick, setReloadTick] = useState(0);
-  const [questions, setQuestions] = useState<EnglishQuizQuestion[]>([]);
+  const [questions, setQuestions] = useState<EnglishQuizQuestion[]>(initialQuestions);
   const [answers, setAnswers] = useState<Record<number, string>>({});
   const [currentIdx, setCurrentIdx] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const skipInitialFetchRef = useRef(true);
 
   useEffect(() => {
+    if (skipInitialFetchRef.current) {
+      skipInitialFetchRef.current = false;
+      return;
+    }
     const controller = new AbortController();
     const qs = cefr ? `?cefr=${cefr}` : "";
     fetch(`/api/materi/quiz${qs}`, { signal: controller.signal })

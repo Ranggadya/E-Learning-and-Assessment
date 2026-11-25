@@ -1,5 +1,7 @@
+import { revalidatePath, revalidateTag } from "next/cache";
 import { NextResponse } from "next/server";
 import { rejectIfNotAdmin } from "@/lib/admin/auth";
+import { ENGLISH_CACHE_TAG } from "@/lib/english/constants";
 import { validateEnglishWordsJson } from "@/lib/english/logic";
 import { upsertEnglishWords } from "@/lib/english/queries";
 
@@ -36,6 +38,8 @@ export async function POST(request: Request) {
   }
 
   const { upsertedCount } = await upsertEnglishWords(validation.words);
+  revalidateTag(ENGLISH_CACHE_TAG, { expire: 0 });
+  revalidatePath("/materi", "layout");
   return NextResponse.json({
     upsertedCount,
     totalInFile: validation.words.length,

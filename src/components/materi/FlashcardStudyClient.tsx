@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import {
   IconArrowLeft,
@@ -16,8 +16,17 @@ import type { CefrLevel, EnglishWordWithProgress } from "@/types/english";
 
 const NEW_LIMIT_KEY = "e-assessment:english-new-limit:v1";
 
+interface InitialStudyPayload {
+  userId: string;
+  cefr: CefrLevel | "";
+  newLimit: number;
+  dueWords: EnglishWordWithProgress[];
+  newWords: EnglishWordWithProgress[];
+}
+
 interface FlashcardStudyClientProps {
   initialCefr: CefrLevel | "";
+  initialStudyData?: InitialStudyPayload | null;
 }
 
 function readInitialNewLimit(): number {
@@ -33,25 +42,43 @@ function readInitialNewLimit(): number {
   return 10;
 }
 
-export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps) {
+export function FlashcardStudyClient({
+  initialCefr,
+  initialStudyData = null,
+}: FlashcardStudyClientProps) {
   const userId = useAnonUserId();
   const [cefr, setCefr] = useState<CefrLevel | "">(initialCefr);
   const [newLimit, setNewLimit] = useState<number>(readInitialNewLimit);
   const [reloadTick, setReloadTick] = useState(0);
-  const [queue, setQueue] = useState<EnglishWordWithProgress[]>([]);
-  const [dueTotal, setDueTotal] = useState(0);
-  const [newTotal, setNewTotal] = useState(0);
+  const [queue, setQueue] = useState<EnglishWordWithProgress[]>(() =>
+    initialStudyData ? [...initialStudyData.dueWords, ...initialStudyData.newWords] : [],
+  );
+  const [dueTotal, setDueTotal] = useState(() => initialStudyData?.dueWords.length ?? 0);
+  const [newTotal, setNewTotal] = useState(() => initialStudyData?.newWords.length ?? 0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [flipped, setFlipped] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !initialStudyData);
   const [submitting, setSubmitting] = useState(false);
   const [sessionStats, setSessionStats] = useState<{ known: number; unknown: number }>({
     known: 0,
     unknown: 0,
   });
+  const consumedInitialRef = useRef(false);
 
   useEffect(() => {
     if (!userId) return;
+    if (
+      !consumedInitialRef.current &&
+      initialStudyData &&
+      userId === initialStudyData.userId &&
+      cefr === initialStudyData.cefr &&
+      newLimit === initialStudyData.newLimit &&
+      reloadTick === 0
+    ) {
+      consumedInitialRef.current = true;
+      return;
+    }
+    consumedInitialRef.current = true;
     const controller = new AbortController();
     const sp = new URLSearchParams({
       userId,
@@ -87,7 +114,7 @@ export function FlashcardStudyClient({ initialCefr }: FlashcardStudyClientProps)
     return () => {
       controller.abort();
     };
-  }, [userId, cefr, newLimit, reloadTick]);
+  }, [userId, cefr, newLimit, reloadTick, initialStudyData]);
 
   const currentCard = queue[currentIndex];
   const isFinished = !loading && queue.length > 0 && currentIndex >= queue.length;

@@ -71,7 +71,7 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
             Kamus 1.000 Kata Bahasa Inggris
           </h1>
           <p className="mt-1 text-sm text-ink-secondary">
-            Terurut dari level dasar (A1) hingga mahir (C1) · Menampilkan 50 kata per halaman.
+            Terurut berdasarkan abjad (A–Z) · Menampilkan 50 kata per halaman.
           </p>
         </div>
 
@@ -196,25 +196,19 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
       ) : (
         <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           <div className="overflow-x-auto">
-            <table className="block w-full border-collapse text-left md:table">
+            <table className="block w-full table-fixed border-collapse text-left md:table">
               <caption className="sr-only">
                 Daftar kosakata kamus bahasa Inggris
               </caption>
               <thead className="sr-only md:not-sr-only md:table-header-group">
                 <tr className="border-b border-line bg-canvas text-xs font-semibold text-ink-secondary">
-                  <th scope="col" className="w-[72px] whitespace-nowrap px-4 py-3">
-                    #
-                  </th>
-                  <th scope="col" className="w-[22%] min-w-[160px] px-4 py-3">
+                  <th scope="col" className="w-[28%] px-5 py-3.5">
                     Kata
                   </th>
-                  <th scope="col" className="w-20 px-4 py-3">
-                    Level
-                  </th>
-                  <th scope="col" className="w-[24%] min-w-[180px] px-4 py-3">
+                  <th scope="col" className="w-[27%] px-5 py-3.5">
                     Arti Indonesia
                   </th>
-                  <th scope="col" className="px-4 py-3">
+                  <th scope="col" className="w-[45%] px-5 py-3.5">
                     Contoh Kalimat
                   </th>
                 </tr>
@@ -223,31 +217,23 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
                 {dict.items.map((item) => (
                   <tr
                     key={item.id}
-                    className="grid grid-cols-[1fr_auto] gap-x-2 gap-y-1 px-4 py-3.5 transition hover:bg-canvas/70 md:table-row md:p-0"
+                    className="block space-y-1 px-4 py-3.5 transition hover:bg-canvas/70 md:table-row md:space-y-0 md:p-0"
                   >
-                    <td className="hidden whitespace-nowrap px-4 py-3 align-top font-mono text-xs font-semibold tabular-nums text-ink-muted md:table-cell">
-                      #{item.no}
-                    </td>
-                    <td className="col-start-1 row-start-1 min-w-0 md:px-4 md:py-3 md:align-top">
-                      <div className="flex flex-wrap items-baseline gap-2">
-                        <span className="font-mono text-xs font-semibold tabular-nums text-ink-muted md:hidden">
-                          #{item.no}
-                        </span>
+                    <td className="block min-w-0 md:table-cell md:px-5 md:py-3.5 md:align-top">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className="break-words text-sm font-bold tracking-tight text-ink">
                           {item.word}
                         </span>
                         <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-xs font-medium text-ink-secondary">
                           {item.pos}
                         </span>
+                        <LevelBadge level={item.cefr} />
                       </div>
                     </td>
-                    <td className="col-start-2 row-start-1 shrink-0 justify-self-end md:px-4 md:py-3 md:align-top">
-                      <LevelBadge level={item.cefr} />
-                    </td>
-                    <td className="col-span-2 mt-0.5 text-sm font-semibold text-brand-text md:mt-0 md:px-4 md:py-3 md:align-top">
+                    <td className="block text-sm font-semibold text-brand-text md:table-cell md:px-5 md:py-3.5 md:align-top">
                       {item.meaning_id}
                     </td>
-                    <td className="col-span-2 mt-1.5 text-xs leading-relaxed md:mt-0 md:px-4 md:py-3 md:align-top">
+                    <td className="block text-xs leading-relaxed md:table-cell md:px-5 md:py-3.5 md:align-top">
                       <p className="font-medium text-ink">
                         &ldquo;{item.example_en}&rdquo;
                       </p>

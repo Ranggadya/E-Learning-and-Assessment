@@ -207,7 +207,7 @@ async function runEnglishDictionaryQuery(
                COUNT(*) OVER()::text AS total_count
         FROM english_words
         ${whereSql}
-        ORDER BY no ASC
+        ORDER BY LOWER(word) ASC, no ASC
         LIMIT $${listValues.length - 1} OFFSET $${listValues.length}
         `,
         listValues,
@@ -250,7 +250,7 @@ async function runEnglishDictionaryQuery(
       SELECT id, no, word, pos, meaning_id, example_en, example_id, cefr
       FROM english_words
       ${whereSql}
-      ORDER BY no ASC
+      ORDER BY LOWER(word) ASC, no ASC
       LIMIT $${clampedValues.length - 1} OFFSET $${clampedValues.length}
       `,
       clampedValues,
@@ -266,7 +266,7 @@ async function runEnglishDictionaryQuery(
 
 const getCachedEnglishDictionary = unstable_cache(
   runEnglishDictionaryQuery,
-  ["english:dictionary-page"],
+  ["english:dictionary-page:alpha"],
   { tags: [ENGLISH_CACHE_TAG], revalidate: 3600 },
 );
 

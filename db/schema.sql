@@ -164,6 +164,9 @@ CREATE TABLE IF NOT EXISTS english_words (
 CREATE INDEX IF NOT EXISTS english_words_cefr_pos_idx
   ON english_words (cefr, pos);
 
+CREATE INDEX IF NOT EXISTS english_words_lower_word_idx
+  ON english_words (LOWER(word), no);
+
 CREATE TABLE IF NOT EXISTS english_progress (
   user_id        TEXT NOT NULL,
   word_id        INTEGER NOT NULL REFERENCES english_words(id) ON DELETE CASCADE,

@@ -9,12 +9,15 @@ import type {
   EnglishWordInput,
   EnglishWordWithProgress,
 } from "@/types/english";
-import { CEFR_LEVELS, ENGLISH_CACHE_TAG } from "./constants";
+import { CEFR_LEVELS, DEFAULT_ENGLISH_POS_LIST, ENGLISH_CACHE_TAG } from "./constants";
 import {
   buildQuizQuestionsFromPool,
   computeNextLeitnerState,
   isCefrLevel,
+  isUndefinedTableError,
   isValidAnonUserId,
+  normalizeKamusParams,
+  queryEnglishDictionaryRows,
 } from "./logic";
 
 export async function ensureEnglishSchema(): Promise<void> {
@@ -31,6 +34,7 @@ export async function ensureEnglishSchema(): Promise<void> {
       topic       TEXT NOT NULL DEFAULT 'kamus'
     );
     CREATE INDEX IF NOT EXISTS english_words_cefr_pos_idx ON english_words (cefr, pos);
+    CREATE INDEX IF NOT EXISTS english_words_lower_word_idx ON english_words (LOWER(word), no);
     CREATE TABLE IF NOT EXISTS english_progress (
       user_id        TEXT NOT NULL,
       word_id        INTEGER NOT NULL REFERENCES english_words(id) ON DELETE CASCADE,
@@ -86,14 +90,6 @@ export async function upsertEnglishWords(
   return { upsertedCount: result.rowCount ?? words.length };
 }
 
-function isUndefinedTableError(error: unknown): boolean {
-  return (
-    typeof error === "object" &&
-    error !== null &&
-    (error as { code?: string }).code === "42P01"
-  );
-}
-
 const getCachedDistinctPosList = unstable_cache(
   async function queryDistinctPosList(): Promise<string[]> {
     try {
@@ -109,7 +105,7 @@ const getCachedDistinctPosList = unstable_cache(
     }
   },
   ["english:distinct-pos"],
-  { tags: [ENGLISH_CACHE_TAG], revalidate: 3600 },
+  { tags: [ENGLISH_CACHE_TAG], revalidate: 86400 },
 );
 
 const getCachedEnglishWordTotalsByLevel = unstable_cache(
@@ -160,113 +156,21 @@ const getCachedWordsPool = unstable_cache(
   { tags: [ENGLISH_CACHE_TAG], revalidate: 3600 },
 );
 
-async function runEnglishDictionaryQuery(
-  cefr: string,
-  pos: string,
-  q: string,
-  requestedPage: number,
-  pageSize: number,
-): Promise<{
-  items: EnglishWord[];
-  total: number;
-  page: number;
-  pageSize: number;
-  posList: string[];
-}> {
-  const conditions: string[] = [];
-  const values: unknown[] = [];
-
-  if (cefr && isCefrLevel(cefr)) {
-    values.push(cefr);
-    conditions.push(`cefr = $${values.length}`);
-  }
-  if (pos) {
-    values.push(pos);
-    conditions.push(`pos = $${values.length}`);
-  }
-  if (q) {
-    const escaped = q.replace(/[\\%_]/g, "\\$&");
-    values.push(`%${escaped}%`);
-    conditions.push(
-      `(word ILIKE $${values.length} ESCAPE '\\' OR meaning_id ILIKE $${values.length} ESCAPE '\\')`,
-    );
-  }
-
-  const whereSql = conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : "";
-  const offset = (requestedPage - 1) * pageSize;
-  const listValues = [...values, pageSize, offset];
-
-  type WordWithTotal = EnglishWord & { total_count: string };
-
-  try {
-    const [posList, itemsRes] = await Promise.all([
-      getCachedDistinctPosList(),
-      databasePool.query<WordWithTotal>(
-        `
-        SELECT id, no, word, pos, meaning_id, example_en, example_id, cefr,
-               COUNT(*) OVER()::text AS total_count
-        FROM english_words
-        ${whereSql}
-        ORDER BY LOWER(word) ASC, no ASC
-        LIMIT $${listValues.length - 1} OFFSET $${listValues.length}
-        `,
-        listValues,
-      ),
-    ]);
-
-    if (itemsRes.rows.length > 0) {
-      const total = Number(itemsRes.rows[0].total_count);
-      const items: EnglishWord[] = itemsRes.rows.map((row) => ({
-        id: row.id,
-        no: row.no,
-        word: row.word,
-        pos: row.pos,
-        meaning_id: row.meaning_id,
-        example_en: row.example_en,
-        example_id: row.example_id,
-        cefr: row.cefr,
-      }));
-      return { items, total, page: requestedPage, pageSize, posList };
-    }
-
-    if (requestedPage === 1) {
-      return { items: [], total: 0, page: 1, pageSize, posList };
-    }
-
-    // Hanya terjadi bila user membuka nomor halaman melampaui batas hasil filter (?page=999).
-    const countRes = await databasePool.query<{ total: string }>(
-      `SELECT COUNT(*)::text AS total FROM english_words ${whereSql}`,
-      values,
-    );
-    const total = Number(countRes.rows[0]?.total ?? 0);
-    if (total === 0) {
-      return { items: [], total: 0, page: 1, pageSize, posList };
-    }
-    const clampedPage = Math.max(1, Math.ceil(total / pageSize));
-    const clampedOffset = (clampedPage - 1) * pageSize;
-    const clampedValues = [...values, pageSize, clampedOffset];
-    const clampedRes = await databasePool.query<EnglishWord>(
-      `
-      SELECT id, no, word, pos, meaning_id, example_en, example_id, cefr
-      FROM english_words
-      ${whereSql}
-      ORDER BY LOWER(word) ASC, no ASC
-      LIMIT $${clampedValues.length - 1} OFFSET $${clampedValues.length}
-      `,
-      clampedValues,
-    );
-    return { items: clampedRes.rows, total, page: clampedPage, pageSize, posList };
-  } catch (error) {
-    if (isUndefinedTableError(error)) {
-      return { items: [], total: 0, page: 1, pageSize, posList: [] };
-    }
-    throw error;
-  }
-}
-
 const getCachedEnglishDictionary = unstable_cache(
-  runEnglishDictionaryQuery,
-  ["english:dictionary-page:alpha"],
+  async function runCachedDictionaryQuery(
+    cefr: string,
+    pos: string,
+    q: string,
+    requestedPage: number,
+    pageSize: number,
+  ) {
+    return queryEnglishDictionaryRows(
+      { cefr, pos, q, requestedPage, pageSize },
+      <T>(text: string, values?: unknown[]) =>
+        databasePool.query<T & Record<string, unknown>>(text, values),
+    );
+  },
+  ["english:dictionary-page:alpha:v2"],
   { tags: [ENGLISH_CACHE_TAG], revalidate: 3600 },
 );
 
@@ -283,15 +187,20 @@ export async function queryEnglishDictionary(params: {
   pageSize: number;
   posList: string[];
 }> {
-  const pageSize = Math.min(100, Math.max(1, Math.trunc(params.pageSize ?? 50)));
-  const requestedPage = Math.max(
-    1,
-    Number.isFinite(params.page) ? Math.trunc(params.page as number) : 1,
+  const normalized = normalizeKamusParams(params);
+  const result = await getCachedEnglishDictionary(
+    normalized.cefr,
+    normalized.pos,
+    normalized.q,
+    normalized.page,
+    normalized.pageSize,
   );
-  const cefr = params.cefr && isCefrLevel(params.cefr) ? params.cefr : "";
-  const pos = params.pos?.trim() ?? "";
-  const q = params.q?.trim() ?? "";
-  return getCachedEnglishDictionary(cefr, pos, q, requestedPage, pageSize);
+  // shortcut: memakai daftar POS standar saat total > 0 agar cold cache hanya 1 query DB; panggil getCachedDistinctPosList() selalu jika admin mengimpor POS kustom baru
+  const posList =
+    result.total > 0
+      ? [...DEFAULT_ENGLISH_POS_LIST]
+      : await getCachedDistinctPosList();
+  return { ...result, posList };
 }
 
 export async function getEnglishProgressOverview(

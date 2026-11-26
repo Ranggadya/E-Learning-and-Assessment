@@ -2,6 +2,22 @@ import type { CefrLevel } from "@/types/english";
 
 export const CEFR_LEVELS: readonly CefrLevel[] = ["A1", "A2", "B1", "B2", "C1"] as const;
 
+export const DEFAULT_ENGLISH_POS_LIST: readonly string[] = [
+  "adjective",
+  "adverb",
+  "conjunction",
+  "determiner",
+  "exclamation",
+  "interjection",
+  "modal verb",
+  "noun",
+  "noun, verb",
+  "number",
+  "preposition",
+  "pronoun",
+  "verb",
+] as const;
+
 export const ANON_USER_COOKIE = "ea_anon_uid";
 export const ENGLISH_CACHE_TAG = "english";
 

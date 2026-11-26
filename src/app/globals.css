@@ -16,6 +16,19 @@
   --accent-deep: #1e40af;
   --accent-text: #1d4ed8;
   --accent-soft: #eff6ff;
+  --badge-info-border: #bfdbfe;
+  --badge-success-bg: #ecfdf5;
+  --badge-success-text: #065f46;
+  --badge-success-border: #a7f3d0;
+  --badge-warning-bg: #fffbeb;
+  --badge-warning-text: #92400e;
+  --badge-warning-border: #fde68a;
+  --badge-caution-bg: #fff7ed;
+  --badge-caution-text: #9a3412;
+  --badge-caution-border: #fed7aa;
+  --badge-danger-bg: #fef2f2;
+  --badge-danger-text: #991b1b;
+  --badge-danger-border: #fecaca;
   color-scheme: light;
 }
 
@@ -33,6 +46,19 @@
   --accent-deep: #1d4ed8;
   --accent-text: #60a5fa;
   --accent-soft: rgba(59, 130, 246, 0.16);
+  --badge-info-border: rgba(96, 165, 250, 0.35);
+  --badge-success-bg: rgba(16, 185, 129, 0.14);
+  --badge-success-text: #6ee7b7;
+  --badge-success-border: rgba(52, 211, 153, 0.32);
+  --badge-warning-bg: rgba(245, 158, 11, 0.14);
+  --badge-warning-text: #fcd34d;
+  --badge-warning-border: rgba(251, 191, 36, 0.32);
+  --badge-caution-bg: rgba(249, 115, 22, 0.14);
+  --badge-caution-text: #fdba74;
+  --badge-caution-border: rgba(251, 146, 60, 0.32);
+  --badge-danger-bg: rgba(244, 63, 94, 0.15);
+  --badge-danger-text: #fda4af;
+  --badge-danger-border: rgba(251, 113, 133, 0.35);
   color-scheme: dark;
 }
 
@@ -114,6 +140,42 @@ a {
 
 .tabular-nums {
   font-variant-numeric: tabular-nums;
+}
+
+.badge-neutral {
+  background-color: var(--bg-subtle);
+  color: var(--text-secondary);
+  border-color: var(--border-default);
+}
+
+.badge-info {
+  background-color: var(--accent-soft);
+  color: var(--accent-text);
+  border-color: var(--badge-info-border);
+}
+
+.badge-success {
+  background-color: var(--badge-success-bg);
+  color: var(--badge-success-text);
+  border-color: var(--badge-success-border);
+}
+
+.badge-warning {
+  background-color: var(--badge-warning-bg);
+  color: var(--badge-warning-text);
+  border-color: var(--badge-warning-border);
+}
+
+.badge-caution {
+  background-color: var(--badge-caution-bg);
+  color: var(--badge-caution-text);
+  border-color: var(--badge-caution-border);
+}
+
+.badge-danger {
+  background-color: var(--badge-danger-bg);
+  color: var(--badge-danger-text);
+  border-color: var(--badge-danger-border);
 }
 
 .glossary-term {

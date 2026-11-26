@@ -2,11 +2,17 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import type { EnglishWord } from "@/types/english";
 import {
+  buildKamusUrl,
   buildQuizQuestionsFromPool,
   computeNextLeitnerState,
+  escapeSqlLike,
   isCefrLevel,
+  isUndefinedTableError,
   isValidAnonUserId,
+  normalizeKamusParams,
+  queryEnglishDictionaryRows,
   validateEnglishWordsJson,
+  type EnglishQueryExecutor,
 } from "./logic";
 
 test("computeNextLeitnerState menaikkan kotak 1..5 dengan jeda 1, 2, 4, 8, 16 hari dan reset ke 1 jika salah", () => {
@@ -131,4 +137,114 @@ test("isValidAnonUserId memvalidasi panjang 8..64 karakter [a-zA-Z0-9_-]", () =>
   assert.equal(isValidAnonUserId("user/1234"), false);
   assert.equal(isValidAnonUserId(null), false);
   assert.equal(isValidAnonUserId(12345678), false);
+});
+
+test("normalizeKamusParams dan buildKamusUrl menormalisasi filter, menjepit halaman, dan menyusun query string bersih", () => {
+  assert.deepEqual(
+    normalizeKamusParams({ cefr: "B2", pos: "  noun ", q: " bank ", page: "3.9", pageSize: 200 }),
+    { cefr: "B2", pos: "noun", q: "bank", page: 3, pageSize: 100 },
+  );
+  assert.deepEqual(
+    normalizeKamusParams({ cefr: "INVALID", page: "-5", pageSize: 0 }),
+    { cefr: "", pos: "", q: "", page: 1, pageSize: 1 },
+  );
+  assert.deepEqual(normalizeKamusParams({ page: "abc" }), {
+    cefr: "",
+    pos: "",
+    q: "",
+    page: 1,
+    pageSize: 50,
+  });
+
+  assert.equal(buildKamusUrl({}), "/materi/kamus");
+  assert.equal(buildKamusUrl({ page: 1 }), "/materi/kamus");
+  assert.equal(
+    buildKamusUrl({ cefr: "A2", pos: "verb", q: "run", page: 2 }),
+    "/materi/kamus?cefr=A2&pos=verb&q=run&page=2",
+  );
+});
+
+test("escapeSqlLike meng-escape karakter wildcard %, _, dan backslash", () => {
+  assert.equal(escapeSqlLike("100%"), "100\\%");
+  assert.equal(escapeSqlLike("part_time\\test"), "part\\_time\\\\test");
+});
+
+test("queryEnglishDictionaryRows menyusun ORDER BY LOWER(word) ASC, meng-escape wildcard, menjepit halaman berlebih, dan aman saat 42P01", async () => {
+  const calls: Array<{ text: string; values?: unknown[] }> = [];
+  const sampleRow = {
+    id: 7,
+    no: 901,
+    word: "economy",
+    pos: "noun",
+    meaning_id: "ekonomi",
+    example_en: "The economy is growing.",
+    example_id: "Ekonominya bertumbuh.",
+    cefr: "B2" as const,
+    total_count: "1",
+  };
+
+  const hitExecutor: EnglishQueryExecutor = async <T>(text: string, values?: unknown[]) => {
+    calls.push({ text, values });
+    return { rows: [sampleRow as unknown as T] };
+  };
+
+  const firstPage = await queryEnglishDictionaryRows(
+    { cefr: "B2", pos: "noun", q: "50%_growth", requestedPage: 1, pageSize: 50 },
+    hitExecutor,
+  );
+
+  assert.equal(calls.length, 1);
+  assert.match(calls[0].text, /ORDER BY LOWER\(word\) ASC, no ASC/);
+  assert.deepEqual(calls[0].values, ["B2", "noun", "%50\\%\\_growth%", 50, 0]);
+  assert.equal(firstPage.total, 1);
+  assert.equal(firstPage.page, 1);
+  assert.equal(firstPage.items[0]?.word, "economy");
+
+  // Simulasi ?page=999 melampaui total 65 kata -> dijepit ke halaman 2 (offset 50)
+  const clampCalls: Array<{ text: string; values?: unknown[] }> = [];
+  const clampExecutor: EnglishQueryExecutor = async <T>(text: string, values?: unknown[]) => {
+    clampCalls.push({ text, values });
+    if (clampCalls.length === 1) {
+      return { rows: [] };
+    }
+    if (clampCalls.length === 2) {
+      return { rows: [{ total: "65" } as unknown as T] };
+    }
+    return {
+      rows: [
+        {
+          id: 8,
+          no: 950,
+          word: "zeal",
+          pos: "noun",
+          meaning_id: "semangat",
+          example_en: "Great zeal.",
+          example_id: "Semangat besar.",
+          cefr: "C1",
+        } as unknown as T,
+      ],
+    };
+  };
+
+  const clamped = await queryEnglishDictionaryRows(
+    { cefr: "", pos: "", q: "", requestedPage: 999, pageSize: 50 },
+    clampExecutor,
+  );
+  assert.equal(clampCalls.length, 3);
+  assert.equal(clamped.page, 2);
+  assert.equal(clamped.total, 65);
+  assert.deepEqual(clampCalls[2].values, [50, 50]);
+
+  // Fail-safe saat tabel belum dimigrasi (PostgreSQL 42P01)
+  const missingTableExecutor: EnglishQueryExecutor = async () => {
+    const err = new Error("relation does not exist") as Error & { code: string };
+    err.code = "42P01";
+    throw err;
+  };
+  assert.equal(isUndefinedTableError({ code: "42P01" }), true);
+  const emptyFallback = await queryEnglishDictionaryRows(
+    { cefr: "A1", pos: "", q: "", requestedPage: 2, pageSize: 50 },
+    missingTableExecutor,
+  );
+  assert.deepEqual(emptyFallback, { items: [], total: 0, page: 1, pageSize: 50 });
 });

@@ -4,7 +4,6 @@ import {
   IconArrowLeft,
   IconArrowRight,
   IconSearch,
-  IconZap,
 } from "@/components/ui/Icons";
 import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
 import { CEFR_LEVELS } from "@/lib/english/constants";
@@ -78,15 +77,8 @@ export default async function KamusPage({ searchParams }: KamusPageProps) {
 
         <div className="flex flex-wrap items-center gap-2">
           <Link
-            href={activeCefr ? `/materi/kamus/belajar?cefr=${activeCefr}` : "/materi/kamus/belajar"}
-            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-brand-hover"
-          >
-            <IconZap className="h-3.5 w-3.5" />
-            <span>Belajar Kartu{activeCefr ? ` (${activeCefr})` : ""}</span>
-          </Link>
-          <Link
             href={activeCefr ? `/materi/kamus/kuis?cefr=${activeCefr}` : "/materi/kamus/kuis"}
-            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+            className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-brand px-3.5 py-2 text-xs font-bold text-white shadow-xs transition hover:bg-brand-hover"
           >
             <span>Kuis Pilihan Ganda{activeCefr ? ` (${activeCefr})` : ""}</span>
           </Link>

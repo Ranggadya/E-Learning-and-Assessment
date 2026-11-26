@@ -4,14 +4,11 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import {
   IconArrowRight,
-  IconClock,
   IconFileText,
   IconLayers,
-  IconZap,
 } from "@/components/ui/Icons";
 import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
 import { useAnonUserId } from "@/lib/client/anon-user";
-import { LEITNER_BOX_DAYS } from "@/lib/english/constants";
 import type { EnglishProgressOverview } from "@/types/english";
 
 interface MateriOverviewClientProps {
@@ -83,33 +80,27 @@ export function MateriOverviewClient({
             Pusat Belajar Bahasa Inggris
           </h1>
           <p className="mt-1 text-sm text-ink-secondary">
-            Kuasai kosakata CEFR A1–C1 dengan kartu pengulangan berjarak (Leitner 5 Kotak) dan kuis adaptif.
+            Kuasai kosakata CEFR A1–C1 melalui kamus interaktif dan kuis pilihan ganda adaptif.
           </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
           <Link
-            href="/materi/kamus/belajar"
+            href="/materi/kamus/kuis"
             className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-sm font-bold text-white shadow-xs transition hover:bg-brand-hover"
           >
-            <IconZap className="h-4 w-4" />
-            <span>Mulai Flashcard</span>
-            {overview.dueCount > 0 ? (
-              <span className="ml-1 rounded-md bg-blue-950/40 px-1.5 py-0.5 text-xs tabular-nums">
-                {overview.dueCount} jatuh tempo
-              </span>
-            ) : null}
+            <span>Mulai Kuis 10 Soal</span>
           </Link>
           <Link
-            href="/materi/kamus/kuis"
+            href="/materi/kamus"
             className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl border border-line-strong bg-surface px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
           >
-            <span>Mulai Kuis 10 Soal</span>
+            <span>Buka Kamus</span>
           </Link>
         </div>
       </div>
 
-      {/* Ringkasan Progres Kotak & Level */}
+      {/* Ringkasan Progres Level CEFR */}
       <section
         aria-label="Ringkasan progres belajar"
         className="rounded-2xl border border-line bg-surface p-5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none"
@@ -123,55 +114,11 @@ export function MateriOverviewClient({
           </div>
           {loading ? (
             <span className="text-xs font-medium text-ink-muted">Memuat progres...</span>
-          ) : overview.dueCount > 0 ? (
-            <Link
-              href="/materi/kamus/belajar"
-              className="inline-flex min-h-[40px] items-center gap-1 text-xs font-bold text-brand-text hover:underline"
-            >
-              <IconClock className="h-3.5 w-3.5" />
-              <span>{overview.dueCount} kata siap diulang hari ini</span>
-            </Link>
           ) : null}
         </div>
 
-        {/* 5 Kotak Leitner */}
-        <div className="mt-4">
-          <p className="text-xs font-semibold text-ink-secondary">
-            Distribusi Sistem 5 Kotak (Spaced Repetition)
-          </p>
-          <div className="mt-2.5 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-6">
-            <div className="rounded-xl bg-canvas p-3">
-              <span className="text-xs font-semibold text-ink-muted">Belum Dilihat</span>
-              <p className="mt-1 text-xl font-extrabold tabular-nums text-ink">
-                {overview.unseenCount}
-              </p>
-              <span className="text-xs text-ink-muted">Antrean baru</span>
-            </div>
-            {([1, 2, 3, 4, 5] as const).map((box) => (
-              <div key={box} className="rounded-xl bg-canvas p-3">
-                <div className="flex items-center justify-between gap-1">
-                  <span className="text-xs font-bold text-ink">Kotak {box}</span>
-                  <span className="rounded bg-subtle px-1.5 py-0.5 font-mono text-xs font-semibold text-ink-secondary">
-                    {LEITNER_BOX_DAYS[box]} hr
-                  </span>
-                </div>
-                <p className="mt-1 text-xl font-extrabold tabular-nums text-brand-text">
-                  {overview.boxCounts[box]}
-                </p>
-                <span className="text-xs text-ink-muted">
-                  {box === 1
-                    ? "Baru / perlu ulang"
-                    : box <= 3
-                      ? "Mulai hafal"
-                      : "Hafal kuat"}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-
         {/* Persentase Tiap Level CEFR */}
-        <div className="mt-5 border-t border-line pt-4">
+        <div className="mt-4">
           <p className="text-xs font-semibold text-ink-secondary">
             Persentase Penguasaan per Level CEFR
           </p>
@@ -232,12 +179,6 @@ export function MateriOverviewClient({
               >
                 <span>Buka Kamus</span>
                 <IconArrowRight className="h-3.5 w-3.5" />
-              </Link>
-              <Link
-                href="/materi/kamus/belajar"
-                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl border border-line-strong bg-canvas px-3 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
-              >
-                <span>Mode Kartu (Flashcard)</span>
               </Link>
               <Link
                 href="/materi/kamus/kuis"

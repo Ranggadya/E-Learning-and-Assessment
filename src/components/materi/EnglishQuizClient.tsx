@@ -108,12 +108,6 @@ export function EnglishQuizClient({
           <IconArrowLeft className="h-3.5 w-3.5" />
           <span>Kembali ke Kamus</span>
         </Link>
-        <Link
-          href="/materi/kamus/belajar"
-          className="inline-flex min-h-[40px] items-center text-xs font-semibold text-brand-text hover:underline"
-        >
-          Ke Mode Flashcard
-        </Link>
       </div>
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">

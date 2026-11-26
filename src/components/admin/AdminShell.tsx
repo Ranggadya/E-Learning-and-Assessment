@@ -5,6 +5,7 @@ import Link from "next/link";
 import { LogoutButton } from "@/components/admin/LogoutButton";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import {
+  IconBookOpen,
   IconClipboardList,
   IconClose,
   IconDashboard,
@@ -14,7 +15,7 @@ import {
   IconUpload,
 } from "@/components/ui/Icons";
 
-export type AdminNavKey = "dashboard" | "import" | "audit";
+export type AdminNavKey = "dashboard" | "import" | "materi" | "audit";
 
 interface AdminShellProps {
   activeNav: AdminNavKey;
@@ -29,6 +30,7 @@ const ADMIN_NAV_ITEMS: Array<{
 }> = [
   { key: "dashboard", href: "/admin", label: "Paket & Subtes", Icon: IconDashboard },
   { key: "import", href: "/admin/import", label: "Impor JSON", Icon: IconUpload },
+  { key: "materi", href: "/admin/materi", label: "Materi Belajar", Icon: IconBookOpen },
   { key: "audit", href: "/admin/audit", label: "Audit Log", Icon: IconClipboardList },
 ];
 

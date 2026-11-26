@@ -11,6 +11,7 @@ import {
   IconClose,
   IconDashboard,
   IconHistory,
+  IconLayers,
   IconMenu,
   IconShield,
 } from "@/components/ui/Icons";
@@ -94,6 +95,7 @@ export function LearnerShell({ catalog, initialNowIso, children }: LearnerShellP
 
   const isDashboardActive = pathname === "/";
   const isHistoryActive = pathname === "/riwayat";
+  const isBelajarActive = pathname === "/belajar" || pathname.startsWith("/belajar/");
   const isMateriActive = pathname === "/materi" || pathname.startsWith("/materi/");
 
   function renderSidebar(isMobileDrawer: boolean) {
@@ -163,6 +165,22 @@ export function LearnerShell({ catalog, initialNowIso, children }: LearnerShellP
                         {recentAttemptCount}
                       </span>
                     ) : null}
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/belajar"
+                    onClick={() => setMobileOpen(false)}
+                    aria-current={isBelajarActive ? "page" : undefined}
+                    className={navItemClassName(isBelajarActive)}
+                  >
+                    <span className="inline-flex min-w-0 items-center gap-3">
+                      <IconLayers
+                        className={navIconClassName(isBelajarActive)}
+                        strokeWidth={isBelajarActive ? 2.1 : 1.75}
+                      />
+                      <span className="truncate">Belajar Roadmap</span>
+                    </span>
                   </Link>
                 </li>
                 <li>

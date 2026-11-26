@@ -1,0 +1,258 @@
+[
+  {
+    "term": "anycast",
+    "definition": "Teknik perutean jaringan di mana beberapa server di lokasi berbeda memakai satu alamat IP yang sama, dan router mengarahkan klien ke server terdekat."
+  },
+  {
+    "term": "api gateway",
+    "definition": "Komponen sisi server yang menjadi satu pintu masuk tunggal (single entry point) antara klien dan kumpulan microservices, menangani routing, autentikasi, rate limiting, hingga agregasi respons."
+  },
+  {
+    "term": "api versioning",
+    "definition": "Pengelolaan beberapa versi API sekaligus (misal v1 dan v2) agar pembaruan sistem tidak mematahkan aplikasi klien versi lama."
+  },
+  {
+    "term": "array",
+    "definition": "Struktur data berurutan yang menyimpan sekumpulan nilai dan diakses memakai indeks numerik mulai dari 0."
+  },
+  {
+    "term": "async",
+    "definition": "Eksekusi non-blocking yang memungkinkan program melanjutkan tugas lain sambil menunggu operasi I/O selesai."
+  },
+  {
+    "term": "blue-green deployment",
+    "definition": "Strategi rilis dengan dua lingkungan produksi identik (Blue & Green) di mana trafik dipindahkan 100% sekaligus setelah versi baru siap."
+  },
+  {
+    "term": "bottleneck",
+    "definition": "Satu bagian sistem yang paling cepat mencapai batas kapasitasnya sehingga membatasi kinerja keseluruhan sistem."
+  },
+  {
+    "term": "branch",
+    "definition": "Jalur riwayat kode terpisah di Git untuk mengembangkan fitur tanpa mengganggu kode utama."
+  },
+  {
+    "term": "bulkhead",
+    "definition": "Pola isolasi sumber daya (seperti thread pool terpisah untuk tiap dependensi) agar kegagalan satu layanan tidak menghabiskan seluruh sumber daya server."
+  },
+  {
+    "term": "cache",
+    "definition": "Penyimpanan sementara hasil komputasi atau query agar permintaan berikutnya dilayani jauh lebih cepat."
+  },
+  {
+    "term": "callback",
+    "definition": "Fungsi yang dikirim sebagai argumen ke fungsi lain untuk dijalankan setelah suatu proses selesai."
+  },
+  {
+    "term": "canary deployment",
+    "definition": "Strategi rilis bertahap yang mengalihkan sebagian kecil trafik (misal 1% lalu 10%) ke versi baru sambil memantau error sebelum rilis penuh."
+  },
+  {
+    "term": "cascading failure",
+    "definition": "Kegagalan pada satu komponen yang merembet dan melumpuhkan komponen-komponen sehat lainnya di dalam sistem."
+  },
+  {
+    "term": "chaos engineering",
+    "definition": "Praktik menyuntikkan kegagalan secara sengaja dan terkendali ke sistem untuk menguji ketahanan serta menemukan kelemahan sebelum insiden nyata terjadi."
+  },
+  {
+    "term": "circuit breaker",
+    "definition": "Pola ketahanan sistem yang otomatis memutus pengiriman request ke layanan backend yang sedang rusak agar layanan tersebut sempat pulih, sambil mengembalikan respons fallback."
+  },
+  {
+    "term": "closure",
+    "definition": "Fungsi yang tetap mengingat variabel dari lexical scope luar tempat ia dibuat meski fungsi luar sudah selesai."
+  },
+  {
+    "term": "commit",
+    "definition": "Rekaman permanen perubahan kode pada repositori Git atau pengesahan akhir sebuah transaksi database."
+  },
+  {
+    "term": "consistent hashing",
+    "definition": "Teknik hashing cincin (ring) yang meminimalkan perpindahan pemetaan klien/data saat server ditambah atau dihapus (hanya sekitar 1/N yang berpindah)."
+  },
+  {
+    "term": "container",
+    "definition": "Paket terisolasi berisi kode aplikasi beserta dependensinya agar berjalan konsisten di berbagai lingkungan."
+  },
+  {
+    "term": "deadlock",
+    "definition": "Kondisi saling tunggu permanen di mana dua proses masing-masing memegang kunci yang dibutuhkan proses lainnya sehingga tidak ada yang bisa lanjut."
+  },
+  {
+    "term": "distributed tracing",
+    "definition": "Teknik pelacakan perjalanan satu request melintasi banyak microservice memakai Trace ID dan span untuk menemukan titik kelambatan secara presisi."
+  },
+  {
+    "term": "endpoint",
+    "definition": "Alamat URL spesifik beserta metode HTTP pada server API yang menerima request dan mengembalikan response."
+  },
+  {
+    "term": "error budget",
+    "definition": "Jatah waktu downtime atau jumlah kegagalan yang masih diperbolehkan oleh target SLO dalam satu periode (misal 43,2 menit/bulan untuk 99,9%)."
+  },
+  {
+    "term": "exponential backoff",
+    "definition": "Strategi retry yang menggandakan waktu tunggu setelah setiap kegagalan (misal 100 ms, 200 ms, 400 ms) agar layanan yang sedang bermasalah punya ruang untuk pulih."
+  },
+  {
+    "term": "failover",
+    "definition": "Proses mengalihkan trafik secara otomatis atau manual dari komponen yang rusak ke salinan cadangan yang sehat."
+  },
+  {
+    "term": "foreign key",
+    "definition": "Kolom pada tabel relasional yang menunjuk ke primary key tabel lain untuk menjaga konsistensi relasi."
+  },
+  {
+    "term": "framework",
+    "definition": "Kerangka kerja terstruktur yang mengatur alur aplikasi dan menyediakan fondasi siap pakai untuk pengembangan."
+  },
+  {
+    "term": "function",
+    "definition": "Blok kode bernama atau anonim yang menerima input parameter, menjalankan logika, dan mengembalikan nilai."
+  },
+  {
+    "term": "graceful degradation",
+    "definition": "Kemampuan sistem tetap melayani fungsi utama dengan fitur terbatas (misal menyembunyikan ulasan) saat sebagian layanan pendukung sedang mati."
+  },
+  {
+    "term": "health check",
+    "definition": "Pemeriksaan berkala oleh load balancer (seperti ping GET /health) untuk memastikan server backend masih sehat dan siap menerima trafik."
+  },
+  {
+    "term": "horizontal scaling",
+    "definition": "Menambah kapasitas sistem dengan menambahkan lebih banyak mesin/server (scaling out) ke dalam server pool."
+  },
+  {
+    "term": "idempotent",
+    "definition": "Sifat operasi yang menghasilkan keadaan akhir yang sama walau dijalankan satu kali maupun berulang kali."
+  },
+  {
+    "term": "index",
+    "definition": "Struktur pencarian tambahan pada kolom database (seperti B-Tree atau GIN) untuk mempercepat query tanpa scan penuh."
+  },
+  {
+    "term": "interface",
+    "definition": "Kontrak bentuk objek di TypeScript yang mendefinisikan properti dan tipe datanya pada waktu kompilasi."
+  },
+  {
+    "term": "least connections",
+    "definition": "Algoritma load balancing dinamis yang mengirim request baru ke server dengan jumlah koneksi aktif paling sedikit saat itu."
+  },
+  {
+    "term": "linearizability",
+    "definition": "Model konsistensi paling kuat (strong consistency) di mana setiap operasi bersifat atomik dan langsung terlihat oleh seluruh node sesuai urutan waktu nyata."
+  },
+  {
+    "term": "load balancer",
+    "definition": "Perangkat atau perangkat lunak perantara yang mendistribusikan trafik jaringan ke beberapa server backend agar tidak ada server yang kelebihan beban."
+  },
+  {
+    "term": "microservices",
+    "definition": "Arsitektur perangkat lunak yang memecah aplikasi besar menjadi kumpulan layanan kecil yang berdiri sendiri, di mana tiap layanan fokus pada satu tugas bisnis spesifik."
+  },
+  {
+    "term": "middleware",
+    "definition": "Lapisan fungsi perantara yang memproses request (seperti cek sesi atau logging) sebelum mencapai handler utama."
+  },
+  {
+    "term": "multi-tenancy",
+    "definition": "Arsitektur SaaS di mana satu infrastruktur bersama melayani banyak pelanggan (tenant) dengan isolasi perutean, rate limit, dan kebijakan keamanan masing-masing."
+  },
+  {
+    "term": "mutex",
+    "definition": "Kunci eksklusif (mutual exclusion lock) yang memastikan hanya tepat satu thread yang boleh mengakses sumber daya bersama pada satu waktu."
+  },
+  {
+    "term": "observability",
+    "definition": "Sifat sistem yang memungkinkan tim menjelaskan akar masalah tak terduga hanya dari keluaran telemetrinya (metrics, logs, dan traces) tanpa perlu deploy kode baru."
+  },
+  {
+    "term": "payload",
+    "definition": "Data inti yang dikirim di dalam body request atau response HTTP, umumnya berformat JSON."
+  },
+  {
+    "term": "primary key",
+    "definition": "Kolom atau gabungan kolom unik dan tidak boleh kosong yang mengidentifikasi setiap baris tabel secara pasti."
+  },
+  {
+    "term": "promise",
+    "definition": "Objek JavaScript yang merepresentasikan hasil akhir (berhasil atau gagal) dari operasi asynchronous."
+  },
+  {
+    "term": "query",
+    "definition": "Perintah terstruktur (seperti SELECT, INSERT, UPDATE) untuk mengambil atau memodifikasi data di database."
+  },
+  {
+    "term": "quorum",
+    "definition": "Jumlah suara mayoritas node dalam cluster terdistribusi yang wajib sepakat agar sebuah perubahan dianggap sah."
+  },
+  {
+    "term": "race condition",
+    "definition": "Bug konkurensi di mana hasil akhir bergantung pada urutan waktu eksekusi beberapa proses paralel, sering memicu lost update."
+  },
+  {
+    "term": "rate limiting",
+    "definition": "Pembatasan jumlah request yang boleh dikirim satu klien dalam rentang waktu tertentu untuk mencegah penyalahgunaan atau lonjakan trafik."
+  },
+  {
+    "term": "reverse proxy",
+    "definition": "Server perantara di depan backend yang menerima request dari klien, menyembunyikan IP asli server, dan meneruskan trafik secara aman."
+  },
+  {
+    "term": "round robin",
+    "definition": "Algoritma load balancing yang membagi request ke setiap server secara bergiliran sesuai urutan tetap."
+  },
+  {
+    "term": "scope",
+    "definition": "Cakupan wilayah kode yang menentukan di mana sebuah variabel atau fungsi dapat diakses."
+  },
+  {
+    "term": "semaphore",
+    "definition": "Mekanisme sinkronisasi berbasis penghitung slot yang membatasi jumlah maksimum thread yang boleh mengakses pool sumber daya secara bersamaan."
+  },
+  {
+    "term": "server pool",
+    "definition": "Kelompok server backend di belakang load balancer (sering disebut server farm) yang bekerja bersama melayani request."
+  },
+  {
+    "term": "service discovery",
+    "definition": "Mekanisme otomatis (seperti Consul atau Eureka) untuk melacak alamat jaringan instance microservice yang terus bertambah atau berkurang secara dinamis."
+  },
+  {
+    "term": "sharding",
+    "definition": "Teknik memecah baris data tabel besar ke beberapa database berbeda (shard) berdasarkan kunci tertentu agar kapasitas penyimpanan dan tulis bisa berskala horizontal."
+  },
+  {
+    "term": "single point of failure",
+    "definition": "Satu komponen kritis yang jika rusak atau mati akan langsung melumpuhkan seluruh sistem."
+  },
+  {
+    "term": "ssl termination",
+    "definition": "Proses mendekripsi trafik HTTPS di tingkat load balancer sehingga server backend tidak terbebani komputasi kriptografi SSL/TLS."
+  },
+  {
+    "term": "state",
+    "definition": "Data dinamis milik komponen atau aplikasi yang perubahannya memicu pembaruan tampilan antarmuka atau diingat antar-request."
+  },
+  {
+    "term": "sticky sessions",
+    "definition": "Pengaturan (session persistence) pada load balancer agar seluruh request dari satu klien yang sama selalu diarahkan ke server backend yang sama."
+  },
+  {
+    "term": "tail latency",
+    "definition": "Latensi dari persentase kecil request paling lambat (misal p95 dan p99) yang sering tersembunyi di balik nilai rata-rata."
+  },
+  {
+    "term": "transaction",
+    "definition": "Sekumpulan operasi database yang dieksekusi sebagai satu kesatuan utuh: berhasil semua (COMMIT) atau batal semua (ROLLBACK)."
+  },
+  {
+    "term": "vertical scaling",
+    "definition": "Menambah kapasitas sistem dengan memperbesar spesifikasi satu mesin (scaling up), seperti menambah core CPU atau RAM."
+  },
+  {
+    "term": "virtual ip",
+    "definition": "Alamat IP bersama milik load balancer yang diakses oleh klien dan dapat berpindah otomatis ke mesin cadangan saat failover."
+  }
+]

@@ -401,7 +401,7 @@ export function TestRunner({
     <div className="min-h-screen bg-canvas text-ink">
       {/* Minimal Sticky Focus Exam Header */}
       <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
+        <div className="flex w-full items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
           <div className="flex min-w-0 items-center gap-3">
             <button
               type="button"
@@ -461,14 +461,14 @@ export function TestRunner({
         </div>
       </header>
 
-      {/* Main Two-Column Exam Workspace (Left Navigation Card + Right Attached-Flag Question Card) */}
-      <main className="mx-auto flex max-w-6xl flex-col gap-5 px-4 py-6 sm:px-6 lg:flex-row lg:items-start lg:gap-6 lg:py-8">
+      {/* Main Two-Column Exam Workspace (Left Navigation Card + Right Dominant Question Card) */}
+      <main className="flex w-full flex-col gap-5 px-4 py-5 sm:px-6 lg:flex-row lg:items-start lg:gap-7 lg:px-8 lg:py-7">
         {/* Left Sticky Exam Navigation Card (Desktop) */}
         <aside className="sticky top-[84px] hidden w-[252px] shrink-0 rounded-2xl border border-line bg-surface p-5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none lg:block xl:w-[264px]">
           {navigatorGrid}
         </aside>
 
-        {/* Right Area: Compact Attached Question Flag + Question Surface */}
+        {/* Right Area: Compact Attached Question Flag + Dominant Question Surface */}
         <div className="flex min-w-0 flex-1 flex-col lg:flex-row lg:items-start">
           {/* Desktop Attached Question Flag ("Bendera" Info No Soal — compact, nempel di sisi kiri atas area soal) */}
           <aside
@@ -516,8 +516,8 @@ export function TestRunner({
             </button>
           </aside>
 
-          {/* Main Question Surface */}
-          <section className="relative z-[1] min-w-0 flex-1 overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none lg:-ml-px lg:rounded-tl-none">
+          {/* Main Question Surface — Dominan & Ukuran Tetap Stabil */}
+          <section className="relative z-[1] flex min-h-[540px] min-w-0 flex-1 flex-col justify-between overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none lg:-ml-px lg:min-h-[calc(100vh-132px)] lg:rounded-tl-none">
             {/* Mobile/Tablet Compact Attached Top Flag Strip */}
             <div className="flex flex-wrap items-center justify-between gap-2 bg-[#1B365D] px-4 py-3 text-white dark:bg-[#15294A] lg:hidden">
               <div className="flex items-center gap-2.5">
@@ -575,14 +575,14 @@ export function TestRunner({
             ) : null}
 
             {/* Question Content Body */}
-            <div key={currentQuestion.id} className="animate-step p-5 sm:p-7">
+            <div key={currentQuestion.id} className="animate-step flex-1 p-5 sm:p-8">
               {currentQuestion.type !== "TEXT" ? (
                 <div className="mb-3 flex items-center gap-2">
                   <QuestionTypeBadge type={currentQuestion.type} />
                 </div>
               ) : null}
 
-              <p className="max-w-[68ch] whitespace-pre-line text-base font-bold leading-relaxed text-ink sm:text-lg">
+              <p className="w-full break-words whitespace-pre-line text-base font-bold leading-relaxed text-ink sm:text-lg">
                 {currentQuestion.prompt}
               </p>
 

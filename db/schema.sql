@@ -177,4 +177,76 @@ CREATE TABLE IF NOT EXISTS english_progress (
 CREATE INDEX IF NOT EXISTS english_progress_user_review_idx
   ON english_progress (user_id, next_review_at);
 
+-- Fitur Belajar: Materi Roadmap Software Engineer (jalur, pelajaran, prasyarat, sumber, progres).
+CREATE TABLE IF NOT EXISTS learning_tracks (
+  id          SERIAL PRIMARY KEY,
+  slug        TEXT UNIQUE NOT NULL,
+  title       TEXT NOT NULL,
+  description TEXT,
+  sort_order  INTEGER NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS lessons (
+  id                SERIAL PRIMARY KEY,
+  track_id          INTEGER NOT NULL REFERENCES learning_tracks(id) ON DELETE CASCADE,
+  chapter           TEXT,
+  slug              TEXT UNIQUE NOT NULL,
+  title             TEXT NOT NULL,
+  level             TEXT NOT NULL CHECK (level IN ('pemula', 'menengah', 'lanjut')),
+  sort_order        INTEGER NOT NULL,
+  estimated_minutes INTEGER,
+  origin            TEXT NOT NULL CHECK (origin IN ('original', 'translated', 'mixed')),
+  status            TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'reviewed')),
+  body_md           TEXT NOT NULL,
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+ALTER TABLE lessons ADD COLUMN IF NOT EXISTS chapter TEXT;
+
+CREATE INDEX IF NOT EXISTS lessons_track_status_order_idx
+  ON lessons (track_id, status, sort_order);
+
+CREATE INDEX IF NOT EXISTS lessons_fts_idx
+  ON lessons USING GIN (to_tsvector('simple', coalesce(title, '') || ' ' || coalesce(body_md, '')));
+
+CREATE TABLE IF NOT EXISTS lesson_prerequisites (
+  lesson_id   INTEGER NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+  requires_id INTEGER NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+  PRIMARY KEY (lesson_id, requires_id)
+);
+
+CREATE TABLE IF NOT EXISTS lesson_sources (
+  id        SERIAL PRIMARY KEY,
+  lesson_id INTEGER NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+  title     TEXT NOT NULL,
+  url       TEXT NOT NULL,
+  license   TEXT,
+  author    TEXT,
+  changes   TEXT
+);
+
+CREATE INDEX IF NOT EXISTS lesson_sources_lesson_id_idx
+  ON lesson_sources (lesson_id);
+
+CREATE TABLE IF NOT EXISTS lesson_progress (
+  lesson_id  INTEGER NOT NULL REFERENCES lessons(id) ON DELETE CASCADE,
+  user_key   TEXT NOT NULL,
+  status     TEXT NOT NULL CHECK (status IN ('started', 'done')),
+  quiz_score INTEGER,
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (lesson_id, user_key)
+);
+
+CREATE INDEX IF NOT EXISTS lesson_progress_user_idx
+  ON lesson_progress (user_key);
+
+INSERT INTO learning_tracks (slug, title, description, sort_order) VALUES
+  ('fondasi', 'Fondasi Pemrograman & Web', 'Dasar cara kerja komputer, Git, terminal, HTTP, dan logika pemrograman.', 1),
+  ('frontend', 'Frontend Engineering', 'HTML semantik, CSS modern, JavaScript, TypeScript, dan arsitektur UI komponen.', 2),
+  ('backend', 'Backend Engineering', 'Server HTTP, REST API, autentikasi, validasi input, dan arsitektur layanan.', 3),
+  ('database', 'Database & SQL', 'Pemodelan relasional, query PostgreSQL, indeks, transaksi, dan migrasi skema.', 4),
+  ('devops', 'DevOps & Deployment', 'Linux dasar, container, CI/CD, pemantauan produksi, dan keamanan infrastruktur.', 5),
+  ('system-design', 'System Design', 'Arsitektur sistem berskala besar: Load Balancer, Scalability, Caching, Database Replication, dan High Availability.', 6)
+ON CONFLICT (slug) DO NOTHING;
+
 

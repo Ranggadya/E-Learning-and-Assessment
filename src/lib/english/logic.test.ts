@@ -10,6 +10,7 @@ import {
   isUndefinedTableError,
   isValidAnonUserId,
   normalizeKamusParams,
+  parseEnglishQuizProgressPayload,
   queryEnglishDictionaryRows,
   validateEnglishWordsJson,
   type EnglishQueryExecutor,
@@ -247,4 +248,40 @@ test("queryEnglishDictionaryRows menyusun ORDER BY LOWER(word) ASC, meng-escape 
     missingTableExecutor,
   );
   assert.deepEqual(emptyFallback, { items: [], total: 0, page: 1, pageSize: 50 });
+});
+
+test("parseEnglishQuizProgressPayload memvalidasi userId, batas INT4 wordId, dan mendeduplikasi wordId", () => {
+  const valid = parseEnglishQuizProgressPayload({
+    userId: "anon_user_123456",
+    results: [
+      { wordId: 10, known: false },
+      { wordId: 10, known: true },
+      { wordId: 25, known: false },
+    ],
+  });
+  assert.deepEqual(valid, {
+    userId: "anon_user_123456",
+    results: [
+      { wordId: 10, known: true },
+      { wordId: 25, known: false },
+    ],
+  });
+
+  assert.equal(parseEnglishQuizProgressPayload(null), null);
+  assert.equal(parseEnglishQuizProgressPayload({ userId: "short", results: [{ wordId: 1, known: true }] }), null);
+  assert.equal(parseEnglishQuizProgressPayload({ userId: "anon_user_123456", results: [] }), null);
+  assert.equal(
+    parseEnglishQuizProgressPayload({
+      userId: "anon_user_123456",
+      results: [{ wordId: 999999999999, known: true }],
+    }),
+    null,
+  );
+  assert.equal(
+    parseEnglishQuizProgressPayload({
+      userId: "anon_user_123456",
+      results: [{ wordId: 1, known: "yes" }],
+    }),
+    null,
+  );
 });

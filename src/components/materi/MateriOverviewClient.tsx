@@ -40,7 +40,6 @@ export function MateriOverviewClient({
 }: MateriOverviewClientProps) {
   const userId = useAnonUserId();
   const [overview, setOverview] = useState<EnglishProgressOverview>(initialOverview);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!userId || userId === initialUserId) return;
@@ -48,18 +47,15 @@ export function MateriOverviewClient({
     fetch(`/api/materi/progress?userId=${encodeURIComponent(userId)}`, {
       signal: controller.signal,
     })
-      .then((res) => res.json())
-      .then((data: { overview?: EnglishProgressOverview }) => {
-        if (!controller.signal.aborted && data.overview) {
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data: { overview?: EnglishProgressOverview } | null) => {
+        if (!controller.signal.aborted && data?.overview) {
           setOverview(data.overview);
         }
       })
       .catch((err: unknown) => {
         if (err instanceof DOMException && err.name === "AbortError") return;
         // Gunakan initialOverview jika jaringan gagal.
-      })
-      .finally(() => {
-        if (!controller.signal.aborted) setLoading(false);
       });
     return () => {
       controller.abort();
@@ -112,9 +108,6 @@ export function MateriOverviewClient({
               Disimpan otomatis di perangkat ini · {overview.learnedWords} dari {overview.totalWords} kata sudah dipelajari ({learnedPercent}%)
             </p>
           </div>
-          {loading ? (
-            <span className="text-xs font-medium text-ink-muted">Memuat progres...</span>
-          ) : null}
         </div>
 
         {/* Persentase Tiap Level CEFR */}

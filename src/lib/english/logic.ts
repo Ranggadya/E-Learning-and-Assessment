@@ -1,3 +1,4 @@
+import { parsePgInt4Id } from "@/lib/format";
 import type {
   CefrLevel,
   EnglishQuizQuestion,
@@ -273,6 +274,40 @@ function shuffleArray<T>(items: readonly T[]): T[] {
   return copy;
 }
 
+export function parseEnglishQuizProgressPayload(raw: unknown): {
+  userId: string;
+  results: Array<{ wordId: number; known: boolean }>;
+} | null {
+  if (!raw || typeof raw !== "object" || Array.isArray(raw)) {
+    return null;
+  }
+  const body = raw as { userId?: unknown; results?: unknown };
+  if (!isValidAnonUserId(body.userId) || !Array.isArray(body.results)) {
+    return null;
+  }
+  if (body.results.length === 0 || body.results.length > 50) {
+    return null;
+  }
+
+  const byWordId = new Map<number, boolean>();
+  for (const entry of body.results) {
+    if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+      return null;
+    }
+    const rec = entry as { wordId?: unknown; known?: unknown };
+    const wordId = parsePgInt4Id(rec.wordId);
+    if (wordId === null || typeof rec.known !== "boolean") {
+      return null;
+    }
+    byWordId.set(wordId, rec.known);
+  }
+
+  return {
+    userId: body.userId,
+    results: Array.from(byWordId, ([wordId, known]) => ({ wordId, known })),
+  };
+}
+
 export function buildQuizQuestionsFromPool(
   pool: EnglishWord[],
   count = 10,
@@ -281,24 +316,25 @@ export function buildQuizQuestionsFromPool(
     return [];
   }
 
-  const targets = shuffleArray(pool).slice(0, Math.min(count, pool.length));
+  const safeCount = Number.isFinite(count) ? Math.min(50, Math.max(1, Math.trunc(count))) : 10;
+  const targets = shuffleArray(pool).slice(0, Math.min(safeCount, pool.length));
 
   return targets.map((target, index) => {
     const direction: "en_to_id" | "id_to_en" = index % 2 === 0 ? "en_to_id" : "id_to_en";
     const valueOf = (w: EnglishWord) => (direction === "en_to_id" ? w.meaning_id : w.word);
     const correctAnswer = valueOf(target);
 
-    // Prioritas pengecoh: 1) pos sama & level sama, 2) pos sama, 3) level sama, 4) kata lain
-    const samePosAndCefr = pool.filter(
+    // Prioritas pengecoh dievaluasi malas (lazy) agar tidak memfilter 1.000 kata 4x bila grup pertama sudah cukup.
+    const candidatePredicates: Array<(w: EnglishWord) => boolean> = [
       (w) => w.id !== target.id && w.pos === target.pos && w.cefr === target.cefr,
-    );
-    const samePos = pool.filter((w) => w.id !== target.id && w.pos === target.pos);
-    const sameCefr = pool.filter((w) => w.id !== target.id && w.cefr === target.cefr);
-    const anyOther = pool.filter((w) => w.id !== target.id);
+      (w) => w.id !== target.id && w.pos === target.pos && w.cefr !== target.cefr,
+      (w) => w.id !== target.id && w.pos !== target.pos && w.cefr === target.cefr,
+      (w) => w.id !== target.id && w.pos !== target.pos && w.cefr !== target.cefr,
+    ];
 
     const distractorSet = new Set<string>();
-    for (const group of [samePosAndCefr, samePos, sameCefr, anyOther]) {
-      for (const candidate of shuffleArray(group)) {
+    for (const match of candidatePredicates) {
+      for (const candidate of shuffleArray(pool.filter(match))) {
         const val = valueOf(candidate);
         if (val !== correctAnswer) {
           distractorSet.add(val);

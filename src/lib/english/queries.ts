@@ -7,12 +7,10 @@ import type {
   EnglishQuizQuestion,
   EnglishWord,
   EnglishWordInput,
-  EnglishWordWithProgress,
 } from "@/types/english";
 import { CEFR_LEVELS, DEFAULT_ENGLISH_POS_LIST, ENGLISH_CACHE_TAG } from "./constants";
 import {
   buildQuizQuestionsFromPool,
-  computeNextLeitnerState,
   isCefrLevel,
   isUndefinedTableError,
   isValidAnonUserId,
@@ -206,12 +204,10 @@ export async function queryEnglishDictionary(params: {
 export async function getEnglishProgressOverview(
   userId: string | null,
 ): Promise<EnglishProgressOverview> {
-  const emptyBoxes: Record<1 | 2 | 3 | 4 | 5, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
   const emptyLevels: EnglishLevelSummary[] = CEFR_LEVELS.map((cefr) => ({
     cefr,
     total: 0,
     learned: 0,
-    mastered: 0,
     percent: 0,
   }));
 
@@ -224,94 +220,55 @@ export async function getEnglishProgressOverview(
         cefr,
         total: totalsByLevel[cefr] ?? 0,
         learned: 0,
-        mastered: 0,
         percent: 0,
       }));
       const totalWords = byLevel.reduce((acc, item) => acc + item.total, 0);
       return {
         totalWords,
         learnedWords: 0,
-        dueCount: 0,
-        boxCounts: emptyBoxes,
-        unseenCount: totalWords,
         byLevel,
       };
     }
 
-    const [levelRes, boxRes] = await Promise.all([
-      databasePool.query<{
-        cefr: CefrLevel;
-        learned: string;
-        mastered: string;
-      }>(
-        `
-        SELECT
-          w.cefr,
-          COUNT(*)::text AS learned,
-          COUNT(*) FILTER (WHERE p.box >= 4)::text AS mastered
-        FROM english_progress p
-        JOIN english_words w ON w.id = p.word_id
-        WHERE p.user_id = $1
-        GROUP BY w.cefr
-        `,
-        [validUser],
-      ),
-      databasePool.query<{
-        box: number;
-        cnt: string;
-        due_cnt: string;
-      }>(
-        `
-        SELECT
-          box,
-          COUNT(*)::text AS cnt,
-          COUNT(*) FILTER (WHERE next_review_at <= now())::text AS due_cnt
-        FROM english_progress
-        WHERE user_id = $1
-        GROUP BY box
-        `,
-        [validUser],
-      ),
-    ]);
+    const levelRes = await databasePool.query<{
+      cefr: CefrLevel;
+      learned: string;
+    }>(
+      `
+      SELECT
+        w.cefr,
+        COUNT(*)::text AS learned
+      FROM english_progress p
+      JOIN english_words w ON w.id = p.word_id
+      WHERE p.user_id = $1
+      GROUP BY w.cefr
+      `,
+      [validUser],
+    );
 
-    const progressMap = new Map<CefrLevel, { learned: number; mastered: number }>();
+    const learnedByCefr = new Map<CefrLevel, number>();
     for (const row of levelRes.rows) {
-      progressMap.set(row.cefr, {
-        learned: Number(row.learned),
-        mastered: Number(row.mastered),
-      });
+      learnedByCefr.set(row.cefr, Number(row.learned));
     }
 
     let totalWords = 0;
     let learnedWords = 0;
     const byLevel: EnglishLevelSummary[] = CEFR_LEVELS.map((cefr) => {
       const total = totalsByLevel[cefr] ?? 0;
-      const prog = progressMap.get(cefr) ?? { learned: 0, mastered: 0 };
+      const learned = learnedByCefr.get(cefr) ?? 0;
       totalWords += total;
-      learnedWords += prog.learned;
+      learnedWords += learned;
       return {
         cefr,
         total,
-        learned: prog.learned,
-        mastered: prog.mastered,
-        percent: total > 0 ? Math.round((prog.learned / total) * 100) : 0,
+        learned,
+        percent: total > 0 ? Math.round((learned / total) * 100) : 0,
       };
     });
-
-    let dueCount = 0;
-    for (const row of boxRes.rows) {
-      if (row.box >= 1 && row.box <= 5) {
-        emptyBoxes[row.box as 1 | 2 | 3 | 4 | 5] = Number(row.cnt);
-      }
-      dueCount += Number(row.due_cnt);
-    }
 
     return {
       totalWords,
       learnedWords,
-      dueCount,
-      boxCounts: emptyBoxes,
-      unseenCount: Math.max(0, totalWords - learnedWords),
       byLevel,
     };
   } catch (error) {
@@ -319,9 +276,6 @@ export async function getEnglishProgressOverview(
       return {
         totalWords: 0,
         learnedWords: 0,
-        dueCount: 0,
-        boxCounts: emptyBoxes,
-        unseenCount: 0,
         byLevel: emptyLevels,
       };
     }
@@ -329,99 +283,50 @@ export async function getEnglishProgressOverview(
   }
 }
 
-export async function getStudyQueue(params: {
-  userId: string;
-  cefr?: string;
-  newLimit?: number;
-}): Promise<{ dueWords: EnglishWordWithProgress[]; newWords: EnglishWordWithProgress[] }> {
-  const newLimit = Math.min(50, Math.max(1, params.newLimit ?? 10));
-  const filterCefr = params.cefr && isCefrLevel(params.cefr) ? params.cefr : null;
+export async function recordEnglishQuizProgress(
+  userId: string,
+  results: Array<{ wordId: number; known: boolean }>,
+): Promise<{ updatedCount: number }> {
+  if (results.length === 0) {
+    return { updatedCount: 0 };
+  }
+
+  const wordIds = results.map((r) => r.wordId);
+  const knownFlags = results.map((r) => r.known);
 
   try {
-    const [dueRes, newRes] = await Promise.all([
-      databasePool.query<EnglishWordWithProgress>(
-        `
-        SELECT
-          w.id, w.no, w.word, w.pos, w.meaning_id, w.example_en, w.example_id, w.cefr,
-          p.box, p.next_review_at::text AS next_review_at, p.correct_count, p.wrong_count
-        FROM english_progress p
-        JOIN english_words w ON w.id = p.word_id
-        WHERE p.user_id = $1
-          AND p.next_review_at <= now()
-          AND ($2::text IS NULL OR w.cefr = $2)
-        ORDER BY p.next_review_at ASC, w.no ASC
-        LIMIT 100
-        `,
-        [params.userId, filterCefr],
-      ),
-      databasePool.query<EnglishWordWithProgress>(
-        `
-        SELECT
-          w.id, w.no, w.word, w.pos, w.meaning_id, w.example_en, w.example_id, w.cefr,
-          NULL::int AS box, NULL::text AS next_review_at, 0 AS correct_count, 0 AS wrong_count
-        FROM english_words w
-        LEFT JOIN english_progress p ON p.word_id = w.id AND p.user_id = $1
-        WHERE p.word_id IS NULL
-          AND ($2::text IS NULL OR w.cefr = $2)
-        ORDER BY w.no ASC
-        LIMIT $3
-        `,
-        [params.userId, filterCefr, newLimit],
-      ),
-    ]);
-
-    return {
-      dueWords: dueRes.rows,
-      newWords: newRes.rows,
-    };
+    const res = await databasePool.query(
+      `
+      INSERT INTO english_progress (user_id, word_id, box, next_review_at, correct_count, wrong_count)
+      SELECT
+        $1,
+        w.id,
+        CASE WHEN u.known THEN 2 ELSE 1 END,
+        now() + (CASE WHEN u.known THEN 2 ELSE 1 END) * INTERVAL '1 day',
+        CASE WHEN u.known THEN 1 ELSE 0 END,
+        CASE WHEN u.known THEN 0 ELSE 1 END
+      FROM UNNEST($2::int[], $3::bool[]) AS u(word_id, known)
+      JOIN english_words w ON w.id = u.word_id
+      ON CONFLICT (user_id, word_id) DO UPDATE SET
+        box            = CASE WHEN EXCLUDED.correct_count = 1 THEN LEAST(5, english_progress.box + 1) ELSE 1 END,
+        next_review_at = now() + (
+          CASE
+            WHEN EXCLUDED.correct_count = 1 THEN (ARRAY[1, 2, 4, 8, 16])[LEAST(5, english_progress.box + 1)]
+            ELSE 1
+          END
+        ) * INTERVAL '1 day',
+        correct_count  = english_progress.correct_count + EXCLUDED.correct_count,
+        wrong_count    = english_progress.wrong_count + EXCLUDED.wrong_count
+      `,
+      [userId, wordIds, knownFlags],
+    );
+    return { updatedCount: res.rowCount ?? 0 };
   } catch (error) {
     if (isUndefinedTableError(error)) {
-      return { dueWords: [], newWords: [] };
+      return { updatedCount: 0 };
     }
     throw error;
   }
-}
-
-export async function recordFlashcardReview(params: {
-  userId: string;
-  wordId: number;
-  known: boolean;
-}): Promise<{ box: number; intervalDays: number; nextReviewAt: string }> {
-  const existingRes = await databasePool.query<{ box: number }>(
-    `SELECT box FROM english_progress WHERE user_id = $1 AND word_id = $2`,
-    [params.userId, params.wordId],
-  );
-  const currentBox = existingRes.rows[0]?.box ?? null;
-  const { nextBox, intervalDays, nextReviewAt } = computeNextLeitnerState(
-    currentBox,
-    params.known,
-  );
-
-  await databasePool.query(
-    `
-    INSERT INTO english_progress (user_id, word_id, box, next_review_at, correct_count, wrong_count)
-    VALUES ($1, $2, $3, $4, $5, $6)
-    ON CONFLICT (user_id, word_id) DO UPDATE SET
-      box            = $3,
-      next_review_at = $4,
-      correct_count  = english_progress.correct_count + $5,
-      wrong_count    = english_progress.wrong_count + $6
-    `,
-    [
-      params.userId,
-      params.wordId,
-      nextBox,
-      nextReviewAt.toISOString(),
-      params.known ? 1 : 0,
-      params.known ? 0 : 1,
-    ],
-  );
-
-  return {
-    box: nextBox,
-    intervalDays,
-    nextReviewAt: nextReviewAt.toISOString(),
-  };
 }
 
 export async function generateEnglishQuiz(params: {

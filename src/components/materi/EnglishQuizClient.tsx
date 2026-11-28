@@ -9,6 +9,7 @@ import {
   IconXCircle,
 } from "@/components/ui/Icons";
 import { LevelBadge } from "@/components/ui/QuestionTypeBadge";
+import { useAnonUserId } from "@/lib/client/anon-user";
 import { CEFR_LEVELS } from "@/lib/english/constants";
 import type { CefrLevel, EnglishQuizQuestion } from "@/types/english";
 
@@ -21,6 +22,7 @@ export function EnglishQuizClient({
   initialCefr,
   initialQuestions,
 }: EnglishQuizClientProps) {
+  const userId = useAnonUserId();
   const [cefr, setCefr] = useState<CefrLevel | "">(initialCefr);
   const [reloadTick, setReloadTick] = useState(0);
   const [questions, setQuestions] = useState<EnglishQuizQuestion[]>(initialQuestions);
@@ -28,6 +30,7 @@ export function EnglishQuizClient({
   const [currentIdx, setCurrentIdx] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const skipInitialFetchRef = useRef(true);
 
   useEffect(() => {
@@ -38,16 +41,23 @@ export function EnglishQuizClient({
     const controller = new AbortController();
     const qs = cefr ? `?cefr=${cefr}` : "";
     fetch(`/api/materi/quiz${qs}`, { signal: controller.signal })
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(`HTTP ${res.status}`);
+        }
+        return res.json();
+      })
       .then((data: { questions?: EnglishQuizQuestion[] }) => {
         if (controller.signal.aborted) return;
         setQuestions(data.questions ?? []);
         setAnswers({});
         setCurrentIdx(0);
         setSubmitted(false);
+        setErrorMessage(null);
       })
       .catch((err: unknown) => {
         if (err instanceof DOMException && err.name === "AbortError") return;
+        setErrorMessage("Gagal memuat soal kuis. Periksa koneksi lalu coba lagi.");
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
@@ -65,13 +75,31 @@ export function EnglishQuizClient({
   }
 
   function handleSelectCefr(next: CefrLevel | "") {
+    setErrorMessage(null);
     setLoading(true);
     setCefr(next);
   }
 
   function handleNewQuiz() {
+    setErrorMessage(null);
     setLoading(true);
     setReloadTick((t) => t + 1);
+  }
+
+  function handleFinishQuiz() {
+    setSubmitted(true);
+    if (!userId || questions.length === 0) return;
+    const results = questions.map((q, idx) => ({
+      wordId: q.wordId,
+      known: answers[idx] === q.correctAnswer,
+    }));
+    fetch("/api/materi/study", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId, results }),
+    }).catch(() => {
+      // Progres bersifat best-effort agar hasil kuis tetap langsung tampil.
+    });
   }
 
   useEffect(() => {
@@ -155,6 +183,18 @@ export function EnglishQuizClient({
       {loading ? (
         <div className="rounded-2xl border border-line bg-surface p-10 text-center text-sm text-ink-secondary shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
           Menyusun 10 soal kuis acak...
+        </div>
+      ) : errorMessage ? (
+        <div className="rounded-2xl border border-line bg-surface p-8 text-center shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
+          <p className="text-sm font-medium text-ink-secondary">{errorMessage}</p>
+          <button
+            type="button"
+            onClick={handleNewQuiz}
+            className="mt-4 inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
+          >
+            <IconRotateCcw className="h-3.5 w-3.5" />
+            <span>Coba Lagi</span>
+          </button>
         </div>
       ) : questions.length === 0 ? (
         <div className="rounded-2xl border border-line bg-surface p-8 text-center text-sm text-ink-secondary shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
@@ -332,7 +372,7 @@ export function EnglishQuizClient({
               ) : (
                 <button
                   type="button"
-                  onClick={() => setSubmitted(true)}
+                  onClick={handleFinishQuiz}
                   className="min-h-[40px] rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
                 >
                   Selesai &amp; Lihat Hasil

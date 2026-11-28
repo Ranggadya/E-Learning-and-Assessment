@@ -26,13 +26,6 @@ interface DashboardRightPanelProps {
   initialNowIso: string;
 }
 
-const UPCOMING_TILE_TONES = [
-  "bg-purple-50 text-purple-600 dark:bg-purple-950/60 dark:text-purple-300",
-  "bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300",
-  "bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300",
-  "bg-cyan-50 text-cyan-700 dark:bg-cyan-950/60 dark:text-cyan-300",
-] as const;
-
 function renderSubtestIcon(kind: SubtestKind) {
   switch (kind) {
     case "PAULI":
@@ -117,102 +110,96 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
   return (
     <div className="flex min-h-full flex-col justify-between gap-6">
       <div className="space-y-6">
-        {/* Blok 1: Profil Peserta Lokal */}
+        {/* Blok 1: Profil Peserta Lokal (Ringkas & Horizontal) */}
         <section aria-labelledby="local-profile-heading">
-          <div className="flex items-center justify-between gap-2">
-            <h2 id="local-profile-heading" className="text-lg font-bold tracking-tight text-ink">
-              Profil
-            </h2>
+          <div className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-canvas/70 p-3.5">
+            <div className="flex min-w-0 items-center gap-3">
+              <div
+                aria-hidden="true"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-sm font-extrabold tracking-tight text-brand-text"
+              >
+                {avatarMonogram}
+              </div>
+              <div className="min-w-0">
+                <h2 id="local-profile-heading" className="truncate text-sm font-bold text-ink">
+                  {profile.displayName}
+                </h2>
+                <p className="mt-0.5 truncate text-xs font-medium text-ink-muted">
+                  {profile.roleTitle}
+                </p>
+              </div>
+            </div>
+
             <button
               ref={editButtonRef}
               type="button"
               onClick={handleToggleEdit}
               aria-label="Edit profil lokal"
               aria-expanded={editing}
-              className="inline-flex min-h-[40px] min-w-[40px] items-center justify-center rounded-xl text-ink-secondary transition hover:bg-subtle hover:text-ink"
+              className="inline-flex min-h-[36px] min-w-[36px] shrink-0 items-center justify-center rounded-xl text-ink-secondary transition hover:bg-subtle hover:text-ink"
             >
               <IconEdit className="h-4 w-4" />
             </button>
           </div>
 
-          <div className="mt-3 flex flex-col items-center text-center">
-            <div
-              aria-hidden="true"
-              className="flex h-20 w-20 items-center justify-center rounded-full border-2 border-brand p-1"
+          {editing ? (
+            <form
+              onSubmit={handleSubmitProfile}
+              onKeyDown={handleFormKeyDown}
+              className="mt-2.5 rounded-2xl border border-line bg-surface p-3.5 space-y-2.5 text-left"
             >
-              <div className="flex h-full w-full items-center justify-center rounded-full bg-brand-soft text-xl font-extrabold tracking-tight text-brand-text">
-                {avatarMonogram}
+              <div>
+                <label
+                  htmlFor="local-profile-name"
+                  className="block text-xs font-semibold text-ink-secondary"
+                >
+                  Nama
+                </label>
+                <input
+                  id="local-profile-name"
+                  ref={nameInputRef}
+                  type="text"
+                  value={draftName}
+                  onChange={(event) => setDraftName(event.target.value)}
+                  maxLength={40}
+                  placeholder="Peserta Mandiri"
+                  className="mt-1 w-full rounded-xl border border-line-strong bg-canvas px-3 py-2 text-xs font-medium text-ink placeholder:text-ink-muted focus:border-brand focus-visible:outline-2 focus-visible:outline-brand"
+                />
               </div>
-            </div>
-
-            {editing ? (
-              <form
-                onSubmit={handleSubmitProfile}
-                onKeyDown={handleFormKeyDown}
-                className="mt-3 w-full space-y-2.5 text-left"
-              >
-                <div>
-                  <label
-                    htmlFor="local-profile-name"
-                    className="block text-xs font-semibold text-ink-secondary"
-                  >
-                    Nama
-                  </label>
-                  <input
-                    id="local-profile-name"
-                    ref={nameInputRef}
-                    type="text"
-                    value={draftName}
-                    onChange={(event) => setDraftName(event.target.value)}
-                    maxLength={40}
-                    placeholder="Peserta Mandiri"
-                    className="mt-1 w-full rounded-xl border border-line-strong bg-canvas px-3 py-2 text-xs font-medium text-ink placeholder:text-ink-muted focus:border-brand focus-visible:outline-2 focus-visible:outline-brand"
-                  />
-                </div>
-                <div>
-                  <label
-                    htmlFor="local-profile-role"
-                    className="block text-xs font-semibold text-ink-secondary"
-                  >
-                    Target Posisi
-                  </label>
-                  <input
-                    id="local-profile-role"
-                    type="text"
-                    value={draftRole}
-                    onChange={(event) => setDraftRole(event.target.value)}
-                    maxLength={50}
-                    placeholder="Persiapan Seleksi Kerja"
-                    className="mt-1 w-full rounded-xl border border-line-strong bg-canvas px-3 py-2 text-xs font-medium text-ink placeholder:text-ink-muted focus:border-brand focus-visible:outline-2 focus-visible:outline-brand"
-                  />
-                </div>
-                <div className="flex items-center gap-2 pt-1">
-                  <button
-                    type="submit"
-                    className="inline-flex min-h-[36px] flex-1 items-center justify-center rounded-xl bg-brand px-3 py-1.5 text-xs font-bold text-white transition hover:bg-brand-hover"
-                  >
-                    Simpan
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setEditing(false)}
-                    className="inline-flex min-h-[36px] flex-1 items-center justify-center rounded-xl border border-line-strong bg-surface px-3 py-1.5 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
-                  >
-                    Batal
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <>
-                <p className="mt-3 max-w-full truncate text-sm font-bold text-ink">
-                  {profile.displayName}
-                </p>
-                <p className="mt-0.5 max-w-full truncate text-xs font-medium text-ink-muted">
-                  {profile.roleTitle}
-                </p>
-              </>
-            )}
-          </div>
+              <div>
+                <label
+                  htmlFor="local-profile-role"
+                  className="block text-xs font-semibold text-ink-secondary"
+                >
+                  Target Posisi
+                </label>
+                <input
+                  id="local-profile-role"
+                  type="text"
+                  value={draftRole}
+                  onChange={(event) => setDraftRole(event.target.value)}
+                  maxLength={50}
+                  placeholder="Persiapan Seleksi Kerja"
+                  className="mt-1 w-full rounded-xl border border-line-strong bg-canvas px-3 py-2 text-xs font-medium text-ink placeholder:text-ink-muted focus:border-brand focus-visible:outline-2 focus-visible:outline-brand"
+                />
+              </div>
+              <div className="flex items-center gap-2 pt-1">
+                <button
+                  type="submit"
+                  className="inline-flex min-h-[36px] flex-1 items-center justify-center rounded-xl bg-brand px-3 py-1.5 text-xs font-bold text-white transition hover:bg-brand-hover"
+                >
+                  Simpan
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setEditing(false)}
+                  className="inline-flex min-h-[36px] flex-1 items-center justify-center rounded-xl border border-line-strong bg-surface px-3 py-1.5 text-xs font-semibold text-ink-secondary transition hover:bg-subtle hover:text-ink"
+                >
+                  Batal
+                </button>
+              </div>
+            </form>
+          ) : null}
         </section>
 
         {/* Blok 2: Kalender Mingguan */}
@@ -297,8 +284,8 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
           </div>
 
           {upcoming.length > 0 ? (
-            <ul className="space-y-2.5">
-              {upcoming.map((item, index) => (
+            <ul className="space-y-2">
+              {upcoming.map((item) => (
                 <li key={item.subtestId}>
                   <Link
                     href={`/test/${item.subtestId}`}
@@ -307,9 +294,7 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
                     <div className="flex min-w-0 items-center gap-3">
                       <span
                         aria-hidden="true"
-                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${
-                          UPCOMING_TILE_TONES[index % UPCOMING_TILE_TONES.length]
-                        }`}
+                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-subtle text-ink-secondary transition group-hover:bg-brand-soft group-hover:text-brand-text"
                       >
                         {renderSubtestIcon(item.kind)}
                       </span>
@@ -354,20 +339,25 @@ export function DashboardRightPanel({ catalog, initialNowIso }: DashboardRightPa
       {/* Blok 4: Kartu Materi Inggris */}
       <section
         aria-label="Materi Bahasa Inggris"
-        className="rounded-2xl border border-brand/20 bg-brand-soft p-4 text-center"
+        className="rounded-2xl border border-line bg-canvas/70 p-4"
       >
-        <div
-          aria-hidden="true"
-          className="mx-auto mb-2.5 flex h-10 w-10 items-center justify-center rounded-xl bg-surface text-brand shadow-xs"
-        >
-          <IconBookOpen className="h-5 w-5" />
+        <div className="flex items-start gap-3">
+          <div
+            aria-hidden="true"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand-text"
+          >
+            <IconBookOpen className="h-4 w-4" />
+          </div>
+          <div className="min-w-0">
+            <p className="text-xs font-bold text-ink">Kamus &amp; Kuis Bahasa Inggris</p>
+            <p className="mt-0.5 text-xs leading-relaxed text-ink-secondary">
+              1.000 kosakata inti (CEFR A1–C1) untuk persiapan seleksi kerja.
+            </p>
+          </div>
         </div>
-        <p className="text-xs font-bold leading-relaxed text-ink">
-          Kuasai 1.000 kosakata bahasa Inggris (CEFR A1–C1) untuk tes seleksi
-        </p>
         <Link
           href="/materi"
-          className="mt-3 inline-flex min-h-[40px] w-full items-center justify-center rounded-xl bg-brand px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-brand-hover"
+          className="mt-3 inline-flex min-h-[36px] w-full items-center justify-center rounded-xl border border-line-strong bg-surface px-3.5 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
         >
           Buka Materi Inggris
         </Link>

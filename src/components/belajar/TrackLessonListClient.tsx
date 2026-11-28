@@ -75,6 +75,18 @@ export function TrackLessonListClient({
     return groups;
   }, [lessons]);
 
+  const nextRecommendedLessonId = useMemo<number | null>(() => {
+    for (const lesson of lessons) {
+      if (lesson.progressStatus === "done") continue;
+      const isBypassed = bypassedSlugs.includes(lesson.slug);
+      const isLocked = lesson.unmetPrerequisites.length > 0 && !isBypassed;
+      if (!isLocked) {
+        return lesson.id;
+      }
+    }
+    return null;
+  }, [lessons, bypassedSlugs]);
+
   if (lessons.length === 0) {
     return (
       <div className="rounded-2xl border border-line bg-surface p-6 text-center">
@@ -113,8 +125,8 @@ export function TrackLessonListClient({
               className="flex w-full items-center justify-between gap-4 border-b border-line bg-canvas/80 px-5 py-4 text-left transition hover:bg-subtle/60"
             >
               <div className="min-w-0 flex-1">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-soft px-2.5 py-0.5 text-xs font-extrabold text-brand-text">
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <span className="inline-flex items-center gap-1.5 rounded-md bg-brand-soft px-2.5 py-0.5 text-xs font-bold text-brand-text">
                     <IconLayers className="h-3.5 w-3.5" />
                     <span>Bab {groupIdx + 1}</span>
                   </span>
@@ -124,7 +136,7 @@ export function TrackLessonListClient({
                   {totalMinutes > 0 ? (
                     <span className="inline-flex items-center gap-1 text-xs text-ink-muted tabular-nums">
                       <IconClock className="h-3.5 w-3.5" />
-                      <span>Total {totalMinutes} mnt</span>
+                      <span>~{totalMinutes} mnt</span>
                     </span>
                   ) : null}
                 </div>
@@ -159,71 +171,83 @@ export function TrackLessonListClient({
                   const isBypassed = bypassedSlugs.includes(lesson.slug);
                   const isLocked =
                     !isDone && lesson.unmetPrerequisites.length > 0 && !isBypassed;
+                  const isNextRecommended = lesson.id === nextRecommendedLessonId;
 
                   return (
                     <li
                       key={lesson.id}
-                      className="flex flex-col gap-3 p-4 transition hover:bg-canvas/60 sm:flex-row sm:items-center sm:justify-between sm:px-6 sm:py-4"
+                      className="flex flex-col gap-3 p-4 transition hover:bg-subtle/45 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-4"
                     >
-                      <div className="min-w-0 flex-1">
-                        <div className="flex flex-wrap items-center gap-2">
-                          <span className="rounded-md bg-subtle px-2 py-0.5 font-mono text-xs font-bold tabular-nums text-ink-secondary">
-                            Subbab {groupIdx + 1}.{subIdx + 1}
-                          </span>
+                      <div className="flex min-w-0 flex-1 items-start gap-3.5">
+                        <span
+                          className={`mt-0.5 flex h-8 min-w-8 shrink-0 items-center justify-center rounded-xl px-1.5 font-mono text-xs font-bold tabular-nums ${
+                            isDone
+                              ? "bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
+                              : isNextRecommended
+                                ? "bg-brand-soft text-brand-text"
+                                : "bg-subtle text-ink-secondary"
+                          }`}
+                        >
                           {isDone ? (
-                            <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs font-bold text-emerald-800 dark:border-emerald-800/70 dark:bg-emerald-950/60 dark:text-emerald-300">
-                              <IconCheckCircle className="h-3.5 w-3.5" />
-                              <span>Selesai</span>
-                            </span>
-                          ) : isLocked ? (
-                            <span className="inline-flex items-center rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs font-bold text-amber-800 dark:border-amber-800/70 dark:bg-amber-950/60 dark:text-amber-300">
-                              Terkunci
-                            </span>
+                            <IconCheckCircle className="h-4 w-4" />
                           ) : (
-                            <span className="inline-flex items-center rounded-md border border-brand/30 bg-brand-soft px-2 py-0.5 text-xs font-bold text-brand-text">
-                              Bisa dimulai
-                            </span>
+                            `${groupIdx + 1}.${subIdx + 1}`
                           )}
+                        </span>
 
-                          <span className="rounded-md bg-subtle px-2 py-0.5 text-xs font-medium text-ink-secondary">
-                            {LESSON_LEVEL_LABEL[lesson.level]}
-                          </span>
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="text-base font-semibold text-ink">{lesson.title}</h3>
+                            {isDone ? (
+                              <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-xs font-semibold text-emerald-800 dark:border-emerald-800/70 dark:bg-emerald-950/60 dark:text-emerald-300">
+                                Selesai
+                              </span>
+                            ) : isLocked ? (
+                              <span className="inline-flex items-center rounded-md border border-amber-200 bg-amber-50 px-2 py-0.5 text-xs font-semibold text-amber-800 dark:border-amber-800/70 dark:bg-amber-950/60 dark:text-amber-300">
+                                Terkunci
+                              </span>
+                            ) : isNextRecommended ? (
+                              <span className="inline-flex items-center rounded-md border border-brand/30 bg-brand-soft px-2 py-0.5 text-xs font-semibold text-brand-text">
+                                Berikutnya
+                              </span>
+                            ) : null}
+                          </div>
 
-                          {lesson.estimatedMinutes ? (
-                            <span className="inline-flex items-center gap-1 text-xs text-ink-muted tabular-nums">
-                              <IconClock className="h-3.5 w-3.5" />
-                              <span>{lesson.estimatedMinutes} mnt</span>
-                            </span>
-                          ) : null}
+                          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-muted">
+                            <span>{LESSON_LEVEL_LABEL[lesson.level]}</span>
+                            {lesson.estimatedMinutes ? (
+                              <span className="inline-flex items-center gap-1 tabular-nums">
+                                <IconClock className="h-3.5 w-3.5" />
+                                <span>{lesson.estimatedMinutes} menit baca</span>
+                              </span>
+                            ) : null}
+                            {lesson.quizScore !== null ? (
+                              <span className="font-mono font-semibold tabular-nums text-ink-secondary">
+                                Kuis: {lesson.quizScore}%
+                              </span>
+                            ) : null}
+                          </div>
 
-                          {lesson.quizScore !== null ? (
-                            <span className="font-mono text-xs font-semibold tabular-nums text-ink-secondary">
-                              Kuis: {lesson.quizScore}%
-                            </span>
+                          {lesson.unmetPrerequisites.length > 0 ? (
+                            <p className="mt-1.5 text-xs text-ink-muted">
+                              Prasyarat belum selesai:{" "}
+                              {lesson.unmetPrerequisites.map((req, rIdx) => (
+                                <span key={req.id}>
+                                  {rIdx > 0 ? ", " : ""}
+                                  <Link
+                                    href={`/belajar/${req.trackSlug}/${req.slug}`}
+                                    className="font-semibold text-brand-text hover:underline"
+                                  >
+                                    {req.title}
+                                  </Link>
+                                </span>
+                              ))}
+                            </p>
                           ) : null}
                         </div>
-
-                        <h3 className="mt-1.5 text-base font-bold text-ink">{lesson.title}</h3>
-
-                        {lesson.unmetPrerequisites.length > 0 ? (
-                          <p className="mt-1 text-xs text-ink-muted">
-                            Prasyarat belum selesai:{" "}
-                            {lesson.unmetPrerequisites.map((req, rIdx) => (
-                              <span key={req.id}>
-                                {rIdx > 0 ? ", " : ""}
-                                <Link
-                                  href={`/belajar/${req.trackSlug}/${req.slug}`}
-                                  className="font-semibold text-brand-text hover:underline"
-                                >
-                                  {req.title}
-                                </Link>
-                              </span>
-                            ))}
-                          </p>
-                        ) : null}
                       </div>
 
-                      <div className="flex shrink-0 flex-wrap items-center gap-2">
+                      <div className="flex shrink-0 flex-wrap items-center gap-2 sm:pl-4">
                         {isLocked ? (
                           <button
                             type="button"
@@ -235,10 +259,10 @@ export function TrackLessonListClient({
                         ) : (
                           <Link
                             href={`/belajar/${trackSlug}/${lesson.slug}`}
-                            className={`inline-flex min-h-[40px] items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold transition ${
-                              isDone
-                                ? "border border-line-strong bg-surface text-ink hover:bg-subtle"
-                                : "bg-brand text-white hover:bg-brand-hover"
+                            className={`inline-flex min-h-[40px] w-full items-center justify-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold transition sm:w-auto ${
+                              isNextRecommended
+                                ? "bg-brand text-white hover:bg-brand-hover"
+                                : "border border-line-strong bg-surface text-ink hover:bg-subtle"
                             }`}
                           >
                             <span>{isDone ? "Baca Ulang" : "Baca Subbab"}</span>

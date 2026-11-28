@@ -98,10 +98,10 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
           <span className="font-medium text-ink">Hasil</span>
         </nav>
 
-        <section className="overflow-hidden rounded-xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)] sm:p-6">
+        <section className="overflow-hidden rounded-2xl border border-line bg-surface p-5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none sm:p-6">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-ink">Hasil: {result.subtestName}</h1>
+              <h1 className="text-2xl font-extrabold tracking-tight text-ink">Hasil: {result.subtestName}</h1>
               <p className="mt-1 text-sm text-ink-secondary">
                 {result.companyName} · {result.packageName}
               </p>
@@ -109,14 +109,14 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
             <div className="flex flex-wrap items-center gap-2.5">
               <Link
                 href={`/c/${result.companySlug}/${result.packageSlug}`}
-                className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl border border-line-strong bg-surface px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
               >
                 <IconArrowLeft className="h-4 w-4" />
                 <span>Kembali ke Subtes</span>
               </Link>
               <Link
                 href={`/test/${result.subtestId}`}
-                className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
+                className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
               >
                 <IconRotateCcw className="h-4 w-4" />
                 <span>Ulangi Subtes</span>
@@ -135,7 +135,7 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
               {nonQuiz.traits.map((trait) => (
                 <div
                   key={trait.key}
-                  className="rounded-xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+                  className="rounded-2xl border border-line bg-surface p-5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <h2 className="text-base font-semibold text-ink">{trait.name}</h2>
@@ -155,25 +155,25 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
         ) : nonQuiz.kind === "PAULI" ? (
           <section className="space-y-4">
             <div className="grid gap-3 sm:grid-cols-3">
-              <div className="rounded-xl border border-line bg-surface p-4">
+              <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
                 <span className="text-xs text-ink-muted">Total Dijawab</span>
                 <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-ink">{nonQuiz.totalAnswered}</p>
               </div>
-              <div className="rounded-xl border border-line bg-surface p-4">
+              <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
                 <span className="text-xs text-ink-muted">Jawaban Benar</span>
                 <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-emerald-700 dark:text-emerald-300">
                   {nonQuiz.totalCorrect}
                 </p>
               </div>
-              <div className="rounded-xl border border-line bg-surface p-4">
+              <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
                 <span className="text-xs text-ink-muted">Ketelitian</span>
                 <p className="mt-1 font-mono text-2xl font-bold tabular-nums text-brand-text">{nonQuiz.accuracy}%</p>
               </div>
             </div>
 
-            <div className="overflow-hidden rounded-xl border border-line bg-surface">
+            <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
               <table className="w-full text-left text-sm">
-                <thead className="border-b border-line bg-subtle/60 text-xs text-ink-muted">
+                <thead className="border-b border-line bg-canvas text-xs text-ink-muted">
                   <tr>
                     <th className="px-4 py-2.5">Kolom</th>
                     <th className="px-4 py-2.5">Dijawab</th>
@@ -201,7 +201,7 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
           <section className="space-y-6">
             <div className="grid gap-4 md:grid-cols-3">
               {nonQuiz.drawings.map((item) => (
-                <div key={item.key} className="overflow-hidden rounded-xl border border-line bg-surface p-4">
+                <div key={item.key} className="overflow-hidden rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
                   <h2 className="text-sm font-semibold text-ink">{item.title}</h2>
                   <p className="mt-0.5 text-xs text-ink-muted">{item.instruction}</p>
                   {item.dataUrl ? (
@@ -209,10 +209,10 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                     <img
                       src={item.dataUrl}
                       alt={item.title}
-                      className="mt-3 w-full rounded-lg border border-line bg-white"
+                      className="mt-3 w-full rounded-xl border border-line bg-white"
                     />
                   ) : (
-                    <div className="mt-3 rounded-lg border border-dashed border-line p-6 text-center text-xs text-ink-muted">
+                    <div className="mt-3 rounded-xl border border-dashed border-line p-6 text-center text-xs text-ink-muted">
                       Tidak ada gambar
                     </div>
                   )}
@@ -221,7 +221,7 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
             </div>
 
             {nonQuiz.reflection.length > 0 ? (
-              <div className="rounded-xl border border-line bg-surface p-5">
+              <div className="rounded-2xl border border-line bg-surface p-5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
                 <h2 className="text-base font-semibold text-ink">Daftar Refleksi Mandiri</h2>
                 <ul className="mt-3 space-y-2 text-sm text-ink-secondary">
                   {nonQuiz.reflection.map((item, idx) => (
@@ -267,10 +267,10 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
       </nav>
 
       {/* Score Summary Panel */}
-      <section className="overflow-hidden rounded-xl border border-line bg-surface shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+      <section className="overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none">
         <div className="flex flex-col gap-5 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
           <div>
-            <h1 className="text-2xl font-bold tracking-tight text-ink">
+            <h1 className="text-2xl font-extrabold tracking-tight text-ink">
               Hasil: {result.subtestName}
             </h1>
             <p className="mt-1 text-sm text-ink-secondary">
@@ -281,7 +281,7 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
             </p>
           </div>
 
-          <div className="flex items-baseline gap-4 rounded-xl border border-line bg-canvas px-5 py-4 sm:min-w-[200px] sm:justify-center">
+          <div className="flex items-baseline gap-4 rounded-xl bg-canvas px-5 py-4 sm:min-w-[200px] sm:justify-center">
             <div className="font-mono text-4xl font-bold tabular-nums text-brand-text">
               {result.score}
               <span className="text-xl font-medium text-ink-muted"> / {result.totalQuestions}</span>
@@ -292,8 +292,8 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
           </div>
         </div>
 
-        <div className="flex flex-col gap-4 border-t border-line bg-subtle/40 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <div className="flex flex-wrap items-center gap-3 text-xs font-medium">
+        <div className="flex flex-col gap-4 border-t border-line bg-canvas/70 px-5 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div className="flex flex-wrap items-center gap-2.5 text-xs font-medium">
             <span className="inline-flex items-center gap-1.5 rounded-md border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-emerald-800 dark:border-emerald-800/80 dark:bg-emerald-950/60 dark:text-emerald-300">
               <IconCheckCircle className="h-3.5 w-3.5" />
               <span className="tabular-nums">Benar: {counts.correct}</span>
@@ -311,14 +311,14 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
           <div className="flex flex-wrap items-center gap-2.5">
             <Link
               href={`/c/${result.companySlug}/${result.packageSlug}`}
-              className="inline-flex items-center gap-1.5 rounded-lg border border-line-strong bg-surface px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl border border-line-strong bg-surface px-3.5 py-2 text-sm font-semibold text-ink transition hover:bg-subtle"
             >
               <IconArrowLeft className="h-4 w-4" />
               <span>Kembali ke Subtes</span>
             </Link>
             <Link
               href={`/test/${result.subtestId}`}
-              className="inline-flex items-center gap-1.5 rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
+              className="inline-flex min-h-[40px] items-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
             >
               <IconRotateCcw className="h-4 w-4" />
               <span>Ulangi Subtes</span>
@@ -330,12 +330,12 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
       {/* Review & Explanations */}
       <section aria-labelledby="review-heading" className="space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <h2 id="review-heading" className="text-lg font-semibold text-ink">
+          <h2 id="review-heading" className="text-lg font-bold text-ink">
             Pembahasan
           </h2>
 
           {result.reviewItems.length > 0 ? (
-            <div className="inline-flex flex-wrap gap-1 rounded-lg border border-line bg-surface p-1">
+            <div className="flex flex-wrap gap-1.5">
               {filterTabs.map((tab) => {
                 const isActive = filter === tab.id;
                 return (
@@ -344,12 +344,14 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                     type="button"
                     onClick={() => setFilter(tab.id)}
                     aria-pressed={isActive}
-                    className={`rounded-md px-3 py-1 text-xs font-semibold transition ${isActive
-                      ? "bg-brand text-white"
-                      : "text-ink-secondary hover:bg-subtle hover:text-ink"
-                      }`}
+                    className={`inline-flex min-h-[36px] items-center gap-1.5 rounded-xl border px-3.5 py-1.5 text-xs font-semibold transition ${
+                      isActive
+                        ? "border-brand/40 bg-brand-soft text-brand-text"
+                        : "border-line bg-surface text-ink-secondary hover:bg-subtle hover:text-ink"
+                    }`}
                   >
-                    {tab.label} <span className="font-mono tabular-nums opacity-80">({tab.count})</span>
+                    <span>{tab.label}</span>
+                    <span className="font-mono tabular-nums opacity-80">({tab.count})</span>
                   </button>
                 );
               })}
@@ -358,11 +360,11 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
         </div>
 
         {result.reviewItems.length === 0 ? (
-          <div className="rounded-xl border border-line bg-surface p-6 text-sm text-ink-secondary">
+          <div className="rounded-2xl border border-line bg-surface p-6 text-sm text-ink-secondary">
             Detail jawaban dan pembahasan untuk pengerjaan ini tidak tersedia (kemungkinan soal pada subtes ini telah diperbarui oleh admin), namun skor akhirmu tetap tercatat.
           </div>
         ) : filteredItems.length === 0 ? (
-          <div className="rounded-xl border border-line bg-surface p-6 text-center text-sm text-ink-secondary">
+          <div className="rounded-2xl border border-line bg-surface p-6 text-center text-sm text-ink-secondary">
             Tidak ada soal pada kategori filter ini.
           </div>
         ) : (
@@ -392,7 +394,7 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
               return (
                 <li
                   key={item.questionId}
-                  className="rounded-xl border border-line bg-surface p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04)]"
+                  className="rounded-2xl border border-line bg-surface p-5 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none sm:p-6"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line pb-3">
                     <span className="font-mono text-xs font-semibold tabular-nums text-ink-muted">
@@ -408,21 +410,22 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                   {item.imageSvg !== null ? <QuestionImage svgMarkup={item.imageSvg} /> : null}
 
                   <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
-                    <div className="rounded-lg border border-line bg-canvas px-3.5 py-2.5 text-sm">
+                    <div className="rounded-xl bg-canvas px-4 py-3 text-sm">
                       <span className="block text-xs font-medium text-ink-muted">Jawabanmu</span>
                       <span
-                        className={`mt-0.5 block font-semibold ${item.isCorrect
-                          ? "text-emerald-700 dark:text-emerald-300"
-                          : isBlank
-                            ? "text-ink-muted"
-                            : "text-red-700 dark:text-red-300"
-                          }`}
+                        className={`mt-0.5 block font-semibold ${
+                          item.isCorrect
+                            ? "text-emerald-700 dark:text-emerald-300"
+                            : isBlank
+                              ? "text-ink-muted"
+                              : "text-red-700 dark:text-red-300"
+                        }`}
                       >
                         {selectedOption ? `${selectedOption.key}. ${selectedOption.label}` : "Tidak dijawab"}
                       </span>
                     </div>
 
-                    <div className="rounded-lg border border-emerald-200 bg-emerald-50/70 px-3.5 py-2.5 text-sm dark:border-emerald-900/70 dark:bg-emerald-950/40">
+                    <div className="rounded-xl bg-emerald-50/70 px-4 py-3 text-sm dark:bg-emerald-950/35">
                       <span className="block text-xs font-medium text-emerald-800 dark:text-emerald-300">
                         Jawaban Benar
                       </span>
@@ -433,14 +436,14 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                   </div>
 
                   {item.explanation ? (
-                    <div className="mt-3.5 rounded-lg bg-subtle px-4 py-3 text-sm leading-relaxed text-ink-secondary">
+                    <div className="mt-3.5 rounded-xl bg-canvas px-4 py-3 text-sm leading-relaxed text-ink-secondary">
                       <span className="font-semibold text-ink">Pembahasan: </span>
                       <span className="whitespace-pre-line">{item.explanation}</span>
                     </div>
                   ) : null}
 
                   {item.steps && item.steps.length > 0 ? (
-                    <div className="mt-3 text-sm">
+                    <div className="mt-3.5 max-w-[70ch] text-sm">
                       <p className="font-semibold text-ink">Langkah pengerjaan</p>
                       <ol className="mt-1 list-decimal space-y-1 pl-5 text-ink-secondary">
                         {item.steps.map((step, stepIndex) => (
@@ -454,7 +457,7 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                     item.wrongNotes.some(
                       (note, noteIndex) => note.trim() !== "" && item.options[noteIndex]?.key !== item.correctOption,
                     ) ? (
-                    <div className="mt-3 text-sm">
+                    <div className="mt-3.5 max-w-[70ch] text-sm">
                       <p className="font-semibold text-ink">Kenapa opsi lain kurang tepat</p>
                       <ul className="mt-1 space-y-1 text-ink-secondary">
                         {item.options.map((option, noteIndex) => {
@@ -473,8 +476,8 @@ export function ResultReviewClient({ result }: ResultReviewClientProps) {
                   ) : null}
 
                   {item.quickTip ? (
-                    <p className="mt-3 rounded-lg border border-amber-300 bg-amber-50 p-3 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950/60 dark:text-amber-100">
-                      <strong>Quick tip:</strong> {item.quickTip}
+                    <p className="mt-3.5 rounded-xl border border-amber-200/80 bg-amber-50/60 px-4 py-3 text-sm text-amber-950 dark:border-amber-800/50 dark:bg-amber-950/35 dark:text-amber-200">
+                      <strong className="font-semibold">Tips cepat:</strong> {item.quickTip}
                     </p>
                   ) : null}
                 </li>

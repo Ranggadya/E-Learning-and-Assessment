@@ -217,12 +217,12 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
         </div>
       </header>
 
-      {/* Blok 2: 3 Kartu KPI Pastel */}
+      {/* Blok 2: 3 Kartu KPI */}
       <section aria-label="Ringkasan statistik latihan" className="grid grid-cols-1 gap-4 md:grid-cols-3">
         <div className={`${cardSurfaceClass} flex items-center gap-4 p-4`}>
           <div
             aria-hidden="true"
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand-text"
           >
             <IconRotateCcw className="h-5 w-5" />
           </div>
@@ -239,7 +239,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
         <div className={`${cardSurfaceClass} flex items-center gap-4 p-4`}>
           <div
             aria-hidden="true"
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
           >
             <IconCheckCircle className="h-5 w-5" />
           </div>
@@ -254,7 +254,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
         <div className={`${cardSurfaceClass} flex items-center gap-4 p-4`}>
           <div
             aria-hidden="true"
-            className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-pink-50 text-pink-600 dark:bg-pink-950/60 dark:text-pink-300"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-subtle text-ink-secondary"
           >
             <IconAward className="h-5 w-5" />
           </div>
@@ -292,17 +292,17 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
                   : "Belum ada sesi dalam 7 hari terakhir"}
               </p>
 
-              {activeDay ? (
+              {activeDay && (series.totalAttempts > 0 || selectedDayIndex !== null) ? (
                 <div
                   role="status"
                   aria-live="polite"
-                  className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-3 py-1 text-xs font-medium text-white shadow-md dark:bg-slate-800"
+                  className="inline-flex items-center gap-2 rounded-full border border-line bg-canvas px-3 py-1 text-xs font-medium text-ink"
                 >
-                  <span>{activeDay.fullDateLabel}</span>
-                  <span aria-hidden="true" className="opacity-60">
+                  <span className="text-ink-secondary">{activeDay.fullDateLabel}</span>
+                  <span aria-hidden="true" className="text-ink-muted">
                     ·
                   </span>
-                  <span className="font-mono font-semibold tabular-nums">
+                  <span className="font-mono font-semibold tabular-nums text-brand-text">
                     {activeDay.attempts} sesi · ~{activeDay.estimatedMinutes} mnt
                   </span>
                 </div>
@@ -322,7 +322,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
                   <stop offset="100%" stopColor="var(--accent)" stopOpacity="0" />
                 </linearGradient>
                 <linearGradient id="activity-column-highlight" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.14" />
+                  <stop offset="0%" stopColor="var(--accent)" stopOpacity="0.12" />
                   <stop offset="100%" stopColor="var(--accent)" stopOpacity="0.02" />
                 </linearGradient>
               </defs>
@@ -355,15 +355,17 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
                 strokeWidth="1"
               />
 
-              {/* Highlight kolom vertikal hari aktif */}
-              <rect
-                x={Math.max(4, activePoint.x - 24)}
-                y={10}
-                width={48}
-                height={112}
-                rx={14}
-                fill="url(#activity-column-highlight)"
-              />
+              {/* Highlight kolom vertikal hari aktif (hanya saat ada aktivitas atau dipilih) */}
+              {series.totalAttempts > 0 || selectedDayIndex !== null ? (
+                <rect
+                  x={Math.max(4, activePoint.x - 24)}
+                  y={10}
+                  width={48}
+                  height={112}
+                  rx={12}
+                  fill="url(#activity-column-highlight)"
+                />
+              ) : null}
 
               {/* Area gradasi di bawah kurva */}
               {chartGeometry.maxMinutes > 0 && chartGeometry.areaPath ? (
@@ -375,46 +377,49 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
                 <path
                   d={chartGeometry.linePath}
                   fill="none"
-                  stroke="var(--accent)"
-                  strokeWidth="2.75"
+                  stroke={series.totalAttempts > 0 ? "var(--accent)" : "var(--border-strong)"}
+                  strokeWidth={series.totalAttempts > 0 ? "2.5" : "1.75"}
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
               ) : null}
 
-              {/* Garis bantu vertikal pada titik aktif */}
-              <line
-                x1={activePoint.x}
-                y1={activePoint.y + 6}
-                x2={activePoint.x}
-                y2={116}
-                stroke="var(--accent)"
-                strokeOpacity="0.35"
-                strokeDasharray="3 3"
-                strokeWidth="1.25"
-              />
-
-              {/* Titik aktif */}
-              <circle
-                cx={activePoint.x}
-                cy={activePoint.y}
-                r={9}
-                fill="var(--accent)"
-                fillOpacity="0.16"
-              />
-              <circle
-                cx={activePoint.x}
-                cy={activePoint.y}
-                r={5}
-                fill="var(--bg-surface)"
-                stroke="var(--accent)"
-                strokeWidth="2.5"
-              />
+              {/* Garis bantu vertikal & titik aktif */}
+              {series.totalAttempts > 0 || selectedDayIndex !== null ? (
+                <>
+                  <line
+                    x1={activePoint.x}
+                    y1={activePoint.y + 6}
+                    x2={activePoint.x}
+                    y2={116}
+                    stroke="var(--accent)"
+                    strokeOpacity="0.35"
+                    strokeDasharray="3 3"
+                    strokeWidth="1.25"
+                  />
+                  <circle
+                    cx={activePoint.x}
+                    cy={activePoint.y}
+                    r={8}
+                    fill="var(--accent)"
+                    fillOpacity="0.16"
+                  />
+                  <circle
+                    cx={activePoint.x}
+                    cy={activePoint.y}
+                    r={4.5}
+                    fill="var(--bg-surface)"
+                    stroke="var(--accent)"
+                    strokeWidth="2.5"
+                  />
+                </>
+              ) : null}
             </svg>
 
             <div className="mt-2 grid grid-cols-7 gap-1">
               {series.days.map((day, idx) => {
-                const isActive = idx === activeDayIndex;
+                const isActive =
+                  (series.totalAttempts > 0 || selectedDayIndex !== null) && idx === activeDayIndex;
                 return (
                   <button
                     key={day.dateKey}
@@ -486,9 +491,9 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
 
           <Link
             href="/riwayat"
-            className="inline-flex min-h-[40px] w-full items-center justify-center rounded-xl bg-brand px-4 py-2.5 text-xs font-bold text-white shadow-xs transition hover:bg-brand-hover"
+            className="inline-flex min-h-[40px] w-full items-center justify-center rounded-xl border border-line-strong bg-surface px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
           >
-            Lihat Detail
+            Lihat Riwayat &amp; Detail
           </Link>
         </article>
       </section>
@@ -499,13 +504,13 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
           <h2 id="next-action-heading" className="mb-3 text-base font-bold text-ink">
             Fokus Latihan Berikutnya
           </h2>
-          <div className="flex flex-col items-stretch gap-4 rounded-2xl border border-blue-100/90 bg-gradient-to-r from-blue-50/80 to-indigo-50/50 p-4 dark:border-blue-900/50 dark:from-blue-950/40 dark:to-indigo-950/30 lg:flex-row lg:items-center lg:justify-between">
+          <div className={`${cardSurfaceClass} flex flex-col items-stretch gap-4 p-4 sm:p-5 lg:flex-row lg:items-center lg:justify-between`}>
             <div className="flex min-w-0 flex-1 items-center gap-3.5">
               <div
                 aria-hidden="true"
-                className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-blue-100 bg-surface text-brand shadow-xs dark:border-blue-900/60"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand-text"
               >
-                <IconClipboardList className="h-6 w-6" />
+                <IconClipboardList className="h-5 w-5" />
               </div>
               <div className="min-w-0">
                 <h3 className="text-sm font-bold leading-snug text-ink lg:truncate">
@@ -517,8 +522,8 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
 
             <div className="flex shrink-0 flex-wrap items-center justify-between gap-4 sm:gap-5 lg:justify-end">
               <div className="text-left lg:text-right">
-                <p className="text-xs font-semibold text-ink">Estimasi</p>
-                <p className="mt-0.5 font-mono text-xs tabular-nums text-ink-secondary">
+                <p className="text-xs font-medium text-ink-muted">Estimasi</p>
+                <p className="mt-0.5 font-mono text-xs font-semibold tabular-nums text-ink">
                   ~{nextAction.estimatedMinutes} menit
                 </p>
               </div>
@@ -532,7 +537,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
                 </Link>
                 <Link
                   href={nextAction.href}
-                  className="inline-flex min-h-[40px] shrink-0 items-center justify-center gap-1.5 rounded-xl bg-blue-100 px-4 py-2 text-xs font-bold text-blue-800 transition hover:bg-blue-200 dark:bg-blue-900/60 dark:text-blue-200 dark:hover:bg-blue-900/80"
+                  className="inline-flex min-h-[40px] shrink-0 items-center justify-center gap-1.5 rounded-xl bg-brand px-4 py-2 text-xs font-bold text-white transition hover:bg-brand-hover"
                 >
                   <span>{nextAction.ctaLabel}</span>
                   <IconArrowRight className="h-3.5 w-3.5" />
@@ -543,14 +548,14 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
         </section>
       ) : null}
 
-      {/* Blok 5: Daftar Paket Tes (gaya My Courses) */}
+      {/* Blok 5: Daftar Paket Tes */}
       <section aria-labelledby="packages-heading" className="space-y-4">
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <h2 id="packages-heading" className="text-base font-bold text-ink">
               Paket Tes
             </h2>
-            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-emerald-700 px-1.5 text-xs font-bold tabular-nums text-white">
+            <span className="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-subtle px-2 text-xs font-bold tabular-nums text-ink-secondary">
               {totalFilteredPackages}
             </span>
           </div>
@@ -558,7 +563,7 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
           {catalog.length > 1 ? (
             <div
               role="group"
-              aria-label="Filter perusahaan"
+              aria-label="Filter kategori tes"
               className="flex flex-wrap items-center gap-2"
             >
               <button
@@ -610,11 +615,11 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
             </Link>
           </div>
         ) : visiblePackages.length === 0 ? (
-          <div className="rounded-2xl border border-line-strong bg-surface p-8 text-center">
+          <div className="rounded-2xl border border-line bg-surface p-8 text-center">
             <p className="text-sm font-medium text-ink-secondary">
               {isSearching
-                ? `Tidak ada perusahaan, paket, atau subtes yang cocok dengan kata kunci "${trimmedQuery}".`
-                : "Belum ada paket pada perusahaan yang dipilih."}
+                ? `Tidak ada kategori, paket, atau subtes yang cocok dengan kata kunci "${trimmedQuery}".`
+                : "Belum ada paket pada kategori yang dipilih."}
             </p>
             <button
               type="button"
@@ -629,82 +634,93 @@ export function LearnerDashboard({ catalog, initialNowIso }: LearnerDashboardPro
           </div>
         ) : (
           <>
-            <ul className="space-y-3">
-              {visiblePackages.map((pkg) => {
-                const company = companyByPackageId.get(pkg.id);
-                if (!company) {
-                  return null;
-                }
-                const totalSub = pkg.subtests.length;
-                const totalMinutes = Math.max(
-                  1,
-                  Math.round(
-                    pkg.subtests.reduce((acc, s) => acc + Math.max(0, s.durationSeconds), 0) / 60,
-                  ),
-                );
-                const doneSub = pkg.subtests.filter((s) =>
-                  Boolean(progress.bySubtestId[String(s.id)]),
-                ).length;
-                const percent =
-                  totalSub > 0 ? Math.min(100, Math.round((doneSub / totalSub) * 100)) : 0;
-                const ctaLabel =
-                  doneSub > 0 && doneSub < totalSub
+            <div className={`${cardSurfaceClass} overflow-hidden`}>
+              <ul className="divide-y divide-line">
+                {visiblePackages.map((pkg) => {
+                  const company = companyByPackageId.get(pkg.id);
+                  if (!company) {
+                    return null;
+                  }
+                  const totalSub = pkg.subtests.length;
+                  const totalMinutes = Math.max(
+                    1,
+                    Math.round(
+                      pkg.subtests.reduce((acc, s) => acc + Math.max(0, s.durationSeconds), 0) / 60,
+                    ),
+                  );
+                  const doneSub = pkg.subtests.filter((s) =>
+                    Boolean(progress.bySubtestId[String(s.id)]),
+                  ).length;
+                  const percent =
+                    totalSub > 0 ? Math.min(100, Math.round((doneSub / totalSub) * 100)) : 0;
+                  const isInProgress = doneSub > 0 && doneSub < totalSub;
+                  const ctaLabel = isInProgress
                     ? "Lanjutkan"
                     : doneSub === totalSub && totalSub > 0
                       ? "Tinjau"
                       : "Mulai";
 
-                return (
-                  <li
-                    key={pkg.id}
-                    className={`${cardSurfaceClass} flex flex-col gap-3 p-4 transition hover:border-line-strong sm:flex-row sm:items-center sm:justify-between`}
-                  >
-                    <div className="flex min-w-0 flex-1 items-center gap-3.5">
-                      <span
-                        aria-hidden="true"
-                        className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-subtle text-xs font-bold text-ink"
-                      >
-                        {getCompanyMonogram(company.name)}
-                      </span>
-                      <div className="min-w-0 flex-1">
-                        <p className="truncate text-sm font-bold text-ink">{pkg.name}</p>
-                        <p className="mt-0.5 truncate text-xs tabular-nums text-ink-muted">
-                          {company.name} · {totalSub} subtes · ~{totalMinutes} mnt
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between gap-4 sm:shrink-0">
-                      <div className="flex flex-1 items-center gap-3 sm:w-44 sm:flex-initial lg:w-52">
-                        <div
-                          className="h-1.5 flex-1 overflow-hidden rounded-full bg-subtle"
-                          role="progressbar"
-                          aria-valuenow={percent}
-                          aria-valuemin={0}
-                          aria-valuemax={100}
-                          aria-label={`Progres ${pkg.name}`}
+                  return (
+                    <li
+                      key={pkg.id}
+                      className="flex flex-col gap-3 p-4 transition hover:bg-subtle/45 sm:flex-row sm:items-center sm:justify-between sm:px-5"
+                    >
+                      <div className="flex min-w-0 flex-1 items-center gap-3.5">
+                        <span
+                          aria-hidden="true"
+                          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-subtle text-xs font-bold text-ink-secondary"
                         >
-                          <div
-                            className="h-full rounded-full bg-brand transition-all duration-200"
-                            style={{ width: `${percent}%` }}
-                          />
-                        </div>
-                        <span className="w-9 text-right font-mono text-xs font-bold tabular-nums text-ink">
-                          {percent}%
+                          {getCompanyMonogram(company.name)}
                         </span>
+                        <div className="min-w-0 flex-1">
+                          <Link
+                            href={`/c/${company.slug}/${pkg.slug}`}
+                            className="block truncate text-sm font-bold text-ink transition hover:text-brand-text"
+                          >
+                            {pkg.name}
+                          </Link>
+                          <p className="mt-0.5 truncate text-xs tabular-nums text-ink-muted">
+                            {company.name} · {totalSub} subtes · ~{totalMinutes} mnt
+                          </p>
+                        </div>
                       </div>
 
-                      <Link
-                        href={`/c/${company.slug}/${pkg.slug}`}
-                        className="inline-flex min-h-[40px] shrink-0 items-center justify-center rounded-xl border border-line-strong bg-surface px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
-                      >
-                        {ctaLabel}
-                      </Link>
-                    </div>
-                  </li>
-                );
-              })}
-            </ul>
+                      <div className="flex items-center justify-between gap-4 sm:shrink-0">
+                        <div className="flex flex-1 items-center gap-3 sm:w-44 sm:flex-initial lg:w-52">
+                          <div
+                            className="h-1.5 flex-1 overflow-hidden rounded-full bg-subtle"
+                            role="progressbar"
+                            aria-valuenow={percent}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                            aria-label={`Progres ${pkg.name}`}
+                          >
+                            <div
+                              className="h-full rounded-full bg-brand transition-all duration-200"
+                              style={{ width: `${percent}%` }}
+                            />
+                          </div>
+                          <span className="w-9 text-right font-mono text-xs font-bold tabular-nums text-ink">
+                            {percent}%
+                          </span>
+                        </div>
+
+                        <Link
+                          href={`/c/${company.slug}/${pkg.slug}`}
+                          className={
+                            isInProgress
+                              ? "inline-flex min-h-[40px] shrink-0 items-center justify-center rounded-xl border border-brand/40 bg-brand-soft px-4 py-2 text-xs font-bold text-brand-text transition hover:bg-brand/15"
+                              : "inline-flex min-h-[40px] shrink-0 items-center justify-center rounded-xl border border-line-strong bg-surface px-4 py-2 text-xs font-semibold text-ink transition hover:bg-subtle"
+                          }
+                        >
+                          {ctaLabel}
+                        </Link>
+                      </div>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
 
             {hiddenPackageCount > 0 ? (
               <div className="flex justify-center pt-1">

@@ -204,7 +204,7 @@ export function LearnerShell({ catalog, initialNowIso, children }: LearnerShellP
 
             <div>
               <div className="flex items-center justify-between px-3">
-                <p className="text-xs font-semibold text-ink-muted">Perusahaan</p>
+                <p className="text-xs font-semibold text-ink-muted">Kategori Tes</p>
                 <span className="tabular-nums text-xs font-semibold text-ink-muted">
                   {companies.length}
                 </span>

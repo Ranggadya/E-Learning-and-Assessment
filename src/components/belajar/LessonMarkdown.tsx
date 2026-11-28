@@ -50,7 +50,7 @@ export function LessonMarkdown({ blocks }: { blocks: MarkdownBlock[] }) {
           return (
             <p
               key={index}
-              className="leading-relaxed text-ink"
+              className="max-w-[75ch] leading-relaxed text-ink"
               dangerouslySetInnerHTML={{ __html: block.html }}
             />
           );
@@ -79,7 +79,7 @@ export function LessonMarkdown({ blocks }: { blocks: MarkdownBlock[] }) {
           return (
             <blockquote
               key={index}
-              className="rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink-secondary"
+              className="max-w-[75ch] rounded-xl border border-line bg-canvas px-4 py-3 text-sm text-ink-secondary"
               dangerouslySetInnerHTML={{ __html: block.html }}
             />
           );
@@ -90,7 +90,7 @@ export function LessonMarkdown({ blocks }: { blocks: MarkdownBlock[] }) {
           return (
             <ListTag
               key={index}
-              className={`space-y-1.5 pl-5 ${
+              className={`max-w-[75ch] space-y-1.5 pl-5 ${
                 block.ordered ? "list-decimal" : "list-disc"
               }`}
             >

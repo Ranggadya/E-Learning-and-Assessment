@@ -8,6 +8,7 @@ import { LessonMarkdown } from "@/components/belajar/LessonMarkdown";
 import {
   IconArrowLeft,
   IconArrowRight,
+  IconChevronRight,
   IconClock,
   IconExternalLink,
 } from "@/components/ui/Icons";
@@ -57,25 +58,23 @@ export default async function LessonReaderPage({ params }: LessonPageProps) {
 
       {/* Breadcrumb & Header Pelajaran */}
       <div>
-        <div className="flex flex-wrap items-center gap-2 text-xs font-semibold text-ink-muted">
-          <Link href="/belajar" className="hover:text-ink">
+        <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-1.5 text-sm text-ink-muted">
+          <Link href="/belajar" className="transition hover:text-ink">
             Roadmap
           </Link>
-          <span>/</span>
-          <Link href={`/belajar/${lesson.trackSlug}`} className="hover:text-ink">
+          <IconChevronRight className="h-3.5 w-3.5" />
+          <Link href={`/belajar/${lesson.trackSlug}`} className="transition hover:text-ink">
             {lesson.trackTitle}
           </Link>
           {lesson.chapter ? (
             <>
-              <span>/</span>
-              <span className="rounded-md bg-brand-soft px-2 py-0.5 font-bold text-brand-text">
-                Bab: {lesson.chapter}
-              </span>
+              <IconChevronRight className="h-3.5 w-3.5" />
+              <span className="font-medium text-ink">{lesson.chapter}</span>
             </>
           ) : null}
-        </div>
+        </nav>
 
-        <h1 className="mt-2 text-2xl font-extrabold tracking-tight text-ink sm:text-[28px]">
+        <h1 className="mt-2.5 text-2xl font-extrabold tracking-tight text-ink sm:text-[28px]">
           {lesson.title}
         </h1>
 

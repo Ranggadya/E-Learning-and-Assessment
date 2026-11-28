@@ -128,13 +128,13 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
         ) : null}
       </div>
 
-      {/* 3 Pastel KPI Summary Cards */}
+      {/* 3 KPI Summary Cards */}
       <section aria-label="Ringkasan progres lokal" className="grid gap-4 sm:grid-cols-3">
         <div className="rounded-2xl border border-line bg-surface p-4 shadow-[0_2px_10px_-4px_rgba(15,23,42,0.05)] dark:shadow-none sm:p-5">
           <div className="flex items-center gap-3.5">
             <div
               aria-hidden="true"
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-emerald-50 text-emerald-600 dark:bg-emerald-950/60 dark:text-emerald-300"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300"
             >
               <IconCheckCircle className="h-5 w-5" />
             </div>
@@ -164,7 +164,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
           <div className="flex items-center gap-3.5">
             <div
               aria-hidden="true"
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-pink-50 text-pink-600 dark:bg-pink-950/60 dark:text-pink-300"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-brand-text"
             >
               <IconAward className="h-5 w-5" />
             </div>
@@ -182,7 +182,7 @@ export function HistoryProgressView({ catalog }: HistoryProgressViewProps) {
           <div className="flex items-center gap-3.5">
             <div
               aria-hidden="true"
-              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-300"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-subtle text-ink-secondary"
             >
               <IconHistory className="h-5 w-5" />
             </div>

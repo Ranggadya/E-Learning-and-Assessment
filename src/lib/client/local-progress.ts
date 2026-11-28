@@ -8,6 +8,7 @@ import type {
 } from "@/types/assessment";
 
 const STORAGE_KEY = "e-assessment:progress:v1";
+const LAST_SUBMITTED_KEY = "e-assessment:last-submitted-attempt";
 const PROGRESS_EVENT = "e-assessment:progress-change";
 const MAX_RECENT_ATTEMPTS = 24;
 
@@ -76,18 +77,41 @@ function persistStore(next: LocalProgressStore): void {
   }
 }
 
+/** Menandai attemptId yang baru saja dikirim oleh tab browser ini agar hanya milik sendiri yang dicatat. */
+export function markSubmittedAttempt(attemptId: number): void {
+  if (typeof window === "undefined") {
+    return;
+  }
+  try {
+    window.sessionStorage.setItem(LAST_SUBMITTED_KEY, String(attemptId));
+  } catch {
+    // Abaikan jika sessionStorage dibatasi browser.
+  }
+}
+
 export function recordLocalAttempt(record: LocalAttemptRecord): void {
   if (typeof window === "undefined") {
     return;
   }
-  const current = getClientSnapshot();
-  // Idempoten per attemptId agar refresh halaman hasil tidak menggandakan riwayat.
-  if (current.recentAttempts.some((item) => item.attemptId === record.attemptId)) {
+  try {
+    if (window.sessionStorage.getItem(LAST_SUBMITTED_KEY) !== String(record.attemptId)) {
+      return;
+    }
+  } catch {
     return;
   }
 
+  const current = getClientSnapshot();
   const key = String(record.subtestId);
   const existing = current.bySubtestId[key];
+
+  // Idempoten per attemptId (termasuk bila riwayat sudah > 24 sesi) agar refresh/kunjungan ulang tidak menggandakan skor.
+  if (
+    current.recentAttempts.some((item) => item.attemptId === record.attemptId) ||
+    (existing && record.attemptId <= existing.lastAttemptId)
+  ) {
+    return;
+  }
   const nextSubtest: SubtestProgress = existing
     ? {
         bestScore: Math.max(existing.bestScore, record.score),

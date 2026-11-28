@@ -20,7 +20,6 @@ const MAX_NAME_LENGTH = 160;
 const MAX_DESCRIPTION_LENGTH = 1000;
 const MIN_DURATION_SECONDS = 10;
 const MAX_DURATION_SECONDS = 10800;
-const MAX_PG_INT4 = 2_147_483_647;
 
 function isPlainRecord(value: unknown): value is Record<string, unknown> {
   if (typeof value !== "object" || value === null || Array.isArray(value)) {
@@ -354,11 +353,7 @@ export function validateSubtestUpdateInput(
   return { ok: true, data: { name: nameResult.name, durationSeconds: duration } };
 }
 
-/** Memvalidasi ID parameter rute PostgreSQL SERIAL (INT4 positif 1..2147483647). */
-export function parsePgInt4Id(raw: string): number | null {
-  const id = Number(raw);
-  return Number.isInteger(id) && id > 0 && id <= MAX_PG_INT4 ? id : null;
-}
+export { parsePgInt4Id } from "@/lib/format";
 
 export interface ParsedPackMetadata {
   companySlug: string | null;

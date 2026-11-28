@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 340" width="920" height="340" font-family="Arial, Helvetica, sans-serif" font-size="13">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 1 L 10 5 L 0 9 z" fill="#555555"/>
+    </marker>
+  </defs>
+  <rect width="920" height="340" fill="#ffffff"/>
+
+  <!-- Nodes -->
+  <rect x="20" y="34" width="150" height="52" rx="4" fill="#eeeeee" stroke="#999999"/>
+  <text x="95" y="56" text-anchor="middle" fill="#111111" font-weight="bold">Komputasi HPC /</text>
+  <text x="95" y="74" text-anchor="middle" fill="#111111">paralel ribuan VM?</text>
+
+  <rect x="20" y="138" width="150" height="52" rx="4" fill="#e8f4fd" stroke="#5b9bd5"/>
+  <text x="95" y="160" text-anchor="middle" fill="#111111" font-weight="bold">Batch / HPC</text>
+  <text x="95" y="178" text-anchor="middle" fill="#444444" font-size="12">(AWS / Azure Batch)</text>
+
+  <rect x="225" y="34" width="155" height="52" rx="4" fill="#eeeeee" stroke="#999999"/>
+  <text x="302" y="56" text-anchor="middle" fill="#111111" font-weight="bold">Butuh OS penuh /</text>
+  <text x="302" y="74" text-anchor="middle" fill="#111111">service khusus?</text>
+
+  <rect x="225" y="138" width="155" height="52" rx="4" fill="#e8f4fd" stroke="#5b9bd5"/>
+  <text x="302" y="160" text-anchor="middle" fill="#111111" font-weight="bold">Virtual Machine</text>
+  <text x="302" y="178" text-anchor="middle" fill="#444444" font-size="12">(EC2 / Azure VM)</text>
+
+  <rect x="435" y="34" width="165" height="52" rx="4" fill="#eeeeee" stroke="#999999"/>
+  <text x="517" y="56" text-anchor="middle" fill="#111111" font-weight="bold">Sudah pakai K8s &amp;</text>
+  <text x="517" y="74" text-anchor="middle" fill="#111111">butuh K8s API?</text>
+
+  <rect x="435" y="138" width="165" height="52" rx="4" fill="#e8f4fd" stroke="#5b9bd5"/>
+  <text x="517" y="160" text-anchor="middle" fill="#111111" font-weight="bold">Kubernetes</text>
+  <text x="517" y="178" text-anchor="middle" fill="#444444" font-size="12">(Job / CronJob)</text>
+
+  <rect x="655" y="34" width="240" height="52" rx="4" fill="#eeeeee" stroke="#999999"/>
+  <text x="775" y="56" text-anchor="middle" fill="#111111" font-weight="bold">Event singkat atau</text>
+  <text x="775" y="74" text-anchor="middle" fill="#111111">butuh runtime container?</text>
+
+  <rect x="635" y="148" width="130" height="62" rx="4" fill="#eaf7ee" stroke="#5cb85c"/>
+  <text x="700" y="170" text-anchor="middle" fill="#111111" font-weight="bold">Serverless</text>
+  <text x="700" y="186" text-anchor="middle" fill="#111111" font-weight="bold">Function</text>
+  <text x="700" y="202" text-anchor="middle" fill="#444444" font-size="11">(Lambda / Functions)</text>
+
+  <rect x="780" y="148" width="125" height="62" rx="4" fill="#eaf7ee" stroke="#5cb85c"/>
+  <text x="842" y="170" text-anchor="middle" fill="#111111" font-weight="bold">Container Job</text>
+  <text x="842" y="186" text-anchor="middle" fill="#111111" font-weight="bold">Serverless</text>
+  <text x="842" y="202" text-anchor="middle" fill="#444444" font-size="11">(Cloud Run / Fargate)</text>
+
+  <rect x="270" y="262" width="380" height="54" rx="4" fill="#fff8e6" stroke="#d6a127"/>
+  <text x="460" y="285" text-anchor="middle" fill="#111111" font-weight="bold">Hindari menaruh job berat di proses server web utama</text>
+  <text x="460" y="303" text-anchor="middle" fill="#555555" font-size="12">agar tidak menurunkan responsivitas request pengguna</text>
+
+  <!-- Edges -->
+  <line x1="95" y1="86" x2="95" y2="136" stroke="#555555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="108" y="116" fill="#333333" font-size="12">Ya</text>
+
+  <line x1="170" y1="60" x2="223" y2="60" stroke="#555555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="196" y="52" text-anchor="middle" fill="#333333" font-size="12">Tidak</text>
+
+  <line x1="302" y1="86" x2="302" y2="136" stroke="#555555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="315" y="116" fill="#333333" font-size="12">Ya</text>
+
+  <line x1="380" y1="60" x2="433" y2="60" stroke="#555555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="406" y="52" text-anchor="middle" fill="#333333" font-size="12">Tidak</text>
+
+  <line x1="517" y1="86" x2="517" y2="136" stroke="#555555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="530" y="116" fill="#333333" font-size="12">Ya</text>
+
+  <line x1="600" y1="60" x2="653" y2="60" stroke="#555555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="626" y="52" text-anchor="middle" fill="#333333" font-size="12">Tidak</text>
+
+  <line x1="730" y1="86" x2="700" y2="146" stroke="#555555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="692" y="118" text-anchor="end" fill="#333333" font-size="11">Singkat / event</text>
+
+  <line x1="815" y1="86" x2="842" y2="146" stroke="#555555" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text x="845" y="118" fill="#333333" font-size="11">Image kustom / lama</text>
+</svg>

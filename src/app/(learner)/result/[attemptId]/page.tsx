@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { ResultReviewClient } from "@/components/result/ResultReviewClient";
 import { getAttemptResult } from "@/lib/assessment/attempt.queries";
+import { parsePgInt4Id } from "@/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -10,8 +11,8 @@ interface ResultPageProps {
 
 export default async function ResultPage({ params }: ResultPageProps) {
   const { attemptId: attemptIdParam } = await params;
-  const attemptId = Number(attemptIdParam);
-  if (!Number.isInteger(attemptId)) {
+  const attemptId = parsePgInt4Id(attemptIdParam);
+  if (attemptId === null) {
     notFound();
   }
 

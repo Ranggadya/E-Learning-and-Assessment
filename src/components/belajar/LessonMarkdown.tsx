@@ -153,7 +153,7 @@ export function LessonMarkdown({ blocks }: { blocks: MarkdownBlock[] }) {
                 src={block.src}
                 alt={block.alt}
                 loading="lazy"
-                className="mx-auto max-h-[540px] w-auto rounded-lg object-contain"
+                className="mx-auto max-h-[540px] w-auto rounded-lg bg-white p-2 object-contain"
               />
               {block.captionHtml ? (
                 <figcaption
@@ -162,6 +162,22 @@ export function LessonMarkdown({ blocks }: { blocks: MarkdownBlock[] }) {
                 />
               ) : null}
             </figure>
+          );
+        }
+
+        if (block.type === "details") {
+          return (
+            <details
+              key={index}
+              className="group my-4 overflow-hidden rounded-xl border border-line bg-canvas"
+            >
+              <summary className="cursor-pointer select-none px-4 py-3 text-sm font-bold text-brand-text transition hover:bg-subtle/70">
+                <span dangerouslySetInnerHTML={{ __html: block.summaryHtml }} />
+              </summary>
+              <div className="border-t border-line bg-surface px-4 py-3.5">
+                <LessonMarkdown blocks={block.blocks} />
+              </div>
+            </details>
           );
         }
 

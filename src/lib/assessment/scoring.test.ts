@@ -1,7 +1,19 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import type { PersonalityConfig } from "@/types/assessment";
-import { countSubtestItems, resolveSubtestDuration, scorePersonality } from "./scoring";
+import { parsePgInt4Id } from "@/lib/format";
+import {
+  checkAttemptRateLimit,
+  countSubtestItems,
+  isValidNonQuizPayload,
+  isValidQuizPayload,
+  resetAttemptRateLimitForTest,
+  resolveSubtestDuration,
+  scoreDrawing,
+  scorePauli,
+  scorePersonality,
+  scoreQuizAnswers,
+} from "./scoring";
 
 const SAMPLE_CONFIG: PersonalityConfig = {
   traits: [
@@ -85,4 +97,109 @@ test("resolveSubtestDuration mengutamakan durationSeconds positif dan menghitung
   );
   assert.equal(resolveSubtestDuration("DRAWING", undefined, {}), 300);
   assert.equal(resolveSubtestDuration("DRAWING", 0, null), 0);
+});
+
+test("parsePgInt4Id menerima angka & string 1..2147483647 dan menolak 0, negatif, atau overflow INT4", () => {
+  assert.equal(parsePgInt4Id(1), 1);
+  assert.equal(parsePgInt4Id("42"), 42);
+  assert.equal(parsePgInt4Id(2_147_483_647), 2_147_483_647);
+  assert.equal(parsePgInt4Id(0), null);
+  assert.equal(parsePgInt4Id(""), null);
+  assert.equal(parsePgInt4Id("   "), null);
+  assert.equal(parsePgInt4Id(-3), null);
+  assert.equal(parsePgInt4Id(2_147_483_648), null);
+  assert.equal(parsePgInt4Id("9999999999"), null);
+  assert.equal(parsePgInt4Id(true), null);
+});
+
+test("scoreQuizAnswers, scorePauli, dan scoreDrawing menilai jawaban, menjepit batas, dan mengabaikan ID asing", () => {
+  const quiz = scoreQuizAnswers(
+    [
+      { id: 10, correct_option: "B" },
+      { id: 11, correct_option: "D" },
+      { id: 12, correct_option: "A" },
+    ],
+    [
+      { questionId: 10, selectedOption: "B" },
+      { questionId: 11, selectedOption: "C" },
+      { questionId: 999, selectedOption: "A" },
+    ],
+  );
+  assert.equal(quiz.score, 1);
+  assert.equal(quiz.totalQuestions, 3);
+  assert.deepEqual(quiz.selectedOptions, ["B", "C", null]);
+  assert.deepEqual(quiz.isCorrectFlags, [true, false, false]);
+
+  const pauli = scorePauli(
+    { columns: 2, digitsPerColumn: 11, secondsPerColumn: 30 },
+    [
+      { column: 99, answered: 50, correct: 60 },
+      { column: 2, answered: 8, correct: 6 },
+      { column: 3, answered: 10, correct: 10 },
+    ],
+  );
+  assert.equal(pauli.result.perColumn.length, 2);
+  assert.deepEqual(pauli.result.perColumn[0], { column: 1, answered: 10, correct: 10 });
+  assert.equal(pauli.totalQuestions, 18);
+  assert.equal(pauli.score, 16);
+  assert.equal(pauli.result.accuracy, 89);
+
+  const drawing = scoreDrawing(
+    {
+      tasks: [
+        { key: "pohon", title: "Pohon", instruction: "Gambar pohon", seconds: 120 },
+        { key: "orang", title: "Orang", instruction: "Gambar orang", seconds: 120 },
+      ],
+      reflection: ["Apakah proporsional?"],
+    },
+    [
+      { key: "pohon", title: "Pohon", instruction: "Gambar pohon", dataUrl: "data:image/png;base64,AAAA" },
+      { key: "orang", title: "Orang", instruction: "Gambar orang", dataUrl: "" },
+      { key: "ekstra", title: "Ekstra", instruction: "Diabaikan", dataUrl: "data:image/png;base64,BBBB" },
+    ],
+  );
+  assert.equal(drawing.score, 1);
+  assert.equal(drawing.totalQuestions, 2);
+  assert.equal(drawing.result.drawings.length, 2);
+});
+
+test("isValidQuizPayload, isValidNonQuizPayload, dan checkAttemptRateLimit membatasi ukuran, ID INT4, dan spam IP", () => {
+  assert.equal(isValidQuizPayload({ subtestId: 1, answers: [{ questionId: 2, selectedOption: "A" }] }), true);
+  assert.equal(isValidQuizPayload({ subtestId: 0, answers: [] }), false);
+  assert.equal(isValidQuizPayload({ subtestId: 9_999_999_999, answers: [] }), false);
+  assert.equal(
+    isValidQuizPayload({ subtestId: 1, answers: [{ questionId: 2, selectedOption: "X".repeat(20) }] }),
+    false,
+  );
+  assert.equal(
+    isValidQuizPayload({
+      subtestId: 1,
+      answers: Array.from({ length: 201 }, (_, i) => ({ questionId: i + 1, selectedOption: null })),
+    }),
+    false,
+  );
+
+  assert.equal(isValidNonQuizPayload({ subtestId: 5, kind: "PERSONALITY", ratings: [1, null, 5] }), true);
+  assert.equal(
+    isValidNonQuizPayload({ subtestId: 5, kind: "PERSONALITY", ratings: new Array(301).fill(3) }),
+    false,
+  );
+  assert.equal(
+    isValidNonQuizPayload({
+      subtestId: 5,
+      kind: "DRAWING",
+      drawings: [{ key: "k", title: "t", instruction: "i", dataUrl: "data:text/html,evil" }],
+    }),
+    false,
+  );
+
+  resetAttemptRateLimitForTest();
+  const baseNow = 1_000_000;
+  for (let i = 0; i < 30; i += 1) {
+    assert.equal(checkAttemptRateLimit("203.0.113.10", baseNow + i).allowed, true);
+  }
+  const blocked = checkAttemptRateLimit("203.0.113.10", baseNow + 500);
+  assert.equal(blocked.allowed, false);
+  assert.equal(checkAttemptRateLimit("203.0.113.10", baseNow + 60_001).allowed, true);
+  resetAttemptRateLimitForTest();
 });

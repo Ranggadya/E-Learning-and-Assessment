@@ -2,10 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 
+const FALLBACK_DURATION_SECONDS = 600;
+
 // Hitung mundur berbasis jam sistem (bukan menghitung tick) agar tetap akurat
 // walau tab sempat di-background dan interval ditunda browser.
 export function useCountdown(totalSeconds: number, onExpire: () => void): number {
-  const [remainingSeconds, setRemainingSeconds] = useState<number>(totalSeconds);
+  const safeTotalSeconds = totalSeconds > 0 ? totalSeconds : FALLBACK_DURATION_SECONDS;
+  const [remainingSeconds, setRemainingSeconds] = useState<number>(safeTotalSeconds);
   const onExpireRef = useRef<() => void>(onExpire);
 
   useEffect(
@@ -17,7 +20,7 @@ export function useCountdown(totalSeconds: number, onExpire: () => void): number
 
   useEffect(
     function runCountdown() {
-      const endTimestamp = Date.now() + totalSeconds * 1000;
+      const endTimestamp = Date.now() + safeTotalSeconds * 1000;
       let hasExpired = false;
 
       function tick() {
@@ -35,7 +38,7 @@ export function useCountdown(totalSeconds: number, onExpire: () => void): number
         window.clearInterval(intervalId);
       };
     },
-    [totalSeconds],
+    [safeTotalSeconds],
   );
 
   return remainingSeconds;

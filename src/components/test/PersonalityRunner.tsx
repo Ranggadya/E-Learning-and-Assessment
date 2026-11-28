@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { RunnerHeader, formatClock } from "./RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
 import { useCountdown } from "@/hooks/useCountdown";
+import { markSubmittedAttempt } from "@/lib/client/local-progress";
 import type { PersonalityConfig } from "@/types/assessment";
 
 const SCALE_OPTIONS = [
@@ -80,6 +81,7 @@ export function PersonalityRunner({
         throw new Error("Gagal menyimpan jawaban");
       }
       const data = (await response.json()) as { attemptId: number };
+      markSubmittedAttempt(data.attemptId);
       router.push(`/result/${data.attemptId}`);
     } catch {
       submittedRef.current = false;
@@ -89,11 +91,12 @@ export function PersonalityRunner({
   }, [router, subtestId]);
 
   const remaining = useCountdown(durationSeconds, submit);
+  const isLocked = submitting || remaining <= 0;
   const answeredCount = ratings.filter((r) => r !== null).length;
   const unansweredCount = config.statements.length - answeredCount;
 
   function handleManualSubmit() {
-    if (unansweredCount > 0) {
+    if (remaining > 0 && unansweredCount > 0) {
       setConfirmOpen(true);
       return;
     }
@@ -107,6 +110,7 @@ export function PersonalityRunner({
         companyName={companyName}
         packageName={packageName}
         subtestName={subtestName}
+        confirmExit={!submitting && answeredCount > 0}
         rightSlot={
           <>
             <span className="hidden font-mono text-xs tabular-nums text-ink-secondary sm:inline">
@@ -172,6 +176,7 @@ export function PersonalityRunner({
                       <button
                         key={opt.value}
                         type="button"
+                        disabled={isLocked}
                         onClick={() =>
                           setRatings((prev) => {
                             const next = [...prev];
@@ -181,7 +186,7 @@ export function PersonalityRunner({
                           })
                         }
                         aria-pressed={active}
-                        className={`flex flex-col items-center justify-center rounded-lg border px-2 py-2 text-center transition ${
+                        className={`flex flex-col items-center justify-center rounded-lg border px-2 py-2 text-center transition disabled:opacity-60 ${
                           active
                             ? "border-brand bg-brand text-white"
                             : "border-line bg-canvas text-ink-secondary hover:border-brand/50 hover:bg-subtle hover:text-ink"

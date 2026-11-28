@@ -12,6 +12,7 @@ import type {
   TestPackage,
 } from "@/types/assessment";
 import { VALID_QUESTION_TYPES } from "./constants";
+import { catalogToCompanies } from "./dashboard";
 import { countSubtestItems } from "./scoring";
 
 export const CATALOG_CACHE_TAG = "catalog";
@@ -29,46 +30,6 @@ function normalizeQuestionTypes(raw: string[] | null | undefined): QuestionType[
   return Array.from(seen);
 }
 
-interface CompanyRow {
-  id: number;
-  slug: string;
-  name: string;
-  description: string | null;
-  package_count: string;
-  subtest_ids: number[] | null;
-}
-
-async function queryCompanies(): Promise<Company[]> {
-  const result = await databasePool.query<CompanyRow>(
-    `SELECT c.id, c.slug, c.name, c.description,
-            (SELECT COUNT(*) FROM test_packages p WHERE p.company_id = c.id) AS package_count,
-            COALESCE((SELECT ARRAY_AGG(s.id) FROM subtests s JOIN test_packages p ON p.id = s.test_package_id WHERE p.company_id = c.id), ARRAY[]::int[]) AS subtest_ids
-     FROM companies c ORDER BY c.name`,
-  );
-  return result.rows.map(function mapCompany(row) {
-    const subtestIds = Array.isArray(row.subtest_ids) ? row.subtest_ids.map(Number) : [];
-    return {
-      id: row.id,
-      slug: row.slug,
-      name: row.name,
-      description: row.description,
-      packageCount: Number(row.package_count),
-      subtestCount: subtestIds.length,
-      subtestIds,
-    };
-  });
-}
-
-export const getCompanies = unstable_cache(queryCompanies, ["assessment:companies"], {
-  tags: [CATALOG_CACHE_TAG],
-  revalidate: 3600,
-});
-
-export async function getCompanyBySlug(slug: string): Promise<Company | null> {
-  const companies = await getCompanies();
-  return companies.find((company) => company.slug === slug) ?? null;
-}
-
 async function queryDashboardCatalog(): Promise<DashboardCompany[]> {
   const result = await databasePool.query<{
     company_id: number;
@@ -82,6 +43,8 @@ async function queryDashboardCatalog(): Promise<DashboardCompany[]> {
     subtest_id: number | null;
     subtest_slug: string | null;
     subtest_name: string | null;
+    subtest_description: string | null;
+    order_index: number | null;
     duration_seconds: number | null;
     subtest_kind: string | null;
     subtest_config: unknown | null;
@@ -90,8 +53,8 @@ async function queryDashboardCatalog(): Promise<DashboardCompany[]> {
   }>(
     `SELECT c.id AS company_id, c.slug AS company_slug, c.name AS company_name, c.description AS company_description,
             p.id AS package_id, p.slug AS package_slug, p.name AS package_name, p.description AS package_description,
-            s.id AS subtest_id, s.slug AS subtest_slug, s.name AS subtest_name, s.duration_seconds,
-            s.kind AS subtest_kind, s.config AS subtest_config,
+            s.id AS subtest_id, s.slug AS subtest_slug, s.name AS subtest_name, s.description AS subtest_description,
+            s.order_index, s.duration_seconds, s.kind AS subtest_kind, s.config AS subtest_config,
             q_stats.question_count,
             q_stats.question_types
      FROM companies c
@@ -145,6 +108,8 @@ async function queryDashboardCatalog(): Promise<DashboardCompany[]> {
         id: row.subtest_id,
         slug: row.subtest_slug,
         name: row.subtest_name,
+        description: row.subtest_description,
+        orderIndex: row.order_index ?? testPackage.subtests.length + 1,
         durationSeconds: row.duration_seconds ?? 0,
         questionCount: countSubtestItems(kind, Number(row.question_count ?? 0), row.subtest_config),
         questionTypes: normalizeQuestionTypes(row.question_types),
@@ -159,68 +124,58 @@ async function queryDashboardCatalog(): Promise<DashboardCompany[]> {
 
 export const getDashboardCatalog = unstable_cache(
   queryDashboardCatalog,
-  ["assessment:dashboard-catalog"],
+  ["assessment:dashboard-catalog:v2"],
   {
     tags: [CATALOG_CACHE_TAG],
     revalidate: 3600,
   },
 );
 
-interface PackageRow {
-  id: number;
-  company_id: number;
-  slug: string;
-  name: string;
-  description: string | null;
-  subtest_count: string;
-  question_count: string;
-}
+// Menurunkan detail paket langsung dari katalog ter-cache sehingga tidak memicu 3 query DB terpisah.
+export async function getPackageDetailBySlugs(
+  companySlug: string,
+  packageSlug: string,
+): Promise<{ company: Company; testPackage: TestPackage; subtests: Subtest[] } | null> {
+  const catalog = await getDashboardCatalog();
+  const dashboardCompany = catalog.find((item) => item.slug === companySlug);
+  const dashboardPackage = dashboardCompany?.packages.find((item) => item.slug === packageSlug);
+  if (!dashboardCompany || !dashboardPackage) {
+    return null;
+  }
 
-function mapPackage(row: PackageRow): TestPackage {
-  return {
-    id: row.id,
-    companyId: row.company_id,
-    slug: row.slug,
-    name: row.name,
-    description: row.description,
-    subtestCount: Number(row.subtest_count),
-    questionCount: Number(row.question_count),
+  const company = catalogToCompanies([dashboardCompany])[0];
+  const subtests: Subtest[] = dashboardPackage.subtests.map((sub, idx) => ({
+    id: sub.id,
+    testPackageId: dashboardPackage.id,
+    slug: sub.slug,
+    name: sub.name,
+    description: sub.description ?? null,
+    durationSeconds: sub.durationSeconds,
+    orderIndex: sub.orderIndex ?? idx + 1,
+    questionCount: sub.questionCount,
+    questionTypes: sub.questionTypes,
+    kind: sub.kind,
+    config: null,
+  }));
+
+  const quizQuestionCount = subtests.reduce(
+    (sum, sub) => sum + (sub.kind === "QUIZ" ? sub.questionCount : 0),
+    0,
+  );
+  const totalItemCount = subtests.reduce((sum, sub) => sum + sub.questionCount, 0);
+
+  const testPackage: TestPackage = {
+    id: dashboardPackage.id,
+    companyId: dashboardCompany.id,
+    slug: dashboardPackage.slug,
+    name: dashboardPackage.name,
+    description: dashboardPackage.description,
+    subtestCount: subtests.length,
+    questionCount: quizQuestionCount > 0 ? quizQuestionCount : totalItemCount,
   };
+
+  return { company, testPackage, subtests };
 }
-
-const PACKAGE_SELECT = `
-  SELECT p.id, p.company_id, p.slug, p.name, p.description,
-         (SELECT COUNT(*) FROM subtests s WHERE s.test_package_id = p.id) AS subtest_count,
-         (SELECT COUNT(*) FROM questions q JOIN subtests s ON s.id = q.subtest_id WHERE s.test_package_id = p.id) AS question_count
-  FROM test_packages p
-`;
-
-export const getPackagesByCompanyId = unstable_cache(
-  async function queryPackagesByCompanyId(companyId: number): Promise<TestPackage[]> {
-    const result = await databasePool.query<PackageRow>(
-      `${PACKAGE_SELECT} WHERE p.company_id = $1 ORDER BY p.name`,
-      [companyId],
-    );
-    return result.rows.map(mapPackage);
-  },
-  ["assessment:packages-by-company"],
-  { tags: [CATALOG_CACHE_TAG], revalidate: 3600 },
-);
-
-export const getPackageBySlugs = unstable_cache(
-  async function queryPackageBySlugs(
-    companySlug: string,
-    packageSlug: string,
-  ): Promise<TestPackage | null> {
-    const result = await databasePool.query<PackageRow>(
-      `${PACKAGE_SELECT} JOIN companies c ON c.id = p.company_id WHERE c.slug = $1 AND p.slug = $2`,
-      [companySlug, packageSlug],
-    );
-    return result.rows[0] ? mapPackage(result.rows[0]) : null;
-  },
-  ["assessment:package-by-slugs"],
-  { tags: [CATALOG_CACHE_TAG], revalidate: 3600 },
-);
 
 interface SubtestRow {
   id: number;
@@ -235,68 +190,6 @@ interface SubtestRow {
   kind?: string | null;
   config?: unknown | null;
 }
-
-function mapSubtest(row: SubtestRow, includeConfig = true): Subtest {
-  const kind = (row.kind as SubtestKind) ?? "QUIZ";
-  return {
-    id: row.id,
-    testPackageId: row.test_package_id,
-    slug: row.slug,
-    name: row.name,
-    description: row.description,
-    durationSeconds: row.duration_seconds,
-    orderIndex: row.order_index,
-    questionCount: countSubtestItems(kind, Number(row.question_count), row.config),
-    questionTypes: normalizeQuestionTypes(row.question_types),
-    kind,
-    config: includeConfig ? (row.config ?? null) : null,
-  };
-}
-
-export const getSubtestsByPackageId = unstable_cache(
-  async function querySubtestsByPackageId(testPackageId: number): Promise<Subtest[]> {
-    const result = await databasePool.query<SubtestRow>(
-      `SELECT s.id, s.test_package_id, s.slug, s.name, s.description,
-              s.duration_seconds, s.order_index, s.kind, s.config,
-              COALESCE(q_stats.question_count, '0') AS question_count,
-              q_stats.question_types
-       FROM subtests s
-       LEFT JOIN (
-         SELECT subtest_id,
-                COUNT(*)::text AS question_count,
-                ARRAY_AGG(DISTINCT type) AS question_types
-         FROM questions
-         GROUP BY subtest_id
-       ) q_stats ON q_stats.subtest_id = s.id
-       WHERE s.test_package_id = $1
-       ORDER BY s.order_index`,
-      [testPackageId],
-    );
-    return result.rows.map((row) => mapSubtest(row, false));
-  },
-  ["assessment:subtests-by-package"],
-  { tags: [CATALOG_CACHE_TAG], revalidate: 3600 },
-);
-
-export const getPackageDetailBySlugs = unstable_cache(
-  async function queryPackageDetailBySlugs(
-    companySlug: string,
-    packageSlug: string,
-  ): Promise<{ company: Company; testPackage: TestPackage; subtests: Subtest[] } | null> {
-    const [companies, pkg] = await Promise.all([
-      getCompanies(),
-      getPackageBySlugs(companySlug, packageSlug),
-    ]);
-    const company = companies.find((item) => item.slug === companySlug);
-    if (!company || !pkg) {
-      return null;
-    }
-    const subtests = await getSubtestsByPackageId(pkg.id);
-    return { company, testPackage: pkg, subtests };
-  },
-  ["assessment:package-detail-by-slugs"],
-  { tags: [CATALOG_CACHE_TAG], revalidate: 3600 },
-);
 
 export const getSubtestById = unstable_cache(
   async function querySubtestById(subtestId: number): Promise<SubtestLocation | null> {
@@ -324,8 +217,19 @@ export const getSubtestById = unstable_cache(
     if (!row) {
       return null;
     }
+    const kind = (row.kind as SubtestKind) ?? "QUIZ";
     return {
-      ...mapSubtest(row, true),
+      id: row.id,
+      testPackageId: row.test_package_id,
+      slug: row.slug,
+      name: row.name,
+      description: row.description,
+      durationSeconds: row.duration_seconds,
+      orderIndex: row.order_index,
+      questionCount: countSubtestItems(kind, Number(row.question_count), row.config),
+      questionTypes: normalizeQuestionTypes(row.question_types),
+      kind,
+      config: row.config ?? null,
       companySlug: row.company_slug,
       companyName: row.company_name,
       packageSlug: row.package_slug,

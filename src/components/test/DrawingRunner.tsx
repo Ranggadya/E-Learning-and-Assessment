@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { RunnerHeader, formatClock } from "./RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
 import { useCountdown } from "@/hooks/useCountdown";
+import { markSubmittedAttempt } from "@/lib/client/local-progress";
 import type { DrawingConfig, DrawingSubmission, DrawingTaskConfig } from "@/types/assessment";
 
 interface DrawingCanvasStageProps {
@@ -206,6 +207,7 @@ export function DrawingRunner({
 }: DrawingRunnerProps) {
   const router = useRouter();
   const [taskIndex, setTaskIndex] = useState(0);
+  const [finishedCount, setFinishedCount] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const submissionsRef = useRef<DrawingSubmission[]>([]);
@@ -233,11 +235,12 @@ export function DrawingRunner({
           throw new Error("Gagal menyimpan gambar");
         }
         const data = (await response.json()) as { attemptId: number };
+        markSubmittedAttempt(data.attemptId);
         router.push(`/result/${data.attemptId}`);
       } catch {
         submittedRef.current = false;
         setSubmitting(false);
-        setError("Gagal menyimpan gambar. Coba lagi.");
+        setError("Gagal menyimpan gambar karena gangguan koneksi. Klik tombol di bawah untuk mengirim ulang.");
       }
     },
     [router, subtestId],
@@ -248,6 +251,7 @@ export function DrawingRunner({
       const next = [...submissionsRef.current, submission];
       submissionsRef.current = next;
       if (next.length >= config.tasks.length) {
+        setFinishedCount(next.length);
         void submitAll(next);
       } else {
         setTaskIndex(next.length);
@@ -257,6 +261,7 @@ export function DrawingRunner({
   );
 
   const currentTask = config.tasks[taskIndex];
+  const isFinishedAll = finishedCount !== null;
 
   return (
     <div className="min-h-screen bg-canvas text-ink">
@@ -265,11 +270,15 @@ export function DrawingRunner({
         companyName={companyName}
         packageName={packageName}
         subtestName={subtestName}
+        confirmExit={!submitting && !isFinishedAll}
       />
 
       <main className="mx-auto max-w-4xl px-4 py-6 sm:px-6">
         {error ? (
-          <div className="mb-4 rounded-xl border border-red-300 bg-red-50 p-3.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200">
+          <div
+            role="alert"
+            className="mb-4 rounded-xl border border-red-300 bg-red-50 p-3.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200"
+          >
             {error}
           </div>
         ) : null}
@@ -277,6 +286,20 @@ export function DrawingRunner({
         {submitting ? (
           <div className="rounded-xl border border-line bg-surface p-8 text-center text-sm text-ink-secondary">
             Menyimpan hasil gambar...
+          </div>
+        ) : isFinishedAll ? (
+          <div className="mx-auto max-w-md rounded-2xl border border-line bg-surface p-6 text-center shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+            <h2 className="text-base font-bold text-ink">Semua Gambar Selesai</h2>
+            <p className="mt-1.5 text-sm text-ink-secondary">
+              <strong className="tabular-nums text-ink">{finishedCount} gambar</strong> telah tersimpan di memori sesi dan siap dikirim.
+            </p>
+            <button
+              type="button"
+              onClick={() => void submitAll(submissionsRef.current)}
+              className="mt-5 min-h-[40px] w-full rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
+            >
+              Kirim Ulang Gambar
+            </button>
           </div>
         ) : currentTask ? (
           <DrawingCanvasStage

@@ -163,6 +163,36 @@ export function parseMarkdownBlocks(
       continue;
     }
 
+    // 1b. Collapsible <details><summary>...</summary> ... </details> (mis. kunci jawaban latihan).
+    if (/^<details>\s*$/i.test(line.trim())) {
+      i++;
+      let summaryText = "Lihat detail";
+      while (i < lines.length && !lines[i].trim()) {
+        i++;
+      }
+      if (i < lines.length) {
+        const sumMatch = /^<summary>([\s\S]*?)<\/summary>\s*$/i.exec(lines[i].trim());
+        if (sumMatch) {
+          summaryText = sumMatch[1].trim() || summaryText;
+          i++;
+        }
+      }
+      const innerLines: string[] = [];
+      while (i < lines.length && !/^<\/details>\s*$/i.test(lines[i].trim())) {
+        innerLines.push(lines[i]);
+        i++;
+      }
+      if (i < lines.length) {
+        i++; // lewati </details>
+      }
+      blocks.push({
+        type: "details",
+        summaryHtml: renderSafeInline(summaryText, []),
+        blocks: parseMarkdownBlocks(innerLines.join("\n"), glossary),
+      });
+      continue;
+    }
+
     // 2. Horizontal rule
     if (/^(?:---|\*\*\*|___)\s*$/.test(line.trim())) {
       blocks.push({ type: "hr" });
@@ -170,19 +200,28 @@ export function parseMarkdownBlocks(
       continue;
     }
 
-    // 2b. Gambar blok penuh: ![caption atau alt](/images/...)
+    // 2b. Gambar blok penuh: ![caption atau alt](/images/...) diikuti opsional *Gambar X.Y — ...*
     const imageMatch = /^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/.exec(line.trim());
     if (imageMatch) {
       const rawAlt = imageMatch[1].trim();
       const safeSrc = sanitizeHref(imageMatch[2].trim());
       if (safeSrc) {
+        i++;
+        let explicitCaption: string | null = null;
+        if (i < lines.length) {
+          const capMatch = /^\*([^*\r\n]+)\*\s*$/.exec(lines[i].trim());
+          if (capMatch) {
+            explicitCaption = capMatch[1].trim();
+            i++;
+          }
+        }
+        const captionSource = explicitCaption ?? rawAlt;
         blocks.push({
           type: "image",
           src: safeSrc,
-          alt: escapeHtml(rawAlt),
-          captionHtml: rawAlt ? renderSafeInline(rawAlt, glossary) : "",
+          alt: escapeHtml(rawAlt || explicitCaption || "Diagram materi"),
+          captionHtml: captionSource ? renderSafeInline(captionSource, glossary) : "",
         });
-        i++;
         continue;
       }
     }
@@ -230,18 +269,27 @@ export function parseMarkdownBlocks(
       continue;
     }
 
-    // 6. Unordered / Ordered list
-    const ulMatch = /^\s*[-*]\s+(.+)$/.exec(line);
-    const olMatch = /^\s*\d+\.\s+(.+)$/.exec(line);
+    // 6. Unordered / Ordered list (mendukung baris lanjutan berindentasi seperti opsi a/b/c/d)
+    const ulMatch = /^(\s*)[-*]\s+(.+)$/.exec(line);
+    const olMatch = /^(\s*)\d+\.\s+(.+)$/.exec(line);
     if (ulMatch || olMatch) {
       const ordered = Boolean(olMatch);
-      const itemRegex = ordered ? /^\s*\d+\.\s+(.+)$/ : /^\s*[-*]\s+(.+)$/;
+      const baseIndent = (olMatch ? olMatch[1] : ulMatch![1]).length;
+      const itemRegex = ordered ? /^(\s*)\d+\.\s+(.+)$/ : /^(\s*)[-*]\s+(.+)$/;
       const itemsHtml: string[] = [];
       while (i < lines.length) {
         const m = itemRegex.exec(lines[i]);
-        if (!m) break;
-        itemsHtml.push(renderSafeInline(m[1].trim(), glossary));
+        if (!m || m[1].length !== baseIndent) break;
+        const segments: string[] = [renderSafeInline(m[2].trim(), glossary)];
         i++;
+        while (i < lines.length && lines[i].trim()) {
+          const nextLine = lines[i];
+          const nextIndent = nextLine.match(/^\s*/)?.[0].length ?? 0;
+          if (nextIndent <= baseIndent) break;
+          segments.push(renderSafeInline(nextLine.trim(), glossary));
+          i++;
+        }
+        itemsHtml.push(segments.join("<br />"));
       }
       blocks.push({ type: "list", ordered, itemsHtml });
       continue;
@@ -253,6 +301,7 @@ export function parseMarkdownBlocks(
       i < lines.length &&
       lines[i].trim() &&
       !/^```/.test(lines[i].trim()) &&
+      !/^<details>\s*$/i.test(lines[i].trim()) &&
       !/^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/.test(lines[i].trim()) &&
       !/^#{1,4}\s+/.test(lines[i].trim()) &&
       !/^(?:---|\*\*\*|___)\s*$/.test(lines[i].trim()) &&

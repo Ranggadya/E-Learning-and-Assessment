@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { RunnerHeader } from "./RunnerHeader";
 import { IconClock } from "@/components/ui/Icons";
 import { useCountdown } from "@/hooks/useCountdown";
+import { markSubmittedAttempt } from "@/lib/client/local-progress";
 import type { PauliColumnStat, PauliConfig } from "@/types/assessment";
 
 function generateColumns(columns: number, digitsPerColumn: number): number[][] {
@@ -169,6 +170,7 @@ export function PauliRunner({
   const [started, setStarted] = useState(false);
   const [grid, setGrid] = useState<number[][]>([]);
   const [colIndex, setColIndex] = useState(0);
+  const [finishedCount, setFinishedCount] = useState<number | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const completedStatsRef = useRef<PauliColumnStat[]>([]);
@@ -197,11 +199,12 @@ export function PauliRunner({
           throw new Error("Gagal menyimpan hasil");
         }
         const data = (await response.json()) as { attemptId: number };
+        markSubmittedAttempt(data.attemptId);
         router.push(`/result/${data.attemptId}`);
       } catch {
         submittedRef.current = false;
         setSubmitting(false);
-        setError("Gagal menyimpan hasil Pauli. Coba klik simpan lagi.");
+        setError("Gagal menyimpan hasil Pauli karena gangguan koneksi. Klik tombol di bawah untuk mengirim ulang.");
       }
     },
     [router, subtestId],
@@ -212,6 +215,7 @@ export function PauliRunner({
       const next = [...completedStatsRef.current, stat];
       completedStatsRef.current = next;
       if (endAll || next.length >= config.columns) {
+        setFinishedCount(next.length);
         void submitAll(next);
       } else {
         setColIndex(next.length);
@@ -219,6 +223,8 @@ export function PauliRunner({
     },
     [config.columns, submitAll],
   );
+
+  const isFinishedAll = finishedCount !== null;
 
   return (
     <div className="min-h-screen bg-canvas text-ink">
@@ -228,14 +234,16 @@ export function PauliRunner({
         packageName={packageName}
         subtestName={subtestName}
         maxWidthClass="max-w-3xl"
+        confirmExit={started && !submitting && !isFinishedAll}
         rightSlot={
-          started && !submitting ? (
+          started && !submitting && !isFinishedAll ? (
             <button
               type="button"
               onClick={() => {
                 if (finishEarlyRef.current) {
                   finishEarlyRef.current();
                 } else {
+                  setFinishedCount(completedStatsRef.current.length);
                   void submitAll(completedStatsRef.current);
                 }
               }}
@@ -249,7 +257,10 @@ export function PauliRunner({
 
       <main className="mx-auto max-w-3xl px-4 py-8 sm:px-6">
         {error ? (
-          <div className="mb-4 rounded-xl border border-red-300 bg-red-50 p-3.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200">
+          <div
+            role="alert"
+            className="mb-4 rounded-xl border border-red-300 bg-red-50 p-3.5 text-sm text-red-800 dark:border-red-800 dark:bg-red-950/50 dark:text-red-200"
+          >
             {error}
           </div>
         ) : null}
@@ -282,6 +293,20 @@ export function PauliRunner({
         ) : submitting ? (
           <div className="rounded-xl border border-line bg-surface p-8 text-center text-sm text-ink-secondary">
             Menyimpan hasil tes...
+          </div>
+        ) : isFinishedAll ? (
+          <div className="mx-auto max-w-md rounded-2xl border border-line bg-surface p-6 text-center shadow-[0_1px_2px_rgba(15,23,42,0.04)]">
+            <h2 className="text-base font-bold text-ink">Sesi Pauli Selesai</h2>
+            <p className="mt-1.5 text-sm text-ink-secondary">
+              Hasil pengerjaan <strong className="tabular-nums text-ink">{finishedCount} kolom</strong> siap dikirim ke server.
+            </p>
+            <button
+              type="button"
+              onClick={() => void submitAll(completedStatsRef.current)}
+              className="mt-5 min-h-[40px] w-full rounded-xl bg-brand px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover"
+            >
+              Kirim Ulang Hasil
+            </button>
           </div>
         ) : grid[colIndex] ? (
           <PauliColumnStage

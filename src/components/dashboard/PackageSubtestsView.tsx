@@ -26,6 +26,7 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
     1,
     Math.round(subtests.reduce((acc, s) => acc + s.durationSeconds, 0) / 60),
   );
+  const hasQuizSubtest = subtests.some((s) => s.kind === "QUIZ");
   const completedCount = subtests.filter((s) => Boolean(progress.bySubtestId[String(s.id)])).length;
   const percent = subtests.length > 0 ? Math.round((completedCount / subtests.length) * 100) : 0;
   const nextUnfinishedSubtestId =
@@ -57,7 +58,9 @@ export function PackageSubtestsView({ company, testPackage, subtests }: PackageS
             ) : null}
             <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-ink-muted">
               <span className="tabular-nums">{subtests.length} subtes</span>
-              <span className="tabular-nums">{testPackage.questionCount} soal</span>
+              <span className="tabular-nums">
+                {testPackage.questionCount} {hasQuizSubtest ? "soal" : "butir"}
+              </span>
               <span className="inline-flex items-center gap-1 tabular-nums">
                 <IconClock className="h-3.5 w-3.5" />
                 Total estimasi ~{totalDurationMinutes} menit

@@ -134,3 +134,48 @@ test("parseMarkdownBlocks menyanitasi XSS, membiarkan blok kode apa adanya, dan 
   assert.ok(imgBlock.captionHtml.includes("Gambar 1:"));
   assert.ok(imgBlock.captionHtml.includes('class="glossary-term"'));
 });
+
+test("parseMarkdownBlocks mendukung caption gambar eksplisit, blok <details>, dan opsi berindentasi di dalam list", () => {
+  const md = [
+    "![Alt diagram arsitektur](/images/belajar/system-design-2/01-01-komponen-sistem.png)",
+    "*Gambar 1.1 — Komponen sistem web skala besar.*",
+    "",
+    "1. **Pilihan.** Mana yang benar?",
+    "   a) Opsi pertama",
+    "   b) Opsi kedua",
+    "2. **Konsep.** Jelaskan alasannya.",
+    "",
+    "<details>",
+    "<summary>Lihat jawaban</summary>",
+    "",
+    "1. **a.** Karena paling tepat.",
+    "",
+    "</details>",
+  ].join("\n");
+
+  const blocks = parseMarkdownBlocks(md, []);
+  assert.equal(blocks.length, 3);
+
+  const img = blocks[0];
+  assert.equal(img.type, "image");
+  if (img.type === "image") {
+    assert.equal(img.alt, "Alt diagram arsitektur");
+    assert.ok(img.captionHtml.includes("Gambar 1.1"));
+  }
+
+  const list = blocks[1];
+  assert.equal(list.type, "list");
+  if (list.type === "list") {
+    assert.equal(list.ordered, true);
+    assert.equal(list.itemsHtml.length, 2);
+    assert.ok(list.itemsHtml[0].includes("a) Opsi pertama<br />b) Opsi kedua"));
+  }
+
+  const details = blocks[2];
+  assert.equal(details.type, "details");
+  if (details.type === "details") {
+    assert.equal(details.summaryHtml, "Lihat jawaban");
+    assert.equal(details.blocks.length, 1);
+    assert.equal(details.blocks[0]?.type, "list");
+  }
+});

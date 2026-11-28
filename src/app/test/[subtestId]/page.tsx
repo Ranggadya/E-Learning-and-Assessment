@@ -4,6 +4,7 @@ import { PauliRunner } from "@/components/test/PauliRunner";
 import { PersonalityRunner } from "@/components/test/PersonalityRunner";
 import { TestRunner } from "@/components/test/TestRunner";
 import { getPublicQuestions, getSubtestById } from "@/lib/assessment/catalog.queries";
+import { parsePgInt4Id } from "@/lib/format";
 import type { DrawingConfig, PauliConfig, PersonalityConfig } from "@/types/assessment";
 
 export const revalidate = 300;
@@ -18,15 +19,12 @@ interface TestPageProps {
 
 export default async function TestPage({ params }: TestPageProps) {
   const { subtestId: subtestIdParam } = await params;
-  const subtestId = Number(subtestIdParam);
-  if (!Number.isInteger(subtestId)) {
+  const subtestId = parsePgInt4Id(subtestIdParam);
+  if (subtestId === null) {
     notFound();
   }
 
-  const [subtest, questions] = await Promise.all([
-    getSubtestById(subtestId),
-    getPublicQuestions(subtestId),
-  ]);
+  const subtest = await getSubtestById(subtestId);
   if (!subtest) {
     notFound();
   }
@@ -72,6 +70,7 @@ export default async function TestPage({ params }: TestPageProps) {
     );
   }
 
+  const questions = await getPublicQuestions(subtestId);
   return (
     <TestRunner
       subtestId={subtest.id}

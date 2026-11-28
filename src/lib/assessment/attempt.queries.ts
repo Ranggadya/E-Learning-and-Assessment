@@ -2,10 +2,8 @@ import { databasePool } from "@/lib/db/pool";
 import type {
   AttemptResult,
   DrawingConfig,
-  DrawingResult,
   NonQuizResult,
   PauliConfig,
-  PauliResult,
   PersonalityConfig,
   QuestionOption,
   ReviewItem,
@@ -13,66 +11,50 @@ import type {
   SubmitNonQuizInput,
   SubtestKind,
 } from "@/types/assessment";
-import { scorePersonality } from "./scoring";
+import { scoreDrawing, scorePauli, scorePersonality, scoreQuizAnswers } from "./scoring";
 
 interface AnswerKeyRow {
   id: number;
   correct_option: string;
 }
 
-// Menilai di server: kunci jawaban dibaca dari database, bukan dari klien.
-export async function submitAttempt(input: SubmitAttemptInput): Promise<number> {
+// Menilai di server: memvalidasi subtes QUIZ terlebih dahulu lalu membaca kunci jawaban dari database.
+export async function submitAttempt(input: SubmitAttemptInput): Promise<number | null> {
   const client = await databasePool.connect();
   try {
     await client.query("BEGIN");
+
+    const subtestCheck = await client.query<{ kind: SubtestKind | null }>(
+      "SELECT kind FROM subtests WHERE id = $1",
+      [input.subtestId],
+    );
+    const subtestRow = subtestCheck.rows[0];
+    if (!subtestRow || (subtestRow.kind ?? "QUIZ") !== "QUIZ") {
+      await client.query("ROLLBACK");
+      return null;
+    }
 
     const answerKeyResult = await client.query<AnswerKeyRow>(
       "SELECT id, correct_option FROM questions WHERE subtest_id = $1",
       [input.subtestId],
     );
-    const correctOptionByQuestionId = new Map<number, string>();
-    for (const row of answerKeyResult.rows) {
-      correctOptionByQuestionId.set(row.id, row.correct_option);
-    }
-
-    const selectedByQuestionId = new Map<number, string | null>();
-    for (const answer of input.answers) {
-      if (correctOptionByQuestionId.has(answer.questionId)) {
-        selectedByQuestionId.set(answer.questionId, answer.selectedOption);
-      }
-    }
+    const graded = scoreQuizAnswers(answerKeyResult.rows, input.answers);
 
     const attemptResult = await client.query<{ id: number }>(
-      "INSERT INTO attempts (subtest_id, total_questions) VALUES ($1, $2) RETURNING id",
-      [input.subtestId, correctOptionByQuestionId.size],
+      `INSERT INTO attempts (subtest_id, score, total_questions, finished_at)
+       VALUES ($1, $2, $3, now()) RETURNING id`,
+      [input.subtestId, graded.score, graded.totalQuestions],
     );
     const attemptId = attemptResult.rows[0].id;
 
-    let score = 0;
-    const questionIds: number[] = [];
-    const selectedOptions: (string | null)[] = [];
-    const isCorrectFlags: boolean[] = [];
-
-    for (const [questionId, correctOption] of correctOptionByQuestionId) {
-      const selectedOption = selectedByQuestionId.get(questionId) ?? null;
-      const isCorrect = selectedOption !== null && selectedOption === correctOption;
-      if (isCorrect) {
-        score += 1;
-      }
-      questionIds.push(questionId);
-      selectedOptions.push(selectedOption);
-      isCorrectFlags.push(isCorrect);
-    }
-
-    if (questionIds.length > 0) {
+    if (graded.questionIds.length > 0) {
       await client.query(
         `INSERT INTO answers (attempt_id, question_id, selected_option, is_correct)
          SELECT $1, * FROM UNNEST($2::int[], $3::text[], $4::bool[])`,
-        [attemptId, questionIds, selectedOptions, isCorrectFlags],
+        [attemptId, graded.questionIds, graded.selectedOptions, graded.isCorrectFlags],
       );
     }
 
-    await client.query("UPDATE attempts SET score = $1, finished_at = now() WHERE id = $2", [score, attemptId]);
     await client.query("COMMIT");
     return attemptId;
   } catch (error) {
@@ -103,38 +85,15 @@ export async function submitNonQuizAttempt(input: SubmitNonQuizInput): Promise<n
     totalQuestions = scored.total;
     resultPayload = scored;
   } else if (input.kind === "PAULI") {
-    const config = subtestRow.config as PauliConfig;
-    const maxCols = typeof config?.columns === "number" ? config.columns : 10;
-    const maxPairs = typeof config?.digitsPerColumn === "number" ? Math.max(1, config.digitsPerColumn - 1) : 100;
-    const perColumn = input.perColumn.slice(0, maxCols).map((col, idx) => {
-      const answered = Math.min(col.answered, maxPairs);
-      const correct = Math.min(col.correct, answered);
-      return { column: idx + 1, answered, correct };
-    });
-    const totalAnswered = perColumn.reduce((acc, col) => acc + col.answered, 0);
-    const totalCorrect = perColumn.reduce((acc, col) => acc + col.correct, 0);
-    const accuracy = totalAnswered > 0 ? Math.round((totalCorrect / totalAnswered) * 100) : 0;
-    score = totalCorrect;
-    totalQuestions = totalAnswered;
-    resultPayload = {
-      kind: "PAULI",
-      totalAnswered,
-      totalCorrect,
-      accuracy,
-      perColumn,
-    } satisfies PauliResult;
+    const scored = scorePauli(subtestRow.config as PauliConfig, input.perColumn);
+    score = scored.score;
+    totalQuestions = scored.totalQuestions;
+    resultPayload = scored.result;
   } else {
-    const config = subtestRow.config as DrawingConfig;
-    const tasks = Array.isArray(config?.tasks) ? config.tasks : [];
-    const drawings = input.drawings.slice(0, tasks.length);
-    const completed = drawings.filter((d) => d.dataUrl.startsWith("data:image/png;base64,")).length;
-    score = completed;
-    totalQuestions = tasks.length;
-    resultPayload = {
-      kind: "DRAWING",
-      drawings,
-      reflection: Array.isArray(config?.reflection) ? config.reflection : [],
-    } satisfies DrawingResult;
+    const scored = scoreDrawing(subtestRow.config as DrawingConfig, input.drawings);
+    score = scored.score;
+    totalQuestions = scored.totalQuestions;
+    resultPayload = scored.result;
   }
 
   const inserted = await databasePool.query<{ id: number }>(

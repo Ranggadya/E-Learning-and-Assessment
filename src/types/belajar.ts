@@ -145,4 +145,5 @@ export type MarkdownBlock =
   | { type: "list"; ordered: boolean; itemsHtml: string[] }
   | { type: "table"; headersHtml: string[]; rowsHtml: string[][] }
   | { type: "image"; src: string; alt: string; captionHtml: string }
+  | { type: "details"; summaryHtml: string; blocks: MarkdownBlock[] }
   | { type: "hr" };

@@ -6,9 +6,9 @@ const VALID_TYPES: QuestionType[] = ["TEXT", "IMAGE", "MEMORY", "SPEED"];
 const VALID_KINDS: SubtestKind[] = ["QUIZ", "PERSONALITY", "PAULI", "DRAWING"];
 const MAX_OPTIONS = 5;
 const MAX_ERRORS = 30;
-// SVG ditampilkan langsung di halaman, jadi tolak elemen, link, entity, dan atribut yang bisa menjalankan kode.
+// SVG ditampilkan langsung di halaman, jadi tolak elemen, SMIL animasi, link, entity, data URI, dan event handler.
 const UNSAFE_SVG_PATTERN =
-  /<script|<foreignObject|<iframe|<embed|<object|<a[\s>]|&#|&colon;|\son[a-z]+\s*=|javascript:|data:text\/html/i;
+  /<script|<foreignObject|<iframe|<embed|<object|<animate|<set|<a[\s/>]|&#|&colon;|(?:^|[\s/"'])on[a-z]+\s*=|javascript:|data:/i;
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);

@@ -3,14 +3,20 @@ import path from "node:path";
 import { previewOrImportLessonBatch } from "../src/lib/belajar/belajar.queries";
 import { databasePool } from "../src/lib/db/pool";
 
+const IGNORED_MARKDOWN_FILES = new Set(["STYLE.MD", "README.MD"]);
+
 function collectMarkdownFiles(dir: string): Array<{ fileName: string; content: string }> {
   if (!fs.existsSync(dir)) return [];
   const results: Array<{ fileName: string; content: string }> = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
     const fullPath = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       results.push(...collectMarkdownFiles(fullPath));
-    } else if (entry.isFile() && entry.name.endsWith(".md")) {
+    } else if (
+      entry.isFile() &&
+      entry.name.endsWith(".md") &&
+      !IGNORED_MARKDOWN_FILES.has(entry.name.toUpperCase())
+    ) {
       results.push({
         fileName: entry.name,
         content: fs.readFileSync(fullPath, "utf8"),

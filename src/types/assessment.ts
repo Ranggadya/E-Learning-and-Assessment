@@ -136,6 +136,8 @@ export interface DashboardSubtest {
   id: number;
   slug: string;
   name: string;
+  description?: string | null;
+  orderIndex?: number;
   durationSeconds: number;
   questionCount: number;
   questionTypes: QuestionType[];

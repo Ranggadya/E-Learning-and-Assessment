@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { QuestionImage } from "./QuestionImage";
+import { formatClock } from "./RunnerHeader";
 import { ThemeToggle } from "@/components/layout/ThemeToggle";
 import {
   IconAlertTriangle,
@@ -20,6 +21,7 @@ import {
 } from "@/components/ui/Icons";
 import { QuestionTypeBadge } from "@/components/ui/QuestionTypeBadge";
 import { useCountdown } from "@/hooks/useCountdown";
+import { markSubmittedAttempt } from "@/lib/client/local-progress";
 import type { PublicQuestion, SubmitAttemptInput } from "@/types/assessment";
 
 interface TestRunnerProps {
@@ -33,12 +35,6 @@ interface TestRunnerProps {
 }
 
 const MEMORY_DISPLAY_MS = 5000;
-
-function formatClock(totalSeconds: number): string {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${String(minutes).padStart(2, "0")}:${String(seconds).padStart(2, "0")}`;
-}
 
 export function TestRunner({
   subtestId,
@@ -101,6 +97,7 @@ export function TestRunner({
           throw new Error("Gagal menyimpan jawaban");
         }
         const data = (await response.json()) as { attemptId: number };
+        markSubmittedAttempt(data.attemptId);
         router.push(`/result/${data.attemptId}`);
       } catch {
         hasSubmittedRef.current = false;
@@ -112,6 +109,8 @@ export function TestRunner({
   );
 
   const remainingSeconds = useCountdown(durationSeconds, submitAttempt);
+  const isTimeExpired = remainingSeconds <= 0;
+  const isInteractionLocked = isSubmitting || isTimeExpired;
 
   // Lindungi peserta dari menutup/refresh tab secara tidak sengaja saat sesi berjalan.
   useEffect(() => {
@@ -159,7 +158,7 @@ export function TestRunner({
 
   const handleSelectOption = useCallback(
     function handleSelectOption(optionKey: string) {
-      if (!currentQuestion || isSubmitting) {
+      if (!currentQuestion || isInteractionLocked) {
         return;
       }
       selectedRef.current = { ...selectedRef.current, [currentQuestion.id]: optionKey };
@@ -168,12 +167,12 @@ export function TestRunner({
         setCurrentIndex(currentIndex + 1);
       }
     },
-    [currentIndex, currentQuestion, isSubmitting, questions.length],
+    [currentIndex, currentQuestion, isInteractionLocked, questions.length],
   );
 
   const toggleFlagCurrent = useCallback(
     function toggleFlagCurrent() {
-      if (!currentQuestion || isSubmitting) {
+      if (!currentQuestion || isInteractionLocked) {
         return;
       }
       const questionId = currentQuestion.id;
@@ -183,7 +182,7 @@ export function TestRunner({
           : [...previous, questionId],
       );
     },
-    [currentQuestion, isSubmitting],
+    [currentQuestion, isInteractionLocked],
   );
 
   // Pintasan keyboard: 1-5 / A-E memilih jawaban, F menandai soal, panah kiri/kanan berpindah soal, Escape tutup dialog.
@@ -195,7 +194,7 @@ export function TestRunner({
         setMobileNavOpen(false);
         return;
       }
-      if (!currentQuestion || isSubmitting || isModalOpen || event.ctrlKey || event.metaKey || event.altKey) {
+      if (!currentQuestion || isInteractionLocked || isModalOpen || event.ctrlKey || event.metaKey || event.altKey) {
         return;
       }
       if (event.key === "ArrowLeft" && currentIndex > 0) {
@@ -236,8 +235,8 @@ export function TestRunner({
     currentIndex,
     currentQuestion,
     handleSelectOption,
+    isInteractionLocked,
     isModalOpen,
-    isSubmitting,
     questions.length,
     toggleFlagCurrent,
   ]);
@@ -303,6 +302,7 @@ export function TestRunner({
             <button
               key={question.id}
               type="button"
+              disabled={isInteractionLocked}
               aria-label={`Ke soal ${index + 1}${isAnswered ? " (sudah dijawab)" : ""}${isFlagged ? " (ditandai)" : ""}`}
               aria-current={isCurrent ? "step" : undefined}
               onClick={() => {
@@ -638,7 +638,7 @@ export function TestRunner({
                         type="button"
                         role="radio"
                         aria-checked={isSelected}
-                        disabled={isSubmitting}
+                        disabled={isInteractionLocked}
                         onClick={() => handleSelectOption(option.key)}
                         className={`group flex min-h-[52px] w-full items-start gap-3.5 px-3 py-3.5 text-left transition sm:px-4 ${
                           isSelected
@@ -720,7 +720,7 @@ export function TestRunner({
             >
               <button
                 type="button"
-                disabled={currentIndex === 0 || isSubmitting}
+                disabled={currentIndex === 0 || isInteractionLocked}
                 onClick={() => setCurrentIndex(currentIndex - 1)}
                 className="inline-flex min-h-[42px] shrink-0 items-center gap-1 rounded-xl border border-line-strong bg-surface px-3 py-2 text-sm font-semibold text-ink transition hover:bg-subtle disabled:cursor-not-allowed disabled:border-line disabled:bg-subtle/70 disabled:text-ink-muted sm:gap-1.5 sm:px-4"
               >
@@ -732,19 +732,19 @@ export function TestRunner({
                 {currentIndex + 1} dari {questions.length}
               </span>
 
-              {isLastQuestion ? (
+              {isLastQuestion || isTimeExpired ? (
                 <button
                   type="button"
                   disabled={isSubmitting}
-                  onClick={() => setShowSubmitConfirm(true)}
+                  onClick={() => (isTimeExpired ? void submitAttempt() : setShowSubmitConfirm(true))}
                   className="inline-flex min-h-[42px] shrink-0 items-center gap-1.5 rounded-xl bg-brand px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover disabled:opacity-60 sm:px-5"
                 >
-                  <span>{isSubmitting ? "Mengirim..." : "Selesai"}</span>
+                  <span>{isSubmitting ? "Mengirim..." : isTimeExpired ? "Kirim Ulang" : "Selesai"}</span>
                 </button>
               ) : (
                 <button
                   type="button"
-                  disabled={isSubmitting}
+                  disabled={isInteractionLocked}
                   onClick={() => setCurrentIndex(currentIndex + 1)}
                   className="inline-flex min-h-[42px] shrink-0 items-center gap-1 rounded-xl bg-brand px-3.5 py-2 text-sm font-semibold text-white transition hover:bg-brand-hover disabled:opacity-60 sm:gap-1.5 sm:px-5"
                 >
